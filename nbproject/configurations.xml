@@ -18,6 +18,8 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>AfUnixCommunicator.cpp</itemPath>
+    <itemPath>AfUnixCommunicator.h</itemPath>
     <itemPath>Communicator.cpp</itemPath>
     <itemPath>Communicator.h</itemPath>
   </logicalFolder>

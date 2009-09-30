@@ -31,6 +31,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/AfUnixCommunicator.o \
 	${OBJECTDIR}/Communicator.o
 
 # C Compiler Flags
@@ -56,6 +57,11 @@ LDLIBSOPTIONS=
 dist/Release/GNU-MacOSX/libEchoesUtil.dylib: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/GNU-MacOSX
 	${LINK.cc} -dynamiclib -install_name libEchoesUtil.dylib -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.dylib -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/AfUnixCommunicator.o: nbproject/Makefile-${CND_CONF}.mk AfUnixCommunicator.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
 
 ${OBJECTDIR}/Communicator.o: nbproject/Makefile-${CND_CONF}.mk Communicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
