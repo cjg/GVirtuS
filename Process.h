@@ -16,10 +16,11 @@ public:
     virtual ~Process();
     void Start();
 private:
+    void Default();
     void Ls();
-    Communicator *mpCommunicator;
-    std::istream *mpInput;
-    std::ostream *mpOutput;
+    Communicator * mpCommunicator;
+    std::istream & mpInput;
+    std::ostream & mpOutput;
 };
 
 #endif	/* _PROCESS_H */
