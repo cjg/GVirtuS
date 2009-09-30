@@ -22,7 +22,7 @@ AfUnixCommunicator::AfUnixCommunicator(int fd) {
 }
 
 AfUnixCommunicator::AfUnixCommunicator(const char *path) {
-    mPath = path;
+    mPath = string(path);
 }
 
 AfUnixCommunicator::~AfUnixCommunicator() {
@@ -66,11 +66,13 @@ void AfUnixCommunicator::Connect() {
     int len;
     struct sockaddr_un remote;
 
-    mSocketFd = socket(AF_UNIX, SOCK_STREAM, 0);
+    if((mSocketFd = socket(AF_UNIX, SOCK_STREAM, 0)) == 0)
+        throw "AfUnixCommunicator: Can't create socket.";
+
     remote.sun_family = AF_UNIX;
     strcpy(remote.sun_path, mPath.c_str());
-    len = strlen(remote.sun_path) + sizeof (remote.sun_family);
-    if (connect(mSocketFd, (struct sockaddr *) & remote, len) != 0)
+    len = offsetof(struct sockaddr_un, sun_path) + strlen(remote.sun_path);
+    if (connect(mSocketFd, (struct sockaddr *) & remote, len) != 0) 
         throw "AfUnixCommunicator: Can't connect to socket.";
     InitializeStream();
 }
