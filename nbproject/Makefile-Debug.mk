@@ -47,7 +47,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-L../EchoesUtil/dist/Debug/GNU-MacOSX -lEchoesUtil
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -60,10 +60,12 @@ dist/Debug/GNU-MacOSX/echoesbackend: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I/Users/cjg/NetBeansProjects/EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Release
 
 # Clean Targets
 .clean-conf:
@@ -72,6 +74,8 @@ ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp
 
 # Subprojects
 .clean-subprojects:
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug clean
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Release clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

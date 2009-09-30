@@ -12,13 +12,13 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>main.cpp</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -29,10 +29,41 @@
         <platform>4</platform>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>/Users/cjg/NetBeansProjects/EchoesUtil</pElem>
+          </incDir>
+        </ccTool>
         <linkerTool>
+          <linkerAddLib>
+            <pElem>../EchoesUtil/dist/Debug/GNU-MacOSX</pElem>
+          </linkerAddLib>
           <linkerLibItems>
+            <linkerLibLibItem>EchoesUtil</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
+        <requiredProjects>
+          <makeArtifact PL="../EchoesUtil"
+                        CT="2"
+                        CN="Debug"
+                        AC="true"
+                        BL="true"
+                        WD="../EchoesUtil"
+                        BC="${MAKE}  -f Makefile CONF=Debug"
+                        CC="${MAKE}  -f Makefile CONF=Debug clean"
+                        OP="dist/Debug/GNU-MacOSX/libEchoesUtil.dylib">
+          </makeArtifact>
+          <makeArtifact PL="../EchoesUtil"
+                        CT="2"
+                        CN="Release"
+                        AC="false"
+                        BL="true"
+                        WD="../EchoesUtil"
+                        BC="${MAKE}  -f Makefile CONF=Release"
+                        CC="${MAKE}  -f Makefile CONF=Release clean"
+                        OP="dist/Release/GNU-MacOSX/libEchoesUtil.dylib">
+          </makeArtifact>
+        </requiredProjects>
       </compileType>
     </conf>
     <conf name="Release" type="1">

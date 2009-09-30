@@ -8,8 +8,10 @@
             <c-extensions/>
             <cpp-extensions>cpp</cpp-extensions>
             <header-extensions/>
-            <make-dep-projects/>
             <sourceEncoding>UTF-8</sourceEncoding>
+            <make-dep-projects>
+                <make-dep-project>../EchoesUtil</make-dep-project>
+            </make-dep-projects>
         </data>
     </configuration>
 </project>
