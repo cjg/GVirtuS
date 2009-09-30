@@ -5,13 +5,11 @@
  * Created on 30 settembre 2009, 12.21
  */
 
-#include <stdlib.h>
+#include "Backend.h"
 
-/*
- * 
- */
 int main(int argc, char** argv) {
-
-    return (EXIT_SUCCESS);
+    Backend *b = new Backend();
+    b->Start();
+    return 0;
 }
 

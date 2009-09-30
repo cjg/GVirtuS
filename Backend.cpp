@@ -6,6 +6,7 @@
  */
 
 #include "AfUnixCommunicator.h"
+#include "Process.h"
 #include "Backend.h"
 
 Backend::Backend() {
@@ -19,8 +20,9 @@ Backend::~Backend() {
 void Backend::Start() {
     mpCommunicator->Serve();
     while(true) {
-        Communicator *client = mpCommunicator->Accept();
-        // Process *process = new Process(client);
-        // process->Start();
+        Communicator *client =
+                const_cast<Communicator *>(mpCommunicator->Accept());
+        Process *process = new Process(client);
+        process->Start();
     }
 }
