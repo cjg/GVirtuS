@@ -18,6 +18,8 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>Frontend.cpp</itemPath>
+    <itemPath>Frontend.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -28,10 +30,52 @@
         <platform>4</platform>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../EchoesUtil</pElem>
+          </incDir>
+        </ccTool>
         <linkerTool>
+          <linkerAddLib>
+            <pElem>../EchoesUtil/dist/Debug/GNU-MacOSX</pElem>
+          </linkerAddLib>
           <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtil"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtil"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="dist/Debug/GNU-MacOSX/libEchoesUtil.dylib">
+              </makeArtifact>
+            </linkerLibProjectItem>
           </linkerLibItems>
         </linkerTool>
+        <requiredProjects>
+          <makeArtifact PL="../EchoesUtil"
+                        CT="2"
+                        CN="Debug"
+                        AC="true"
+                        BL="false"
+                        WD="../EchoesUtil"
+                        BC="${MAKE}  -f Makefile CONF=Debug"
+                        CC="${MAKE}  -f Makefile CONF=Debug clean"
+                        OP="dist/Debug/GNU-MacOSX/libEchoesUtil.dylib">
+          </makeArtifact>
+          <makeArtifact PL="../EchoesUtil"
+                        CT="2"
+                        CN="Release"
+                        AC="false"
+                        BL="false"
+                        WD="../EchoesUtil"
+                        BC="${MAKE}  -f Makefile CONF=Release"
+                        CC="${MAKE}  -f Makefile CONF=Release clean"
+                        OP="dist/Release/GNU-MacOSX/libEchoesUtil.dylib">
+          </makeArtifact>
+        </requiredProjects>
       </compileType>
     </conf>
     <conf name="Release" type="2">

@@ -30,7 +30,8 @@ include Makefile
 OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
-OBJECTFILES=
+OBJECTFILES= \
+	${OBJECTDIR}/Frontend.o
 
 # C Compiler Flags
 CFLAGS=
@@ -54,7 +55,12 @@ LDLIBSOPTIONS=
 
 dist/Release/GNU-MacOSX/libEchoesFrontend.dylib: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/GNU-MacOSX
-	${LINK.c} -dynamiclib -install_name libEchoesFrontend.dylib -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.dylib -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -dynamiclib -install_name libEchoesFrontend.dylib -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.dylib -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Frontend.o Frontend.cpp
 
 # Subprojects
 .build-subprojects:

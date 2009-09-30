@@ -6,10 +6,12 @@
             <name>EchoesFrontend</name>
             <make-project-type>0</make-project-type>
             <c-extensions/>
-            <cpp-extensions/>
-            <header-extensions/>
-            <make-dep-projects/>
+            <cpp-extensions>cpp</cpp-extensions>
+            <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
+            <make-dep-projects>
+                <make-dep-project>../EchoesUtil</make-dep-project>
+            </make-dep-projects>
         </data>
     </configuration>
 </project>

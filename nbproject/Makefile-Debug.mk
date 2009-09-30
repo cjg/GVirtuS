@@ -30,7 +30,8 @@ include Makefile
 OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
-OBJECTFILES=
+OBJECTFILES= \
+	${OBJECTDIR}/Frontend.o
 
 # C Compiler Flags
 CFLAGS=
@@ -46,26 +47,35 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-L../EchoesUtil/dist/Debug/GNU-MacOSX -L../EchoesUtil/dist/Debug/GNU-MacOSX -lEchoesUtil
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib
 
+dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib: ../EchoesUtil/dist/Debug/GNU-MacOSX/libEchoesUtil.dylib
+
 dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-MacOSX
-	${LINK.c} -dynamiclib -install_name libEchoesFrontend.dylib -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.dylib -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -dynamiclib -install_name libEchoesFrontend.dylib -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.dylib -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Frontend.o Frontend.cpp
 
 # Subprojects
 .build-subprojects:
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug
 
 # Clean Targets
-.clean-conf:
+.clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Debug
 	${RM} dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib
 
 # Subprojects
 .clean-subprojects:
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl
