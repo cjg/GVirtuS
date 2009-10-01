@@ -15,11 +15,11 @@ RANLIB=ranlib
 CC=gcc
 CCC=g++
 CXX=g++
-FC=
+FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-MacOSX
+CND_PLATFORM=GNU-Linux-x86
 CND_CONF=Debug
 CND_DISTDIR=dist
 
@@ -49,43 +49,47 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../EchoesUtil/dist/Debug/GNU-MacOSX -lEchoesUtil
+LDLIBSOPTIONS=-Wl,-rpath ../EchoesUtil/dist/Debug/GNU-Linux-x86 -L../EchoesUtil/dist/Debug/GNU-Linux-x86 -lEchoesUtil
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-MacOSX/echoesbackend
+	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/echoesbackend
 
-dist/Debug/GNU-MacOSX/echoesbackend: ${OBJECTFILES}
-	${MKDIR} -p dist/Debug/GNU-MacOSX
+dist/Debug/GNU-Linux-x86/echoesbackend: ../EchoesUtil/dist/Debug/GNU-Linux-x86/libEchoesUtil.so
+
+dist/Debug/GNU-Linux-x86/echoesbackend: ${OBJECTFILES}
+	${MKDIR} -p dist/Debug/GNU-Linux-x86
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/echoesbackend ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Backend.o: nbproject/Makefile-${CND_CONF}.mk Backend.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/Users/cjg/NetBeansProjects/EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/Backend.o Backend.cpp
+	$(COMPILE.cc) -g -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/Backend.o Backend.cpp
 
 ${OBJECTDIR}/Process.o: nbproject/Makefile-${CND_CONF}.mk Process.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/Users/cjg/NetBeansProjects/EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/Process.o Process.cpp
+	$(COMPILE.cc) -g -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/Process.o Process.cpp
 
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/Users/cjg/NetBeansProjects/EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
 	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug
 	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Release
 
 # Clean Targets
-.clean-conf:
+.clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Debug
-	${RM} dist/Debug/GNU-MacOSX/echoesbackend
+	${RM} dist/Debug/GNU-Linux-x86/echoesbackend
 
 # Subprojects
 .clean-subprojects:
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Debug clean
 	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Release clean
 

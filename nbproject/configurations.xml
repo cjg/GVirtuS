@@ -30,20 +30,28 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <ccTool>
           <incDir>
-            <pElem>/Users/cjg/NetBeansProjects/EchoesUtil</pElem>
+            <pElem>../EchoesUtil</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
-          <linkerAddLib>
-            <pElem>../EchoesUtil/dist/Debug/GNU-MacOSX</pElem>
-          </linkerAddLib>
           <linkerLibItems>
-            <linkerLibLibItem>EchoesUtil</linkerLibLibItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtil"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtil"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="dist/Debug/GNU-Linux-x86/libEchoesUtil.so">
+              </makeArtifact>
+            </linkerLibProjectItem>
           </linkerLibItems>
         </linkerTool>
         <requiredProjects>
@@ -74,7 +82,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <cTool>
