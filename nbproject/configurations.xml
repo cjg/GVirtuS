@@ -22,6 +22,8 @@
     <itemPath>AfUnixCommunicator.h</itemPath>
     <itemPath>Communicator.cpp</itemPath>
     <itemPath>Communicator.h</itemPath>
+    <itemPath>Mutex.cpp</itemPath>
+    <itemPath>Mutex.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
