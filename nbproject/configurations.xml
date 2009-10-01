@@ -24,6 +24,8 @@
     <itemPath>Communicator.h</itemPath>
     <itemPath>Mutex.cpp</itemPath>
     <itemPath>Mutex.h</itemPath>
+    <itemPath>Thread.cpp</itemPath>
+    <itemPath>Thread.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
