@@ -15,11 +15,11 @@ RANLIB=ranlib
 CC=gcc
 CCC=g++
 CXX=g++
-FC=
+FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-MacOSX
+CND_PLATFORM=GNU-Linux-x86
 CND_CONF=Debug
 CND_DISTDIR=dist
 
@@ -47,17 +47,17 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../EchoesUtil/dist/Debug/GNU-MacOSX -L../EchoesUtil/dist/Debug/GNU-MacOSX -lEchoesUtil
+LDLIBSOPTIONS=-Wl,-rpath ../EchoesUtil/dist/Debug/GNU-Linux-x86 -L../EchoesUtil/dist/Debug/GNU-Linux-x86 -lEchoesUtil
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib
+	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/libEchoesFrontend.so
 
-dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib: ../EchoesUtil/dist/Debug/GNU-MacOSX/libEchoesUtil.dylib
+dist/Debug/GNU-Linux-x86/libEchoesFrontend.so: ../EchoesUtil/dist/Debug/GNU-Linux-x86/libEchoesUtil.so
 
-dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib: ${OBJECTFILES}
-	${MKDIR} -p dist/Debug/GNU-MacOSX
-	${LINK.cc} -dynamiclib -install_name libEchoesFrontend.dylib -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.dylib -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Debug/GNU-Linux-x86/libEchoesFrontend.so: ${OBJECTFILES}
+	${MKDIR} -p dist/Debug/GNU-Linux-x86
+	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -71,7 +71,7 @@ ${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Debug
-	${RM} dist/Debug/GNU-MacOSX/libEchoesFrontend.dylib
+	${RM} dist/Debug/GNU-Linux-x86/libEchoesFrontend.so
 
 # Subprojects
 .clean-subprojects:

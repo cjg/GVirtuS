@@ -27,7 +27,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <ccTool>
@@ -36,9 +36,6 @@
           </incDir>
         </ccTool>
         <linkerTool>
-          <linkerAddLib>
-            <pElem>../EchoesUtil/dist/Debug/GNU-MacOSX</pElem>
-          </linkerAddLib>
           <linkerLibItems>
             <linkerLibProjectItem>
               <makeArtifact PL="../EchoesUtil"
@@ -49,7 +46,7 @@
                             WD="../EchoesUtil"
                             BC="${MAKE}  -f Makefile CONF=Debug"
                             CC="${MAKE}  -f Makefile CONF=Debug clean"
-                            OP="dist/Debug/GNU-MacOSX/libEchoesUtil.dylib">
+                            OP="dist/Debug/GNU-Linux-x86/libEchoesUtil.so">
               </makeArtifact>
             </linkerLibProjectItem>
           </linkerLibItems>
@@ -82,7 +79,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <cTool>
