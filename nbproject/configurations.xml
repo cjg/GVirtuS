@@ -22,6 +22,8 @@
     <itemPath>AfUnixCommunicator.h</itemPath>
     <itemPath>Communicator.cpp</itemPath>
     <itemPath>Communicator.h</itemPath>
+    <itemPath>ConfigFile.cpp</itemPath>
+    <itemPath>ConfigFile.h</itemPath>
     <itemPath>Mutex.cpp</itemPath>
     <itemPath>Mutex.h</itemPath>
     <itemPath>Thread.cpp</itemPath>
@@ -39,6 +41,7 @@
         <linkerTool>
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>expat</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

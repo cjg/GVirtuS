@@ -33,6 +33,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/Communicator.o \
 	${OBJECTDIR}/Thread.o \
+	${OBJECTDIR}/ConfigFile.o \
 	${OBJECTDIR}/Mutex.o \
 	${OBJECTDIR}/AfUnixCommunicator.o
 
@@ -50,7 +51,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpthread
+LDLIBSOPTIONS=-lpthread -lexpat
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -69,6 +70,11 @@ ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
+
+${OBJECTDIR}/ConfigFile.o: nbproject/Makefile-${CND_CONF}.mk ConfigFile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ConfigFile.o ConfigFile.cpp
 
 ${OBJECTDIR}/Mutex.o: nbproject/Makefile-${CND_CONF}.mk Mutex.cpp 
 	${MKDIR} -p ${OBJECTDIR}
