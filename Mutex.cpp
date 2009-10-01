@@ -15,8 +15,8 @@ Mutex::~Mutex() {
     pthread_mutex_destroy(&mMutex);
 }
 
-void Mutex::Lock() {
-    pthread_mutex_lock(&mMutex);
+bool Mutex::Lock() {
+    return pthread_mutex_lock(&mMutex) == 0;
 }
 
 void Mutex::Unlock() {

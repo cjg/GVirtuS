@@ -15,11 +15,12 @@ public:
     Thread();
     virtual ~Thread();
     int Start(void * arg);
+    void Join();
 protected:
     int Run(void * arg);
-    static void * EntryPoint(void*);
-    virtual void Setup();
-    virtual void Execute(void*);
+    static void * EntryPoint(void *);
+    virtual void Setup() = 0;
+    virtual void Execute(void *) = 0;
     pthread_t GetThreadId();
     void * Arg() const {return mpArg;}
     void Arg(void* a){mpArg = a;}

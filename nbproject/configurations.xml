@@ -38,6 +38,7 @@
       <compileType>
         <linkerTool>
           <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

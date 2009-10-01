@@ -14,13 +14,13 @@ class Mutex {
 public:
     Mutex();
     virtual ~Mutex();
-    void Lock();
+    bool Lock();
     void Unlock();
 private:
     pthread_mutex_t mMutex;
 };
 
-#define synchronized(mutex) for(bool __mutex_lock = true, (mutex).Lock(); __mutex_lock; __mutex_lock = false, (mutex).Unlock())
+#define synchronized(mutex) for(bool __mutex_lock = (mutex).Lock(); __mutex_lock; __mutex_lock = false, (mutex).Unlock())
 
 #endif	/* _MUTEX_H */
 
