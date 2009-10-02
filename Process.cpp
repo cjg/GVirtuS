@@ -19,7 +19,11 @@ Process::Process(const Communicator *communicator)
 Process::~Process() {
 }
 
-void Process::Start() {
+void Process::Setup() {
+    
+}
+
+void Process::Execute(void * arg) {
     string routine;
     
     while(getline(mpInput, routine)) {

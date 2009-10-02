@@ -21,6 +21,6 @@ void Backend::Start() {
         Communicator *client =
                 const_cast<Communicator *>(mpCommunicator->Accept());
         Process *process = new Process(client);
-        process->Start();
+        process->Start(NULL);
     }
 }

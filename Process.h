@@ -9,12 +9,14 @@
 #define	_PROCESS_H
 
 #include "Communicator.h"
+#include "Thread.h"
 
-class Process {
+class Process : public Thread {
 public:
     Process(const Communicator *communicator);
     virtual ~Process();
-    void Start();
+    void Setup();
+    void Execute(void * arg);
 private:
     void Default();
     void Ls();
