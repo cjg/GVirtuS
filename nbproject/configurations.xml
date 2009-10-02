@@ -52,6 +52,8 @@
                             OP="dist/Debug/GNU-Linux-x86/libEchoesUtil.so">
               </makeArtifact>
             </linkerLibProjectItem>
+            <linkerLibLibItem>expat</linkerLibLibItem>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
           </linkerLibItems>
         </linkerTool>
         <requiredProjects>
