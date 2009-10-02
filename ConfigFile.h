@@ -16,42 +16,31 @@ class ConfigFile {
 public:
     class Section {
     public:
-        std::string & GetName() const;
-        virtual ~Section();
-    protected:
         Section(std::string &name);
         Section(const char * name);
-    private:
-        Section();
-        std::string *mpName;
-    };
-
-    class ContentSection : public Section {
-    public:
-        ContentSection(std::string &name);
-        ContentSection(const char * name);
+        virtual ~Section();
+        std::string & GetName() const;
         bool HasKey(std::string & key);
         std::string & GetValue(std::string & key) const;
-        std::string & GetValue(std::string & key, 
+        std::string & GetValue(std::string & key,
             std::string & default_value) const;
         std::vector<std::string> & GetKeys() const;
         void SetValue(std::string & key, std::string & value);
-    private:
-        std::map<std::string, std::string> *mpContent;
-        std::vector<std::string> *mpKeys;
-    };
-
-    class DirSection : public Section {
-    public:
-        DirSection(std::string &name);
-        DirSection(const char *name);
+        void SetValue(const char * key, const char * value);
         bool HasSection(std::string & name);
         std::vector<std::string> & GetSections() const;
         void AddSection(Section * section);
         Section & GetSection(std::string & name) const;
+        void Dump();
     private:
-        std::map<std::string, Section *> * mpContent;
-        std::vector<std::string> * mpSections;
+        Section();
+        void Initialize();
+        void Dump(int level);
+        std::string *mpName;
+        std::map<std::string, std::string> *mpContent;
+        std::vector<std::string> *mpContentKeys;
+        std::map<std::string, Section *> * mpSubsections;
+        std::vector<std::string> * mpSubectionsKeys;
     };
 
 public:
@@ -61,7 +50,7 @@ public:
         return mpContent;
     }
 private:
-    DirSection *mpContent;
+    Section *mpContent;
 };
 
 #endif	/* _CONFIGFILE_H */
