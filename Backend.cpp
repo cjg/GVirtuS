@@ -5,13 +5,11 @@
  * Created on 30 settembre 2009, 12.29
  */
 
-#include "AfUnixCommunicator.h"
 #include "Process.h"
 #include "Backend.h"
 
-Backend::Backend() {
-    // TODO: Communicator to use should be obtained from config file
-    mpCommunicator = new AfUnixCommunicator("/tmp/cudactl");
+Backend::Backend(const Communicator * communicator) {
+    mpCommunicator = const_cast<Communicator *>(communicator);
 }
 
 Backend::~Backend() {

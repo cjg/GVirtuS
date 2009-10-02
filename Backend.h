@@ -12,7 +12,7 @@
 
 class Backend {
 public:
-    Backend();
+    Backend(const Communicator * communicator);
     virtual ~Backend();
     void Start();
 private:
