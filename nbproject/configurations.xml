@@ -26,6 +26,8 @@
     <itemPath>ConfigFile.h</itemPath>
     <itemPath>Mutex.cpp</itemPath>
     <itemPath>Mutex.h</itemPath>
+    <itemPath>Observer.cpp</itemPath>
+    <itemPath>Observer.h</itemPath>
     <itemPath>Thread.cpp</itemPath>
     <itemPath>Thread.h</itemPath>
   </logicalFolder>
