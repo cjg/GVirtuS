@@ -154,7 +154,7 @@ static void StartElementHandler(void *userData, const XML_Char *name,
         ConfigFile::Section *s = new ConfigFile::Section(tagName);
         ((ConfigFile::Section *) sections.top())->AddSection(s);
         sections.push(s);
-    } else if (strcasecmp(name, "item") == 0) {
+    } else if (strcasecmp(name, "element") == 0) {
         if (sections.empty()) {
             cerr << "Error: tag '" << name << "' not valid at this point!"
                     << endl;
