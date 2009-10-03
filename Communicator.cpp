@@ -6,6 +6,14 @@
  */
 
 #include "Communicator.h"
+#include "AfUnixCommunicator.h"
+
+Communicator * Communicator::Create(ConfigFile::Element & config) {
+    if(strcasecmp(config.GetValue("type").c_str(), "AfUnix") == 0) {
+        return new AfUnixCommunicator(config.GetValue("path"));
+    } else
+        throw "Not a valid type!";
+}
 
 Communicator::~Communicator() {
 }

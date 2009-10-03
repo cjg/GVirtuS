@@ -9,9 +9,11 @@
 #define	_COMMUNICATOR_H
 
 #include <iostream>
+#include "ConfigFile.h"
 
 class Communicator {
 public:
+    static Communicator * Create(ConfigFile::Element & config);
     virtual ~Communicator();
     virtual void Serve() = 0;
     virtual const Communicator * const Accept() const = 0;
