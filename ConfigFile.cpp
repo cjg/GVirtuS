@@ -124,7 +124,6 @@ ConfigFile::ConfigFile() {
     mpContent = new ConfigFile::Section("config");
 }
 
-static int level = 0;
 static stack<ConfigFile::Section *> sections;
 
 static void StartElementHandler(void *userData, const XML_Char *name,
@@ -173,7 +172,6 @@ static void StartElementHandler(void *userData, const XML_Char *name,
 }
 
 static void EndElementHandler(void *userData, const XML_Char *name) {
-    ConfigFile * pThis = (ConfigFile *) userData;
     if (strcasecmp(name, "config") == 0 || strcasecmp(name, "section") == 0)
         sections.pop();
 }
