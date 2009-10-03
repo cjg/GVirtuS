@@ -15,11 +15,11 @@ RANLIB=ranlib
 CC=gcc
 CCC=g++
 CXX=g++
-FC=gfortran
+FC=
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=GNU-MacOSX
 CND_CONF=Release
 CND_DISTDIR=dist
 
@@ -53,10 +53,10 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Release.mk dist/Release/GNU-Linux-x86/echoesbackend
+	${MAKE}  -f nbproject/Makefile-Release.mk dist/Release/GNU-MacOSX/echoesbackend
 
-dist/Release/GNU-Linux-x86/echoesbackend: ${OBJECTFILES}
-	${MKDIR} -p dist/Release/GNU-Linux-x86
+dist/Release/GNU-MacOSX/echoesbackend: ${OBJECTFILES}
+	${MKDIR} -p dist/Release/GNU-MacOSX
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/echoesbackend ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Backend.o: nbproject/Makefile-${CND_CONF}.mk Backend.cpp 
@@ -80,7 +80,7 @@ ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Release
-	${RM} dist/Release/GNU-Linux-x86/echoesbackend
+	${RM} dist/Release/GNU-MacOSX/echoesbackend
 
 # Subprojects
 .clean-subprojects:
