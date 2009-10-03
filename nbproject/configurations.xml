@@ -108,6 +108,9 @@
           <incDir>
             <pElem>../EchoesUtil</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/Users/cjg/echoes.xml"</Elem>
+          </preprocessorList>
           <warningLevel>2</warningLevel>
         </ccTool>
         <linkerTool>

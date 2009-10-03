@@ -20,7 +20,6 @@ private:
     Frontend();
     Communicator *mpCommunicator;
     static Frontend *mspFrontend;
-
 };
 
 Frontend *Frontend::mspFrontend = NULL;

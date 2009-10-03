@@ -62,7 +62,7 @@ dist/MacOSX/GNU-MacOSX/libEchoesFrontend.dylib: ${OBJECTFILES}
 ${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Frontend.o Frontend.cpp
+	$(COMPILE.cc) -g -Wall -D_CONFIG_FILE=\"/Users/cjg/echoes.xml\" -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Frontend.o Frontend.cpp
 
 # Subprojects
 .build-subprojects:
