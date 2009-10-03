@@ -18,7 +18,13 @@ int main(int argc, char** argv) {
         return 1;
     }
     ConfigFile *cf = new ConfigFile(argv[1]);
-    Communicator *c = new AfUnixCommunicator("/tmp/cudactl");
+    ConfigFile::Section communicators = 
+            cf->GetTopLevel()->GetSection("communicators");
+    string default_communicator_name =
+            cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
+    ConfigFile::Element default_communicator =
+            communicators.GetElement(default_communicator_name);
+    Communicator *c = Communicator::Create(default_communicator);
     Backend *b = new Backend(c);
     b->Start();
     delete b;
