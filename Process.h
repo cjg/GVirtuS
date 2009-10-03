@@ -8,10 +8,11 @@
 #ifndef _PROCESS_H
 #define	_PROCESS_H
 
-#include "Communicator.h"
 #include "Thread.h"
+#include "Observable.h"
+#include "Communicator.h"
 
-class Process : public Thread {
+class Process : public Thread, public Observable {
 public:
     Process(const Communicator *communicator);
     virtual ~Process();

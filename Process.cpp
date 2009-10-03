@@ -12,7 +12,7 @@
 using namespace std;
 
 Process::Process(const Communicator *communicator) 
-    : Thread(), 
+    : Thread(), Observable(), 
         mpInput(const_cast<Communicator *>(communicator)->GetInputStream()),
         mpOutput(const_cast<Communicator *>(communicator)->GetOutputStream()) {
     mpCommunicator = const_cast<Communicator *>(communicator);
@@ -40,6 +40,8 @@ void Process::Execute(void * arg) {
             Default();
         mpOutput.flush();
     }
+    Notify("process-ended");
+    delete this;
 }
 
 void Process::Default() {

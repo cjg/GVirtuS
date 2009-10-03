@@ -8,13 +8,14 @@
 #ifndef _BACKEND_H
 #define	_BACKEND_H
 
+#include "Observer.h"
 #include "Communicator.h"
 
-class Backend {
+class Backend : public Observer {
 public:
     Backend(const Communicator * communicator);
-    virtual ~Backend();
     void Start();
+    void EventOccurred(std::string & event, void * object);
 private:
     Communicator *mpCommunicator;
 };
