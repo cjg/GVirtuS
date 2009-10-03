@@ -48,6 +48,12 @@ string & ConfigFile::Element::GetValue(std::string & key) const {
     return it->second;
 }
 
+string & ConfigFile::Element::GetValue(const char * key) const {
+    string tmp(key);
+    return GetValue(tmp);
+}
+
+
 string & ConfigFile::Element::GetValue(string & key,
         string & default_value) const {
     map<string, string>::iterator it;
@@ -149,6 +155,11 @@ ConfigFile::Element & ConfigFile::Section::GetElement(std::string & name) const 
     return *(it->second);
 }
 
+ConfigFile::Element & ConfigFile::Section::GetElement(const char * name) const {
+    string tmp(name);
+    return GetElement(tmp);
+}
+
 bool ConfigFile::Section::HasSection(string & name) {
     return mpSubsections->find(name) != mpSubsections->end();
 }
@@ -165,12 +176,17 @@ void ConfigFile::Section::AddSection(ConfigFile::Section * section) {
     mpSubsections->insert(make_pair(section->GetName(), section));
 }
 
-ConfigFile::Section & ConfigFile::Section::GetSection(std::string & name) const {
+ConfigFile::Section & ConfigFile::Section::GetSection(string & name) const {
     map<string, ConfigFile::Section *>::iterator it;
     it = mpSubsections->find(name);
     if (it == mpSubsections->end())
         throw "Section not found!";
     return *(it->second);
+}
+
+ConfigFile::Section & ConfigFile::Section::GetSection(const char * name) const {
+    string tmp(name);
+    return GetSection(tmp);
 }
 
 void ConfigFile::Section::Dump() {
@@ -197,6 +213,7 @@ void ConfigFile::Section::Dump(int level) {
         it->second->Dump(level + 1);
 }
 
+/* ConfigFile Implementation */
 ConfigFile::ConfigFile() {
     mpContent = new ConfigFile::Section("config");
 }
@@ -210,7 +227,6 @@ static void StartElementHandler(void *userData, const XML_Char *name,
     for (char **ptr = (char **) atts; *ptr != NULL; ptr += 2)
         if (strcasecmp(*ptr, "name") == 0)
             tagName = *(ptr + 1);
-    cout << "Tag: " << name << endl;
     if (strcasecmp(name, "config") == 0) {
         if (!sections.empty()) {
             cerr << "Error: tag '" << name << "' not valid at this point!"

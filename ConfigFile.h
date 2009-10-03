@@ -22,6 +22,7 @@ public:
         std::string & GetName() const;
         bool HasKey(std::string & key);
         std::string & GetValue(std::string & key) const;
+        std::string & GetValue(const char * key) const;
         std::string & GetValue(std::string & key,
             std::string & default_value) const;
         std::vector<std::string> & GetKeys() const;
@@ -47,11 +48,13 @@ public:
         std::vector<std::string> & GetElements() const;
         void AddElement(Element * element);
         Element & GetElement(std::string & name) const;
+        Element & GetElement(const char * name) const;
 
         bool HasSection(std::string & name);
         std::vector<std::string> & GetSections() const;
         void AddSection(Section * section);
         Section & GetSection(std::string & name) const;
+        Section & GetSection(const char * name) const;
 
         void Dump();
     private:
