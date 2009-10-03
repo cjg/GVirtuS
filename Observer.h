@@ -12,6 +12,7 @@
 
 class Observer {
 public:
+    virtual ~Observer();
     virtual void EventOccurred(std::string & event, void * object);
 private:
 
