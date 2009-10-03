@@ -37,7 +37,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>2</platform>
+        <platform>4</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -52,7 +52,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>2</platform>
+        <platform>4</platform>
       </toolsSet>
       <compileType>
         <cTool>
@@ -66,6 +66,24 @@
         </fortranCompilerTool>
         <linkerTool>
           <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="MacOSX" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>4</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>expat</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

@@ -15,11 +15,11 @@ RANLIB=ranlib
 CC=gcc
 CCC=g++
 CXX=g++
-FC=gfortran
+FC=
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=GNU-MacOSX
 CND_CONF=Debug
 CND_DISTDIR=dist
 
@@ -32,11 +32,11 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Communicator.o \
+	${OBJECTDIR}/AfUnixCommunicator.o \
 	${OBJECTDIR}/Observer.o \
-	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/ConfigFile.o \
 	${OBJECTDIR}/Mutex.o \
-	${OBJECTDIR}/AfUnixCommunicator.o
+	${OBJECTDIR}/Thread.o
 
 # C Compiler Flags
 CFLAGS=
@@ -56,26 +56,26 @@ LDLIBSOPTIONS=-lpthread -lexpat
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/libEchoesUtil.so
+	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-MacOSX/libEchoesUtil.dylib
 
-dist/Debug/GNU-Linux-x86/libEchoesUtil.so: ${OBJECTFILES}
-	${MKDIR} -p dist/Debug/GNU-Linux-x86
-	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Debug/GNU-MacOSX/libEchoesUtil.dylib: ${OBJECTFILES}
+	${MKDIR} -p dist/Debug/GNU-MacOSX
+	${LINK.cc} -dynamiclib -install_name libEchoesUtil.dylib -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.dylib -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Communicator.o: nbproject/Makefile-${CND_CONF}.mk Communicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Communicator.o Communicator.cpp
 
+${OBJECTDIR}/AfUnixCommunicator.o: nbproject/Makefile-${CND_CONF}.mk AfUnixCommunicator.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
+
 ${OBJECTDIR}/Observer.o: nbproject/Makefile-${CND_CONF}.mk Observer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
-
-${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
 ${OBJECTDIR}/ConfigFile.o: nbproject/Makefile-${CND_CONF}.mk ConfigFile.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -87,10 +87,10 @@ ${OBJECTDIR}/Mutex.o: nbproject/Makefile-${CND_CONF}.mk Mutex.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mutex.o Mutex.cpp
 
-${OBJECTDIR}/AfUnixCommunicator.o: nbproject/Makefile-${CND_CONF}.mk AfUnixCommunicator.cpp 
+${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
+	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
 # Subprojects
 .build-subprojects:
@@ -98,7 +98,7 @@ ${OBJECTDIR}/AfUnixCommunicator.o: nbproject/Makefile-${CND_CONF}.mk AfUnixCommu
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Debug
-	${RM} dist/Debug/GNU-Linux-x86/libEchoesUtil.so
+	${RM} dist/Debug/GNU-MacOSX/libEchoesUtil.dylib
 
 # Subprojects
 .clean-subprojects:

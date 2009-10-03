@@ -6,14 +6,14 @@
 
 # Macros
 TOP=`pwd`
-CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=GNU-MacOSX
 CND_CONF=Release
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.so
-OUTPUT_BASENAME=libEchoesUtil.so
-PACKAGE_TOP_DIR=libEchoesUtil.so/
+OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.dylib
+OUTPUT_BASENAME=libEchoesUtil.dylib
+PACKAGE_TOP_DIR=libEchoesUtil.dylib/
 
 # Functions
 function checkReturnCode
@@ -58,15 +58,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/libEchoesUtil.so/lib
+makeDirectory ${TMPDIR}/libEchoesUtil.dylib/lib
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}lib/${OUTPUT_BASENAME}" 0644
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtil.so.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtil.dylib.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtil.so.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtil.dylib.tar *
 checkReturnCode
 
 # Cleanup
