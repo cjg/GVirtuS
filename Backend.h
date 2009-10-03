@@ -14,6 +14,7 @@
 class Backend : public Observer {
 public:
     Backend(const Communicator * communicator);
+    virtual ~Backend();
     void Start();
     void EventOccurred(std::string & event, void * object);
 private:

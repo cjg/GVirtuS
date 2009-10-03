@@ -13,6 +13,10 @@ Backend::Backend(const Communicator * communicator) : Observer() {
     mpCommunicator = const_cast<Communicator *>(communicator);
 }
 
+Backend::~Backend() {
+    
+}
+
 void Backend::Start() {
     mpCommunicator->Serve();
     while(true) {
