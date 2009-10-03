@@ -13,14 +13,93 @@
 
 using namespace std;
 
-string & ConfigFile::Section::GetName() const {
+/* Element Implementation */
+ConfigFile::Element::Element(std::string & name) {
+    mpName = new string(name);
+    mpContent = new map<string, string > ();
+    mpContentKeys = new vector<string > ();
+}
+
+ConfigFile::Element::Element(const char* name) {
+    mpName = new string(name);
+    mpContent = new map<string, string > ();
+    mpContentKeys = new vector<string > ();
+}
+
+ConfigFile::Element::~Element() {
+    delete mpName;
+    delete mpContent;
+    delete mpContentKeys;
+}
+
+std::string & ConfigFile::Element::GetName() const {
     return *(mpName);
 }
 
-ConfigFile::Section::~Section() {
+bool ConfigFile::Element::HasKey(std::string & key) {
+    return mpContent->find(key) != mpContent->end();
 }
 
-ConfigFile::Section::Section(string & name) {
+string & ConfigFile::Element::GetValue(std::string & key) const {
+    map<string, string>::iterator it;
+    it = mpContent->find(key);
+    if (it == mpContent->end())
+        throw "Key not found!";
+    return it->second;
+}
+
+string & ConfigFile::Element::GetValue(string & key,
+        string & default_value) const {
+    map<string, string>::iterator it;
+    it = mpContent->find(key);
+    if (it == mpContent->end())
+        return default_value;
+    return it->second;
+}
+
+vector<string> & ConfigFile::Element::GetKeys() const {
+    return *(mpContentKeys);
+}
+
+void ConfigFile::Element::SetValue(string & key, string & value) {
+    if (HasKey(key))
+        mpContent->erase(key);
+    else
+        mpContentKeys->push_back(key);
+    mpContent->insert(make_pair(key, value));
+}
+
+void ConfigFile::Element::SetValue(const char * key_, const char * value_) {
+    string key(key_), value(value_);
+    if (HasKey(key))
+        mpContent->erase(key);
+    else
+        mpContentKeys->push_back(key);
+    mpContent->insert(make_pair(key, value));
+}
+
+void ConfigFile::Element::Dump() {
+    cout << *mpName << " = {" << endl;
+    for (map<string, string>::iterator it = mpContent->begin();
+            it != mpContent->end(); it++)
+        cout << "\t" << it->first << " = '" << it->second << "'" << endl;
+    cout << "}" << endl;
+}
+
+void ConfigFile::Element::Dump(int sectionLevel) {
+    char *spaces = new char[sectionLevel + 1];
+    memset(spaces, ' ', sectionLevel);
+    spaces[sectionLevel] = 0;
+    cout << *spaces << *mpName << " = {" << endl;
+    for (map<string, string>::iterator it = mpContent->begin();
+            it != mpContent->end(); it++)
+        cout << spaces << "\t" << it->first << " = '" << it->second << "'" << endl;
+    cout << spaces << "}" << endl;
+    delete spaces;
+}
+
+/* Section Implementation */
+ConfigFile::Section::Section(std::string &name) {
     mpName = new string(name);
     Initialize();
 }
@@ -30,46 +109,44 @@ ConfigFile::Section::Section(const char * name) {
     Initialize();
 }
 
-bool ConfigFile::Section::HasKey(string & key) {
-    return mpContent->find(key) != mpContent->end();
+ConfigFile::Section::~Section() {
+    delete mpName;
+    for (map<string, ConfigFile::Element *>::iterator it = mpElements->begin();
+            it != mpElements->end(); it++)
+        delete static_cast<Element *> (it->second);
+    delete mpElementsKeys;
+    for (map<string, Section *>::iterator it = mpSubsections->begin();
+            it != mpSubsections->end(); it++)
+        delete static_cast<Section *> (it->second);
+    delete mpSubectionsKeys;
 }
 
-string & ConfigFile::Section::GetValue(std::string & key) const {
-    map<string, string>::iterator it;
-    it = mpContent->find(key);
-    if (it == mpContent->end())
-        throw "Key not found!";
-    return it->second;
+string & ConfigFile::Section::GetName() const {
+    return *(mpName);
 }
 
-string & ConfigFile::Section::GetValue(string & key,
-        string & default_value) const {
-    map<string, string>::iterator it;
-    it = mpContent->find(key);
-    if (it == mpContent->end())
-        return default_value;
-    return it->second;
+bool ConfigFile::Section::HasElement(string & name) {
+    return mpElements->find(name) != mpElements->end();
 }
 
-vector<string> & ConfigFile::Section::GetKeys() const {
-    return *(mpContentKeys);
+vector<string> & ConfigFile::Section::GetElements() const {
+    return *(mpElementsKeys);
 }
 
-void ConfigFile::Section::SetValue(string & key, string & value) {
-    if (HasKey(key))
-        mpContent->erase(key);
+void ConfigFile::Section::AddElement(Element * element) {
+    if (HasElement(element->GetName()))
+        mpElements->erase(element->GetName());
     else
-        mpContentKeys->push_back(key);
-    mpContent->insert(make_pair(key, value));
+        mpElementsKeys->push_back(element->GetName());
+    mpElements->insert(make_pair(element->GetName(), element));
 }
 
-void ConfigFile::Section::SetValue(const char * key_, const char * value_) {
-    string key(key_), value(value_);
-    if (HasKey(key))
-        mpContent->erase(key);
-    else
-        mpContentKeys->push_back(key);
-    mpContent->insert(make_pair(key, value));
+ConfigFile::Element & ConfigFile::Section::GetElement(std::string & name) const {
+    map<string, ConfigFile::Element *>::iterator it;
+    it = mpElements->find(name);
+    if (it == mpElements->end())
+        throw "Element not found!";
+    return *(it->second);
 }
 
 bool ConfigFile::Section::HasSection(string & name) {
@@ -101,10 +178,10 @@ void ConfigFile::Section::Dump() {
 }
 
 void ConfigFile::Section::Initialize() {
-    mpContent = new map<string, string > ();
-    mpContentKeys = new vector<string > ();
     mpSubsections = new map<string, ConfigFile::Section *>();
     mpSubectionsKeys = new vector<string > ();
+    mpElements = new map<string, ConfigFile::Element *>();
+    mpElementsKeys = new vector<string > ();
 }
 
 void ConfigFile::Section::Dump(int level) {
@@ -112,9 +189,9 @@ void ConfigFile::Section::Dump(int level) {
     memset(spaces, ' ', level);
     spaces[level] = 0;
     cout << spaces << "[" << *mpName << "]" << endl;
-    for (map<string, string>::iterator it = mpContent->begin();
-            it != mpContent->end(); it++)
-        cout << spaces << it->first << " = '" << it->second << "'" << endl;
+    for (map<string, ConfigFile::Element *>::iterator it = mpElements->begin();
+            it != mpElements->end(); it++)
+        it->second->Dump(level);
     for (map<string, Section *>::iterator it = mpSubsections->begin();
             it != mpSubsections->end(); it++)
         it->second->Dump(level + 1);
@@ -164,8 +241,10 @@ static void StartElementHandler(void *userData, const XML_Char *name,
             cerr << "Error: the tag '" << name << "' must have a name!" << endl;
             return;
         }
+        ConfigFile::Element *e = new ConfigFile::Element(tagName);
         for (char **ptr = (char **) atts; *ptr != NULL; ptr += 2)
-            ((ConfigFile::Section *) sections.top())->SetValue(*ptr, *(ptr + 1));
+            e->SetValue(*ptr, *(ptr + 1));
+        static_cast<ConfigFile::Section *> (sections.top())->AddElement(e);
     } else {
         cerr << "Error: tag '" << name << "' not valid!" << endl;
     }
@@ -202,3 +281,10 @@ ConfigFile::ConfigFile(const char * name) {
     in.close();
 }
 
+ConfigFile::~ConfigFile() {
+    delete mpContent;
+}
+
+void ConfigFile::Dump() {
+    mpContent->Dump();
+}
