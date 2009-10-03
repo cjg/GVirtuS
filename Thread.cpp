@@ -30,8 +30,8 @@ int Thread::Run(void * arg) {
 
 /*static */
 void * Thread::EntryPoint(void * pthis) {
-    Thread * pt = (Thread*) pthis;
     ((Thread *) pthis)->Run(((Thread *) pthis)->mpArg);
+    return NULL;
 }
 
 pthread_t Thread::GetThreadId() {
