@@ -18,6 +18,7 @@ public:
     public:
         Element(std::string & name);
         Element(const char * name);
+        Element(ConfigFile::Element & other);
         virtual ~Element();
         std::string & GetName() const;
         bool HasKey(std::string & key);

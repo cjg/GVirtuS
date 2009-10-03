@@ -26,6 +26,13 @@ ConfigFile::Element::Element(const char* name) {
     mpContentKeys = new vector<string > ();
 }
 
+ConfigFile::Element::Element(ConfigFile::Element & other) {
+    mpName = new string(*other.mpName);
+    mpContent = new map<string, string> (*other.mpContent);
+    mpContentKeys = new vector<string> (*other.mpContentKeys);
+}
+
+
 ConfigFile::Element::~Element() {
     delete mpName;
     delete mpContent;
@@ -118,7 +125,7 @@ ConfigFile::Section::Section(const char * name) {
 ConfigFile::Section::~Section() {
     delete mpName;
     for (map<string, ConfigFile::Element *>::iterator it = mpElements->begin();
-            it != mpElements->end(); it++)
+            it != mpElements->end(); it++) 
         delete static_cast<Element *> (it->second);
     delete mpElementsKeys;
     for (map<string, Section *>::iterator it = mpSubsections->begin();
