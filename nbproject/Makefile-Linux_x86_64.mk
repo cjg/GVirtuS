@@ -20,7 +20,7 @@ AS=
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=MacOSX
+CND_CONF=Linux_x86_64
 CND_DISTDIR=dist
 
 # Include project Makefile
@@ -49,45 +49,45 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=../EchoesUtil/dist/MacOSX/GNU-MacOSX/libEchoesUtil.dylib
+LDLIBSOPTIONS=-Wl,-rpath ../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86 -L../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86 -lEchoesUtils
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-MacOSX.mk dist/MacOSX/GNU-Linux-x86/echoesbackend
+	${MAKE}  -f nbproject/Makefile-Linux_x86_64.mk dist/Linux_x86_64/GNU-Linux-x86/echoesbackend
 
-dist/MacOSX/GNU-Linux-x86/echoesbackend: ../EchoesUtil/dist/MacOSX/GNU-MacOSX/libEchoesUtil.dylib
+dist/Linux_x86_64/GNU-Linux-x86/echoesbackend: ../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtils.so
 
-dist/MacOSX/GNU-Linux-x86/echoesbackend: ${OBJECTFILES}
-	${MKDIR} -p dist/MacOSX/GNU-Linux-x86
+dist/Linux_x86_64/GNU-Linux-x86/echoesbackend: ${OBJECTFILES}
+	${MKDIR} -p dist/Linux_x86_64/GNU-Linux-x86
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/echoesbackend ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Backend.o: nbproject/Makefile-${CND_CONF}.mk Backend.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/Backend.o Backend.cpp
+	$(COMPILE.cc) -g -I../EchoesUtils -MMD -MP -MF $@.d -o ${OBJECTDIR}/Backend.o Backend.cpp
 
 ${OBJECTDIR}/Process.o: nbproject/Makefile-${CND_CONF}.mk Process.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/Process.o Process.cpp
+	$(COMPILE.cc) -g -I../EchoesUtils -MMD -MP -MF $@.d -o ${OBJECTDIR}/Process.o Process.cpp
 
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../EchoesUtils -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
-	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=MacOSX
+	cd ../EchoesUtils && ${MAKE}  -f Makefile CONF=Linux_x86_64
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
-	${RM} -r build/MacOSX
-	${RM} dist/MacOSX/GNU-Linux-x86/echoesbackend
+	${RM} -r build/Linux_x86_64
+	${RM} dist/Linux_x86_64/GNU-Linux-x86/echoesbackend
 
 # Subprojects
 .clean-subprojects:
-	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=MacOSX clean
+	cd ../EchoesUtils && ${MAKE}  -f Makefile CONF=Linux_x86_64 clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

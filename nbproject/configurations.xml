@@ -30,7 +30,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <ccTool>
@@ -84,7 +84,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <cTool>
@@ -106,7 +106,7 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <ccTool>
@@ -127,6 +127,36 @@
                             BC="${MAKE}  -f Makefile CONF=MacOSX"
                             CC="${MAKE}  -f Makefile CONF=MacOSX clean"
                             OP="dist/MacOSX/GNU-MacOSX/libEchoesUtil.dylib">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Linux_x86_64" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../EchoesUtils</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtils"
+                            CT="2"
+                            CN="Linux_x86_64"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtils"
+                            BC="${MAKE}  -f Makefile CONF=Linux_x86_64"
+                            CC="${MAKE}  -f Makefile CONF=Linux_x86_64 clean"
+                            OP="dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtils.so">
               </makeArtifact>
             </linkerLibProjectItem>
           </linkerLibItems>
