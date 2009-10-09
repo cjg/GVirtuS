@@ -5,6 +5,7 @@
  * Created on 30 settembre 2009, 11.56
  */
 
+#include <cstring>
 #include "Communicator.h"
 #include "AfUnixCommunicator.h"
 

@@ -24,14 +24,14 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=EchoesUtil
+PROJECTNAME=EchoesUtils
 
 # Active Configuration
 DEFAULTCONF=Debug
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release MacOSX 
+ALLCONFS=Debug Release MacOSX Linux_x86_64 
 
 
 # build

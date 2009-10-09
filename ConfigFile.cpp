@@ -5,6 +5,7 @@
  * Created on October 1, 2009, 12:56 PM
  */
 
+#include <cstring>
 #include <fstream>
 #include <expat.h>
 #include <iostream>
