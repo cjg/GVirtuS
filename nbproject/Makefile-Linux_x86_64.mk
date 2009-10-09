@@ -20,7 +20,7 @@ AS=
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Release
+CND_CONF=Linux_x86_64
 CND_DISTDIR=dist
 
 # Include project Makefile
@@ -47,31 +47,35 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-Wl,-rpath ../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86 -L../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86 -lEchoesUtils
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Release.mk dist/Release/GNU-Linux-x86/libEchoesFrontend.so
+	${MAKE}  -f nbproject/Makefile-Linux_x86_64.mk dist/Linux_x86_64/GNU-Linux-x86/libEchoesFrontend.so
 
-dist/Release/GNU-Linux-x86/libEchoesFrontend.so: ${OBJECTFILES}
-	${MKDIR} -p dist/Release/GNU-Linux-x86
+dist/Linux_x86_64/GNU-Linux-x86/libEchoesFrontend.so: ../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtils.so
+
+dist/Linux_x86_64/GNU-Linux-x86/libEchoesFrontend.so: ${OBJECTFILES}
+	${MKDIR} -p dist/Linux_x86_64/GNU-Linux-x86
 	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Frontend.o Frontend.cpp
+	$(COMPILE.cc) -g -D_CONFIG_FILE=\"/home/cjg/echoes.xml\" -I/opt/cuda/include -I../EchoesUtils -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Frontend.o Frontend.cpp
 
 # Subprojects
 .build-subprojects:
+	cd ../EchoesUtils && ${MAKE}  -f Makefile CONF=Linux_x86_64
 
 # Clean Targets
-.clean-conf:
-	${RM} -r build/Release
-	${RM} dist/Release/GNU-Linux-x86/libEchoesFrontend.so
+.clean-conf: ${CLEAN_SUBPROJECTS}
+	${RM} -r build/Linux_x86_64
+	${RM} dist/Linux_x86_64/GNU-Linux-x86/libEchoesFrontend.so
 
 # Subprojects
 .clean-subprojects:
+	cd ../EchoesUtils && ${MAKE}  -f Makefile CONF=Linux_x86_64 clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

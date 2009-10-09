@@ -11,6 +11,7 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects>
                 <make-dep-project>../EchoesUtil</make-dep-project>
+                <make-dep-project>../EchoesUtils</make-dep-project>
             </make-dep-projects>
         </data>
     </configuration>
