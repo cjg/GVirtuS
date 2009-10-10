@@ -96,5 +96,6 @@ void AfUnixCommunicator::InitializeStream() {
             std::ios_base::out);
     mpInput = new istream(mpInputBuf);
     mpOutput = new ostream(mpOutputBuf);
+    /* FIXME: handle SIGPIPE instead of just ignoring it */
     signal(SIGPIPE, SIG_IGN);
 }
