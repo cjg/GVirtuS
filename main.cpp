@@ -17,19 +17,25 @@ int main(int argc, char** argv) {
         cerr << "Usage: " << argv[0] << " /path/to/config.xml" << endl;
         return 1;
     }
-    ConfigFile *cf = new ConfigFile(argv[1]);
-    ConfigFile::Section communicators = 
-            cf->GetTopLevel()->GetSection("communicators");
-    string default_communicator_name =
-            cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
-    ConfigFile::Element default_communicator =
-            communicators.GetElement(default_communicator_name);
-    Communicator *c = Communicator::Create(default_communicator);
-    Backend *b = new Backend(c);
-    b->Start();
-    delete b;
-    delete c;
-    delete cf;
+    try {
+        ConfigFile *cf = new ConfigFile(argv[1]);
+        ConfigFile::Section communicators =
+                cf->GetTopLevel()->GetSection("communicators");
+        string default_communicator_name =
+                cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
+        ConfigFile::Element default_communicator =
+                communicators.GetElement(default_communicator_name);
+        Communicator *c = Communicator::Create(default_communicator);
+        Backend *b = new Backend(c);
+        b->Start();
+        delete b;
+        delete c;
+        delete cf;
+    } catch (string &e) {
+        cerr << "Exception: " << e << endl;
+    } catch(const char *e) {
+        cerr << "Exception: " << e << endl;
+    }
     return 0;
 }
 
