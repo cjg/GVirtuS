@@ -11,6 +11,7 @@
 #include "Thread.h"
 #include "Observable.h"
 #include "Communicator.h"
+#include "CudaRtHandler.h"
 
 class Process : public Thread, public Observable {
 public:
@@ -24,6 +25,7 @@ private:
     Communicator * mpCommunicator;
     std::istream & mpInput;
     std::ostream & mpOutput;
+    CudaRtHandler * mpHandler;
 };
 
 #endif	/* _PROCESS_H */

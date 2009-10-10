@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include "ConfigFile.h"
-#include "AfUnixCommunicator.h"
+#include "Communicator.h"
 #include "Backend.h"
 
 using namespace std;

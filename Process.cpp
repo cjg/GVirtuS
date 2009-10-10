@@ -16,6 +16,7 @@ Process::Process(const Communicator *communicator)
         mpInput(const_cast<Communicator *>(communicator)->GetInputStream()),
         mpOutput(const_cast<Communicator *>(communicator)->GetOutputStream()) {
     mpCommunicator = const_cast<Communicator *>(communicator);
+    mpHandler = new CudaRtHandler(mpInput, mpOutput);
     cout << "[Process " << GetThreadId() <<  "]: Created." << endl;
 }
 
@@ -34,8 +35,10 @@ void Process::Execute(void * arg) {
     while(getline(mpInput, routine)) {
         cout << "[Process " << GetThreadId() <<  "]: Requested '" << routine
             << "' routine." << endl;
-        if(routine.compare("ls") == 0)
-            Ls();
+        if(routine.compare("cudaGetDeviceCount") == 0)
+            mpHandler->GetDeviceCount();
+        else if(routine.compare("cudaGetDeviceProperties") == 0)
+            mpHandler->GetDeviceProperties();
         else 
             Default();
         mpOutput.flush();
@@ -52,9 +55,3 @@ void Process::Default() {
     mpOutput.write((char *) &result, sizeof(int));
 }
 
-void Process::Ls() {
-    cout << "[Process " << GetThreadId() <<  "]: Executing Ls()." << endl;
-    int result = 0;
-    mpOutput.write((char *) &result, sizeof(int));
-    mpOutput.write((char *) &result, sizeof(int));
-}

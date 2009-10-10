@@ -20,6 +20,8 @@
     </logicalFolder>
     <itemPath>Backend.cpp</itemPath>
     <itemPath>Backend.h</itemPath>
+    <itemPath>CudaRtHandler.cpp</itemPath>
+    <itemPath>CudaRtHandler.h</itemPath>
     <itemPath>Process.cpp</itemPath>
     <itemPath>Process.h</itemPath>
     <itemPath>main.cpp</itemPath>
@@ -143,9 +145,13 @@
         <ccTool>
           <incDir>
             <pElem>../EchoesUtils</pElem>
+            <pElem>/opt/cuda/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
+          <linkerAddLib>
+            <pElem>/opt/cuda/lib</pElem>
+          </linkerAddLib>
           <linkerLibItems>
             <linkerLibProjectItem>
               <makeArtifact PL="../EchoesUtils"
@@ -159,6 +165,7 @@
                             OP="dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtils.so">
               </makeArtifact>
             </linkerLibProjectItem>
+            <linkerLibLibItem>cudart</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
