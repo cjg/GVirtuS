@@ -8,21 +8,20 @@
 #ifndef _FRONTEND_H
 #define	_FRONTEND_H
 
+#include <builtin_types.h>
 #include "Communicator.h"
 
 class Frontend {
 public:
     virtual ~Frontend();
     static Frontend & GetFrontend();
-    int Execute(const char *routine, const char *in_buffer, 
-        int in_buffer_size, char **out_buffer, int *out_buffer_size);
+    cudaError_t Execute(const char *routine, const char *in_buffer,
+        size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size);
 private:
     Frontend();
     Communicator *mpCommunicator;
     static Frontend *mspFrontend;
 };
-
-Frontend *Frontend::mspFrontend = NULL;
 
 #endif	/* _FRONTEND_H */
 

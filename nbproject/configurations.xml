@@ -18,6 +18,8 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>CudaRt.cpp</itemPath>
+    <itemPath>CudaRt.h</itemPath>
     <itemPath>Frontend.cpp</itemPath>
     <itemPath>Frontend.h</itemPath>
   </logicalFolder>

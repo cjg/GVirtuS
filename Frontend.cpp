@@ -12,6 +12,8 @@
 
 using namespace std;
 
+Frontend *Frontend::mspFrontend = NULL;
+
 Frontend::Frontend() {
     ConfigFile *cf = new ConfigFile(_CONFIG_FILE);
     ConfigFile::Section communicators =
@@ -41,8 +43,8 @@ Frontend & Frontend::GetFrontend() {
     return *mspFrontend;
 }
 
-int Frontend::Execute(const char* routine, const char* in_buffer,
-        int in_buffer_size, char** out_buffer, int* out_buffer_size) {
+cudaError_t Frontend::Execute(const char* routine, const char* in_buffer,
+        size_t in_buffer_size, char** out_buffer, size_t* out_buffer_size) {
 
     /* sending job */
     std::ostream &out = mpCommunicator->GetOutputStream();
@@ -52,9 +54,10 @@ int Frontend::Execute(const char* routine, const char* in_buffer,
 
     /* receiving output */
     std::istream &in = mpCommunicator->GetInputStream();
-    int result;
+
+    cudaError_t result;
     in.read((char *) & result, sizeof (int));
-    in.read((char *) out_buffer_size, sizeof (int));
+    in.read((char *) out_buffer_size, sizeof (size_t));
     if (*out_buffer_size > 0) {
         *out_buffer = new char[*out_buffer_size];
         in.read(*out_buffer, *out_buffer_size);
