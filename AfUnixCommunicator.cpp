@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <csignal>
 #include "AfUnixCommunicator.h"
 
 using namespace std;
@@ -95,4 +96,5 @@ void AfUnixCommunicator::InitializeStream() {
             std::ios_base::out);
     mpInput = new istream(mpInputBuf);
     mpOutput = new ostream(mpOutputBuf);
+    signal(SIGPIPE, SIG_IGN);
 }
