@@ -31,6 +31,8 @@ public:
         void SetValue(const char * key, const char * value);
         void Dump();
         void Dump(int sectionLevel);
+
+        short GetShortValue(const char * key);
     private:
         std::string *mpName;
         std::map<std::string, std::string> * mpContent;

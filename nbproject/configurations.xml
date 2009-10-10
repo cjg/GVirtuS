@@ -30,6 +30,8 @@
     <itemPath>Observable.h</itemPath>
     <itemPath>Observer.cpp</itemPath>
     <itemPath>Observer.h</itemPath>
+    <itemPath>TcpCommunicator.cpp</itemPath>
+    <itemPath>TcpCommunicator.h</itemPath>
     <itemPath>Thread.cpp</itemPath>
     <itemPath>Thread.h</itemPath>
   </logicalFolder>

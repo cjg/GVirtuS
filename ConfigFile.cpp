@@ -9,6 +9,7 @@
 #include <fstream>
 #include <expat.h>
 #include <iostream>
+#include <sstream>
 #include <stack>
 #include "ConfigFile.h"
 
@@ -52,7 +53,7 @@ string & ConfigFile::Element::GetValue(std::string & key) const {
     map<string, string>::iterator it;
     it = mpContent->find(key);
     if (it == mpContent->end())
-        throw "Key not found!";
+        throw "ConfigFile: Key '" + key + "' not found!";
     return it->second;
 }
 
@@ -110,6 +111,15 @@ void ConfigFile::Element::Dump(int sectionLevel) {
         cout << spaces << "\t" << it->first << " = '" << it->second << "'" << endl;
     cout << spaces << "}" << endl;
     delete spaces;
+}
+
+short ConfigFile::Element::GetShortValue(const char* key) {
+    string value = GetValue(key);
+    istringstream iss(value);
+    short result;
+    if(!(iss >> result))
+        throw "ConfigFile: Error converting string to short.";
+    return result;
 }
 
 /* Section Implementation */
