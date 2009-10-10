@@ -5,6 +5,7 @@
  * Created on 8 ottobre 2009, 12.08
  */
 
+#include <cstring>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
