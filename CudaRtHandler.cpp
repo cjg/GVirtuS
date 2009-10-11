@@ -67,6 +67,7 @@ static cudaError_t Free(CudaRtHandler *pThis, char *in_buffer,
     /* cudaError_t cudaFree(void *devPtr) */
     void *devPtr = pThis->GetDevicePointer(in_buffer);
     cudaError_t result = cudaFree(devPtr);
+    pThis->UnregisterDevicePointer(in_buffer);
 
     if(result == cudaSuccess) {
         *out_buffer_size = 0;
@@ -174,6 +175,7 @@ void CudaRtHandler::UnregisterDevicePointer(std::string& handler) {
         return;
     }
     /* FIXME: think about freeing memory */
+    cout << "Registered DevicePointer " << it->second << " with handler " << handler << endl;
     mpDeviceMemory->erase(it);
 }
 
