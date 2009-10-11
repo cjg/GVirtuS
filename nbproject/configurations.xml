@@ -99,6 +99,9 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <warningLevel>2</warningLevel>
+        </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>

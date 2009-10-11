@@ -11,9 +11,9 @@ CND_CONF=MacOSX
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtils.so
-OUTPUT_BASENAME=libEchoesUtils.so
-PACKAGE_TOP_DIR=libEchoesUtils.so/
+OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.so
+OUTPUT_BASENAME=libEchoesUtil.so
+PACKAGE_TOP_DIR=libEchoesUtil.so/
 
 # Functions
 function checkReturnCode
@@ -58,15 +58,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/libEchoesUtils.so/lib
+makeDirectory ${TMPDIR}/libEchoesUtil.so/lib
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}lib/${OUTPUT_BASENAME}" 0644
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtils.so.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtil.so.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtils.so.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/libEchoesUtil.so.tar *
 checkReturnCode
 
 # Cleanup

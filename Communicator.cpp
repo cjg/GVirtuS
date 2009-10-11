@@ -15,11 +15,12 @@ Communicator * Communicator::Create(ConfigFile::Element & config) {
     if (strcasecmp(type, "AfUnix") == 0)
         return new AfUnixCommunicator(config.GetValue("path"));
     else if (strcasecmp(type, "Tcp") == 0)
-        new TcpCommunicator(
+        return new TcpCommunicator(
                 config.GetValue("hostname").c_str(),
                 config.GetShortValue("port"));
     else
         throw "Not a valid type!";
+    return NULL;
 }
 
 Communicator::~Communicator() {
