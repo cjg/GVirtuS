@@ -36,6 +36,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Observer.o \
 	${OBJECTDIR}/ConfigFile.o \
 	${OBJECTDIR}/Mutex.o \
+	${OBJECTDIR}/CudaUtil.o \
 	${OBJECTDIR}/TcpCommunicator.o \
 	${OBJECTDIR}/Observable.o \
 	${OBJECTDIR}/AfUnixCommunicator.o
@@ -88,6 +89,11 @@ ${OBJECTDIR}/Mutex.o: nbproject/Makefile-${CND_CONF}.mk Mutex.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mutex.o Mutex.cpp
+
+${OBJECTDIR}/CudaUtil.o: nbproject/Makefile-${CND_CONF}.mk CudaUtil.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaUtil.o CudaUtil.cpp
 
 ${OBJECTDIR}/TcpCommunicator.o: nbproject/Makefile-${CND_CONF}.mk TcpCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
