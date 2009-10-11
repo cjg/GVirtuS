@@ -32,7 +32,10 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/CudaRt_memory.o \
+	${OBJECTDIR}/CudaRt_device.o \
+	${OBJECTDIR}/CudaRt_error.o \
 	${OBJECTDIR}/CudaRt.o \
+	${OBJECTDIR}/CudaRt_thread.o \
 	${OBJECTDIR}/Frontend.o
 
 # C Compiler Flags
@@ -66,10 +69,25 @@ ${OBJECTDIR}/CudaRt_memory.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_memory.cp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_memory.o CudaRt_memory.cpp
 
+${OBJECTDIR}/CudaRt_device.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_device.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_device.o CudaRt_device.cpp
+
+${OBJECTDIR}/CudaRt_error.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_error.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_error.o CudaRt_error.cpp
+
 ${OBJECTDIR}/CudaRt.o: nbproject/Makefile-${CND_CONF}.mk CudaRt.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt.o CudaRt.cpp
+
+${OBJECTDIR}/CudaRt_thread.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_thread.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_thread.o CudaRt_thread.cpp
 
 ${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp 
 	${MKDIR} -p ${OBJECTDIR}

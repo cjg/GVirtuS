@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <iostream>
 #include <string.h>
+#include <__cudaFatFormat.h>
 #include "Frontend.h"
 #include "CudaUtil.h"
 #include "CudaRt.h"
@@ -36,32 +37,42 @@ void CudaRt::MarshalDevicePointer(void* devPtr, char * marshal) {
 
 void** __cudaRegisterFatBinary(void *fatCubin) {
     /* FIXME: implement */
+    __cudaFatCudaBinary *test = (__cudaFatCudaBinary*) fatCubin;
+    cout << test->key << endl;
+    cout << test->ident << endl;
+    cout << test->cubin->cubin << endl;
+    cerr << "*** Error: __cudaRegisterFatBinary() not yet implemented!" << endl;
     return NULL;
 }
 
 void __cudaUnregisterFatBinary(void **fatCubinHandle) {
     /* FIXME: implement */
+    cerr << "*** Error: __cudaUnregisterFatBinary() not yet implemented!" << endl;
 }
 
 void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun, char *deviceFun,
         const char *deviceName, int thread_limit, uint3 *tid,
         uint3 *bid, dim3 *bDim, dim3 *gDim, int *wSize) {
     /* FIXME: implement */
+    cerr << "*** Error: __cudaRegisterFunction() not yet implemented!" << endl;
 }
 
 void __cudaRegisterVar(void **fatCubinHandle, char *hostVar, char *deviceAddress,
         const char *deviceName, int ext, int size, int constant,
         int global) {
     /* FIXME: implement */
+    cerr << "*** Error: __cudaRegisterVar() not yet implemented!" << endl;
 }
 
 void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
     /* FIXME: implement */
+    cerr << "*** Error: __cudaRegisterShared() not yet implemented!" << endl;
 }
 
 void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr, size_t size,
         size_t alignment, int storage) {
     /* FIXME: implement */
+    cerr << "*** Error: __cudaRegisterSharedVar() not yet implemented!" << endl;
 }
 
 /* */
@@ -69,11 +80,13 @@ void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr, size_t siz
 
 extern int CUDARTAPI __cudaSynchronizeThreads(void** x, void* y) {
     /* FIXME: implement */
+    cerr << "*** Error: __cudaSynchronizeThreads() not yet implemented!" << endl;
     return 0;
 }
 
 extern void CUDARTAPI __cudaTextureFetch(const void *tex, void *index, int integer, void *val) {
     /* FIXME: implement */
+    cerr << "*** Error: __cudaTextureFetch() not yet implemented!" << endl;
 }
 
 extern __host__ cudaError_t CUDARTAPI cudaBindTexture(size_t *offset, const struct textureReference *texref, const void *devPtr, const struct cudaChannelFormatDesc *desc, size_t size __dv(UINT_MAX)) {
@@ -86,10 +99,6 @@ extern __host__ cudaError_t CUDARTAPI cudaBindTextureToArray(const struct textur
     return cudaErrorUnknown;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaChooseDevice(int *device, const struct cudaDeviceProp *prop) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
 
 extern __host__ cudaError_t CUDARTAPI cudaConfigureCall(dim3 gridDim, dim3 blockDim, size_t sharedMem __dv(0), cudaStream_t stream __dv(0)) {
     /* FIXME: implement */
@@ -172,73 +181,8 @@ extern __host__ cudaError_t CUDARTAPI cudaGetChannelDesc(struct cudaChannelForma
     return cudaErrorUnknown;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaGetDevice(int *device) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
 
-extern __host__ cudaError_t CUDARTAPI cudaGetDeviceCount(int *count) {
-    /* FIXME: implement */
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
 
-    in_buffer_size = sizeof (int);
-    in_buffer = new char[in_buffer_size];
-
-    memmove(in_buffer, count, sizeof (int));
-
-    result = Frontend::GetFrontend().Execute("cudaGetDeviceCount",
-            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
-
-    if (result == cudaSuccess) {
-        memmove(count, out_buffer, sizeof (int));
-        delete[] out_buffer;
-    }
-
-    delete[] in_buffer;
-
-    return result;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGetDeviceProperties(struct
-        cudaDeviceProp
-        *prop,
-        int device) {
-    /* FIXME: implement */
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
-
-    in_buffer_size = sizeof (struct cudaDeviceProp) + sizeof (int);
-    in_buffer = new char[in_buffer_size];
-
-    memmove(in_buffer, prop, sizeof (struct cudaDeviceProp));
-    memmove(in_buffer + sizeof (struct cudaDeviceProp), &device,
-            sizeof (int));
-
-    result = Frontend::GetFrontend().Execute("cudaGetDeviceProperties",
-            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
-
-    if (result == cudaSuccess) {
-        memmove(prop, out_buffer, sizeof (struct cudaDeviceProp));
-        delete[] out_buffer;
-    }
-
-    delete[] in_buffer;
-
-    return result;
-}
-
-extern __host__ const char* CUDARTAPI cudaGetErrorString(cudaError_t error) {
-    /* FIXME: implement */
-    return "";
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGetLastError(void) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
 
 extern __host__ cudaError_t CUDARTAPI cudaGetSymbolAddress(void **devPtr, const char *symbol) {
     /* FIXME: implement */
@@ -262,6 +206,7 @@ extern __host__ cudaError_t CUDARTAPI cudaGetTextureReference(const struct textu
 
 extern __host__ cudaError_t CUDARTAPI cudaLaunch(const char *symbol) {
     /* FIXME: implement */
+    cout << "Launch: " << symbol << endl;
     return cudaErrorUnknown;
 }
 
@@ -400,10 +345,6 @@ extern __host__ cudaError_t CUDARTAPI cudaMemset3D(struct cudaPitchedPtr pitchDe
     return cudaErrorUnknown;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaSetDevice(int device) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
 
 extern __host__ cudaError_t CUDARTAPI cudaSetDoubleForDevice(double *d) {
     /* FIXME: implement */
@@ -436,16 +377,6 @@ extern __host__ cudaError_t CUDARTAPI cudaStreamQuery(cudaStream_t stream) {
 }
 
 extern __host__ cudaError_t CUDARTAPI cudaStreamSynchronize(cudaStream_t stream) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaThreadExit(void) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaThreadSynchronize(void) {
     /* FIXME: implement */
     return cudaErrorUnknown;
 }
