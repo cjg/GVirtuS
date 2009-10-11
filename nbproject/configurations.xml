@@ -144,28 +144,29 @@
       <compileType>
         <ccTool>
           <incDir>
-            <pElem>../EchoesUtils</pElem>
+            <pElem>../EchoesUtil</pElem>
             <pElem>/opt/cuda/include</pElem>
           </incDir>
+          <warningLevel>2</warningLevel>
         </ccTool>
         <linkerTool>
           <linkerAddLib>
             <pElem>/opt/cuda/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
+            <linkerLibLibItem>cudart</linkerLibLibItem>
             <linkerLibProjectItem>
-              <makeArtifact PL="../EchoesUtils"
+              <makeArtifact PL="../EchoesUtil"
                             CT="2"
                             CN="Linux_x86_64"
                             AC="true"
                             BL="true"
-                            WD="../EchoesUtils"
+                            WD="../EchoesUtil"
                             BC="${MAKE}  -f Makefile CONF=Linux_x86_64"
                             CC="${MAKE}  -f Makefile CONF=Linux_x86_64 clean"
-                            OP="dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtils.so">
+                            OP="dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so">
               </makeArtifact>
             </linkerLibProjectItem>
-            <linkerLibLibItem>cudart</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

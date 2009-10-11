@@ -50,13 +50,13 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L/opt/cuda/lib -Wl,-rpath ../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86 -L../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86 -lEchoesUtils -lcudart
+LDLIBSOPTIONS=-L/opt/cuda/lib -lcudart -Wl,-rpath ../EchoesUtil/dist/Linux_x86_64/GNU-Linux-x86 -L../EchoesUtil/dist/Linux_x86_64/GNU-Linux-x86 -lEchoesUtil
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	${MAKE}  -f nbproject/Makefile-Linux_x86_64.mk dist/Linux_x86_64/GNU-Linux-x86/echoesbackend
 
-dist/Linux_x86_64/GNU-Linux-x86/echoesbackend: ../EchoesUtils/dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtils.so
+dist/Linux_x86_64/GNU-Linux-x86/echoesbackend: ../EchoesUtil/dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so
 
 dist/Linux_x86_64/GNU-Linux-x86/echoesbackend: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_x86_64/GNU-Linux-x86
@@ -65,26 +65,26 @@ dist/Linux_x86_64/GNU-Linux-x86/echoesbackend: ${OBJECTFILES}
 ${OBJECTDIR}/CudaRtHandler.o: nbproject/Makefile-${CND_CONF}.mk CudaRtHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../EchoesUtils -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRtHandler.o CudaRtHandler.cpp
+	$(COMPILE.cc) -g -Wall -I../EchoesUtil -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRtHandler.o CudaRtHandler.cpp
 
 ${OBJECTDIR}/Backend.o: nbproject/Makefile-${CND_CONF}.mk Backend.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../EchoesUtils -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/Backend.o Backend.cpp
+	$(COMPILE.cc) -g -Wall -I../EchoesUtil -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/Backend.o Backend.cpp
 
 ${OBJECTDIR}/Process.o: nbproject/Makefile-${CND_CONF}.mk Process.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../EchoesUtils -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/Process.o Process.cpp
+	$(COMPILE.cc) -g -Wall -I../EchoesUtil -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/Process.o Process.cpp
 
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../EchoesUtils -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -Wall -I../EchoesUtil -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
-	cd ../EchoesUtils && ${MAKE}  -f Makefile CONF=Linux_x86_64
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Linux_x86_64
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
@@ -93,7 +93,7 @@ ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp
 
 # Subprojects
 .clean-subprojects:
-	cd ../EchoesUtils && ${MAKE}  -f Makefile CONF=Linux_x86_64 clean
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Linux_x86_64 clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl
