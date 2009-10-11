@@ -23,6 +23,8 @@ public:
         size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size);
     void RegisterDevicePointer(std::string & handler, void *devPtr);
     void RegisterDevicePointer(const char * handler, void *devPtr);
+    void *GetDevicePointer(std::string & handler);
+    void *GetDevicePointer(const char * handler);
     void UnregisterDevicePointer(std::string & handler);
     void UnregisterDevicePointer(const char * handler);
 private:

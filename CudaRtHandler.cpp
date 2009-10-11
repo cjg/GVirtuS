@@ -11,6 +11,7 @@
 #include <GL/gl.h>
 #include <cuda_runtime_api.h>
 #include <cstring>
+#include "CudaUtil.h"
 #include "CudaRtHandler.h"
 
 using namespace std;
@@ -61,6 +62,20 @@ static cudaError_t GetDeviceProperties(CudaRtHandler *pThis, char *in_buffer,
     return result;
 }
 
+static cudaError_t Free(CudaRtHandler *pThis, char *in_buffer,
+        size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size) {
+    /* cudaError_t cudaFree(void *devPtr) */
+    void *devPtr = pThis->GetDevicePointer(in_buffer);
+    cudaError_t result = cudaFree(devPtr);
+
+    if(result == cudaSuccess) {
+        *out_buffer_size = 0;
+        *out_buffer = NULL;
+    }
+
+    return result;
+}
+
 static cudaError_t Malloc(CudaRtHandler *pThis, char *in_buffer,
         size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size) {
     /* cudaError_t cudaMalloc(void **devPtr, size_t size) */
@@ -79,6 +94,52 @@ static cudaError_t Malloc(CudaRtHandler *pThis, char *in_buffer,
     return result;
 }
 
+static cudaError_t Memcpy(CudaRtHandler *pThis, char *in_buffer,
+        size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size) {
+    /* cudaError_t cudaError_t cudaMemcpy(void *dst, const void *src,
+        size_t count, cudaMemcpyKind kind) */
+    void *dst = NULL;
+    void *src = NULL;
+    size_t count = *((size_t *) (in_buffer + in_buffer_size
+            - sizeof(size_t) - sizeof(cudaMemcpyKind)));
+    cudaMemcpyKind kind = *((cudaMemcpyKind *) (in_buffer + in_buffer_size
+            - sizeof(cudaMemcpyKind)));
+    cudaError_t result;
+
+    switch(kind) {
+        case cudaMemcpyHostToHost:
+            // This should nevere happer
+            break;
+        case cudaMemcpyHostToDevice:
+            dst = pThis->GetDevicePointer(in_buffer);
+            src = in_buffer + CudaUtil::MarshaledDevicePointerSize;
+            result = cudaMemcpy(dst, src, count, kind);
+            if(result == cudaSuccess) {
+                *out_buffer_size = 0;
+                *out_buffer = NULL;
+            }
+            break;
+        case cudaMemcpyDeviceToHost:
+            *out_buffer_size = count;
+            *out_buffer = new char[*out_buffer_size];
+            dst = *out_buffer;
+            src = pThis->GetDevicePointer(in_buffer);
+            result = cudaMemcpy(dst, src, count, kind);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            dst = pThis->GetDevicePointer(in_buffer);
+            src = pThis->GetDevicePointer(in_buffer
+                    + CudaUtil::MarshaledDevicePointerSize);
+            result = cudaMemcpy(dst, src, count, kind);
+            if(result == cudaSuccess) {
+                *out_buffer_size = 0;
+                *out_buffer = NULL;
+            }
+            break;
+    }
+    return result;
+}
+
 void CudaRtHandler::RegisterDevicePointer(std::string& handler, void* devPtr) {
     map<string, void *>::iterator it = mpDeviceMemory->find(handler);
     if (it != mpDeviceMemory->end()) {
@@ -86,11 +147,24 @@ void CudaRtHandler::RegisterDevicePointer(std::string& handler, void* devPtr) {
         mpDeviceMemory->erase(it);
     }
     mpDeviceMemory->insert(make_pair(handler, devPtr));
+    cout << "Registered DevicePointer " << devPtr << " with handler " << handler << endl;
 }
 
 void CudaRtHandler::RegisterDevicePointer(const char* handler, void* devPtr) {
     string tmp(handler);
     RegisterDevicePointer(tmp, devPtr);
+}
+
+void * CudaRtHandler::GetDevicePointer(string & handler) {
+    map<string, void *>::iterator it = mpDeviceMemory->find(handler);
+    if (it == mpDeviceMemory->end()) 
+        throw "Device Pointer '" + handler + "' not found";
+    return it->second;
+}
+
+void * CudaRtHandler::GetDevicePointer(const char * handler) {
+    string tmp(handler);
+    return GetDevicePointer(tmp);
 }
 
 void CudaRtHandler::UnregisterDevicePointer(std::string& handler) {
@@ -124,5 +198,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers = new map<string, CudaRtHandler::CudaRoutineHandler>();
     mspHandlers->insert(make_pair("cudaGetDeviceCount", GetDeviceCount));
     mspHandlers->insert(make_pair("cudaGetDeviceProperties", GetDeviceProperties));
+    mspHandlers->insert(make_pair("cudaFree", Free));
     mspHandlers->insert(make_pair("cudaMalloc", Malloc));
+    mspHandlers->insert(make_pair("cudaMemcpy", Memcpy));
 }
