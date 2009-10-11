@@ -49,6 +49,7 @@ cudaError_t Frontend::Execute(const char* routine, const char* in_buffer,
     /* sending job */
     std::ostream &out = mpCommunicator->GetOutputStream();
     out << routine << std::endl;
+    out.write((char *) &in_buffer_size, sizeof(size_t));
     out.write(in_buffer, in_buffer_size);
     out.flush();
 
@@ -57,12 +58,14 @@ cudaError_t Frontend::Execute(const char* routine, const char* in_buffer,
 
     cudaError_t result;
     in.read((char *) & result, sizeof (int));
-    in.read((char *) out_buffer_size, sizeof (size_t));
-    if (*out_buffer_size > 0) {
-        *out_buffer = new char[*out_buffer_size];
-        in.read(*out_buffer, *out_buffer_size);
-    } else
-        *out_buffer = NULL;
+    if(result == cudaSuccess) {
+        in.read((char *) out_buffer_size, sizeof (size_t));
+        if (*out_buffer_size > 0) {
+            *out_buffer = new char[*out_buffer_size];
+            in.read(*out_buffer, *out_buffer_size);
+        } else
+            *out_buffer = NULL;
+    }
 
     return result;
 }
