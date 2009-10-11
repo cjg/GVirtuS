@@ -295,7 +295,7 @@ extern __host__ cudaError_t CUDARTAPI cudaLaunch(const char *symbol)
 extern __host__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size)
 {
 	/* FIXME: implement */
-	printf("*** cudaMalloc(): devPtr=%x size=%u\n", devPtr, size);
+    cout << "*** cudaMalloc(): devPtr=" << devPtr << " size=" << size << endl;
 	return cudaErrorUnknown;
 }
 
