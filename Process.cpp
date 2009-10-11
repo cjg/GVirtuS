@@ -42,8 +42,19 @@ void Process::Execute(void * arg) {
         in_buffer = new char[in_buffer_size];
         mpInput.read(in_buffer, in_buffer_size);
 
-        cudaError_t result = mpHandler->Execute(routine, in_buffer,
-                in_buffer_size, &out_buffer, &out_buffer_size);
+        cudaError_t result;
+        try {
+             result = mpHandler->Execute(routine, in_buffer,
+                    in_buffer_size, &out_buffer, &out_buffer_size);
+        } catch(string e) {
+            cout << "[Process " << GetThreadId() <<  "]: Exception " << e
+                << "." << endl;
+            delete[] in_buffer;
+            result = cudaErrorUnknown;
+            mpOutput.write((char *) &result, sizeof(cudaError_t));
+            mpOutput.flush();
+            continue;
+        }
 
         delete[] in_buffer;
 
