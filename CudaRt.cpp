@@ -9,19 +9,24 @@
 #include <iostream>
 #include <string.h>
 #include "Frontend.h"
+#include "CudaUtil.h"
 #include "CudaRt.h"
 
 using namespace std;
 
 char * CudaRt::MarshalDevicePointer(void* devPtr) {
-    char *marshal = new char[CudaRt::DevicePointerSize];
+    char *marshal = new char[CudaUtil::MarshaledDevicePointerSize];
+    MarshalDevicePointer(devPtr, marshal);
+    return marshal;
+}
+
+void CudaRt::MarshalDevicePointer(void* devPtr, char * marshal) {
     sprintf(marshal, "%x", devPtr);
     size_t len = strlen(marshal);
     memmove(marshal + 2 + sizeof(void *) * 2 - len, marshal, len + 1);
     marshal[0] = '0';
     marshal[1] = 'x';
     memset(marshal + 2, '0', sizeof(void *) * 2 - len);
-    return marshal;
 }
 
 /*
@@ -282,30 +287,6 @@ extern __host__ cudaError_t CUDARTAPI cudaMallocHost(void **ptr, size_t size) {
 
 extern __host__ cudaError_t CUDARTAPI cudaMallocPitch(void **devPtr, size_t *pitch, size_t width, size_t height) {
     /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst, const void *src,
-    size_t count, cudaMemcpyKind kind) {
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
-
-    switch(kind) {
-        case cudaMemcpyHostToHost:
-            /* NOTE: no communication is performed, because it's just overhead here */
-            if(memmove(dst, src, count) == NULL)
-                return cudaErrorInvalidValue;
-            return cudaSuccess;
-            break;
-        case cudaMemcpyHostToDevice:
-            break;
-        case cudaMemcpyDeviceToHost:
-            break;
-        case cudaMemcpyDeviceToDevice:
-            break;
-    }
-
     return cudaErrorUnknown;
 }
 

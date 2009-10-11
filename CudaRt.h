@@ -18,7 +18,7 @@
 class CudaRt {
 public:
     static char * MarshalDevicePointer(void *devPtr);
-    const static size_t DevicePointerSize = sizeof(void *) * 2 + 3;
+    static void MarshalDevicePointer(void *devPtr, char * marshal);
 };
 
 extern "C" {
