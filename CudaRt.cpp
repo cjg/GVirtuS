@@ -256,7 +256,33 @@ extern __host__ cudaError_t CUDARTAPI cudaLaunch(const char *symbol) {
 
 extern __host__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size) {
     /* FIXME: implement */
-    cout << "*** cudaMalloc(): devPtr=" << devPtr << " size=" << size << endl;
+    char *in_buffer, *out_buffer;
+    size_t in_buffer_size, out_buffer_size;
+    cudaError_t result;
+
+    in_buffer_size = sizeof(void *) * 2 + 3 + sizeof(size_t);
+    in_buffer = new char[in_buffer_size];
+
+
+    *devPtr = new char[1];
+    sprintf(in_buffer, "%x", *devPtr);
+    size_t len = strlen(in_buffer);
+    memmove(in_buffer + 2 + sizeof(void *) * 2 - len, in_buffer, len + 1);
+    in_buffer[0] = '0';
+    in_buffer[1] = 'x';
+    memset(in_buffer + 2, '0', sizeof(void *) * 2 - len);
+    memmove(in_buffer + sizeof(void *) * 2 + 3, &size, sizeof(size_t));
+
+    result = Frontend::GetFrontend().Execute("cudaMalloc",
+            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
+
+    if (result == cudaSuccess) {
+        delete[] out_buffer;
+    }
+
+    delete[] in_buffer;
+
+    return result;
     return cudaErrorUnknown;
 }
 
