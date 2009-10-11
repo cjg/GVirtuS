@@ -62,7 +62,7 @@
       <gizmo_options version="1">
       </gizmo_options>
       <runprofile version="5">
-        <args></args>
+        <args>/home/cjg/echoes.xml</args>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <console-type>0</console-type>

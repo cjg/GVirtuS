@@ -16,7 +16,7 @@ Process::Process(const Communicator *communicator)
         mpInput(const_cast<Communicator *>(communicator)->GetInputStream()),
         mpOutput(const_cast<Communicator *>(communicator)->GetOutputStream()) {
     mpCommunicator = const_cast<Communicator *>(communicator);
-    mpHandler = new CudaRtHandler(mpInput, mpOutput);
+    mpHandler = new CudaRtHandler();
     cout << "[Process " << GetThreadId() <<  "]: Created." << endl;
 }
 
@@ -35,13 +35,28 @@ void Process::Execute(void * arg) {
     while(getline(mpInput, routine)) {
         cout << "[Process " << GetThreadId() <<  "]: Requested '" << routine
             << "' routine." << endl;
-        if(routine.compare("cudaGetDeviceCount") == 0)
-            mpHandler->GetDeviceCount();
-        else if(routine.compare("cudaGetDeviceProperties") == 0)
-            mpHandler->GetDeviceProperties();
-        else 
-            Default();
+
+        char *in_buffer, *out_buffer;
+        size_t in_buffer_size, out_buffer_size;
+        mpInput.read((char *) &in_buffer_size, sizeof(size_t));
+        in_buffer = new char[in_buffer_size];
+        mpInput.read(in_buffer, in_buffer_size);
+
+        cudaError_t result = mpHandler->Execute(routine, in_buffer,
+                in_buffer_size, &out_buffer, &out_buffer_size);
+
+        delete[] in_buffer;
+
+        mpOutput.write((char *) &result, sizeof(cudaError_t));
+        if(result == cudaSuccess) {
+            mpOutput.write((char *) &out_buffer_size, sizeof(size_t));
+            mpOutput.write(out_buffer, out_buffer_size);
+            delete[] out_buffer;
+        }
+
         mpOutput.flush();
+        cout << "[Process " << GetThreadId() << "]: Result " << result << "."
+            << endl;
     }
     Notify("process-ended");
     delete this;
