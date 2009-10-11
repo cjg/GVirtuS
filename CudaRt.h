@@ -15,6 +15,12 @@
 
 #define __dv(v)
 
+class CudaRt {
+public:
+    static char * MarshalDevicePointer(void *devPtr);
+    const static size_t DevicePointerSize = sizeof(void *) * 2 + 3;
+};
+
 extern "C" {
     /*
      Routines not found in the cuda's header files.

@@ -31,6 +31,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/CudaRt_memory.o \
 	${OBJECTDIR}/CudaRt.o \
 	${OBJECTDIR}/Frontend.o
 
@@ -59,6 +60,11 @@ dist/Linux_x86_64/GNU-Linux-x86/libEchoesFrontend.so: ../EchoesUtil/dist/Linux_x
 dist/Linux_x86_64/GNU-Linux-x86/libEchoesFrontend.so: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_x86_64/GNU-Linux-x86
 	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/CudaRt_memory.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_memory.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -D_CONFIG_FILE=\"/home/cjg/echoes.xml\" -I/opt/cuda/include -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_memory.o CudaRt_memory.cpp
 
 ${OBJECTDIR}/CudaRt.o: nbproject/Makefile-${CND_CONF}.mk CudaRt.cpp 
 	${MKDIR} -p ${OBJECTDIR}

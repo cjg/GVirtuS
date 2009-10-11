@@ -13,6 +13,17 @@
 
 using namespace std;
 
+char * CudaRt::MarshalDevicePointer(void* devPtr) {
+    char *marshal = new char[CudaRt::DevicePointerSize];
+    sprintf(marshal, "%x", devPtr);
+    size_t len = strlen(marshal);
+    memmove(marshal + 2 + sizeof(void *) * 2 - len, marshal, len + 1);
+    marshal[0] = '0';
+    marshal[1] = 'x';
+    memset(marshal + 2, '0', sizeof(void *) * 2 - len);
+    return marshal;
+}
+
 /*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE
@@ -112,11 +123,6 @@ extern __host__ cudaError_t CUDARTAPI cudaEventRecord(cudaEvent_t event, cudaStr
 }
 
 extern __host__ cudaError_t CUDARTAPI cudaEventSynchronize(cudaEvent_t event) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaFree(void *devPtr) {
     /* FIXME: implement */
     return cudaErrorUnknown;
 }
@@ -254,38 +260,6 @@ extern __host__ cudaError_t CUDARTAPI cudaLaunch(const char *symbol) {
     return cudaErrorUnknown;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size) {
-    /* FIXME: implement */
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
-
-    in_buffer_size = sizeof(void *) * 2 + 3 + sizeof(size_t);
-    in_buffer = new char[in_buffer_size];
-
-
-    *devPtr = new char[1];
-    sprintf(in_buffer, "%x", *devPtr);
-    size_t len = strlen(in_buffer);
-    memmove(in_buffer + 2 + sizeof(void *) * 2 - len, in_buffer, len + 1);
-    in_buffer[0] = '0';
-    in_buffer[1] = 'x';
-    memset(in_buffer + 2, '0', sizeof(void *) * 2 - len);
-    memmove(in_buffer + sizeof(void *) * 2 + 3, &size, sizeof(size_t));
-
-    result = Frontend::GetFrontend().Execute("cudaMalloc",
-            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
-
-    if (result == cudaSuccess) {
-        delete[] out_buffer;
-    }
-
-    delete[] in_buffer;
-
-    return result;
-    return cudaErrorUnknown;
-}
-
 extern __host__ cudaError_t CUDARTAPI cudaMalloc3D(struct cudaPitchedPtr* pitchDevPtr, struct cudaExtent extent) {
     /* FIXME: implement */
     return cudaErrorUnknown;
@@ -311,8 +285,27 @@ extern __host__ cudaError_t CUDARTAPI cudaMallocPitch(void **devPtr, size_t *pit
     return cudaErrorUnknown;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind) {
-    /* FIXME: implement */
+extern __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst, const void *src,
+    size_t count, cudaMemcpyKind kind) {
+    char *in_buffer, *out_buffer;
+    size_t in_buffer_size, out_buffer_size;
+    cudaError_t result;
+
+    switch(kind) {
+        case cudaMemcpyHostToHost:
+            /* NOTE: no communication is performed, because it's just overhead here */
+            if(memmove(dst, src, count) == NULL)
+                return cudaErrorInvalidValue;
+            return cudaSuccess;
+            break;
+        case cudaMemcpyHostToDevice:
+            break;
+        case cudaMemcpyDeviceToHost:
+            break;
+        case cudaMemcpyDeviceToDevice:
+            break;
+    }
+
     return cudaErrorUnknown;
 }
 
