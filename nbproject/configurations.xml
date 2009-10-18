@@ -20,6 +20,8 @@
     </logicalFolder>
     <itemPath>AfUnixCommunicator.cpp</itemPath>
     <itemPath>AfUnixCommunicator.h</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/Buffer.h</itemPath>
     <itemPath>Communicator.cpp</itemPath>
     <itemPath>Communicator.h</itemPath>
     <itemPath>ConfigFile.cpp</itemPath>
