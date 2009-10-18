@@ -37,6 +37,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ConfigFile.o \
 	${OBJECTDIR}/Mutex.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o \
+	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o \
 	${OBJECTDIR}/CudaUtil.o \
 	${OBJECTDIR}/TcpCommunicator.o \
 	${OBJECTDIR}/Observable.o \
@@ -69,52 +70,57 @@ dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so: ${OBJECTFILES}
 ${OBJECTDIR}/Communicator.o: nbproject/Makefile-${CND_CONF}.mk Communicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Communicator.o Communicator.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Communicator.o Communicator.cpp
 
 ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
 ${OBJECTDIR}/Observer.o: nbproject/Makefile-${CND_CONF}.mk Observer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
 
 ${OBJECTDIR}/ConfigFile.o: nbproject/Makefile-${CND_CONF}.mk ConfigFile.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ConfigFile.o ConfigFile.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ConfigFile.o ConfigFile.cpp
 
 ${OBJECTDIR}/Mutex.o: nbproject/Makefile-${CND_CONF}.mk Mutex.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mutex.o Mutex.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mutex.o Mutex.cpp
 
 ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp
+
+${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp
 
 ${OBJECTDIR}/CudaUtil.o: nbproject/Makefile-${CND_CONF}.mk CudaUtil.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaUtil.o CudaUtil.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaUtil.o CudaUtil.cpp
 
 ${OBJECTDIR}/TcpCommunicator.o: nbproject/Makefile-${CND_CONF}.mk TcpCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/TcpCommunicator.o TcpCommunicator.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/TcpCommunicator.o TcpCommunicator.cpp
 
 ${OBJECTDIR}/Observable.o: nbproject/Makefile-${CND_CONF}.mk Observable.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observable.o Observable.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observable.o Observable.cpp
 
 ${OBJECTDIR}/AfUnixCommunicator.o: nbproject/Makefile-${CND_CONF}.mk AfUnixCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
 
 # Subprojects
 .build-subprojects:

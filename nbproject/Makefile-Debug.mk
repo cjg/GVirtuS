@@ -37,6 +37,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ConfigFile.o \
 	${OBJECTDIR}/Mutex.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o \
+	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o \
 	${OBJECTDIR}/CudaUtil.o \
 	${OBJECTDIR}/TcpCommunicator.o \
 	${OBJECTDIR}/Observable.o \
@@ -95,6 +96,11 @@ ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o: nbproject/Makef
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
 	${RM} $@.d
 	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp
+
+${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
+	${RM} $@.d
+	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp
 
 ${OBJECTDIR}/CudaUtil.o: nbproject/Makefile-${CND_CONF}.mk CudaUtil.cpp 
 	${MKDIR} -p ${OBJECTDIR}

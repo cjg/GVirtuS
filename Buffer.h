@@ -11,6 +11,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <typeinfo>
+#include <cstring>
 
 #define BLOCK_SIZE  1024
 

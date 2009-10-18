@@ -34,6 +34,8 @@
     <itemPath>Observable.h</itemPath>
     <itemPath>Observer.cpp</itemPath>
     <itemPath>Observer.h</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/Result.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/Result.h</itemPath>
     <itemPath>TcpCommunicator.cpp</itemPath>
     <itemPath>TcpCommunicator.h</itemPath>
     <itemPath>Thread.cpp</itemPath>
@@ -104,6 +106,9 @@
       </toolsSet>
       <compileType>
         <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+          </incDir>
           <warningLevel>2</warningLevel>
         </ccTool>
         <linkerTool>
