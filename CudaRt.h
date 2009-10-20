@@ -39,7 +39,7 @@ public:
     template <class T>void AddHostPointerForArguments(T *ptr, size_t n = 1) {
         mpInputBuffer->Add(ptr, n);
     }
-    void AddDevicePointerForArguments(void *ptr) {
+    void AddDevicePointerForArguments(const void *ptr) {
         char *tmp = MarshalDevicePointer(ptr);
         mpInputBuffer->Add(tmp, CudaUtil::MarshaledDevicePointerSize);
         delete[] tmp;
@@ -62,8 +62,8 @@ public:
         delete pThis;
         return exit_code;
     }
-    static char * MarshalDevicePointer(void *devPtr);
-    static void MarshalDevicePointer(void *devPtr, char * marshal);
+    static char * MarshalDevicePointer(const void *devPtr);
+    static void MarshalDevicePointer(const void *devPtr, char * marshal);
 private:
     char * mpRoutine;
     Buffer * mpInputBuffer;

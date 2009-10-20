@@ -15,13 +15,13 @@
 
 using namespace std;
 
-char * CudaRt::MarshalDevicePointer(void* devPtr) {
+char * CudaRt::MarshalDevicePointer(const void* devPtr) {
     char *marshal = new char[CudaUtil::MarshaledDevicePointerSize];
     MarshalDevicePointer(devPtr, marshal);
     return marshal;
 }
 
-void CudaRt::MarshalDevicePointer(void* devPtr, char * marshal) {
+void CudaRt::MarshalDevicePointer(const void* devPtr, char * marshal) {
     sprintf(marshal, "%x", devPtr);
     size_t len = strlen(marshal);
     memmove(marshal + 2 + sizeof(void *) * 2 - len, marshal, len + 1);
@@ -37,10 +37,12 @@ void CudaRt::MarshalDevicePointer(void* devPtr, char * marshal) {
 
 void** __cudaRegisterFatBinary(void *fatCubin) {
     /* FIXME: implement */
+#if 0
     __cudaFatCudaBinary *test = (__cudaFatCudaBinary*) fatCubin;
     cout << test->key << endl;
     cout << test->ident << endl;
     cout << test->cubin->cubin << endl;
+#endif
     cerr << "*** Error: __cudaRegisterFatBinary() not yet implemented!" << endl;
     return NULL;
 }

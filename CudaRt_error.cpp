@@ -12,15 +12,7 @@ extern const char* cudaGetErrorString(cudaError_t error) {
 }
 
 extern cudaError_t cudaGetLastError(void) {
-    #if 0
-    char *out_buffer;
-    size_t out_buffer_size;
-    cudaError_t result;
-
-    result = Frontend::GetFrontend().Execute("cudaGetLastError",
-            NULL, 0, &out_buffer, &out_buffer_size);
-
-    return result;
-    #endif
-    return cudaErrorUnknown;
+    CudaRt *c = new CudaRt("cudaGetLastError");
+    c->Execute();
+    return CudaRt::Finalize(c);
 }
