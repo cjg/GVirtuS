@@ -6,108 +6,116 @@
 using namespace std;
 
 extern cudaError_t cudaFree(void *devPtr) {
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
+    Buffer * input_buffer = new Buffer();
 
-    in_buffer_size = CudaUtil::MarshaledDevicePointerSize;
-    in_buffer = CudaRt::MarshalDevicePointer(devPtr);
+    input_buffer->Add(CudaRt::MarshalDevicePointer(devPtr),
+            CudaUtil::MarshaledDevicePointerSize);
 
-    result = Frontend::GetFrontend().Execute("cudaFree",
-            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
+    Result * result = Frontend::GetFrontend().Execute("cudaFree", input_buffer);
 
-    delete[] in_buffer;
+    delete input_buffer;
 
-    return result;
+    cudaError_t exit_code = result->GetExitCode();
+
+    delete result;
+
+    return exit_code;
 }
 
 extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
-
-    in_buffer_size = CudaUtil::MarshaledDevicePointerSize + sizeof(size_t);
-    in_buffer = new char[in_buffer_size];
+    Buffer * input_buffer = new Buffer();
 
     *devPtr = new char[1];
-    char *marshal = CudaRt::MarshalDevicePointer(*devPtr);
-    memmove(in_buffer, marshal, CudaUtil::MarshaledDevicePointerSize);
-    delete[] marshal;
-    memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize, &size, sizeof(size_t));
+    input_buffer->Add(CudaRt::MarshalDevicePointer(*devPtr),
+            CudaUtil::MarshaledDevicePointerSize);
+    input_buffer->Add(size);
 
-    result = Frontend::GetFrontend().Execute("cudaMalloc",
-            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
+    Result * result = Frontend::GetFrontend().Execute("cudaMalloc",
+            input_buffer);
 
-    if (result == cudaSuccess) {
-        delete[] out_buffer;
-    }
+    delete input_buffer;
 
-    delete[] in_buffer;
+    cudaError_t exit_code = result->GetExitCode();
 
-    return result;
+    delete result;
+
+    return exit_code;
 }
 
 extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
         cudaMemcpyKind kind) {
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
+    Buffer * input_buffer;
+    Result * result;
+    cudaError_t exit_code;
 
-    switch(kind) {
+
+    switch (kind) {
         case cudaMemcpyHostToHost:
             /* NOTE: no communication is performed, because it's just overhead here */
-            if(memmove(dst, src, count) == NULL)
+            if (memmove(dst, src, count) == NULL)
                 return cudaErrorInvalidValue;
             return cudaSuccess;
             break;
         case cudaMemcpyHostToDevice:
-            in_buffer_size = CudaUtil::MarshaledDevicePointerSize + count + sizeof(size_t)
-                    + sizeof(cudaMemcpyKind);
-            in_buffer = new char[in_buffer_size];
-            CudaRt::MarshalDevicePointer(dst, in_buffer);
-            memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize, (char *) src, count);
-            memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize + count, &count,
-                    sizeof(size_t));
-            memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize + count
-                    + sizeof(size_t), &kind, sizeof(cudaMemcpyKind));
-            result = Frontend::GetFrontend().Execute("cudaMemcpy", in_buffer,
-                    in_buffer_size, &out_buffer, &out_buffer_size);
-            delete[] in_buffer;
-            return result;
+            input_buffer = new Buffer();
+            input_buffer->Add(CudaRt::MarshalDevicePointer(dst),
+                    CudaUtil::MarshaledDevicePointerSize);
+            input_buffer->Add<char>(static_cast<char *>(const_cast<void *>(src)), count);
+            input_buffer->Add(count);
+            input_buffer->Add(kind);
+
+            result = Frontend::GetFrontend().Execute("cudaMemcpy",
+                    input_buffer);
+            delete input_buffer;
+
+            exit_code = result->GetExitCode();
+
+            delete result;
+
+            return exit_code;
             break;
         case cudaMemcpyDeviceToHost:
-            in_buffer_size = CudaUtil::MarshaledDevicePointerSize + sizeof(size_t)
-                    + sizeof(cudaMemcpyKind);
-            in_buffer = new char[in_buffer_size];
-            CudaRt::MarshalDevicePointer(const_cast<void *>(src), in_buffer);
-            memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize, &count,
-                    sizeof(size_t));
-            memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize
-                    + sizeof(size_t), &kind, sizeof(cudaMemcpyKind));
-            result = Frontend::GetFrontend().Execute("cudaMemcpy", in_buffer,
-                    in_buffer_size, &out_buffer, &out_buffer_size);
-            delete[] in_buffer;
-            if(result == cudaSuccess) {
-                memmove(dst, out_buffer, out_buffer_size);
-                delete[] out_buffer;
+            input_buffer = new Buffer();
+            input_buffer->Add(dst, count);
+            input_buffer->Add(CudaRt::MarshalDevicePointer(dst),
+                    CudaUtil::MarshaledDevicePointerSize);
+            input_buffer->Add(count);
+            input_buffer->Add(kind);
+
+            result = Frontend::GetFrontend().Execute("cudaMemcpy",
+                    input_buffer);
+            delete input_buffer;
+
+            exit_code = result->GetExitCode();
+
+            if (exit_code == cudaSuccess) {
+                Buffer *output_buffer = const_cast<Buffer * >(result->GetOutputBufffer());
+                memmove(dst, output_buffer->GetBuffer(),
+                        output_buffer->GetBufferSize());
             }
-            return result;
+
+            delete result;
+
+            return exit_code;
             break;
         case cudaMemcpyDeviceToDevice:
-            in_buffer_size = CudaUtil::MarshaledDevicePointerSize * 2 + sizeof(size_t)
-                    + sizeof(cudaMemcpyKind);
-            in_buffer = new char[in_buffer_size];
-            CudaRt::MarshalDevicePointer(dst, in_buffer);
-            CudaRt::MarshalDevicePointer(const_cast<void *>(src), in_buffer
-                + CudaUtil::MarshaledDevicePointerSize);
-            memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize * 2, &count,
-                    sizeof(size_t));
-            memmove(in_buffer + CudaUtil::MarshaledDevicePointerSize * 2
-                    + sizeof(size_t), &kind, sizeof(cudaMemcpyKind));
-            result = Frontend::GetFrontend().Execute("cudaMemcpy", in_buffer,
-                    in_buffer_size, &out_buffer, &out_buffer_size);
-            delete[] in_buffer;
-            return result;
+            input_buffer = new Buffer();
+            input_buffer->Add(CudaRt::MarshalDevicePointer(dst),
+                    CudaUtil::MarshaledDevicePointerSize);
+            input_buffer->Add(CudaRt::MarshalDevicePointer(const_cast<void *> (src)),
+                    CudaUtil::MarshaledDevicePointerSize);
+            input_buffer->Add(count);
+            input_buffer->Add(kind);
+
+            result = Frontend::GetFrontend().Execute("cudaMemcpy",
+                    input_buffer);
+            delete input_buffer;
+
+            exit_code = result->GetExitCode();
+
+            delete result;
+
+            return exit_code;
             break;
     }
 

@@ -12,6 +12,7 @@ extern const char* cudaGetErrorString(cudaError_t error) {
 }
 
 extern cudaError_t cudaGetLastError(void) {
+    #if 0
     char *out_buffer;
     size_t out_buffer_size;
     cudaError_t result;
@@ -20,4 +21,6 @@ extern cudaError_t cudaGetLastError(void) {
             NULL, 0, &out_buffer, &out_buffer_size);
 
     return result;
+    #endif
+    return cudaErrorUnknown;
 }

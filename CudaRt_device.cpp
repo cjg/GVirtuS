@@ -18,52 +18,23 @@ extern cudaError_t cudaGetDevice(int *device) {
 }
 
 extern cudaError_t cudaGetDeviceCount(int *count) {
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
-
-    in_buffer_size = sizeof (int);
-    in_buffer = new char[in_buffer_size];
-
-    memmove(in_buffer, count, sizeof (int));
-
-    result = Frontend::GetFrontend().Execute("cudaGetDeviceCount",
-            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
-
-    if (result == cudaSuccess) {
-        memmove(count, out_buffer, sizeof (int));
-        delete[] out_buffer;
-    }
-
-    delete[] in_buffer;
-
-    return result;
+    CudaRt * c = new CudaRt("cudaGetDeviceCount");
+    c->AddHostPointerForArguments(count);
+    c->Execute();
+    if(c->Success())
+        *count = *(c->GetOutputHostPointer<int>());
+    return CudaRt::Finalize(c);
 }
 
 extern cudaError_t cudaGetDeviceProperties(struct cudaDeviceProp *prop,
     int device) {
-    char *in_buffer, *out_buffer;
-    size_t in_buffer_size, out_buffer_size;
-    cudaError_t result;
-
-    in_buffer_size = sizeof (struct cudaDeviceProp) + sizeof (int);
-    in_buffer = new char[in_buffer_size];
-
-    memmove(in_buffer, prop, sizeof (struct cudaDeviceProp));
-    memmove(in_buffer + sizeof (struct cudaDeviceProp), &device,
-            sizeof (int));
-
-    result = Frontend::GetFrontend().Execute("cudaGetDeviceProperties",
-            in_buffer, in_buffer_size, &out_buffer, &out_buffer_size);
-
-    if (result == cudaSuccess) {
-        memmove(prop, out_buffer, sizeof (struct cudaDeviceProp));
-        delete[] out_buffer;
-    }
-
-    delete[] in_buffer;
-
-    return result;
+    CudaRt *c = new CudaRt("cudaGetDeviceProperties");
+    c->AddHostPointerForArguments(prop);
+    c->AddVariableForArguments(device);
+    c->Execute();
+    if(c->Success())
+        *prop = *(c->GetOutputHostPointer<struct cudaDeviceProp>());
+    return CudaRt::Finalize(c);
 }
 
 extern cudaError_t cudaSetDevice(int device) {

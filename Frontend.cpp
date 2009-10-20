@@ -43,30 +43,28 @@ Frontend & Frontend::GetFrontend() {
     return *mspFrontend;
 }
 
-cudaError_t Frontend::Execute(const char* routine, const char* in_buffer,
-        size_t in_buffer_size, char** out_buffer, size_t* out_buffer_size) {
-
+Result * Frontend::Execute(const char* routine, const Buffer* input_buffer) {
     /* sending job */
     std::ostream &out = mpCommunicator->GetOutputStream();
     out << routine << std::endl;
-    out.write((char *) &in_buffer_size, sizeof(size_t));
-    out.write(in_buffer, in_buffer_size);
+    size_t size = input_buffer->GetBufferSize();
+    out.write((char *) &size, sizeof(size_t));
+    input_buffer->Dump(out);
     out.flush();
 
     /* receiving output */
     std::istream &in = mpCommunicator->GetInputStream();
 
-    cudaError_t result;
-    in.read((char *) & result, sizeof (int));
-    if(result == cudaSuccess) {
-        in.read((char *) out_buffer_size, sizeof (size_t));
-        if (*out_buffer_size > 0) {
-            *out_buffer = new char[*out_buffer_size];
-            in.read(*out_buffer, *out_buffer_size);
-        } else
-            *out_buffer = NULL;
+    cudaError_t exit_code;
+    Buffer * output_buffer = new Buffer();
+    in.read((char *) & exit_code, sizeof (cudaError_t));
+    if(exit_code == cudaSuccess) {
+        size_t out_buffer_size;
+        in.read((char *) &out_buffer_size, sizeof (size_t));
+        if (out_buffer_size > 0)
+            output_buffer->Read<char>(in, out_buffer_size);
     }
 
-    return result;
+    return new Result(exit_code, output_buffer);
 }
 

@@ -12,13 +12,63 @@
 #include <builtin_types.h>
 #include <driver_types.h>
 #include <GL/gl.h>
+#include "CudaUtil.h"
+#include "Frontend.h"
 
 #define __dv(v)
 
+#define CUDA_RT_FINALIZE() delete input_buffer; if(result != NULL) delete result; return exit_code;
+
 class CudaRt {
 public:
+    CudaRt(const char *routine) {
+        mpRoutine = strdup(routine);
+        mpInputBuffer = new Buffer();
+        mpResult = NULL;
+        mExitCode = cudaErrorUnknown;
+    }
+    virtual ~CudaRt() {
+        delete mpRoutine;
+        delete mpInputBuffer;
+        if(mpResult != NULL)
+            delete mpResult;
+    }
+    template <class T>void AddVariableForArguments(T var) {
+        mpInputBuffer->Add(var);
+    }
+    template <class T>void AddHostPointerForArguments(T *ptr, size_t n = 1) {
+        mpInputBuffer->Add(ptr, n);
+    }
+    void AddDevicePointerForArguments(void *ptr) {
+        char *tmp = MarshalDevicePointer(ptr);
+        mpInputBuffer->Add(tmp, CudaUtil::MarshaledDevicePointerSize);
+        delete[] tmp;
+    }
+    void Execute() {
+        mpResult = Frontend::GetFrontend().Execute(mpRoutine, mpInputBuffer);
+        mExitCode = mpResult->GetExitCode();
+    }
+    bool Success() {
+        return mExitCode == cudaSuccess;
+    }
+    template <class T>T GetOutputVariable() {
+        return const_cast<Buffer *>(mpResult->GetOutputBufffer())->Get<T>();
+    }
+    template <class T>T * GetOutputHostPointer(size_t n = 1) {
+        return const_cast<Buffer *>(mpResult->GetOutputBufffer())->Assign<T>(n);
+    }
+    static cudaError_t Finalize(CudaRt *pThis) {
+        cudaError_t exit_code = pThis->mExitCode;
+        delete pThis;
+        return exit_code;
+    }
     static char * MarshalDevicePointer(void *devPtr);
     static void MarshalDevicePointer(void *devPtr, char * marshal);
+private:
+    char * mpRoutine;
+    Buffer * mpInputBuffer;
+    Result * mpResult;
+    cudaError_t mExitCode;
 };
 
 extern "C" {

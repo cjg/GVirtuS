@@ -6,6 +6,7 @@
 using namespace std;
 
 cudaError_t cudaThreadSynchronize() {
+    #if 0
     char *out_buffer;
     size_t out_buffer_size;
     cudaError_t result;
@@ -14,6 +15,8 @@ cudaError_t cudaThreadSynchronize() {
             NULL, 0, &out_buffer, &out_buffer_size);
 
     return result;
+    #endif
+    return cudaErrorUnknown;
 }
 
 cudaError_t cudaThreadExit() {

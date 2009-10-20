@@ -10,13 +10,13 @@
 
 #include <builtin_types.h>
 #include "Communicator.h"
+#include "Result.h"
 
 class Frontend {
 public:
     virtual ~Frontend();
     static Frontend & GetFrontend();
-    cudaError_t Execute(const char *routine, const char *in_buffer,
-        size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size);
+    Result * Execute(const char *routine, const Buffer *input_buffer);
 private:
     Frontend();
     Communicator *mpCommunicator;
