@@ -124,7 +124,8 @@ static cudaError_t Memcpy(CudaRtHandler *pThis, char *in_buffer,
             *out_buffer_size = count;
             *out_buffer = new char[*out_buffer_size];
             dst = *out_buffer;
-            src = pThis->GetDevicePointer(in_buffer);
+            /* adding +1 for fake host pointer */
+            src = pThis->GetDevicePointer(in_buffer + 1);
             result = cudaMemcpy(dst, src, count, kind);
             break;
         case cudaMemcpyDeviceToDevice:
