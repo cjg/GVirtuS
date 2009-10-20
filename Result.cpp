@@ -22,7 +22,7 @@ cudaError_t Result::GetExitCode() {
     return mExitCode;
 }
 
-const Buffer & Result::GetOutputBufffer() const {
-    return *(mpOutputBuffer);
+const Buffer * Result::GetOutputBufffer() const {
+    return mpOutputBuffer;
 }
 

@@ -40,11 +40,11 @@ const char * const Buffer::GetBuffer() const {
     return mpBuffer;
 }
 
-size_t Buffer::GetBufferSize() {
+size_t Buffer::GetBufferSize() const {
     return mLength;
 }
 
-void Buffer::Dump(std::ostream& out) {
+void Buffer::Dump(std::ostream& out) const {
     out.write(mpBuffer, mLength);
 }
 

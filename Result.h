@@ -17,7 +17,7 @@ public:
     Result(const Result& orig);
     virtual ~Result();
     cudaError_t GetExitCode();
-    const Buffer & GetOutputBufffer() const;
+    const Buffer * GetOutputBufffer() const;
 private:
     cudaError_t mExitCode;
     Buffer * mpOutputBuffer;

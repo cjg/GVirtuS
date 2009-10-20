@@ -41,6 +41,26 @@ public:
         mLength += sizeof (T) * n;
     }
 
+    template <class T> void Read(std::istream & in) {
+        while ((mLength + sizeof (T)) >= mSize) {
+            mSize += mBlockSize;
+            if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
+                throw "Can't reallocate memory.";
+        }
+        in.read(mpBuffer + mLength, sizeof (T));
+        mLength += sizeof (T);
+    }
+
+    template <class T> void Read(std::istream & in, size_t n = 1) {
+        while ((mLength + (sizeof (T) * n)) >= mSize) {
+            mSize += mBlockSize;
+            if (realloc(&mpBuffer, mSize))
+                throw "Can't reallocate memory.";
+        }
+        in.read(mpBuffer + mLength, sizeof (T) * n);
+        mLength += sizeof (T) * n;
+    }
+
     template <class T> T Get() {
         if (mOffset + sizeof (T) > mLength)
             throw "Can't read any " + std::string(typeid (T).name()) + ".";
@@ -57,9 +77,17 @@ public:
         mOffset += sizeof (T) * n;
         return result;
     }
+
+    template <class T>T * Assign(size_t n) {
+        if (mOffset + sizeof (T) * n > mLength)
+            throw "Can't read  " + std::string(typeid (T).name()) + ".";
+        T * result = (T *) (mpBuffer + mOffset);
+        mOffset += sizeof (T) * n;
+        return result;
+    }
     const char * const GetBuffer() const;
-    size_t GetBufferSize();
-    void Dump(std::ostream & out);
+    size_t GetBufferSize() const;
+    void Dump(std::ostream & out) const;
 private:
     size_t mBlockSize;
     size_t mSize;
