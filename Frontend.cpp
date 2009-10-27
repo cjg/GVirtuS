@@ -47,8 +47,6 @@ Result * Frontend::Execute(const char* routine, const Buffer* input_buffer) {
     /* sending job */
     std::ostream &out = mpCommunicator->GetOutputStream();
     out << routine << std::endl;
-    size_t size = input_buffer->GetBufferSize();
-    out.write((char *) &size, sizeof(size_t));
     input_buffer->Dump(out);
     out.flush();
 
