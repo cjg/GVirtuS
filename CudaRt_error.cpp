@@ -6,9 +6,12 @@
 using namespace std;
 
 extern const char* cudaGetErrorString(cudaError_t error) {
-    /* FIXME: implement */
-    cerr << "*** Error: cudaGetErrorString() not yet implemented!" << endl;
-    return "";
+    CudaRt *c = new CudaRt("cudaGetErrorString");
+    c->AddVariableForArguments(error);
+    c->Execute();
+    char *error_string = strdup(c->GetOutputHostPointer<char>());
+    CudaRt::Finalize(c);
+    return error_string;
 }
 
 extern cudaError_t cudaGetLastError(void) {
