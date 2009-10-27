@@ -19,6 +19,7 @@ class Buffer {
 public:
     Buffer(size_t initial_size = 0, size_t block_size = BLOCK_SIZE);
     Buffer(const Buffer& orig);
+    Buffer(std::istream & in);
     virtual ~Buffer();
 
     template <class T> void Add(T item) {
@@ -78,7 +79,7 @@ public:
         return result;
     }
 
-    template <class T>T * Assign(size_t n) {
+    template <class T>T * Assign(size_t n = 1) {
         if (mOffset + sizeof (T) * n > mLength)
             throw "Can't read  " + std::string(typeid (T).name()) + ".";
         T * result = (T *) (mpBuffer + mOffset);

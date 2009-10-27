@@ -8,6 +8,8 @@
 #include <cstring>
 #include "Buffer.h"
 
+using namespace std;
+
 Buffer::Buffer(size_t initial_size, size_t block_size) {
     mSize = initial_size;
     mBlockSize = block_size;
@@ -27,9 +29,20 @@ Buffer::Buffer(const Buffer& orig) {
     mLength = orig.mLength;
     mSize = orig.mSize;
     mOffset = orig.mOffset;
+    mLength = orig.mLength;
     if ((mpBuffer = (char *) malloc(mSize)) == NULL)
         throw "Can't allocate memory.";
     memmove(mpBuffer, orig.mpBuffer, mLength);
+}
+
+Buffer::Buffer(istream & in) {
+    in.read((char *) &mSize, sizeof(size_t));
+    mBlockSize = BLOCK_SIZE;
+    mLength = mSize;
+    mOffset = 0;
+    if ((mpBuffer = (char *) malloc(mSize)) == NULL)
+        throw "Can't allocate memory.";
+    in.read(mpBuffer, mSize);
 }
 
 Buffer::~Buffer() {
@@ -45,6 +58,7 @@ size_t Buffer::GetBufferSize() const {
 }
 
 void Buffer::Dump(std::ostream& out) const {
+    out.write((char *) &mLength, sizeof(size_t));
     out.write(mpBuffer, mLength);
 }
 

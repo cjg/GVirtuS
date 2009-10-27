@@ -15,6 +15,11 @@ Result::Result(cudaError_t exit_code, const Buffer* output_buffer) {
 Result::Result(const Result& orig) {
 }
 
+Result::Result(std::istream & in) {
+    in.read((char *) &mExitCode, sizeof(cudaError_t));
+    mpOutputBuffer = new Buffer(in);
+}
+
 Result::~Result() {
 }
 
@@ -26,3 +31,7 @@ const Buffer * Result::GetOutputBufffer() const {
     return mpOutputBuffer;
 }
 
+void Result::Dump(std::ostream& out) {
+    out.write((char *) &mExitCode, sizeof(cudaError_t));
+    mpOutputBuffer->Dump(out);
+}
