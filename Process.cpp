@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <cstdio>
 #include <string>
 #include "Process.h"
 
@@ -33,39 +34,21 @@ void Process::Execute(void * arg) {
 
     string routine;
     while(getline(mpInput, routine)) {
+        Buffer * input_buffer = new Buffer(mpInput);
+        Result * result;
         cout << "[Process " << GetThreadId() <<  "]: Requested '" << routine
             << "' routine." << endl;
-
-        char *in_buffer, *out_buffer;
-        size_t in_buffer_size, out_buffer_size;
-        mpInput.read((char *) &in_buffer_size, sizeof(size_t));
-        in_buffer = new char[in_buffer_size];
-        mpInput.read(in_buffer, in_buffer_size);
-
-        cudaError_t result;
         try {
-             result = mpHandler->Execute(routine, in_buffer,
-                    in_buffer_size, &out_buffer, &out_buffer_size);
+             result = mpHandler->Execute(routine, input_buffer);
         } catch(string e) {
             cout << "[Process " << GetThreadId() <<  "]: Exception " << e
                 << "." << endl;
-            delete[] in_buffer;
-            result = cudaErrorUnknown;
-            mpOutput.write((char *) &result, sizeof(cudaError_t));
-            mpOutput.flush();
-            continue;
+            result = new Result(cudaErrorUnknown, new Buffer());
         }
-
-        delete[] in_buffer;
-
-        mpOutput.write((char *) &result, sizeof(cudaError_t));
-        if(result == cudaSuccess) {
-            mpOutput.write((char *) &out_buffer_size, sizeof(size_t));
-            mpOutput.write(out_buffer, out_buffer_size);
-            delete[] out_buffer;
-        }
-
+        delete input_buffer;
+        result->Dump(mpOutput);
         mpOutput.flush();
+        delete result;
         cout << "[Process " << GetThreadId() << "]: Result " << result << "."
             << endl;
     }
