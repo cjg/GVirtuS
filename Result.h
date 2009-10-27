@@ -14,6 +14,7 @@
 
 class Result {
 public:
+    Result(cudaError_t exit_code);
     Result(cudaError_t exit_code, const Buffer * output_buffer);
     Result(const Result& orig);
     Result(std::istream & in);

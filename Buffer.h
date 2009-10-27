@@ -20,6 +20,7 @@ public:
     Buffer(size_t initial_size = 0, size_t block_size = BLOCK_SIZE);
     Buffer(const Buffer& orig);
     Buffer(std::istream & in);
+    Buffer(char * buffer, size_t buffer_size, size_t block_size = BLOCK_SIZE);
     virtual ~Buffer();
 
     template <class T> void Add(T item) {
@@ -30,6 +31,7 @@ public:
         }
         memmove(mpBuffer + mLength, (char *) & item, sizeof (T));
         mLength += sizeof (T);
+        mBackOffset = mLength;
     };
 
     template <class T> void Add(T *item, size_t n = 1) {
@@ -40,6 +42,7 @@ public:
         }
         memmove(mpBuffer + mLength, (char *) item, sizeof (T) * n);
         mLength += sizeof (T) * n;
+        mBackOffset = mLength;
     }
 
     template <class T> void Read(std::istream & in) {
@@ -50,6 +53,7 @@ public:
         }
         in.read(mpBuffer + mLength, sizeof (T));
         mLength += sizeof (T);
+        mBackOffset = mLength;
     }
 
     template <class T> void Read(std::istream & in, size_t n = 1) {
@@ -60,6 +64,7 @@ public:
         }
         in.read(mpBuffer + mLength, sizeof (T) * n);
         mLength += sizeof (T) * n;
+        mBackOffset = mLength;
     }
 
     template <class T> T Get() {
@@ -86,6 +91,15 @@ public:
         mOffset += sizeof (T) * n;
         return result;
     }
+
+    template <class T>T * BackAssign(size_t n = 1) {
+        if (mBackOffset - sizeof (T) * n > mLength)
+            throw "Can't read  " + std::string(typeid (T).name()) + ".";
+        T * result = (T *) (mpBuffer + mBackOffset - sizeof(T) * n);
+        mBackOffset -= sizeof (T) * n;
+        return result;
+    }
+
     const char * const GetBuffer() const;
     size_t GetBufferSize() const;
     void Dump(std::ostream & out) const;
@@ -94,6 +108,7 @@ private:
     size_t mSize;
     size_t mLength;
     size_t mOffset;
+    size_t mBackOffset;
     char * mpBuffer;
 };
 

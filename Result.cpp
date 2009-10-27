@@ -7,6 +7,11 @@
 
 #include "Result.h"
 
+Result::Result(cudaError_t exit_code) {
+    mExitCode = exit_code;
+    mpOutputBuffer = new Buffer();
+}
+
 Result::Result(cudaError_t exit_code, const Buffer* output_buffer) {
     mExitCode = exit_code;
     mpOutputBuffer = const_cast<Buffer *>(output_buffer);

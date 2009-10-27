@@ -22,6 +22,7 @@ Buffer::Buffer(size_t initial_size, size_t block_size) {
         mSize = mBlockSize;
     if ((mpBuffer = (char *) malloc(mSize)) == NULL)
         throw "Can't allocate memory.";
+    mBackOffset = mLength;
 }
 
 Buffer::Buffer(const Buffer& orig) {
@@ -33,6 +34,7 @@ Buffer::Buffer(const Buffer& orig) {
     if ((mpBuffer = (char *) malloc(mSize)) == NULL)
         throw "Can't allocate memory.";
     memmove(mpBuffer, orig.mpBuffer, mLength);
+    mBackOffset = mLength;
 }
 
 Buffer::Buffer(istream & in) {
@@ -43,6 +45,16 @@ Buffer::Buffer(istream & in) {
     if ((mpBuffer = (char *) malloc(mSize)) == NULL)
         throw "Can't allocate memory.";
     in.read(mpBuffer, mSize);
+    mBackOffset = mLength;
+}
+
+Buffer::Buffer(char* buffer, size_t buffer_size, size_t block_size) {
+    mSize = buffer_size;
+    mBlockSize = block_size;
+    mLength = mSize;
+    mOffset = 0;
+    mpBuffer = buffer;
+    mBackOffset = mLength;
 }
 
 Buffer::~Buffer() {
