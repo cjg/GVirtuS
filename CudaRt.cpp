@@ -36,6 +36,7 @@ void CudaRt::MarshalDevicePointer(const void* devPtr, char * marshal) {
  */
 
 void** __cudaRegisterFatBinary(void *fatCubin) {
+    CudaUtil::DumpFatCudaBinary((__cudaFatCudaBinary *) fatCubin);
     /* FIXME: implement */
 #if 0
     __cudaFatCudaBinary *test = (__cudaFatCudaBinary*) fatCubin;
