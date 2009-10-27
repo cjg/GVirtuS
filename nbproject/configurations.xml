@@ -22,6 +22,8 @@
     <itemPath>Backend.h</itemPath>
     <itemPath>CudaRtHandler.cpp</itemPath>
     <itemPath>CudaRtHandler.h</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_device.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_memory.cpp</itemPath>
     <itemPath>Process.cpp</itemPath>
     <itemPath>Process.h</itemPath>
     <itemPath>main.cpp</itemPath>

@@ -35,6 +35,7 @@ private:
 };
 
 #define CUDA_ROUTINE_HANDLER(name) Result * handle##name(CudaRtHandler * pThis, Buffer * input_buffer)
+#define CUDA_ROUTINE_HANDLER_PAIR(name) make_pair("cuda" #name, handle##name)
 
 /* CudaRtHandler_device */
 CUDA_ROUTINE_HANDLER(GetDeviceCount);

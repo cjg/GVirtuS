@@ -110,6 +110,11 @@ void CudaRtHandler::Initialize() {
     mspHandlers = new map<string, CudaRtHandler::CudaRoutineHandler>();
 
     /* CudaRtHandler_device */
-    mspHandlers->insert(make_pair("cudaGetDeviceCount", handleGetDeviceCount));
-    mspHandlers->insert(make_pair("cudaGetDeviceProperties", handleGetDeviceProperties));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceCount));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceProperties));
+
+    /* CudaRtHandler_device */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
 }
