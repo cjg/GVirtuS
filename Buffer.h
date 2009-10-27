@@ -15,6 +15,8 @@
 
 #define BLOCK_SIZE  1024
 
+using namespace std;
+
 class Buffer {
 public:
     Buffer(size_t initial_size = 0, size_t block_size = BLOCK_SIZE);
@@ -24,8 +26,8 @@ public:
     virtual ~Buffer();
 
     template <class T> void Add(T item) {
-        while ((mLength + sizeof (T)) >= mSize) {
-            mSize += mBlockSize;
+        if ((mLength + (sizeof (T))) >= mSize) {
+            mSize = ((mLength + (sizeof (T))) / mBlockSize + 1) * mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
                 throw "Can't reallocate memory.";
         }
@@ -35,9 +37,9 @@ public:
     };
 
     template <class T> void Add(T *item, size_t n = 1) {
-        while ((mLength + (sizeof (T) * n)) >= mSize) {
-            mSize += mBlockSize;
-            if (realloc(&mpBuffer, mSize))
+        if ((mLength + (sizeof (T) * n)) >= mSize) {
+            mSize = ((mLength + (sizeof (T) * n)) / mBlockSize + 1) * mBlockSize;
+            if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
                 throw "Can't reallocate memory.";
         }
         memmove(mpBuffer + mLength, (char *) item, sizeof (T) * n);
