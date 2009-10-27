@@ -49,8 +49,8 @@ void Process::Execute(void * arg) {
         result->Dump(mpOutput);
         mpOutput.flush();
         delete result;
-        cout << "[Process " << GetThreadId() << "]: Result " << result << "."
-            << endl;
+        cout << "[Process " << GetThreadId() << "]: Exit Code " 
+            << result->GetExitCode() << "." << endl;
     }
     Notify("process-ended");
     delete this;

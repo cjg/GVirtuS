@@ -41,6 +41,10 @@ private:
 CUDA_ROUTINE_HANDLER(GetDeviceCount);
 CUDA_ROUTINE_HANDLER(GetDeviceProperties);
 
+/* CudaRtHandler_error */
+CUDA_ROUTINE_HANDLER(GetErrorString);
+CUDA_ROUTINE_HANDLER(GetLastError);
+
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);
 CUDA_ROUTINE_HANDLER(Malloc);

@@ -113,7 +113,11 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceCount));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceProperties));
 
-    /* CudaRtHandler_device */
+    /* CudaRtHandler_error */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetErrorString));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetLastError));
+
+    /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
