@@ -57,11 +57,3 @@ void Process::Execute(void * arg) {
     delete this;
 }
 
-void Process::Default() {
-    cout << "[Process " << GetThreadId() <<  "]: Executing Default()." << endl;
-    int result = -1;
-    mpOutput.write((char *) &result, sizeof(int));
-    result = 0;
-    mpOutput.write((char *) &result, sizeof(int));
-}
-

@@ -20,8 +20,6 @@ public:
     void Setup();
     void Execute(void * arg);
 private:
-    void Default();
-    void Ls();
     Communicator * mpCommunicator;
     std::istream & mpInput;
     std::ostream & mpOutput;

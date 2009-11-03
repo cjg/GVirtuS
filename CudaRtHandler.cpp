@@ -109,7 +109,6 @@ Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
 void CudaRtHandler::RegisterFatBinary(std::string& handler, void ** fatCubinHandle) {
     map<string, void **>::iterator it = mpFatBinary->find(handler);
     if (it != mpFatBinary->end()) {
-        /* FIXME: think about freeing memory */
         mpFatBinary->erase(it);
     }
     mpFatBinary->insert(make_pair(handler, fatCubinHandle));

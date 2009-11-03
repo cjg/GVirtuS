@@ -20,7 +20,6 @@ CUDA_ROUTINE_HANDLER(Launch) {
     /* cudaError_t cudaLaunch(const char * entry) */
     char *handler = input_buffer->AssignString();
     const char *entry = pThis->GetDeviceFunction(handler);
-    cout << "Entry: " << entry << endl;
     cudaError_t exit_code = cudaLaunch(entry);
 
     return new Result(exit_code);
@@ -30,17 +29,17 @@ CUDA_ROUTINE_HANDLER(SetupArgument) {
     /* cudaError_t cudaSetupArgument(const void *arg, size_t size, size_t offset) */
     size_t offset = input_buffer->BackGet<size_t>();
     size_t size = input_buffer->BackGet<size_t>();
-    /*if(offset > 0) {
-        char *dummy = input_buffer->Assign<char>(offset);
-    }*/
     void *arg = input_buffer->Assign<char>(size);
-    cout << "size: " << size << " offset: " << offset << endl;
+
     // try to translate arg to a device pointer
     if(size == sizeof(void *)) {
         char *handler = CudaUtil::MarshalDevicePointer((void *) * ((int *) arg));
-        cout << "handler: " << handler << endl;
-        void *devPtr = pThis->GetDevicePointer(handler);
-        arg = (void *) ((char *) &devPtr);
+        try {
+            void *devPtr = pThis->GetDevicePointer(handler);
+            arg = (void *) ((char *) &devPtr);
+        } catch(string e) {
+        }
+        delete handler;
     }
 
     cudaError_t exit_code = cudaSetupArgument(arg, size, offset);
