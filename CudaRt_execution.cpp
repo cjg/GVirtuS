@@ -28,8 +28,6 @@ extern cudaError_t cudaLaunch(const char *entry)
 extern cudaError_t cudaSetupArgument(const void *arg, size_t size, size_t offset)
 {
     CudaRt *c = new CudaRt("cudaSetupArgument");
-    cout << ((void *)(static_cast<const char *>(arg))) << endl;
-    cout << ((void *)(static_cast<const char *>(arg) + offset)) << endl << endl;
     c->AddHostPointerForArguments(static_cast<const char *>(arg), size);
     c->AddVariableForArguments(size);
     c->AddVariableForArguments(offset);
