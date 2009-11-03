@@ -72,5 +72,9 @@ CUDA_ROUTINE_HANDLER(Free);
 CUDA_ROUTINE_HANDLER(Malloc);
 CUDA_ROUTINE_HANDLER(Memcpy);
 
+/* CudaRtHandler_thread */
+CUDA_ROUTINE_HANDLER(ThreadExit);
+CUDA_ROUTINE_HANDLER(ThreadSynchronize);
+
 #endif	/* _CUDARTHANDLER_H */
 

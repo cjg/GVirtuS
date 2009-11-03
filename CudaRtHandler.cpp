@@ -186,4 +186,8 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
+
+    /* CudaRtHandler_thread */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadSynchronize));
 }
