@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string.h>
 #include <__cudaFatFormat.h>
+#include <fstream>
 #include "Frontend.h"
 #include "CudaUtil.h"
 #include "CudaRt.h"
@@ -36,15 +37,19 @@ void CudaRt::MarshalDevicePointer(const void* devPtr, char * marshal) {
  */
 
 void** __cudaRegisterFatBinary(void *fatCubin) {
-    CudaUtil::DumpFatCudaBinary((__cudaFatCudaBinary *) fatCubin);
-    /* FIXME: implement */
-#if 0
-    __cudaFatCudaBinary *test = (__cudaFatCudaBinary*) fatCubin;
-    cout << test->key << endl;
-    cout << test->ident << endl;
-    cout << test->cubin->cubin << endl;
-#endif
-    cerr << "*** Error: __cudaRegisterFatBinary() not yet implemented!" << endl;
+    /* Fake host pointer */
+    void ** handler = (void **) &fatCubin;
+    Buffer * input_buffer = new Buffer();
+    input_buffer->AddString(CudaUtil::MarshalHostPointer(handler));
+    input_buffer = CudaUtil::MarshalFatCudaBinary((__cudaFatCudaBinary *) fatCubin, input_buffer);
+
+    cout << "BufferSize: " << input_buffer->GetBufferSize() << endl;
+
+    CudaRt * c = new CudaRt("cudaRegisterFatBinary", input_buffer);
+    c->Execute();
+    cout << c->Success() << endl;
+    if(c->Success())
+        return handler;
     return NULL;
 }
 
@@ -56,8 +61,26 @@ void __cudaUnregisterFatBinary(void **fatCubinHandle) {
 void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun, char *deviceFun,
         const char *deviceName, int thread_limit, uint3 *tid,
         uint3 *bid, dim3 *bDim, dim3 *gDim, int *wSize) {
-    /* FIXME: implement */
-    cerr << "*** Error: __cudaRegisterFunction() not yet implemented!" << endl;
+    CudaRt *c  = new CudaRt("cudaRegisterFunction");
+    c->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
+    c->AddStringForArguments(hostFun);
+    c->AddStringForArguments(deviceFun);
+    c->AddStringForArguments(deviceName);
+    c->AddVariableForArguments(thread_limit);
+    c->AddHostPointerForArguments(tid);
+    c->AddHostPointerForArguments(bid);
+    c->AddHostPointerForArguments(bDim);
+    c->AddHostPointerForArguments(gDim);
+    c->AddHostPointerForArguments(wSize);
+
+    c->Execute();
+
+    deviceFun = c->GetOutputString();
+    tid = c->GetOutputHostPointer<uint3>();
+    bid = c->GetOutputHostPointer<uint3>();
+    bDim = c->GetOutputHostPointer<dim3>();
+    gDim = c->GetOutputHostPointer<dim3>();
+    wSize = c->GetOutputHostPointer<int>();
 }
 
 void __cudaRegisterVar(void **fatCubinHandle, char *hostVar, char *deviceAddress,
@@ -102,11 +125,6 @@ extern __host__ cudaError_t CUDARTAPI cudaBindTextureToArray(const struct textur
     return cudaErrorUnknown;
 }
 
-
-extern __host__ cudaError_t CUDARTAPI cudaConfigureCall(dim3 gridDim, dim3 blockDim, size_t sharedMem __dv(0), cudaStream_t stream __dv(0)) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
 
 extern __host__ struct cudaChannelFormatDesc CUDARTAPI cudaCreateChannelDesc(int x, int y, int z, int w, enum cudaChannelFormatKind f) {
     /* FIXME: implement */
@@ -204,12 +222,6 @@ extern __host__ cudaError_t CUDARTAPI cudaGetTextureAlignmentOffset(size_t *offs
 
 extern __host__ cudaError_t CUDARTAPI cudaGetTextureReference(const struct textureReference **texref, const char *symbol) {
     /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaLaunch(const char *symbol) {
-    /* FIXME: implement */
-    cout << "Launch: " << symbol << endl;
     return cudaErrorUnknown;
 }
 
@@ -359,10 +371,6 @@ extern __host__ cudaError_t CUDARTAPI cudaSetDoubleForHost(double *d) {
     return cudaErrorUnknown;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg, size_t size, size_t offset) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
 
 extern __host__ cudaError_t CUDARTAPI cudaStreamCreate(cudaStream_t *stream) {
     /* FIXME: implement */

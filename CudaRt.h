@@ -27,6 +27,12 @@ public:
         mpResult = NULL;
         mExitCode = cudaErrorUnknown;
     }
+    CudaRt(const char *routine, Buffer * input_buffer) {
+        mpRoutine = strdup(routine);
+        mpInputBuffer = input_buffer;
+        mpResult = NULL;
+        mExitCode = cudaErrorUnknown;
+    }
     virtual ~CudaRt() {
         delete mpRoutine;
         delete mpInputBuffer;
@@ -35,6 +41,9 @@ public:
     }
     template <class T>void AddVariableForArguments(T var) {
         mpInputBuffer->Add(var);
+    }
+    void AddStringForArguments(const char *s) {
+        mpInputBuffer->AddString(s);
     }
     template <class T>void AddHostPointerForArguments(T *ptr, size_t n = 1) {
         mpInputBuffer->Add(ptr, n);
@@ -56,6 +65,9 @@ public:
     }
     template <class T>T * GetOutputHostPointer(size_t n = 1) {
         return const_cast<Buffer *>(mpResult->GetOutputBufffer())->Assign<T>(n);
+    }
+    char * GetOutputString() {
+        return const_cast<Buffer *>(mpResult->GetOutputBufffer())->AssignString();
     }
     static cudaError_t Finalize(CudaRt *pThis) {
         cudaError_t exit_code = pThis->mExitCode;

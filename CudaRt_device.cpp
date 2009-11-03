@@ -38,9 +38,10 @@ extern cudaError_t cudaGetDeviceProperties(struct cudaDeviceProp *prop,
 }
 
 extern cudaError_t cudaSetDevice(int device) {
-    /* FIXME: implement */
-    cerr << "*** Error: cudaSetDevice() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    CudaRt *c = new CudaRt("cudaSetDevice");
+    c->AddVariableForArguments(device);
+    c->Execute();
+    return CudaRt::Finalize(c);
 }
 
 extern cudaError_t cudaSetDeviceFlags(int flags) {

@@ -9,7 +9,7 @@ extern const char* cudaGetErrorString(cudaError_t error) {
     CudaRt *c = new CudaRt("cudaGetErrorString");
     c->AddVariableForArguments(error);
     c->Execute();
-    char *error_string = strdup(c->GetOutputHostPointer<char>());
+    char *error_string = strdup(c->GetOutputString());
     CudaRt::Finalize(c);
     return error_string;
 }
