@@ -73,7 +73,7 @@ public:
     template <class T> void Read(std::istream & in, size_t n = 1) {
         while ((mLength + (sizeof (T) * n)) >= mSize) {
             mSize += mBlockSize;
-            if (realloc(&mpBuffer, mSize))
+            if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
                 throw "Can't reallocate memory.";
         }
         in.read(mpBuffer + mLength, sizeof (T) * n);
