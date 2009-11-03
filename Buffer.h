@@ -37,14 +37,26 @@ public:
     };
 
     template <class T> void Add(T *item, size_t n = 1) {
-        if ((mLength + (sizeof (T) * n)) >= mSize) {
-            mSize = ((mLength + (sizeof (T) * n)) / mBlockSize + 1) * mBlockSize;
+        if(item == NULL) {
+            Add((size_t) 0);
+            return;
+        }
+        size_t size = sizeof(T) * n;
+        Add(size);
+        if ((mLength + size) >= mSize) {
+            mSize = ((mLength + size) / mBlockSize + 1) * mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
                 throw "Can't reallocate memory.";
         }
-        memmove(mpBuffer + mLength, (char *) item, sizeof (T) * n);
-        mLength += sizeof (T) * n;
+        memmove(mpBuffer + mLength, (char *) item, size);
+        mLength += size;
         mBackOffset = mLength;
+    }
+
+    void AddString(const char *s) {
+        size_t size = strlen(s) + 1;
+        Add(size);
+        Add(s, size);
     }
 
     template <class T> void Read(std::istream & in) {
@@ -77,7 +89,17 @@ public:
         return result;
     }
 
+    template <class T>T BackGet() {
+        if (mBackOffset - sizeof (T) > mLength)
+            throw "Can't read  " + std::string(typeid (T).name()) + ".";
+        T result = *((T *) (mpBuffer + mBackOffset - sizeof(T)));
+        mBackOffset -= sizeof (T);
+        return result;
+    }
+
     template <class T> T * Get(size_t n) {
+        if(Get<size_t>() == 0)
+            return NULL;
         if (mOffset + sizeof (T) * n > mLength)
             throw "Can't read  " + std::string(typeid (T).name()) + ".";
         T *result = new T[n];
@@ -87,6 +109,8 @@ public:
     }
 
     template <class T>T * Assign(size_t n = 1) {
+        if(Get<size_t>() == 0)
+            return NULL;
         if (mOffset + sizeof (T) * n > mLength)
             throw "Can't read  " + std::string(typeid (T).name()) + ".";
         T * result = (T *) (mpBuffer + mOffset);
@@ -94,11 +118,16 @@ public:
         return result;
     }
 
+    char * AssignString() {
+        size_t size = Get<size_t>();
+        return Assign<char>(size);
+    }
+
     template <class T>T * BackAssign(size_t n = 1) {
         if (mBackOffset - sizeof (T) * n > mLength)
             throw "Can't read  " + std::string(typeid (T).name()) + ".";
         T * result = (T *) (mpBuffer + mBackOffset - sizeof(T) * n);
-        mBackOffset -= sizeof (T) * n;
+        mBackOffset -= sizeof (T) * n + sizeof(size_t);
         return result;
     }
 

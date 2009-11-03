@@ -58,7 +58,7 @@ Buffer::Buffer(char* buffer, size_t buffer_size, size_t block_size) {
 }
 
 Buffer::~Buffer() {
-    free(mpBuffer);
+    //free(mpBuffer);
 }
 
 const char * const Buffer::GetBuffer() const {
