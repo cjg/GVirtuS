@@ -43,8 +43,6 @@ void** __cudaRegisterFatBinary(void *fatCubin) {
     input_buffer->AddString(CudaUtil::MarshalHostPointer(handler));
     input_buffer = CudaUtil::MarshalFatCudaBinary((__cudaFatCudaBinary *) fatCubin, input_buffer);
 
-    cout << "BufferSize: " << input_buffer->GetBufferSize() << endl;
-
     CudaRt * c = new CudaRt("cudaRegisterFatBinary", input_buffer);
     c->Execute();
     cout << c->Success() << endl;

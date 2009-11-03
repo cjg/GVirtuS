@@ -20,7 +20,6 @@ extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
 extern cudaError_t cudaLaunch(const char *entry)
 {
     CudaRt *c = new CudaRt("cudaLaunch");
-    cout << entry << endl;
     c->AddStringForArguments(entry);
     c->Execute();
     return CudaRt::Finalize(c);

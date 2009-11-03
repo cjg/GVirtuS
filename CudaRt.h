@@ -17,8 +17,6 @@
 
 #define __dv(v)
 
-#define CUDA_RT_FINALIZE() delete input_buffer; if(result != NULL) delete result; return exit_code;
-
 class CudaRt {
 public:
     CudaRt(const char *routine) {
