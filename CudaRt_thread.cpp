@@ -6,21 +6,13 @@
 using namespace std;
 
 cudaError_t cudaThreadSynchronize() {
-    #if 0
-    char *out_buffer;
-    size_t out_buffer_size;
-    cudaError_t result;
-
-    result = Frontend::GetFrontend().Execute("cudaThreadSynchronize",
-            NULL, 0, &out_buffer, &out_buffer_size);
-
-    return result;
-    #endif
-    return cudaErrorUnknown;
+    CudaRt * c = new CudaRt("cudaThreadSynchronize");
+    c->Execute();
+    return CudaRt::Finalize(c);
 }
 
 cudaError_t cudaThreadExit() {
-    /* FIXME: implement */
-    cerr << "*** Error: cudaThreadExit() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    CudaRt * c = new CudaRt("cudaThreadExit");
+    c->Execute();
+    return CudaRt::Finalize(c);
 }
