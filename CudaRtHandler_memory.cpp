@@ -17,9 +17,10 @@ CUDA_ROUTINE_HANDLER(Malloc) {
     /* cudaError_t cudaMalloc(void **devPtr, size_t size) */
     void *devPtr = NULL;
     char *dev_ptr_handler = input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
-    size_t *size = input_buffer->Assign<size_t>();
+    size_t size = input_buffer->Get<size_t>();
 
-    cudaError_t exit_code = cudaMalloc(&devPtr, *size);
+    cudaError_t exit_code;
+    exit_code = cudaMalloc(&devPtr, size);
     pThis->RegisterDevicePointer(dev_ptr_handler, devPtr);
 
     return new Result(exit_code);
@@ -31,13 +32,14 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
     void *dst = NULL;
     void *src = NULL;
 
-    cudaMemcpyKind *kind = input_buffer->BackAssign<cudaMemcpyKind>();
-    size_t *count = input_buffer->BackAssign<size_t>();
+    cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind>();
+    size_t count = input_buffer->BackGet<size_t>();
     char *dev_ptr_handler;
     cudaError_t exit_code;
     Result * result;
+    Buffer *out;
 
-    switch(*kind) {
+    switch(kind) {
         case cudaMemcpyHostToHost:
             // This should never happen
             result = NULL;
@@ -50,24 +52,27 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
              * take inaxpectated result ... but it works here!
              */
             src = input_buffer->Assign<char>();
-            exit_code = cudaMemcpy(dst, src, *count, *kind);
+            exit_code = cudaMemcpy(dst, src, count, kind);
             result = new Result(exit_code);
             break;
         case cudaMemcpyDeviceToHost:
-            dst = new char[*count];
+            dst = new char[count];
             /* skipping a char for fake host pointer */
             input_buffer->Assign<char>();
             dev_ptr_handler = input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
             src = pThis->GetDevicePointer(dev_ptr_handler);
-            exit_code = cudaMemcpy(dst, src, *count, *kind);
-            result = new Result(exit_code, new Buffer((char *) dst, *count));
+            exit_code = cudaMemcpy(dst, src, count, kind);
+            out = new Buffer();
+            out->Add<char>((char *) dst, count);
+            delete[] (char *) dst;
+            result = new Result(exit_code, out);
             break;
         case cudaMemcpyDeviceToDevice:
             dev_ptr_handler = input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
             dst = pThis->GetDevicePointer(dev_ptr_handler);
             dev_ptr_handler = input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
             src = pThis->GetDevicePointer(dev_ptr_handler);
-            exit_code = cudaMemcpy(dst, src, *count, *kind);
+            exit_code = cudaMemcpy(dst, src, count, kind);
             result = new Result(exit_code);
             break;
     }

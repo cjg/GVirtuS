@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdio>
 #include <string>
+#include "cuda_runtime_api.h"
 #include "Process.h"
 
 using namespace std;
@@ -18,7 +19,7 @@ Process::Process(const Communicator *communicator)
         mpOutput(const_cast<Communicator *>(communicator)->GetOutputStream()) {
     mpCommunicator = const_cast<Communicator *>(communicator);
     mpHandler = new CudaRtHandler();
-    cout << "[Process " << GetThreadId() <<  "]: Created." << endl;
+    cout << "[Process ]: Created." << endl;
 }
 
 Process::~Process() {
@@ -48,9 +49,9 @@ void Process::Execute(void * arg) {
         delete input_buffer;
         result->Dump(mpOutput);
         mpOutput.flush();
+        cout << "[Process " << GetThreadId() << "]: Exit Code '"
+            << cudaGetErrorString(result->GetExitCode()) << "'." << endl;
         delete result;
-        cout << "[Process " << GetThreadId() << "]: Exit Code " 
-            << result->GetExitCode() << "." << endl;
     }
     Notify("process-ended");
     delete this;

@@ -20,6 +20,8 @@ map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NUL
 
 CudaRtHandler::CudaRtHandler() {
     mpDeviceMemory = new map<string, void *>();
+    mpFatBinary = new map<string, void **>();
+    mpDeviceFunction = new map<string, string>();
     Initialize();
 }
 
@@ -104,6 +106,60 @@ Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
     return it->second(this, input_buffer);
 }
 
+void CudaRtHandler::RegisterFatBinary(std::string& handler, void ** fatCubinHandle) {
+    map<string, void **>::iterator it = mpFatBinary->find(handler);
+    if (it != mpFatBinary->end()) {
+        /* FIXME: think about freeing memory */
+        mpFatBinary->erase(it);
+    }
+    mpFatBinary->insert(make_pair(handler, fatCubinHandle));
+    cout << "Registered FatBinary " << fatCubinHandle << " with handler " << handler << endl;
+}
+
+void CudaRtHandler::RegisterFatBinary(const char* handler, void ** fatCubinHandle) {
+    string tmp(handler);
+    RegisterFatBinary(tmp, fatCubinHandle);
+}
+
+void ** CudaRtHandler::GetFatBinary(string & handler) {
+    map<string, void **>::iterator it = mpFatBinary->find(handler);
+    if (it == mpFatBinary->end())
+        throw "Fat Binary '" + handler + "' not found";
+    return it->second;
+}
+
+void ** CudaRtHandler::GetFatBinary(const char * handler) {
+    string tmp(handler);
+    return GetFatBinary(tmp);
+}
+
+void CudaRtHandler::RegisterDeviceFunction(std::string & handler, std::string & function) {
+    map<string, string>::iterator it = mpDeviceFunction->find(handler);
+    if(it != mpDeviceFunction->end())
+        mpDeviceFunction->erase(it);
+    mpDeviceFunction->insert(make_pair(handler, function));
+    cout << "Registered DeviceFunction " << function << " with handler " << handler << endl;
+}
+
+void CudaRtHandler::RegisterDeviceFunction(const char * handler, const char * function) {
+    string tmp1(handler);
+    string tmp2(function);
+    RegisterDeviceFunction(tmp1, tmp2);
+}
+
+const char *CudaRtHandler::GetDeviceFunction(std::string & handler) {
+    map<string, string>::iterator it = mpDeviceFunction->find(handler);
+    if(it == mpDeviceFunction->end())
+        throw "Device Function '" +  handler + "' not fount";
+    return it->second.c_str();
+}
+
+const char *CudaRtHandler::GetDeviceFunction(const char * handler) {
+    string tmp(handler);
+    return GetDeviceFunction(tmp);
+}
+
+
 void CudaRtHandler::Initialize() {
     if(mspHandlers != NULL)
         return;
@@ -112,10 +168,20 @@ void CudaRtHandler::Initialize() {
     /* CudaRtHandler_device */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceCount));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceProperties));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDevice));
 
     /* CudaRtHandler_error */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetErrorString));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetLastError));
+
+    /* CudaRtHandler_execution */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ConfigureCall));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Launch));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetupArgument));
+
+    /* CudaRtHandler_internal */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFatBinary));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFunction));
 
     /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));

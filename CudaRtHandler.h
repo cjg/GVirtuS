@@ -27,11 +27,23 @@ public:
     void *GetDevicePointer(const char * handler);
     void UnregisterDevicePointer(std::string & handler);
     void UnregisterDevicePointer(const char * handler);
+
+    void RegisterFatBinary(std::string & handler, void **fatCubinHandle);
+    void RegisterFatBinary(const char * handler, void **fatCubinHandle);
+    void **GetFatBinary(std::string & handler);
+    void **GetFatBinary(const char * handler);
+
+    void RegisterDeviceFunction(std::string & handler, std::string & function);
+    void RegisterDeviceFunction(const char * handler, const char * function);
+    const char *GetDeviceFunction(std::string & handler);
+    const char *GetDeviceFunction(const char * handler);
 private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
     static std::map<std::string, CudaRoutineHandler> * mspHandlers;
     std::map<std::string, void *> * mpDeviceMemory;
+    std::map<std::string, void **> * mpFatBinary;
+    std::map<std::string, std::string> * mpDeviceFunction;
 };
 
 #define CUDA_ROUTINE_HANDLER(name) Result * handle##name(CudaRtHandler * pThis, Buffer * input_buffer)
@@ -40,10 +52,20 @@ private:
 /* CudaRtHandler_device */
 CUDA_ROUTINE_HANDLER(GetDeviceCount);
 CUDA_ROUTINE_HANDLER(GetDeviceProperties);
+CUDA_ROUTINE_HANDLER(SetDevice);
 
 /* CudaRtHandler_error */
 CUDA_ROUTINE_HANDLER(GetErrorString);
 CUDA_ROUTINE_HANDLER(GetLastError);
+
+/* CudaRtHandler_execution */
+CUDA_ROUTINE_HANDLER(ConfigureCall);
+CUDA_ROUTINE_HANDLER(Launch);
+CUDA_ROUTINE_HANDLER(SetupArgument);
+
+/* CudaRtHandler_internal */
+CUDA_ROUTINE_HANDLER(RegisterFatBinary);
+CUDA_ROUTINE_HANDLER(RegisterFunction);
 
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);

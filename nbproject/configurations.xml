@@ -24,6 +24,8 @@
     <itemPath>CudaRtHandler.h</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_device.cpp</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_execution.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_internal.cpp</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_memory.cpp</itemPath>
     <itemPath>Process.cpp</itemPath>
     <itemPath>Process.h</itemPath>
