@@ -133,7 +133,7 @@
           <developmentMode>6</developmentMode>
           <incDir>
             <pElem>/opt/cuda/include</pElem>
-            <pElem>/usr/include/vmci</pElem>
+            <pElem>/usr/lib/vmware/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
