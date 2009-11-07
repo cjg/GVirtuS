@@ -12,6 +12,8 @@
 #include <ext/stdio_filebuf.h>
 #include "Communicator.h"
 
+#define AF_VMCI VMCISock_GetAFValue()
+
 class VmciCommunicator : public Communicator {
 public:
     VmciCommunicator(short port);
@@ -23,7 +25,6 @@ public:
     std::istream & GetInputStream() const;
     std::ostream & GetOutputStream() const;
     void Close();
-    static int AF_VMCI;
 private:
     void InitializeStream();
     std::istream *mpInput;

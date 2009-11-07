@@ -12,12 +12,10 @@ using namespace std;
 
 
 VmciCommunicator::VmciCommunicator(short port) {
-    VmciCommunicator::AF_VMCI = VMCISock_GetAFValue();
     mPort = port;
 }
 
 VmciCommunicator::VmciCommunicator(unsigned fd) {
-    VmciCommunicator::AF_VMCI = VMCISock_GetAFValue();
     mSocketFd = fd;
     InitializeStream();
 }
