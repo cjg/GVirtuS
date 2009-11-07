@@ -192,6 +192,18 @@
         </ccTool>
         <linkerTool>
           <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtil"
+                            CT="2"
+                            CN="Linux_x86_64_Release"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtil"
+                            BC="${MAKE}  -f Makefile CONF=Linux_x86_64_Release"
+                            CC="${MAKE}  -f Makefile CONF=Linux_x86_64_Release clean"
+                            OP="dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesUtil.so">
+              </makeArtifact>
+            </linkerLibProjectItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

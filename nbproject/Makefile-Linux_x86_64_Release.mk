@@ -16,7 +16,7 @@ CC=gcc
 CCC=g++
 CXX=g++
 FC=
-AS=
+AS=as
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
@@ -53,11 +53,13 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-Wl,-rpath ../EchoesUtil/dist/Linux_x86_64_Release/GNU-Linux-x86 -L../EchoesUtil/dist/Linux_x86_64_Release/GNU-Linux-x86 -lEchoesUtil
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	${MAKE}  -f nbproject/Makefile-Linux_x86_64_Release.mk dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesFrontend.so
+
+dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesFrontend.so: ../EchoesUtil/dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesUtil.so
 
 dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesFrontend.so: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_x86_64_Release/GNU-Linux-x86
@@ -100,14 +102,16 @@ ${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp
 
 # Subprojects
 .build-subprojects:
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Linux_x86_64_Release
 
 # Clean Targets
-.clean-conf:
+.clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Linux_x86_64_Release
 	${RM} dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesFrontend.so
 
 # Subprojects
 .clean-subprojects:
+	cd ../EchoesUtil && ${MAKE}  -f Makefile CONF=Linux_x86_64_Release clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl
