@@ -173,5 +173,28 @@
         </linkerTool>
       </compileType>
     </conf>
+    <conf name="Linux_x86_64_Release" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>6</developmentMode>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../EchoesUtil</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/home/cjg/echoes.xml"</Elem>
+          </preprocessorList>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
   </confs>
 </configurationDescriptor>

@@ -38,3 +38,11 @@ CND_ARTIFACT_PATH_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/libEchoesFrontend
 CND_PACKAGE_DIR_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/package
 CND_PACKAGE_NAME_Linux_x86_64=libEchoesFrontend.so.tar
 CND_PACKAGE_PATH_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/package/libEchoesFrontend.so.tar
+# Linux_x86_64_Release configuration
+CND_PLATFORM_Linux_x86_64_Release=GNU-Linux-x86
+CND_ARTIFACT_DIR_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86
+CND_ARTIFACT_NAME_Linux_x86_64_Release=libEchoesFrontend.so
+CND_ARTIFACT_PATH_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesFrontend.so
+CND_PACKAGE_DIR_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/package
+CND_PACKAGE_NAME_Linux_x86_64_Release=libEchoesFrontend.so.tar
+CND_PACKAGE_PATH_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/package/libEchoesFrontend.so.tar

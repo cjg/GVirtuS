@@ -31,7 +31,7 @@ DEFAULTCONF=Debug
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release MacOSX Linux_x86_64 
+ALLCONFS=Debug Release MacOSX Linux_x86_64 Linux_x86_64_Release 
 
 
 # build
