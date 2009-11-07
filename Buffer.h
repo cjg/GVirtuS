@@ -131,6 +131,7 @@ public:
         return result;
     }
 
+    void Reset();
     const char * const GetBuffer() const;
     size_t GetBufferSize() const;
     void Dump(std::ostream & out) const;

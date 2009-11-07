@@ -62,6 +62,12 @@ Buffer::~Buffer() {
     //free(mpBuffer);
 }
 
+void Buffer::Reset() {
+    mLength = 0;
+    mOffset = 0;
+    mBackOffset = 0;
+}
+
 const char * const Buffer::GetBuffer() const {
     return mpBuffer;
 }
