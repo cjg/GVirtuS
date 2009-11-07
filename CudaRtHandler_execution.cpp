@@ -39,7 +39,7 @@ CUDA_ROUTINE_HANDLER(SetupArgument) {
             arg = (void *) ((char *) &devPtr);
         } catch(string e) {
         }
-        delete handler;
+        delete[] handler;
     }
 
     cudaError_t exit_code = cudaSetupArgument(arg, size, offset);
