@@ -20,7 +20,7 @@ AS=as
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Linux_x86_64
+CND_CONF=Linux_x86_64_Release
 CND_DISTDIR=dist
 
 # Include project Makefile
@@ -58,83 +58,83 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpthread -lexpat
+LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Linux_x86_64.mk dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so
+	${MAKE}  -f nbproject/Makefile-Linux_x86_64_Release.mk dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesUtil.so
 
-dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so: ${OBJECTFILES}
-	${MKDIR} -p dist/Linux_x86_64/GNU-Linux-x86
+dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesUtil.so: ${OBJECTFILES}
+	${MKDIR} -p dist/Linux_x86_64_Release/GNU-Linux-x86
 	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Communicator.o: nbproject/Makefile-${CND_CONF}.mk Communicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Communicator.o Communicator.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Communicator.o Communicator.cpp
 
 ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
 ${OBJECTDIR}/Observer.o: nbproject/Makefile-${CND_CONF}.mk Observer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
 
 ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o /home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o /home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp
 
 ${OBJECTDIR}/ConfigFile.o: nbproject/Makefile-${CND_CONF}.mk ConfigFile.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ConfigFile.o ConfigFile.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ConfigFile.o ConfigFile.cpp
 
 ${OBJECTDIR}/Mutex.o: nbproject/Makefile-${CND_CONF}.mk Mutex.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mutex.o Mutex.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Mutex.o Mutex.cpp
 
 ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp
 
 ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp
 
 ${OBJECTDIR}/CudaUtil.o: nbproject/Makefile-${CND_CONF}.mk CudaUtil.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaUtil.o CudaUtil.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaUtil.o CudaUtil.cpp
 
 ${OBJECTDIR}/TcpCommunicator.o: nbproject/Makefile-${CND_CONF}.mk TcpCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/TcpCommunicator.o TcpCommunicator.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/TcpCommunicator.o TcpCommunicator.cpp
 
 ${OBJECTDIR}/Observable.o: nbproject/Makefile-${CND_CONF}.mk Observable.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observable.o Observable.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observable.o Observable.cpp
 
 ${OBJECTDIR}/AfUnixCommunicator.o: nbproject/Makefile-${CND_CONF}.mk AfUnixCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
+	$(COMPILE.cc) -O3 -I/opt/cuda/include -I/usr/include/vmci -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
 
 # Subprojects
 .build-subprojects:
 
 # Clean Targets
 .clean-conf:
-	${RM} -r build/Linux_x86_64
-	${RM} dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so
+	${RM} -r build/Linux_x86_64_Release
+	${RM} dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesUtil.so
 
 # Subprojects
 .clean-subprojects:

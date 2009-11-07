@@ -110,6 +110,7 @@
         <ccTool>
           <incDir>
             <pElem>/opt/cuda/include</pElem>
+            <pElem>/usr/lib/vmware/include</pElem>
           </incDir>
           <warningLevel>2</warningLevel>
         </ccTool>
