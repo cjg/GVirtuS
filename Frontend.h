@@ -38,27 +38,20 @@ public:
         delete[] tmp;
     }
 
-    /*
-    void Execute(const char *routine) {
-        mpResult = Execute(routine, mpInputBuffer);
-        mExitCode = mpResult->GetExitCode();
-    }
-    */
-    
     bool Success() {
         return mExitCode == cudaSuccess;
     }
 
     template <class T>T GetOutputVariable() {
-        return const_cast<Buffer *> (mpResult->GetOutputBufffer())->Get<T > ();
+        return mpOutputBuffer->Get<T> ();
     }
 
     template <class T>T * GetOutputHostPointer(size_t n = 1) {
-        return const_cast<Buffer *> (mpResult->GetOutputBufffer())->Assign<T > (n);
+        return mpOutputBuffer->Assign<T> (n);
     }
 
     char * GetOutputString() {
-        return const_cast<Buffer *> (mpResult->GetOutputBufffer())->AssignString();
+        return mpOutputBuffer->AssignString();
     }
 
     cudaError_t GetExitCode() {
@@ -68,7 +61,7 @@ private:
     Frontend();
     Communicator *mpCommunicator;
     Buffer * mpInputBuffer;
-    Result * mpResult;
+    Buffer * mpOutputBuffer;
     cudaError_t mExitCode;
     static Frontend *mspFrontend;
 };

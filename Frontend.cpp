@@ -25,7 +25,7 @@ Frontend::Frontend() {
     mpCommunicator = Communicator::Create(default_communicator);
     mpCommunicator->Connect();
     mpInputBuffer = new Buffer();
-    mpResult = NULL;
+    mpOutputBuffer = new Buffer();
     mExitCode = cudaErrorUnknown;
 }
 
@@ -60,18 +60,14 @@ void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
     /* receiving output */
     std::istream &in = mpCommunicator->GetInputStream();
 
-    cudaError_t exit_code;
-    Buffer * output_buffer = new Buffer();
-    in.read((char *) & exit_code, sizeof (cudaError_t));
-    if(exit_code == cudaSuccess) {
+    mpOutputBuffer->Reset();
+    in.read((char *) & mExitCode, sizeof (cudaError_t));
+    if(mExitCode == cudaSuccess) {
         size_t out_buffer_size;
         in.read((char *) &out_buffer_size, sizeof (size_t));
         if (out_buffer_size > 0)
-            output_buffer->Read<char>(in, out_buffer_size);
+            mpOutputBuffer->Read<char>(in, out_buffer_size);
     }
-
-    mpResult = new Result(exit_code, output_buffer);
-    mExitCode = mpResult->GetExitCode();
 }
 
 void Frontend::Prepare() {
