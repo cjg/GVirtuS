@@ -38,3 +38,11 @@ CND_ARTIFACT_PATH_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/echoesbackend
 CND_PACKAGE_DIR_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/package
 CND_PACKAGE_NAME_Linux_x86_64=echoesbackend.tar
 CND_PACKAGE_PATH_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/package/echoesbackend.tar
+# Linux_x86_64_Release configuration
+CND_PLATFORM_Linux_x86_64_Release=GNU-Linux-x86
+CND_ARTIFACT_DIR_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86
+CND_ARTIFACT_NAME_Linux_x86_64_Release=echoesbackend
+CND_ARTIFACT_PATH_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/echoesbackend
+CND_PACKAGE_DIR_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/package
+CND_PACKAGE_NAME_Linux_x86_64_Release=echoesbackend.tar
+CND_PACKAGE_PATH_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/package/echoesbackend.tar
