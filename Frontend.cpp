@@ -24,6 +24,9 @@ Frontend::Frontend() {
             communicators.GetElement(default_communicator_name);
     mpCommunicator = Communicator::Create(default_communicator);
     mpCommunicator->Connect();
+    mpInputBuffer = new Buffer();
+    mpResult = NULL;
+    mExitCode = cudaErrorUnknown;
 }
 
 Frontend::~Frontend() {
@@ -31,7 +34,7 @@ Frontend::~Frontend() {
     delete mpCommunicator;
 }
 
-Frontend & Frontend::GetFrontend() {
+Frontend * Frontend::GetFrontend() {
     if (mspFrontend == NULL) {
         try {
             mspFrontend = new Frontend();
@@ -40,10 +43,14 @@ Frontend & Frontend::GetFrontend() {
             mspFrontend = NULL;
         }
     }
-    return *mspFrontend;
+    mspFrontend->Prepare();
+    return mspFrontend;
 }
 
-Result * Frontend::Execute(const char* routine, const Buffer* input_buffer) {
+void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
+    if(input_buffer == NULL)
+        input_buffer = mpInputBuffer;
+
     /* sending job */
     std::ostream &out = mpCommunicator->GetOutputStream();
     out << routine << std::endl;
@@ -63,6 +70,10 @@ Result * Frontend::Execute(const char* routine, const Buffer* input_buffer) {
             output_buffer->Read<char>(in, out_buffer_size);
     }
 
-    return new Result(exit_code, output_buffer);
+    mpResult = new Result(exit_code, output_buffer);
+    mExitCode = mpResult->GetExitCode();
 }
 
+void Frontend::Prepare() {
+    mpInputBuffer->Reset();
+}

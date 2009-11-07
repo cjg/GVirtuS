@@ -18,30 +18,30 @@ extern cudaError_t cudaGetDevice(int *device) {
 }
 
 extern cudaError_t cudaGetDeviceCount(int *count) {
-    CudaRt * c = new CudaRt("cudaGetDeviceCount");
-    c->AddHostPointerForArguments(count);
-    c->Execute();
-    if(c->Success())
-        *count = *(c->GetOutputHostPointer<int>());
-    return CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(count);
+    f->Execute("cudaGetDeviceCount");
+    if(f->Success())
+        *count = *(f->GetOutputHostPointer<int>());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaGetDeviceProperties(struct cudaDeviceProp *prop,
     int device) {
-    CudaRt *c = new CudaRt("cudaGetDeviceProperties");
-    c->AddHostPointerForArguments(prop);
-    c->AddVariableForArguments(device);
-    c->Execute();
-    if(c->Success())
-        *prop = *(c->GetOutputHostPointer<struct cudaDeviceProp>());
-    return CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(prop);
+    f->AddVariableForArguments(device);
+    f->Execute("cudaGetDeviceProperties");
+    if(f->Success())
+        *prop = *(f->GetOutputHostPointer<struct cudaDeviceProp>());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaSetDevice(int device) {
-    CudaRt *c = new CudaRt("cudaSetDevice");
-    c->AddVariableForArguments(device);
-    c->Execute();
-    return CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->AddVariableForArguments(device);
+    f->Execute("cudaSetDevice");
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaSetDeviceFlags(int flags) {

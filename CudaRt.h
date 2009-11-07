@@ -17,6 +17,7 @@
 
 #define __dv(v)
 
+/*
 class CudaRt {
 public:
     CudaRt(const char *routine) {
@@ -80,7 +81,7 @@ private:
     Result * mpResult;
     cudaError_t mExitCode;
 };
-
+*/
 extern "C" {
     /*
      Routines not found in the cuda's header files.

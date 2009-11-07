@@ -16,6 +16,7 @@
 
 using namespace std;
 
+/*
 char * CudaRt::MarshalDevicePointer(const void* devPtr) {
     char *marshal = new char[CudaUtil::MarshaledDevicePointerSize];
     MarshalDevicePointer(devPtr, marshal);
@@ -30,7 +31,8 @@ void CudaRt::MarshalDevicePointer(const void* devPtr, char * marshal) {
     marshal[1] = 'x';
     memset(marshal + 2, '0', sizeof(void *) * 2 - len);
 }
-
+*/
+ 
 /*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE
@@ -43,10 +45,9 @@ void** __cudaRegisterFatBinary(void *fatCubin) {
     input_buffer->AddString(CudaUtil::MarshalHostPointer(handler));
     input_buffer = CudaUtil::MarshalFatCudaBinary((__cudaFatCudaBinary *) fatCubin, input_buffer);
 
-    CudaRt * c = new CudaRt("cudaRegisterFatBinary", input_buffer);
-    c->Execute();
-    cout << c->Success() << endl;
-    if(c->Success())
+    Frontend *f = Frontend::GetFrontend();
+    f->Execute("cudaRegisterFatBinary", input_buffer);
+    if(f->Success())
         return handler;
     return NULL;
 }
@@ -59,26 +60,26 @@ void __cudaUnregisterFatBinary(void **fatCubinHandle) {
 void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun, char *deviceFun,
         const char *deviceName, int thread_limit, uint3 *tid,
         uint3 *bid, dim3 *bDim, dim3 *gDim, int *wSize) {
-    CudaRt *c  = new CudaRt("cudaRegisterFunction");
-    c->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
-    c->AddStringForArguments(hostFun);
-    c->AddStringForArguments(deviceFun);
-    c->AddStringForArguments(deviceName);
-    c->AddVariableForArguments(thread_limit);
-    c->AddHostPointerForArguments(tid);
-    c->AddHostPointerForArguments(bid);
-    c->AddHostPointerForArguments(bDim);
-    c->AddHostPointerForArguments(gDim);
-    c->AddHostPointerForArguments(wSize);
+    Frontend *f = Frontend::GetFrontend();
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
+    f->AddStringForArguments(hostFun);
+    f->AddStringForArguments(deviceFun);
+    f->AddStringForArguments(deviceName);
+    f->AddVariableForArguments(thread_limit);
+    f->AddHostPointerForArguments(tid);
+    f->AddHostPointerForArguments(bid);
+    f->AddHostPointerForArguments(bDim);
+    f->AddHostPointerForArguments(gDim);
+    f->AddHostPointerForArguments(wSize);
 
-    c->Execute();
+    f->Execute("cudaRegisterFunction");
 
-    deviceFun = c->GetOutputString();
-    tid = c->GetOutputHostPointer<uint3>();
-    bid = c->GetOutputHostPointer<uint3>();
-    bDim = c->GetOutputHostPointer<dim3>();
-    gDim = c->GetOutputHostPointer<dim3>();
-    wSize = c->GetOutputHostPointer<int>();
+    deviceFun = f->GetOutputString();
+    tid = f->GetOutputHostPointer<uint3>();
+    bid = f->GetOutputHostPointer<uint3>();
+    bDim = f->GetOutputHostPointer<dim3>();
+    gDim = f->GetOutputHostPointer<dim3>();
+    wSize = f->GetOutputHostPointer<int>();
 }
 
 void __cudaRegisterVar(void **fatCubinHandle, char *hostVar, char *deviceAddress,

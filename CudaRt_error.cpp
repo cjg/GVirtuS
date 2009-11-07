@@ -6,16 +6,15 @@
 using namespace std;
 
 extern const char* cudaGetErrorString(cudaError_t error) {
-    CudaRt *c = new CudaRt("cudaGetErrorString");
-    c->AddVariableForArguments(error);
-    c->Execute();
-    char *error_string = strdup(c->GetOutputString());
-    CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->AddVariableForArguments(error);
+    f->Execute("cudaGetErrorString");
+    char *error_string = strdup(f->GetOutputString());
     return error_string;
 }
 
 extern cudaError_t cudaGetLastError(void) {
-    CudaRt *c = new CudaRt("cudaGetLastError");
-    c->Execute();
-    return CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->Execute("cudaGetLastError");
+    return f->GetExitCode();
 }

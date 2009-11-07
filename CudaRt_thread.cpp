@@ -6,13 +6,13 @@
 using namespace std;
 
 cudaError_t cudaThreadSynchronize() {
-    CudaRt * c = new CudaRt("cudaThreadSynchronize");
-    c->Execute();
-    return CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->Execute("cudaThreadSynchronize");
+    return f->GetExitCode();
 }
 
 cudaError_t cudaThreadExit() {
-    CudaRt * c = new CudaRt("cudaThreadExit");
-    c->Execute();
-    return CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->Execute("cudaThreadExit");
+    return f->GetExitCode();
 }

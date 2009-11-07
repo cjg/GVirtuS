@@ -6,59 +6,58 @@
 using namespace std;
 
 extern cudaError_t cudaFree(void *devPtr) {
-    CudaRt *c = new CudaRt("cudaFree");
-    c->AddDevicePointerForArguments(devPtr);
-    c->Execute();
-    return CudaRt::Finalize(c);
+    Frontend *f = Frontend::GetFrontend();
+    f->AddDevicePointerForArguments(devPtr);
+    f->Execute("cudaFree");
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
-    CudaRt *c = new CudaRt("cudaMalloc");
+    Frontend *f = Frontend::GetFrontend();
 
     /* Fake device pointer */
     *devPtr = new char[1];
-    c->AddDevicePointerForArguments(*devPtr);
-    c->AddVariableForArguments(size);
-    c->Execute();
-    return CudaRt::Finalize(c);
+    f->AddDevicePointerForArguments(*devPtr);
+    f->AddVariableForArguments(size);
+    f->Execute("cudaMalloc");
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
         cudaMemcpyKind kind) {
-    CudaRt *c = new CudaRt("cudaMemcpy");
+    Frontend *f = Frontend::GetFrontend();
     switch (kind) {
         case cudaMemcpyHostToHost:
             /* NOTE: no communication is performed, because it's just overhead here */
             if (memmove(dst, src, count) == NULL)
                 return cudaErrorInvalidValue;
-            delete c;
             return cudaSuccess;
             break;
         case cudaMemcpyHostToDevice:
-            c->AddDevicePointerForArguments(dst);
-            c->AddHostPointerForArguments<char>(static_cast<char *>(const_cast<void *>(src)), count);
-            c->AddVariableForArguments(count);
-            c->AddVariableForArguments(kind);
-            c->Execute();
+            f->AddDevicePointerForArguments(dst);
+            f->AddHostPointerForArguments<char>(static_cast<char *>(const_cast<void *>(src)), count);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpy");
             break;
         case cudaMemcpyDeviceToHost:
             /* NOTE: adding a fake host pointer */
-            c->AddHostPointerForArguments("");
-            c->AddDevicePointerForArguments(src);
-            c->AddVariableForArguments(count);
-            c->AddVariableForArguments(kind);
-            c->Execute();
-            if (c->Success())
-               memmove(dst, c->GetOutputHostPointer<char>(count), count);
+            f->AddHostPointerForArguments("");
+            f->AddDevicePointerForArguments(src);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpy");
+            if (f->Success())
+               memmove(dst, f->GetOutputHostPointer<char>(count), count);
             break;
         case cudaMemcpyDeviceToDevice:
-            c->AddDevicePointerForArguments(dst);
-            c->AddDevicePointerForArguments(src);
-            c->AddVariableForArguments(count);
-            c->AddVariableForArguments(kind);
-            c->Execute();
+            f->AddDevicePointerForArguments(dst);
+            f->AddDevicePointerForArguments(src);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpy");
             break;
     }
 
-    return CudaRt::Finalize(c);
+    return f->GetExitCode();
 }
