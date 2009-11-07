@@ -138,6 +138,7 @@
         </ccTool>
         <linkerTool>
           <linkerLibItems>
+            <linkerLibLibItem>expat</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
