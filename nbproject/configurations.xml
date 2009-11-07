@@ -40,6 +40,8 @@
     <itemPath>TcpCommunicator.h</itemPath>
     <itemPath>Thread.cpp</itemPath>
     <itemPath>Thread.h</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -115,6 +117,26 @@
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
             <linkerLibLibItem>expat</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Linux_x86_64_Release" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>6</developmentMode>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>/usr/include/vmci</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
           </linkerLibItems>
         </linkerTool>
       </compileType>

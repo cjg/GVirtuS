@@ -13,7 +13,7 @@
 #include <typeinfo>
 #include <cstring>
 
-#define BLOCK_SIZE  1024
+#define BLOCK_SIZE  4096
 
 using namespace std;
 

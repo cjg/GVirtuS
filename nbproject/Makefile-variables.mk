@@ -38,3 +38,11 @@ CND_ARTIFACT_PATH_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so
 CND_PACKAGE_DIR_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/package
 CND_PACKAGE_NAME_Linux_x86_64=libEchoesUtil.so.tar
 CND_PACKAGE_PATH_Linux_x86_64=dist/Linux_x86_64/GNU-Linux-x86/package/libEchoesUtil.so.tar
+# Linux_x86_64_Release configuration
+CND_PLATFORM_Linux_x86_64_Release=GNU-Linux-x86
+CND_ARTIFACT_DIR_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86
+CND_ARTIFACT_NAME_Linux_x86_64_Release=libEchoesUtil.so
+CND_ARTIFACT_PATH_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/libEchoesUtil.so
+CND_PACKAGE_DIR_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/package
+CND_PACKAGE_NAME_Linux_x86_64_Release=libEchoesUtil.so.tar
+CND_PACKAGE_PATH_Linux_x86_64_Release=dist/Linux_x86_64_Release/GNU-Linux-x86/package/libEchoesUtil.so.tar

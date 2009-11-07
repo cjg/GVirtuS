@@ -34,6 +34,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Communicator.o \
 	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/Observer.o \
+	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o \
 	${OBJECTDIR}/ConfigFile.o \
 	${OBJECTDIR}/Mutex.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o \
@@ -81,6 +82,11 @@ ${OBJECTDIR}/Observer.o: nbproject/Makefile-${CND_CONF}.mk Observer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
+
+${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o /home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp
 
 ${OBJECTDIR}/ConfigFile.o: nbproject/Makefile-${CND_CONF}.mk ConfigFile.cpp 
 	${MKDIR} -p ${OBJECTDIR}

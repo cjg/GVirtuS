@@ -8,6 +8,7 @@
 #include <cstring>
 #include "AfUnixCommunicator.h"
 #include "TcpCommunicator.h"
+#include "VmciCommunicator.h"
 #include "Communicator.h"
 
 Communicator * Communicator::Create(ConfigFile::Element & config) {
@@ -18,6 +19,8 @@ Communicator * Communicator::Create(ConfigFile::Element & config) {
         return new TcpCommunicator(
                 config.GetValue("hostname").c_str(),
                 config.GetShortValue("port"));
+    else if (strcasecmp(type, "Vmci") == 0)
+        return new VmciCommunicator(config.GetShortValue("port"));
     else
         throw "Not a valid type!";
     return NULL;
