@@ -16,7 +16,7 @@
 
 class VmciCommunicator : public Communicator {
 public:
-    VmciCommunicator(short port);
+    VmciCommunicator(short port, short cid = -1);
     VmciCommunicator(unsigned fd);
     virtual ~VmciCommunicator();
     void Serve();
@@ -29,6 +29,7 @@ private:
     void InitializeStream();
     std::istream *mpInput;
     std::ostream *mpOutput;
+    short mCid;
     short mPort;
     int mSocketFd;
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;

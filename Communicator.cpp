@@ -20,7 +20,8 @@ Communicator * Communicator::Create(ConfigFile::Element & config) {
                 config.GetValue("hostname").c_str(),
                 config.GetShortValue("port"));
     else if (strcasecmp(type, "Vmci") == 0)
-        return new VmciCommunicator(config.GetShortValue("port"));
+        return new VmciCommunicator(config.GetShortValue("port"),
+                config.GetShortValue("cid"));
     else
         throw "Not a valid type!";
     return NULL;

@@ -11,8 +11,12 @@
 using namespace std;
 
 
-VmciCommunicator::VmciCommunicator(short port) {
+VmciCommunicator::VmciCommunicator(short port, short cid) {
     mPort = port;
+    if(cid == -1)
+        mCid = VMCISock_GetLocalCID();
+    else
+        mCid = cid;
 }
 
 VmciCommunicator::VmciCommunicator(unsigned fd) {
@@ -31,7 +35,7 @@ void VmciCommunicator::Serve() {
 
     socket_addr.svm_family = AF_VMCI;
     socket_addr.svm_cid = VMADDR_CID_ANY;
-    socket_addr.svm_port = VMADDR_PORT_ANY;
+    socket_addr.svm_port = mPort;
 
     if (bind(mSocketFd, (struct sockaddr *) & socket_addr,
             sizeof (struct sockaddr_vm)) != 0)
@@ -62,7 +66,7 @@ void VmciCommunicator::Connect() {
         throw "VmciCommunicator: Can't create socket.";
 
     remote.svm_family = AF_VMCI;
-    remote.svm_cid = VMCISock_GetLocalCID();
+    remote.svm_cid = mCid;
     remote.svm_port = mPort;
 
     if (connect(mSocketFd, (struct sockaddr *) & remote,
