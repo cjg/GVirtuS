@@ -312,18 +312,6 @@ extern __host__ cudaError_t CUDARTAPI cudaMemset3D(struct cudaPitchedPtr pitchDe
     return cudaErrorUnknown;
 }
 
-
-extern __host__ cudaError_t CUDARTAPI cudaSetDoubleForDevice(double *d) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaSetDoubleForHost(double *d) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-
 extern __host__ cudaError_t CUDARTAPI cudaUnbindTexture(const struct textureReference *texref) {
     /* FIXME: implement */
     return cudaErrorUnknown;

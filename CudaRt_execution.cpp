@@ -17,12 +17,31 @@ extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
     return f->GetExitCode();
 }
 
+extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
+        const char *func) {
+    // FIXME: implement
+    cerr << "*** Error: cudaFuncGetAttributes() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
 extern cudaError_t cudaLaunch(const char *entry)
 {
     Frontend *f = Frontend::GetFrontend();
     f->AddStringForArguments(entry);
     f->Execute("cudaLaunch");
     return f->GetExitCode();
+}
+
+extern cudaError_t cudaSetDoubleForDevice(double *d) {
+    // FIXME: implement
+    cerr << "*** Error: cudaSetDoubleForDevice() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaSetDoubleForHost(double *d) {
+    // FIXME: implement
+    cerr << "*** Error: cudaSetDoubleForHost() not yet implemented!" << endl;
+    return cudaErrorUnknown;
 }
 
 extern cudaError_t cudaSetupArgument(const void *arg, size_t size, size_t offset)
