@@ -139,9 +139,13 @@ void CudaRtHandler::Initialize() {
     mspHandlers = new map<string, CudaRtHandler::CudaRoutineHandler>();
 
     /* CudaRtHandler_device */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ChooseDevice));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDevice));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceCount));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceProperties));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDevice));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDeviceFlags));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetValidDevices));
 
     /* CudaRtHandler_error */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetErrorString));

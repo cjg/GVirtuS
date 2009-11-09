@@ -1,9 +1,30 @@
 #include <cuda_runtime_api.h>
 #include "CudaRtHandler.h"
 
-CUDA_ROUTINE_HANDLER(GetDeviceCount) {
-    /* cudaError_t cudaGetDeviceCount(int *count) */
+CUDA_ROUTINE_HANDLER(ChooseDevice) {
+    int *device = input_buffer->Assign<int>();
+    const cudaDeviceProp *prop = input_buffer->Assign<cudaDeviceProp>();
 
+    cudaError_t exit_code = cudaChooseDevice(device, prop);
+
+    Buffer *out = new Buffer();
+    out->Add(device);
+
+    return new Result(exit_code, out);
+}
+
+CUDA_ROUTINE_HANDLER(GetDevice) {
+    int *device = input_buffer->Assign<int>();
+
+    cudaError_t exit_code = cudaGetDevice(device);
+
+    Buffer *out = new Buffer();
+    out->Add(device);
+
+    return new Result(exit_code, out);
+}
+
+CUDA_ROUTINE_HANDLER(GetDeviceCount) {
     int *count = input_buffer->Assign<int>();
 
     cudaError_t exit_code = cudaGetDeviceCount(count);
@@ -15,8 +36,6 @@ CUDA_ROUTINE_HANDLER(GetDeviceCount) {
 }
 
 CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
-    /* cudaError_t cudaGetDeviceCount(struct cudaDeviceProp *prop,
-       int device) */
     struct cudaDeviceProp *prop = input_buffer->Assign<struct cudaDeviceProp>();
     int device = input_buffer->Get<int>();
 
@@ -29,10 +48,29 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
 }
 
 CUDA_ROUTINE_HANDLER(SetDevice) {
-    /* cudaError_t cudaSetDevice(int device) */
     int device = input_buffer->Get<int>();
 
     cudaError_t exit_code = cudaSetDevice(device);
 
     return new Result(exit_code);
+}
+
+CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
+    int flags = input_buffer->Get<int>();
+
+    cudaError_t exit_code = cudaSetDeviceFlags(flags);
+
+    return new Result(exit_code);
+}
+
+CUDA_ROUTINE_HANDLER(SetValidDevices) {
+    int len = input_buffer->BackGet<int>();
+    int *device_arr = input_buffer->Assign<int>(len);
+
+    cudaError_t exit_code = cudaSetValidDevices(device_arr, len);
+
+    Buffer *out = new Buffer();
+    out->Add(device_arr, len);
+
+    return new Result(exit_code, out);
 }

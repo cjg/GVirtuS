@@ -50,9 +50,13 @@ private:
 #define CUDA_ROUTINE_HANDLER_PAIR(name) make_pair("cuda" #name, handle##name)
 
 /* CudaRtHandler_device */
+CUDA_ROUTINE_HANDLER(ChooseDevice);
+CUDA_ROUTINE_HANDLER(GetDevice);
 CUDA_ROUTINE_HANDLER(GetDeviceCount);
 CUDA_ROUTINE_HANDLER(GetDeviceProperties);
 CUDA_ROUTINE_HANDLER(SetDevice);
+CUDA_ROUTINE_HANDLER(SetDeviceFlags);
+CUDA_ROUTINE_HANDLER(SetValidDevices);
 
 /* CudaRtHandler_error */
 CUDA_ROUTINE_HANDLER(GetErrorString);
