@@ -22,9 +22,10 @@ extern void** __cudaRegisterFatBinary(void *fatCubin) {
 }
 
 extern void __cudaUnregisterFatBinary(void **fatCubinHandle) {
-    /* FIXME: implement */
-    cerr << "*** Error: __cudaUnregisterFatBinary() not yet implemented!"
-            << endl;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
+
+    f->Execute("cudaUnregisterFatBinary");
 }
 
 extern void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
