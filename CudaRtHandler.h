@@ -93,6 +93,12 @@ CUDA_ROUTINE_HANDLER(MemcpyAsync);
 CUDA_ROUTINE_HANDLER(MemcpyToSymbol);
 CUDA_ROUTINE_HANDLER(Memset);
 
+/* CudaRtHandler_stream */
+CUDA_ROUTINE_HANDLER(StreamCreate);
+CUDA_ROUTINE_HANDLER(StreamDestroy);
+CUDA_ROUTINE_HANDLER(StreamQuery);
+CUDA_ROUTINE_HANDLER(StreamSynchronize);
+
 /* CudaRtHandler_thread */
 CUDA_ROUTINE_HANDLER(ThreadExit);
 CUDA_ROUTINE_HANDLER(ThreadSynchronize);

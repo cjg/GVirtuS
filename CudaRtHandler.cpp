@@ -195,6 +195,12 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToSymbol));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memset));
 
+    /* CudaRtHandler_stream */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreate));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamDestroy));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamQuery));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
+
     /* CudaRtHandler_thread */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadSynchronize));
