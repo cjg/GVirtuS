@@ -185,6 +185,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnregisterFatBinary));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFunction));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterVar));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterShared));
 
     /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));

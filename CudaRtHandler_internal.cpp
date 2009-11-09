@@ -18,11 +18,13 @@ extern "C" {
     extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
             char *deviceAddress, const char *deviceName, int ext, int size,
             int constant, int global);
+    extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr);
 };
 
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
     char * handler = input_buffer->AssignString();
-    __cudaFatCudaBinary * fatBin = CudaUtil::UnmarshalFatCudaBinary(input_buffer);
+    __cudaFatCudaBinary * fatBin =
+            CudaUtil::UnmarshalFatCudaBinary(input_buffer);
     void **fatCubinHandler = __cudaRegisterFatBinary((void *) fatBin);
     pThis->RegisterFatBinary(handler, fatCubinHandler);
     return new Result(cudaSuccess);
@@ -40,16 +42,6 @@ CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
 }
 
 CUDA_ROUTINE_HANDLER(RegisterFunction) {
-    /* void __cudaRegisterFunction(void **fatCubinHandle, 
-     * const char *hostFun,
-     * char *deviceFun,
-     * const char *deviceName,
-     * int thread_limit,
-     * uint3 *tid,
-     * uint3 *bid,
-     * dim3 *bDim,
-     * dim3 *gDim,
-     * int *wSize) */
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
     const char *hostFun = input_buffer->AssignString();
@@ -100,12 +92,11 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     return new Result(cudaSuccess);
 }
 
-#if 0
 CUDA_ROUTINE_HANDLER(RegisterShared) {
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
-    char *dev_ptr_handler =
-            input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
-    void *devPtr = pThis->GetDevicePointer(dev_ptr_handler);
+    char *devPtr = input_buffer->AssignString();
+    __cudaRegisterShared(fatCubinHandle, (void **) devPtr);
+
+    return new Result(cudaSuccess);
 }
-#endif

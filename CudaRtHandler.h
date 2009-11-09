@@ -83,6 +83,7 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary);
 CUDA_ROUTINE_HANDLER(UnregisterFatBinary);
 CUDA_ROUTINE_HANDLER(RegisterFunction);
 CUDA_ROUTINE_HANDLER(RegisterVar);
+CUDA_ROUTINE_HANDLER(RegisterShared);
 
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);
