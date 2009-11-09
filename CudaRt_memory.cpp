@@ -12,16 +12,15 @@ extern cudaError_t cudaFree(void *devPtr) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaFreeArray(struct cudaArray *array) {
+extern cudaError_t cudaFreeArray(cudaArray *array) {
     // FIXME: implement
     cerr << "*** Error: cudaFreeArray() not yet implemented!" << endl;
     return cudaErrorUnknown;
 }
 
 extern cudaError_t cudaFreeHost(void *ptr) {
-    // FIXME: implement
-    cerr << "*** Error: cudaFreeHost() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    free(ptr);
+    return cudaSuccess;
 }
 
 extern cudaError_t cudaGetSymbolAddress(void **devPtr, const char *symbol) {
