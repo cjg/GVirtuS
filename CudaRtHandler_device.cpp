@@ -8,7 +8,10 @@ CUDA_ROUTINE_HANDLER(GetDeviceCount) {
 
     cudaError_t exit_code = cudaGetDeviceCount(count);
 
-    return new Result(exit_code, new Buffer(*input_buffer));
+    Buffer *out = new Buffer();
+    out->Add(count);
+
+    return new Result(exit_code, out);
 }
 
 CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
@@ -19,7 +22,10 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
 
     cudaError_t exit_code = cudaGetDeviceProperties(prop, device);
 
-    return new Result(exit_code, new Buffer(*input_buffer));
+    Buffer *out = new Buffer();
+    out->Add(prop);
+
+    return new Result(exit_code, out);
 }
 
 CUDA_ROUTINE_HANDLER(SetDevice) {

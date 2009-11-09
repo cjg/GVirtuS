@@ -46,9 +46,8 @@ void Process::Execute(void * arg) {
                 << "." << endl;
             result = new Result(cudaErrorUnknown, new Buffer());
         }
-        delete input_buffer;
         result->Dump(mpOutput);
-        mpOutput.flush();
+        delete input_buffer;
         cout << "[Process " << GetThreadId() << "]: Exit Code '"
             << cudaGetErrorString(result->GetExitCode()) << "'." << endl;
         delete result;
