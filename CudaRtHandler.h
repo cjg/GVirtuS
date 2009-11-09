@@ -64,6 +64,15 @@ CUDA_ROUTINE_HANDLER(SetValidDevices);
 CUDA_ROUTINE_HANDLER(GetErrorString);
 CUDA_ROUTINE_HANDLER(GetLastError);
 
+/* CudaRtHandler_event */
+CUDA_ROUTINE_HANDLER(EventCreate);
+CUDA_ROUTINE_HANDLER(EventCreateWithFlags);
+CUDA_ROUTINE_HANDLER(EventDestroy);
+CUDA_ROUTINE_HANDLER(EventElapsedTime);
+CUDA_ROUTINE_HANDLER(EventQuery);
+CUDA_ROUTINE_HANDLER(EventRecord);
+CUDA_ROUTINE_HANDLER(EventSynchronize);
+
 /* CudaRtHandler_execution */
 CUDA_ROUTINE_HANDLER(ConfigureCall);
 CUDA_ROUTINE_HANDLER(Launch);

@@ -166,6 +166,15 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetErrorString));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetLastError));
 
+    /* CudaRtHandler_event */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreate));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreateWithFlags));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventDestroy));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventElapsedTime));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventQuery));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventRecord));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventSynchronize));
+
     /* CudaRtHandler_execution */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ConfigureCall));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Launch));

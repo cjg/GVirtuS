@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/CudaRtHandler_version.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_execution.o \
+	${OBJECTDIR}/CudaRtHandler_event.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_internal.o
 
@@ -113,6 +114,11 @@ ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_executio
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -I../EchoesUtil -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_execution.o /home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_execution.cpp
+
+${OBJECTDIR}/CudaRtHandler_event.o: nbproject/Makefile-${CND_CONF}.mk CudaRtHandler_event.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -I../EchoesUtil -I/opt/cuda/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRtHandler_event.o CudaRtHandler_event.cpp
 
 ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend
