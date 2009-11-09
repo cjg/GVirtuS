@@ -97,23 +97,6 @@ extern void CUDARTAPI __cudaTextureFetch(const void *tex, void *index, int integ
     cerr << "*** Error: __cudaTextureFetch() not yet implemented!" << endl;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaBindTexture(size_t *offset, const struct textureReference *texref, const void *devPtr, const struct cudaChannelFormatDesc *desc, size_t size __dv(UINT_MAX)) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaBindTextureToArray(const struct textureReference *texref, const struct cudaArray *array, const struct cudaChannelFormatDesc *desc) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-
-extern __host__ struct cudaChannelFormatDesc CUDARTAPI cudaCreateChannelDesc(int x, int y, int z, int w, enum cudaChannelFormatKind f) {
-    /* FIXME: implement */
-    struct cudaChannelFormatDesc result;
-    return result;
-}
-
 extern __host__ cudaError_t CUDARTAPI cudaGLMapBufferObject(void **devPtr, GLuint bufObj) {
     /* FIXME: implement */
     return cudaErrorUnknown;
@@ -135,21 +118,6 @@ extern __host__ cudaError_t CUDARTAPI cudaGLUnmapBufferObject(GLuint bufObj) {
 }
 
 extern __host__ cudaError_t CUDARTAPI cudaGLUnregisterBufferObject(GLuint bufObj) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGetChannelDesc(struct cudaChannelFormatDesc *desc, const struct cudaArray *array) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGetTextureAlignmentOffset(size_t *offset, const struct textureReference *texref) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGetTextureReference(const struct textureReference **texref, const char *symbol) {
     /* FIXME: implement */
     return cudaErrorUnknown;
 }
@@ -245,11 +213,6 @@ extern __host__ cudaError_t CUDARTAPI cudaMemset2D(void *mem, size_t pitch, int 
 }
 
 extern __host__ cudaError_t CUDARTAPI cudaMemset3D(struct cudaPitchedPtr pitchDevPtr, int value, struct cudaExtent extent) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaUnbindTexture(const struct textureReference *texref) {
     /* FIXME: implement */
     return cudaErrorUnknown;
 }

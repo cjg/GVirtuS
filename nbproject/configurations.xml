@@ -26,6 +26,7 @@
     <itemPath>/home/cjg/NetBeansProjects/EchoesFrontend/CudaRt_execution.cpp</itemPath>
     <itemPath>CudaRt_memory.cpp</itemPath>
     <itemPath>CudaRt_stream.cpp</itemPath>
+    <itemPath>CudaRt_texture.cpp</itemPath>
     <itemPath>CudaRt_thread.cpp</itemPath>
     <itemPath>CudaRt_version.cpp</itemPath>
     <itemPath>Frontend.cpp</itemPath>
