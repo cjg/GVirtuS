@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <cstdio>
+#include <vector>
 #include "cuda_runtime_api.h"
 #include "CudaUtil.h"
 #include "CudaRtHandler.h"
@@ -9,6 +10,7 @@ using namespace std;
 
 extern "C" {
     extern void** __cudaRegisterFatBinary(void *fatCubin);
+    extern void __cudaUnregisterFatBinary(void **fatCubinHandle);
     extern void __cudaRegisterFunction(void **fatCubinHandle,
             const char *hostFun, char *deviceFun, const char *deviceName,
             int thread_limit, uint3 *tid, uint3 *bid, dim3 *bDim, dim3 *gDim,
@@ -20,6 +22,17 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
     __cudaFatCudaBinary * fatBin = CudaUtil::UnmarshalFatCudaBinary(input_buffer);
     void **fatCubinHandler = __cudaRegisterFatBinary((void *) fatBin);
     pThis->RegisterFatBinary(handler, fatCubinHandler);
+    return new Result(cudaSuccess);
+}
+
+CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
+    char * handler = input_buffer->AssignString();
+    void **fatCubinHandle = pThis->GetFatBinary(handler);
+
+    __cudaUnregisterFatBinary(fatCubinHandle);
+
+    pThis->UnregisterFatBinary(handler);
+
     return new Result(cudaSuccess);
 }
 

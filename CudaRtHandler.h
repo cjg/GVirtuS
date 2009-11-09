@@ -32,6 +32,8 @@ public:
     void RegisterFatBinary(const char * handler, void **fatCubinHandle);
     void **GetFatBinary(std::string & handler);
     void **GetFatBinary(const char * handler);
+    void UnregisterFatBinary(std::string & handler);
+    void UnregisterFatBinary(const char * handler);
 
     void RegisterDeviceFunction(std::string & handler, std::string & function);
     void RegisterDeviceFunction(const char * handler, const char * function);
@@ -69,6 +71,7 @@ CUDA_ROUTINE_HANDLER(SetupArgument);
 
 /* CudaRtHandler_internal */
 CUDA_ROUTINE_HANDLER(RegisterFatBinary);
+CUDA_ROUTINE_HANDLER(UnregisterFatBinary);
 CUDA_ROUTINE_HANDLER(RegisterFunction);
 
 /* CudaRtHandler_memory */

@@ -63,7 +63,7 @@ void CudaRtHandler::UnregisterDevicePointer(std::string& handler) {
         return;
     }
     /* FIXME: think about freeing memory */
-    cout << "Registered DevicePointer " << it->second << " with handler " << handler << endl;
+    cout << "Unregistered DevicePointer " << it->second << " with handler " << handler << endl;
     mpDeviceMemory->erase(it);
 }
 
@@ -104,6 +104,21 @@ void ** CudaRtHandler::GetFatBinary(string & handler) {
 void ** CudaRtHandler::GetFatBinary(const char * handler) {
     string tmp(handler);
     return GetFatBinary(tmp);
+}
+
+void CudaRtHandler::UnregisterFatBinary(std::string& handler) {
+    map<string, void **>::iterator it = mpFatBinary->find(handler);
+    if (it == mpFatBinary->end())
+        return;
+    /* FIXME: think about freeing memory */
+    cout << "Unregistered FatBinary " << it->second << " with handler "
+            << handler << endl;
+    mpFatBinary->erase(it);
+}
+
+void CudaRtHandler::UnregisterFatBinary(const char * handler) {
+    string tmp(handler);
+    UnregisterFatBinary(tmp);
 }
 
 void CudaRtHandler::RegisterDeviceFunction(std::string & handler, std::string & function) {
@@ -158,6 +173,7 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_internal */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFatBinary));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnregisterFatBinary));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFunction));
 
     /* CudaRtHandler_memory */
