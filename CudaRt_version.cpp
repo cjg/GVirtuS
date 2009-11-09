@@ -4,13 +4,19 @@
 using namespace std;
 
 extern cudaError_t cudaDriverGetVersion(int *driverVersion) {
-    // FIXME: implement
-    cerr << "*** Error: cudaDriverGetVersion() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(driverVersion);
+    f->Execute("cudaDriverGetVersion");
+    if(f->Success())
+        *driverVersion = *(f->GetOutputHostPointer<int>());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaRuntimeGetVersion(int *runtimeVersion) {
-    // FIXME: implement
-    cerr << "*** Error: cudaRuntimeGetVersion() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(runtimeVersion);
+    f->Execute("cudaDriverGetVersion");
+    if(f->Success())
+        *runtimeVersion = *(f->GetOutputHostPointer<int>());
+    return f->GetExitCode();
 }
