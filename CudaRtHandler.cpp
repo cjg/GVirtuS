@@ -184,12 +184,14 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFatBinary));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnregisterFatBinary));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFunction));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterVar));
 
     /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyAsync));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToSymbol));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memset));
 
     /* CudaRtHandler_thread */

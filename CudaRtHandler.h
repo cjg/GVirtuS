@@ -82,12 +82,14 @@ CUDA_ROUTINE_HANDLER(SetupArgument);
 CUDA_ROUTINE_HANDLER(RegisterFatBinary);
 CUDA_ROUTINE_HANDLER(UnregisterFatBinary);
 CUDA_ROUTINE_HANDLER(RegisterFunction);
+CUDA_ROUTINE_HANDLER(RegisterVar);
 
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);
 CUDA_ROUTINE_HANDLER(Malloc);
 CUDA_ROUTINE_HANDLER(Memcpy);
 CUDA_ROUTINE_HANDLER(MemcpyAsync);
+CUDA_ROUTINE_HANDLER(MemcpyToSymbol);
 CUDA_ROUTINE_HANDLER(Memset);
 
 /* CudaRtHandler_thread */

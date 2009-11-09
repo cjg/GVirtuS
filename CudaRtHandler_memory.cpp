@@ -146,6 +146,47 @@ CUDA_ROUTINE_HANDLER(MemcpyAsync) {
     return result;
 }
 
+CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
+    void *src = NULL;
+
+    cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
+    size_t offset = input_buffer->BackGet<size_t>();
+    size_t count = input_buffer->BackGet<size_t > ();
+    char *symbol = input_buffer->AssignString();
+    char *dev_ptr_handler;
+    cudaError_t exit_code;
+    Result * result = NULL;
+
+    switch (kind) {
+        case cudaMemcpyHostToHost:
+            // This should never happen
+            result = new Result(cudaErrorInvalidMemcpyDirection);
+            break;
+        case cudaMemcpyHostToDevice:
+            /* Achtung: this isn't strictly correct because here we assign just
+             * a pointer to one character, any successive assign should
+             * take inaxpectated result ... but it works here!
+             */
+            src = input_buffer->Assign<char>();
+            exit_code = cudaMemcpyToSymbol(symbol, src, count, offset, kind);
+            result = new Result(exit_code);
+            break;
+        case cudaMemcpyDeviceToHost:
+            // This should never happen
+            result = new Result(cudaErrorInvalidMemcpyDirection);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            dev_ptr_handler =
+                    input_buffer->Assign<char>(
+                    CudaUtil::MarshaledDevicePointerSize);
+            src = pThis->GetDevicePointer(dev_ptr_handler);
+            exit_code = cudaMemcpyToSymbol(symbol, src, count, offset, kind);
+            result = new Result(exit_code);
+            break;
+    }
+    return result;
+}
+
 CUDA_ROUTINE_HANDLER(Memset) {
     char *dev_ptr_handler =
             input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
