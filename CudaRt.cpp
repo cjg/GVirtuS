@@ -371,26 +371,6 @@ extern __host__ cudaError_t CUDARTAPI cudaSetDoubleForHost(double *d) {
 }
 
 
-extern __host__ cudaError_t CUDARTAPI cudaStreamCreate(cudaStream_t *stream) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaStreamDestroy(cudaStream_t stream) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaStreamQuery(cudaStream_t stream) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaStreamSynchronize(cudaStream_t stream) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
 extern __host__ cudaError_t CUDARTAPI cudaUnbindTexture(const struct textureReference *texref) {
     /* FIXME: implement */
     return cudaErrorUnknown;
