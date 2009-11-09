@@ -88,3 +88,14 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
     return result;
 }
 
+CUDA_ROUTINE_HANDLER(Memset) {
+    char *dev_ptr_handler =
+            input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
+    void *devPtr = pThis->GetDevicePointer(dev_ptr_handler);
+    int value = input_buffer->Get<int>();
+    size_t count = input_buffer->Get<size_t>();
+
+    cudaError_t exit_code = cudaMemset(devPtr, value, count);
+
+    return new Result(exit_code);
+}
