@@ -67,22 +67,22 @@ extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaMalloc3D(struct cudaPitchedPtr *pitchedDevPtr,
-        struct cudaExtent extent) {
+extern cudaError_t cudaMalloc3D(cudaPitchedPtr *pitchedDevPtr,
+        cudaExtent extent) {
     // FIXME: implement
     cerr << "*** Error: cudaMalloc3D() not yet implemented!" << endl;
     return cudaErrorUnknown;
 }
 
-extern cudaError_t cudaMalloc3DArray(struct cudaArray **arrayPtr,
-        const struct cudaChannelFormatDesc *desc, struct cudaExtent extent) {
+extern cudaError_t cudaMalloc3DArray(cudaArray **arrayPtr,
+        const cudaChannelFormatDesc *desc, cudaExtent extent) {
     // FIXME: implement
     cerr << "*** Error: cudaMalloc3DArray() not yet implemented!" << endl;
     return cudaErrorUnknown;
 }
 
-extern cudaError_t cudaMallocArray(struct cudaArray **arrayPtr,
-        const struct cudaChannelFormatDesc *desc, size_t width, size_t height) {
+extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
+        const cudaChannelFormatDesc *desc, size_t width, size_t height) {
     // FIXME: implement
     cerr << "*** Error: cudaMallocArray() not yet implemented!" << endl;
     return cudaErrorUnknown;

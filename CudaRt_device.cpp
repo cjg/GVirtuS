@@ -5,7 +5,7 @@
 
 using namespace std;
 
-extern cudaError_t cudaChooseDevice(int *device, const struct cudaDeviceProp *prop) {
+extern cudaError_t cudaChooseDevice(int *device, const cudaDeviceProp *prop) {
     /* FIXME: implement */
     cerr << "*** Error: cudaChooseDevice() not yet implemented!" << endl;
     return cudaErrorUnknown;
@@ -26,8 +26,7 @@ extern cudaError_t cudaGetDeviceCount(int *count) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaGetDeviceProperties(struct cudaDeviceProp *prop,
-    int device) {
+extern cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(prop);
     f->AddVariableForArguments(device);

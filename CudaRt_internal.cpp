@@ -6,7 +6,7 @@
  KEEP THEM WITH CARE
  */
 
-void** __cudaRegisterFatBinary(void *fatCubin) {
+extern void** __cudaRegisterFatBinary(void *fatCubin) {
     /* Fake host pointer */
     void ** handler = (void **) & fatCubin;
     Buffer * input_buffer = new Buffer();
@@ -21,13 +21,13 @@ void** __cudaRegisterFatBinary(void *fatCubin) {
     return NULL;
 }
 
-void __cudaUnregisterFatBinary(void **fatCubinHandle) {
+extern void __cudaUnregisterFatBinary(void **fatCubinHandle) {
     /* FIXME: implement */
     cerr << "*** Error: __cudaUnregisterFatBinary() not yet implemented!"
             << endl;
 }
 
-void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun, 
+extern void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
         char *deviceFun, const char *deviceName, int thread_limit, uint3 *tid,
         uint3 *bid, dim3 *bDim, dim3 *gDim, int *wSize) {
     Frontend *f = Frontend::GetFrontend();
@@ -52,19 +52,19 @@ void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
     wSize = f->GetOutputHostPointer<int>();
 }
 
-void __cudaRegisterVar(void **fatCubinHandle, char *hostVar, 
+extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
         char *deviceAddress, const char *deviceName, int ext, int size,
         int constant, int global) {
     // FIXME: implement
     cerr << "*** Error: __cudaRegisterVar() not yet implemented!" << endl;
 }
 
-void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
+extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
     // FIXME: implement
     cerr << "*** Error: __cudaRegisterShared() not yet implemented!" << endl;
 }
 
-void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr, 
+extern void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
         size_t size, size_t alignment, int storage) {
     // FIXME: implement
     cerr << "*** Error: __cudaRegisterSharedVar() not yet implemented!" << endl;

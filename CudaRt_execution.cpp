@@ -6,8 +6,7 @@
 using namespace std;
 
 extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
-        size_t sharedMem, cudaStream_t stream)
-{
+        size_t sharedMem, cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
     f->AddVariableForArguments(gridDim);
     f->AddVariableForArguments(blockDim);
@@ -24,8 +23,7 @@ extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
     return cudaErrorUnknown;
 }
 
-extern cudaError_t cudaLaunch(const char *entry)
-{
+extern cudaError_t cudaLaunch(const char *entry) {
     Frontend *f = Frontend::GetFrontend();
     f->AddStringForArguments(entry);
     f->Execute("cudaLaunch");
@@ -44,10 +42,10 @@ extern cudaError_t cudaSetDoubleForHost(double *d) {
     return cudaErrorUnknown;
 }
 
-extern cudaError_t cudaSetupArgument(const void *arg, size_t size, size_t offset)
-{
+extern cudaError_t cudaSetupArgument(const void *arg, size_t size,
+        size_t offset) {
     Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(static_cast<const char *>(arg), size);
+    f->AddHostPointerForArguments(static_cast<const char *> (arg), size);
     f->AddVariableForArguments(size);
     f->AddVariableForArguments(offset);
     f->Execute("cudaSetupArgument");
