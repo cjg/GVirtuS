@@ -224,9 +224,51 @@ extern cudaError_t cudaMemcpyArrayToArray(cudaArray *dst, size_t wOffsetDst,
 
 extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
         cudaMemcpyKind kind, cudaStream_t stream) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemcpyAsync() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    switch (kind) {
+        case cudaMemcpyHostToHost:
+            /* NOTE: no communication is performed, because it's just overhead
+             * here */
+            f->AddHostPointerForArguments("");
+            f->AddHostPointerForArguments("");
+            f->AddVariableForArguments(kind);
+            f->AddVariableForArguments(stream);
+            f->Execute("cudaMemcpyAsync");
+            if (memmove(dst, src, count) == NULL)
+                return cudaErrorInvalidValue;
+            return cudaSuccess;
+            break;
+        case cudaMemcpyHostToDevice:
+            f->AddDevicePointerForArguments(dst);
+            f->AddHostPointerForArguments<char>(static_cast<char *>
+                    (const_cast<void *> (src)), count);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->AddVariableForArguments(stream);
+            f->Execute("cudaMemcpyAsync");
+            break;
+        case cudaMemcpyDeviceToHost:
+            /* NOTE: adding a fake host pointer */
+            f->AddHostPointerForArguments("");
+            f->AddDevicePointerForArguments(src);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->AddVariableForArguments(stream);
+            f->Execute("cudaMemcpyAsync");
+            if (f->Success())
+                memmove(dst, f->GetOutputHostPointer<char>(count), count);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            f->AddDevicePointerForArguments(dst);
+            f->AddDevicePointerForArguments(src);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->AddVariableForArguments(stream);
+            f->Execute("cudaMemcpyAsync");
+            break;
+    }
+
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMemcpyFromArray(void *dst, const cudaArray *src,

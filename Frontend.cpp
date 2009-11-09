@@ -48,7 +48,7 @@ Frontend * Frontend::GetFrontend() {
 }
 
 void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
-    if(input_buffer == NULL)
+    if (input_buffer == NULL)
         input_buffer = mpInputBuffer;
 
     /* sending job */
@@ -61,13 +61,12 @@ void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
     std::istream &in = mpCommunicator->GetInputStream();
 
     mpOutputBuffer->Reset();
+
     in.read((char *) & mExitCode, sizeof (cudaError_t));
-    if(mExitCode == cudaSuccess) {
-        size_t out_buffer_size;
-        in.read((char *) &out_buffer_size, sizeof (size_t));
-        if (out_buffer_size > 0)
-            mpOutputBuffer->Read<char>(in, out_buffer_size);
-    }
+    size_t out_buffer_size;
+    in.read((char *) & out_buffer_size, sizeof (size_t));
+    if (out_buffer_size > 0)
+        mpOutputBuffer->Read<char>(in, out_buffer_size);
 }
 
 void Frontend::Prepare() {
