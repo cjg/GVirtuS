@@ -89,9 +89,11 @@ extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
 }
 
 extern cudaError_t cudaMallocHost(void **ptr, size_t size) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMallocHost() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    // Achtung: we can't use host page-locked memory, so we use simple pageable
+    // memory here.
+    if((*ptr = malloc(size)) == NULL)
+        return cudaErrorMemoryAllocation;
+    return cudaSuccess;
 }
 
 extern cudaError_t cudaMallocPitch(void **devPtr, size_t *pitch, size_t width,
@@ -289,10 +291,13 @@ extern cudaError_t cudaMemcpyToSymbolAsync(const char *symbol, const void *src,
     return cudaErrorUnknown;
 }
 
-extern cudaError_t cudaMemset(void *mem, int c, size_t count) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemset() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+extern cudaError_t cudaMemset(void *devPtr, int c, size_t count) {
+    Frontend *f = Frontend::GetFrontend();
+    f->AddDevicePointerForArguments(devPtr);
+    f->AddVariableForArguments(c);
+    f->AddVariableForArguments(count);
+    f->Execute("cudaMemset");
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMemset2D(void *mem, size_t pitch, int c, size_t width,
