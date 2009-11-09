@@ -12,6 +12,50 @@ extern cudaError_t cudaFree(void *devPtr) {
     return f->GetExitCode();
 }
 
+extern cudaError_t cudaFreeArray(struct cudaArray *array) {
+    // FIXME: implement
+    cerr << "*** Error: cudaFreeArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaFreeHost(void *ptr) {
+    // FIXME: implement
+    cerr << "*** Error: cudaFreeHost() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaGetSymbolAddress(void **devPtr, const char *symbol) {
+    // FIXME: implement
+    cerr << "*** Error: cudaGetSymbolAddress() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaGetSymbolSize(size_t *size, const char *symbol) {
+    // FIXME: implement
+    cerr << "*** Error: cudaGetSymbolSize() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaHostAlloc(void **ptr, size_t size, unsigned int flags) {
+    // FIXME: implement
+    cerr << "*** Error: cudaHostAlloc() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost,
+        unsigned int flags) {
+    // FIXME: implement
+    cerr << "*** Error: cudaHostGetDevicePointer() not yet implemented!"
+            << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaHostGetFlags(unsigned int *pFlags, void *pHost) {
+    // FIXME: implement
+    cerr << "*** Error: cudaHostGetFlags() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
 extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
     Frontend *f = Frontend::GetFrontend();
 
@@ -23,19 +67,55 @@ extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
     return f->GetExitCode();
 }
 
+extern cudaError_t cudaMalloc3D(struct cudaPitchedPtr *pitchedDevPtr,
+        struct cudaExtent extent) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMalloc3D() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMalloc3DArray(struct cudaArray **arrayPtr,
+        const struct cudaChannelFormatDesc *desc, struct cudaExtent extent) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMalloc3DArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMallocArray(struct cudaArray **arrayPtr,
+        const struct cudaChannelFormatDesc *desc, size_t width, size_t height) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMallocArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMallocHost(void **ptr, size_t size) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMallocHost() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMallocPitch(void **devPtr, size_t *pitch, size_t width,
+        size_t height) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMallocPitch() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
 extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
         cudaMemcpyKind kind) {
     Frontend *f = Frontend::GetFrontend();
     switch (kind) {
         case cudaMemcpyHostToHost:
-            /* NOTE: no communication is performed, because it's just overhead here */
+            /* NOTE: no communication is performed, because it's just overhead
+             * here */
             if (memmove(dst, src, count) == NULL)
                 return cudaErrorInvalidValue;
             return cudaSuccess;
             break;
         case cudaMemcpyHostToDevice:
             f->AddDevicePointerForArguments(dst);
-            f->AddHostPointerForArguments<char>(static_cast<char *>(const_cast<void *>(src)), count);
+            f->AddHostPointerForArguments<char>(static_cast<char *>
+                    (const_cast<void *> (src)), count);
             f->AddVariableForArguments(count);
             f->AddVariableForArguments(kind);
             f->Execute("cudaMemcpy");
@@ -48,7 +128,7 @@ extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
             f->AddVariableForArguments(kind);
             f->Execute("cudaMemcpy");
             if (f->Success())
-               memmove(dst, f->GetOutputHostPointer<char>(count), count);
+                memmove(dst, f->GetOutputHostPointer<char>(count), count);
             break;
         case cudaMemcpyDeviceToDevice:
             f->AddDevicePointerForArguments(dst);
@@ -60,4 +140,28 @@ extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
     }
 
     return f->GetExitCode();
+}
+
+extern cudaError_t cudaMemcpy2D(void *dst, size_t dpitch, const void *src,
+        size_t spitch, size_t width, size_t height, cudaMemcpyKind kind) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy2D() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpy2DArrayToArray(cudaArray *dst, size_t wOffsetDst,
+        size_t hOffsetDst, const cudaArray *src, size_t wOffsetSrc,
+        size_t hOffsetSrc, size_t width, size_t height, cudaMemcpyKind kind) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy2DArrayToArray() not yet implemented!"
+            << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
+        size_t spitch, size_t width, size_t height, cudaMemcpyKind kind,
+        cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy2DAsync() not yet implemented!" << endl;
+    return cudaErrorUnknown;
 }

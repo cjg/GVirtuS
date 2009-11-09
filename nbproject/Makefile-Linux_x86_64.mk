@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/CudaRt_device.o \
 	${OBJECTDIR}/CudaRt.o \
 	${OBJECTDIR}/CudaRt_thread.o \
+	${OBJECTDIR}/CudaRt_version.o \
 	${OBJECTDIR}/Frontend.o
 
 # C Compiler Flags
@@ -106,6 +107,11 @@ ${OBJECTDIR}/CudaRt_thread.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_thread.cp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -D_CONFIG_FILE=\"/home/cjg/echoes.xml\" -I/opt/cuda/include -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_thread.o CudaRt_thread.cpp
+
+${OBJECTDIR}/CudaRt_version.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_version.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -D_CONFIG_FILE=\"/home/cjg/echoes.xml\" -I/opt/cuda/include -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_version.o CudaRt_version.cpp
 
 ${OBJECTDIR}/Frontend.o: nbproject/Makefile-${CND_CONF}.mk Frontend.cpp 
 	${MKDIR} -p ${OBJECTDIR}

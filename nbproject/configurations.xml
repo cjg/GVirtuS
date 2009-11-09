@@ -27,6 +27,7 @@
     <itemPath>CudaRt_memory.cpp</itemPath>
     <itemPath>CudaRt_stream.cpp</itemPath>
     <itemPath>CudaRt_thread.cpp</itemPath>
+    <itemPath>CudaRt_version.cpp</itemPath>
     <itemPath>Frontend.cpp</itemPath>
     <itemPath>Frontend.h</itemPath>
   </logicalFolder>

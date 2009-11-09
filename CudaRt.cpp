@@ -114,16 +114,6 @@ extern __host__ struct cudaChannelFormatDesc CUDARTAPI cudaCreateChannelDesc(int
     return result;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaFreeArray(struct cudaArray *array) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaFreeHost(void *ptr) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
 extern __host__ cudaError_t CUDARTAPI cudaGLMapBufferObject(void **devPtr, GLuint bufObj) {
     /* FIXME: implement */
     return cudaErrorUnknown;
@@ -154,65 +144,12 @@ extern __host__ cudaError_t CUDARTAPI cudaGetChannelDesc(struct cudaChannelForma
     return cudaErrorUnknown;
 }
 
-
-
-
-extern __host__ cudaError_t CUDARTAPI cudaGetSymbolAddress(void **devPtr, const char *symbol) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGetSymbolSize(size_t *size, const char *symbol) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
 extern __host__ cudaError_t CUDARTAPI cudaGetTextureAlignmentOffset(size_t *offset, const struct textureReference *texref) {
     /* FIXME: implement */
     return cudaErrorUnknown;
 }
 
 extern __host__ cudaError_t CUDARTAPI cudaGetTextureReference(const struct textureReference **texref, const char *symbol) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMalloc3D(struct cudaPitchedPtr* pitchDevPtr, struct cudaExtent extent) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMalloc3DArray(struct cudaArray** arrayPtr, const struct cudaChannelFormatDesc* desc, struct cudaExtent extent) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMallocArray(struct cudaArray **array, const struct cudaChannelFormatDesc *desc, size_t width, size_t height __dv(1)) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMallocHost(void **ptr, size_t size) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMallocPitch(void **devPtr, size_t *pitch, size_t width, size_t height) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMemcpy2D(void *dst, size_t dpitch, const void *src, size_t spitch, size_t width, size_t height, enum cudaMemcpyKind kind) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMemcpy2DArrayToArray(struct cudaArray *dst, size_t wOffsetDst, size_t hOffsetDst, const struct cudaArray *src, size_t wOffsetSrc, size_t hOffsetSrc, size_t width, size_t height, enum cudaMemcpyKind kind __dv(cudaMemcpyDeviceToDevice)) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src, size_t spitch, size_t width, size_t height, enum cudaMemcpyKind kind, cudaStream_t stream) {
     /* FIXME: implement */
     return cudaErrorUnknown;
 }
