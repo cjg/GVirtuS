@@ -76,5 +76,9 @@ CUDA_ROUTINE_HANDLER(Memcpy);
 CUDA_ROUTINE_HANDLER(ThreadExit);
 CUDA_ROUTINE_HANDLER(ThreadSynchronize);
 
+/* CudaRtHandler_version */
+CUDA_ROUTINE_HANDLER(DriverGetVersion);
+CUDA_ROUTINE_HANDLER(RuntimeGetVersion);
+
 #endif	/* _CUDARTHANDLER_H */
 

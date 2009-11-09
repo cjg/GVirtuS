@@ -29,32 +29,6 @@ CudaRtHandler::~CudaRtHandler() {
 
 }
 
-static cudaError_t ThreadSynchronize(CudaRtHandler *pThis, char *in_buffer,
-        size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size) {
-    /* cudaError_t cudaThreadSynchronize(void) */
-    cudaError_t result = cudaThreadSynchronize();
-
-    if(result == cudaSuccess) {
-        *out_buffer_size = 0;
-        *out_buffer = NULL;
-    }
-
-    return result;
-}
-
-static cudaError_t GetLastError(CudaRtHandler *pThis, char *in_buffer,
-        size_t in_buffer_size, char **out_buffer, size_t *out_buffer_size) {
-    /* cudaError_t cudaThreadSynchronize(void) */
-    cudaError_t result = cudaGetLastError();
-
-    if(result == cudaSuccess) {
-        *out_buffer_size = 0;
-        *out_buffer = NULL;
-    }
-
-    return result;
-}
-
 void CudaRtHandler::RegisterDevicePointer(std::string& handler, void* devPtr) {
     map<string, void *>::iterator it = mpDeviceMemory->find(handler);
     if (it != mpDeviceMemory->end()) {
@@ -190,4 +164,8 @@ void CudaRtHandler::Initialize() {
     /* CudaRtHandler_thread */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadSynchronize));
+
+    /* CudaRtHandler_version */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DriverGetVersion));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RuntimeGetVersion));
 }
