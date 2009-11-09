@@ -17,23 +17,6 @@
 using namespace std;
 
 /*
-char * CudaRt::MarshalDevicePointer(const void* devPtr) {
-    char *marshal = new char[CudaUtil::MarshaledDevicePointerSize];
-    MarshalDevicePointer(devPtr, marshal);
-    return marshal;
-}
-
-void CudaRt::MarshalDevicePointer(const void* devPtr, char * marshal) {
-    sprintf(marshal, "%x", devPtr);
-    size_t len = strlen(marshal);
-    memmove(marshal + 2 + sizeof(void *) * 2 - len, marshal, len + 1);
-    marshal[0] = '0';
-    marshal[1] = 'x';
-    memset(marshal + 2, '0', sizeof(void *) * 2 - len);
-}
-*/
- 
-/*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE
  */
@@ -129,36 +112,6 @@ extern __host__ struct cudaChannelFormatDesc CUDARTAPI cudaCreateChannelDesc(int
     /* FIXME: implement */
     struct cudaChannelFormatDesc result;
     return result;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaEventCreate(cudaEvent_t *event) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaEventDestroy(cudaEvent_t event) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_t end) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaEventQuery(cudaEvent_t event) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaEventRecord(cudaEvent_t event, cudaStream_t stream) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaEventSynchronize(cudaEvent_t event) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
 }
 
 extern __host__ cudaError_t CUDARTAPI cudaFreeArray(struct cudaArray *array) {

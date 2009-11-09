@@ -32,6 +32,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/CudaRt_memory.o \
+	${OBJECTDIR}/CudaRt_event.o \
 	${OBJECTDIR}/CudaRt_stream.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesFrontend/CudaRt_execution.o \
 	${OBJECTDIR}/CudaRt_error.o \
@@ -70,6 +71,11 @@ ${OBJECTDIR}/CudaRt_memory.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_memory.cp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -D_CONFIG_FILE=\"/home/cjg/echoes.xml\" -I/opt/cuda/include -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_memory.o CudaRt_memory.cpp
+
+${OBJECTDIR}/CudaRt_event.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_event.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -D_CONFIG_FILE=\"/home/cjg/echoes.xml\" -I/opt/cuda/include -I../EchoesUtil -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_event.o CudaRt_event.cpp
 
 ${OBJECTDIR}/CudaRt_stream.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_stream.cpp 
 	${MKDIR} -p ${OBJECTDIR}
