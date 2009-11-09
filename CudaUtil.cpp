@@ -27,12 +27,7 @@ char * CudaUtil::MarshalHostPointer(const void* ptr) {
 }
 
 void CudaUtil::MarshalHostPointer(const void * ptr, char * marshal) {
-    sprintf(marshal, "0x%x", ptr);
-    //size_t len = strlen(marshal);
-    //memmove(marshal + 2 + sizeof(void *) * 2 - len, marshal, len + 1);
-    //marshal[0] = '0';
-    //marshal[1] = 'x';
-    //memset(marshal + 2, '0', sizeof(void *) * 2 - len);
+    sprintf(marshal, "%p", ptr);
 }
 
 char * CudaUtil::MarshalDevicePointer(const void* devPtr) {
@@ -42,12 +37,7 @@ char * CudaUtil::MarshalDevicePointer(const void* devPtr) {
 }
 
 void CudaUtil::MarshalDevicePointer(const void* devPtr, char * marshal) {
-    sprintf(marshal, "%x", devPtr);
-    size_t len = strlen(marshal);
-    memmove(marshal + 2 + sizeof(void *) * 2 - len, marshal, len + 1);
-    marshal[0] = '0';
-    marshal[1] = 'x';
-    memset(marshal + 2, '0', sizeof(void *) * 2 - len);
+    sprintf(marshal, "%p", devPtr);
 }
 
 #if 0

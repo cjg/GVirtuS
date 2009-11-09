@@ -38,7 +38,7 @@ Buffer::Buffer(const Buffer& orig) {
 }
 
 Buffer::Buffer(istream & in) {
-    in.read((char *) &mSize, sizeof(size_t));
+    in.read((char *) & mSize, sizeof (size_t));
     mBlockSize = BLOCK_SIZE;
     mLength = mSize;
     mOffset = 0;
@@ -46,8 +46,6 @@ Buffer::Buffer(istream & in) {
         throw "Can't allocate memory.";
     in.read(mpBuffer, mSize);
     mBackOffset = mLength;
-    cout << "Buffer " << mSize << " " << mLength << " " << mOffset << " "
-        << mBackOffset << endl;
 }
 
 Buffer::Buffer(char* buffer, size_t buffer_size, size_t block_size) {
@@ -79,7 +77,8 @@ size_t Buffer::GetBufferSize() const {
 }
 
 void Buffer::Dump(std::ostream& out) const {
-    out.write((char *) &mLength, sizeof(size_t));
+    out.write((char *) & mLength, sizeof (size_t));
     out.write(mpBuffer, mLength);
+    out.flush();
 }
 
