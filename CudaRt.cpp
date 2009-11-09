@@ -97,31 +97,6 @@ extern void CUDARTAPI __cudaTextureFetch(const void *tex, void *index, int integ
     cerr << "*** Error: __cudaTextureFetch() not yet implemented!" << endl;
 }
 
-extern __host__ cudaError_t CUDARTAPI cudaGLMapBufferObject(void **devPtr, GLuint bufObj) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGLRegisterBufferObject(GLuint bufObj) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGLSetGLDevice(int device) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGLUnmapBufferObject(GLuint bufObj) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
-extern __host__ cudaError_t CUDARTAPI cudaGLUnregisterBufferObject(GLuint bufObj) {
-    /* FIXME: implement */
-    return cudaErrorUnknown;
-}
-
 extern __host__ cudaError_t CUDARTAPI cudaMemcpy2DFromArray(void *dst, size_t dpitch, const struct cudaArray *src, size_t wOffset, size_t hOffset, size_t width, size_t height, enum cudaMemcpyKind kind) {
     /* FIXME: implement */
     return cudaErrorUnknown;

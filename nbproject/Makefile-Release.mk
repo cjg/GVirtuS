@@ -34,6 +34,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/CudaRt_device.o \
 	${OBJECTDIR}/CudaRt_texture.o \
 	${OBJECTDIR}/CudaRt.o \
+	${OBJECTDIR}/CudaRt_opengl.o \
 	${OBJECTDIR}/CudaRt_thread.o \
 	${OBJECTDIR}/Frontend.o \
 	${OBJECTDIR}/CudaRt_memory.o \
@@ -81,6 +82,11 @@ ${OBJECTDIR}/CudaRt.o: nbproject/Makefile-${CND_CONF}.mk CudaRt.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt.o CudaRt.cpp
+
+${OBJECTDIR}/CudaRt_opengl.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_opengl.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_opengl.o CudaRt_opengl.cpp
 
 ${OBJECTDIR}/CudaRt_thread.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
