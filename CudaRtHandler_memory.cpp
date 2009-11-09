@@ -37,7 +37,7 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
     size_t count = input_buffer->BackGet<size_t > ();
     char *dev_ptr_handler;
     cudaError_t exit_code;
-    Result * result;
+    Result * result = NULL;
     Buffer *out;
 
     switch (kind) {
