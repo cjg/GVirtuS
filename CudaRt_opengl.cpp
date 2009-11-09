@@ -19,7 +19,7 @@ extern cudaError_t cudaGLMapBufferObjectAsync(void **devPtr, GLuint bufObj,
 
 extern cudaError_t cudaGLRegisterBufferObject(GLuint bufObj) {
     // FIXME: implement
-    cerr << "*** Error: cudaGLRegisterBufferObject() not yet implemented!"
+    cerr << "*** Error: cudaGlRegisterBufferObject() not yet implemented!"
             << endl;
     return cudaErrorUnknown;
 }
@@ -34,7 +34,7 @@ extern cudaError_t cudaGLSetBufferObjectMapFlags(GLuint bufObj,
 
 extern cudaError_t cudaGLSetGLDevice(int device) {
     // FIXME: implement
-    cerr << "*** Error: cudaGLSetDevice() not yet implemented!" << endl;
+    cerr << "*** Error: cudaGlSetGLDevice() not yet implemented!" << endl;
     return cudaErrorUnknown;
 }
 

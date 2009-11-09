@@ -69,8 +69,10 @@ extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 }
 
 extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
-    // FIXME: implement
-    cerr << "*** Error: __cudaRegisterShared() not yet implemented!" << endl;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
+    f->AddStringForArguments((char *) devicePtr);
+    f->Execute("cudaRegisterShared");
 }
 
 extern void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
