@@ -165,3 +165,146 @@ extern cudaError_t cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src,
     cerr << "*** Error: cudaMemcpy2DAsync() not yet implemented!" << endl;
     return cudaErrorUnknown;
 }
+
+extern cudaError_t cudaMemcpy2DFromArray(void *dst, size_t dpitch,
+        const cudaArray *src, size_t wOffset, size_t hOffset, size_t width,
+        size_t height, cudaMemcpyKind kind) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy2DFromArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpy2DFromArrayAsync(void *dst, size_t dpitch,
+        const cudaArray *src, size_t wOffset, size_t hOffset, size_t width,
+        size_t height, cudaMemcpyKind kind, cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy2DFromArrayAsync() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpy2DToArray(cudaArray *dst, size_t wOffset,
+        size_t hOffset, const void *src, size_t spitch, size_t width,
+        size_t height, cudaMemcpyKind kind) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy2DToArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpy2DToArrayAsync(cudaArray *dst, size_t wOffset,
+        size_t hOffset, const void *src, size_t spitch, size_t width,
+        size_t height, cudaMemcpyKind kind, cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy2DToArrayAsync() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpy3D(const cudaMemcpy3DParms *p) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy3D() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpy3DAsync(const cudaMemcpy3DParms *p,
+        cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpy3DAsync() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyArrayToArray(cudaArray *dst, size_t wOffsetDst,
+        size_t hOffsetDst, const cudaArray *src, size_t wOffsetSrc,
+        size_t hOffsetSrc, size_t count,
+        cudaMemcpyKind kind __dv(cudaMemcpyDeviceToDevice)) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyArrayToArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
+        cudaMemcpyKind kind, cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyAsync() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyFromArray(void *dst, const cudaArray *src,
+        size_t wOffset, size_t hOffset, size_t count, cudaMemcpyKind kind) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyFromArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyFromArrayAsync(void *dst, const cudaArray *src,
+        size_t wOffset, size_t hOffset, size_t count, cudaMemcpyKind kind,
+        cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyFromArrayAsync() not yet implemented!"
+            << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyFromSymbol(void *dst, const char *symbol,
+        size_t count, size_t offset __dv(0),
+        cudaMemcpyKind kind __dv(cudaMemcpyDeviceToHost)) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyFromSymbol() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyFromSymbolAsync(void *dst, const char *symbol,
+        size_t count, size_t offset, cudaMemcpyKind kind, cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyFromSymbolAsync() not yet implemented!"
+            << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyToArray(cudaArray *dst, size_t wOffset,
+        size_t hOffset, const void *src, size_t count, cudaMemcpyKind kind) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyToArray() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyToArrayAsync(cudaArray *dst, size_t wOffset,
+        size_t hOffset, const void *src, size_t count, cudaMemcpyKind kind,
+        cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyToArrayAsync() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyToSymbol(const char *symbol, const void *src,
+        size_t count, size_t offset __dv(0),
+        cudaMemcpyKind kind __dv(cudaMemcpyHostToDevice)) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyToSymbol() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemcpyToSymbolAsync(const char *symbol, const void *src,
+        size_t count, size_t offset, cudaMemcpyKind kind, cudaStream_t stream) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemcpyToSymbolAsync() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemset(void *mem, int c, size_t count) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemset() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemset2D(void *mem, size_t pitch, int c, size_t width,
+        size_t height) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemset2D() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
+
+extern cudaError_t cudaMemset3D(cudaPitchedPtr pitchDevPtr, int value,
+        cudaExtent extent) {
+    // FIXME: implement
+    cerr << "*** Error: cudaMemset3D() not yet implemented!" << endl;
+    return cudaErrorUnknown;
+}
