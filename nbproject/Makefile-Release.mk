@@ -31,6 +31,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/CudaRt_internal.o \
 	${OBJECTDIR}/CudaRt_device.o \
 	${OBJECTDIR}/CudaRt_texture.o \
 	${OBJECTDIR}/CudaRt.o \
@@ -67,6 +68,11 @@ LDLIBSOPTIONS=
 dist/Release/GNU-Linux-x86/libEchoesFrontend.so: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/GNU-Linux-x86
 	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesFrontend.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/CudaRt_internal.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_internal.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRt_internal.o CudaRt_internal.cpp
 
 ${OBJECTDIR}/CudaRt_device.o: nbproject/Makefile-${CND_CONF}.mk CudaRt_device.cpp 
 	${MKDIR} -p ${OBJECTDIR}

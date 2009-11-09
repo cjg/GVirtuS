@@ -24,6 +24,7 @@
     <itemPath>CudaRt_error.cpp</itemPath>
     <itemPath>CudaRt_event.cpp</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesFrontend/CudaRt_execution.cpp</itemPath>
+    <itemPath>CudaRt_internal.cpp</itemPath>
     <itemPath>CudaRt_memory.cpp</itemPath>
     <itemPath>CudaRt_opengl.cpp</itemPath>
     <itemPath>CudaRt_stream.cpp</itemPath>
