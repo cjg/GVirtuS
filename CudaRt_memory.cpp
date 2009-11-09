@@ -320,9 +320,35 @@ extern cudaError_t cudaMemcpyToArrayAsync(cudaArray *dst, size_t wOffset,
 extern cudaError_t cudaMemcpyToSymbol(const char *symbol, const void *src,
         size_t count, size_t offset __dv(0),
         cudaMemcpyKind kind __dv(cudaMemcpyHostToDevice)) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemcpyToSymbol() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+        Frontend *f = Frontend::GetFrontend();
+    switch (kind) {
+        case cudaMemcpyHostToHost:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        case cudaMemcpyHostToDevice:
+            f->AddStringForArguments(symbol);
+            f->AddHostPointerForArguments<char>(static_cast<char *>
+                    (const_cast<void *> (src)), count);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(offset);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpyToSymbol");
+            break;
+        case cudaMemcpyDeviceToHost:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        case cudaMemcpyDeviceToDevice:
+            f->AddStringForArguments(symbol);
+            f->AddDevicePointerForArguments(src);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpyToSymbol");
+            break;
+    }
+
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMemcpyToSymbolAsync(const char *symbol, const void *src,
