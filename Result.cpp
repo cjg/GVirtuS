@@ -26,6 +26,7 @@ Result::Result(std::istream & in) {
 }
 
 Result::~Result() {
+    delete mpOutputBuffer;
 }
 
 cudaError_t Result::GetExitCode() {
