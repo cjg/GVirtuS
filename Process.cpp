@@ -34,8 +34,10 @@ void Process::Execute(void * arg) {
     cout << "[Process " << GetThreadId() <<  "]: Started." << endl;
 
     string routine;
+    Buffer * input_buffer = new Buffer();
     while(getline(mpInput, routine)) {
-        Buffer * input_buffer = new Buffer(mpInput);
+        //Buffer * input_buffer = new Buffer(mpInput);
+        input_buffer->Reset(mpInput);
         Result * result;
         cout << "[Process " << GetThreadId() <<  "]: Requested '" << routine
             << "' routine." << endl;
@@ -47,11 +49,11 @@ void Process::Execute(void * arg) {
             result = new Result(cudaErrorUnknown, new Buffer());
         }
         result->Dump(mpOutput);
-        delete input_buffer;
         cout << "[Process " << GetThreadId() << "]: Exit Code '"
             << cudaGetErrorString(result->GetExitCode()) << "'." << endl;
         delete result;
     }
+    delete input_buffer;
     Notify("process-ended");
     delete this;
 }
