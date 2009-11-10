@@ -25,7 +25,7 @@ extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
 
 extern cudaError_t cudaLaunch(const char *entry) {
     Frontend *f = Frontend::GetFrontend();
-    f->AddStringForArguments(entry);
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(entry));
     f->Execute("cudaLaunch");
     return f->GetExitCode();
 }

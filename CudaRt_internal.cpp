@@ -33,7 +33,7 @@ extern void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
         uint3 *bid, dim3 *bDim, dim3 *gDim, int *wSize) {
     Frontend *f = Frontend::GetFrontend();
     f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
-    f->AddStringForArguments(hostFun);
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(hostFun));
     f->AddStringForArguments(deviceFun);
     f->AddStringForArguments(deviceName);
     f->AddVariableForArguments(thread_limit);
