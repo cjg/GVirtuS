@@ -40,7 +40,8 @@ void CudaRtHandler::RegisterDevicePointer(std::string& handler, void* devPtr,
     unsigned addr = strtoul(handler.c_str(), NULL, 16);
     mpDeviceMemory->insert(make_pair(handler, new MemoryEntry((void *) addr,
             devPtr, size)));
-    cout << "Registered DevicePointer " << devPtr << " with handler " << handler << endl;
+    cout << "Registered DevicePointer " << devPtr << " with handler " << handler
+            << " and a size of " << size << endl;
 }
 
 void CudaRtHandler::RegisterDevicePointer(const char* handler, void* devPtr,
