@@ -15,14 +15,16 @@
 #include <builtin_types.h>
 #include <driver_types.h>
 #include "Result.h"
+#include "MemoryEntry.h"
 
 class CudaRtHandler {
 public:
     CudaRtHandler();
     virtual ~CudaRtHandler();
     Result * Execute(std::string routine, Buffer * input_buffer);
-    void RegisterDevicePointer(std::string & handler, void *devPtr);
-    void RegisterDevicePointer(const char * handler, void *devPtr);
+    void RegisterDevicePointer(std::string & handler, void *devPtr,
+            size_t size);
+    void RegisterDevicePointer(const char * handler, void *devPtr, size_t size);
     void *GetDevicePointer(std::string & handler);
     void *GetDevicePointer(const char * handler);
     void UnregisterDevicePointer(std::string & handler);
@@ -43,7 +45,7 @@ private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
     static std::map<std::string, CudaRoutineHandler> * mspHandlers;
-    std::map<std::string, void *> * mpDeviceMemory;
+    std::map<std::string, MemoryEntry *> * mpDeviceMemory;
     std::map<std::string, void **> * mpFatBinary;
     std::map<std::string, std::string> * mpDeviceFunction;
 };

@@ -22,7 +22,7 @@ CUDA_ROUTINE_HANDLER(Malloc) {
     size_t size = input_buffer->Get<size_t > ();
 
     cudaError_t exit_code = cudaMalloc(&devPtr, size);
-    pThis->RegisterDevicePointer(dev_ptr_handler, devPtr);
+    pThis->RegisterDevicePointer(dev_ptr_handler, devPtr, size);
 
     return new Result(exit_code);
 }
