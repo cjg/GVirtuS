@@ -132,6 +132,7 @@ public:
     }
 
     void Reset();
+    void Reset(std::istream & in);
     const char * const GetBuffer() const;
     size_t GetBufferSize() const;
     void Dump(std::ostream & out) const;

@@ -67,6 +67,18 @@ void Buffer::Reset() {
     mBackOffset = 0;
 }
 
+void Buffer::Reset(std::istream & in) {
+    in.read((char *) & mLength, sizeof (size_t));
+    mOffset = 0;
+    mBackOffset = mLength;
+    if (mLength >= mSize) {
+        mSize = (mLength / mBlockSize + 1) * mBlockSize;
+        if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
+            throw "Can't reallocate memory.";
+    }
+    in.read(mpBuffer, mLength);
+}
+
 const char * const Buffer::GetBuffer() const {
     return mpBuffer;
 }
