@@ -44,9 +44,9 @@ CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
 CUDA_ROUTINE_HANDLER(RegisterFunction) {
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
-    const char *hostFun = input_buffer->AssignString();
-    char *deviceFun = input_buffer->AssignString();
-    const char *deviceName = input_buffer->AssignString();
+    const char *hostFun = strdup(input_buffer->AssignString());
+    char *deviceFun = strdup(input_buffer->AssignString());
+    const char *deviceName = strdup(input_buffer->AssignString());
     int thread_limit = input_buffer->Get<int>();
     uint3 *tid = input_buffer->Assign<uint3 > ();
     uint3 *bid = input_buffer->Assign<uint3 > ();
