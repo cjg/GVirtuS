@@ -16,8 +16,6 @@ MemoryEntry::MemoryEntry(void* pHostHandler, void* pDeviceHandler,
     mpDeviceHandler = pDeviceHandler;
 
     mSize = size;
-    cout << "mpHostHandler: " << mpHostHander << " mpDeviceHandler: "
-        << mpDeviceHandler << " mSize: " << mSize << endl;
 }
 
 MemoryEntry::MemoryEntry(const MemoryEntry& orig) {
