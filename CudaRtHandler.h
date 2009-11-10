@@ -41,6 +41,11 @@ public:
     void RegisterDeviceFunction(const char * handler, const char * function);
     const char *GetDeviceFunction(std::string & handler);
     const char *GetDeviceFunction(const char * handler);
+
+    void RegisterVar(std::string & handler, std::string & symbol);
+    void RegisterVar(const char *handler, const char *symbol);
+    const char *GetVar(std::string & handler);
+    const char *GetVar(const char *handler);
 private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
@@ -48,6 +53,7 @@ private:
     std::map<std::string, MemoryEntry *> * mpDeviceMemory;
     std::map<std::string, void **> * mpFatBinary;
     std::map<std::string, std::string> * mpDeviceFunction;
+    std::map<std::string, std::string> * mpVar;
 };
 
 #define CUDA_ROUTINE_HANDLER(name) Result * handle##name(CudaRtHandler * pThis, Buffer * input_buffer)

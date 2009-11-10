@@ -152,7 +152,11 @@ CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
     cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
     size_t offset = input_buffer->BackGet<size_t>();
     size_t count = input_buffer->BackGet<size_t > ();
+    char *handler = input_buffer->AssignString();
     char *symbol = input_buffer->AssignString();
+    char *our_symbol = const_cast<char *>(pThis->GetVar(handler));
+    if(our_symbol != NULL)
+        symbol = const_cast<char *>(our_symbol);
     char *dev_ptr_handler;
     cudaError_t exit_code;
     Result * result = NULL;

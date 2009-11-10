@@ -76,18 +76,20 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     void **fatCubinHandle = pThis->GetFatBinary(handler);
     handler = input_buffer->AssignString();
     char *hostVar;
-    char *deviceAddress = input_buffer->AssignString();
-    char *deviceName = input_buffer->AssignString();
+    char *deviceAddress = strdup(input_buffer->AssignString());
+    char *deviceName = strdup(input_buffer->AssignString());
     int ext = input_buffer->Get<int>();
     int size = input_buffer->Get<int>();
     int constant = input_buffer->Get<int>();
     int global = input_buffer->Get<int>();
-
+    cout << deviceName << endl;
+    cout << handler << endl;
     // FIXME: this shouldn't be lost as it is
     hostVar = (char *) malloc(size);
 
     __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
             size, constant, global);
+    pThis->RegisterVar(handler, deviceName);
 
     return new Result(cudaSuccess);
 }

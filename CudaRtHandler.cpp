@@ -22,6 +22,7 @@ CudaRtHandler::CudaRtHandler() {
     mpDeviceMemory = new map<string, MemoryEntry *>();
     mpFatBinary = new map<string, void **>();
     mpDeviceFunction = new map<string, string>();
+    mpVar = new map<string, string>();
     Initialize();
 }
 
@@ -158,6 +159,28 @@ const char *CudaRtHandler::GetDeviceFunction(const char * handler) {
     return GetDeviceFunction(tmp);
 }
 
+void CudaRtHandler::RegisterVar(string & handler, string & symbol) {
+    mpVar->insert(make_pair(handler, symbol));
+    cout << "Registered Var " << symbol<< " with handler " << handler << endl;
+}
+
+void CudaRtHandler::RegisterVar(const char* handler, const char* symbol) {
+    string tmp1(handler);
+    string tmp2(symbol);
+    RegisterVar(tmp1, tmp2);
+}
+
+const char *CudaRtHandler::GetVar(string & handler) {
+    map<string, string>::iterator it = mpVar->find(handler);
+    if(it == mpVar->end())
+        return NULL;
+    return it->second.c_str();
+}
+
+const char * CudaRtHandler::GetVar(const char* handler) {
+    string tmp(handler);
+    return GetVar(tmp);
+}
 
 void CudaRtHandler::Initialize() {
     if(mspHandlers != NULL)
