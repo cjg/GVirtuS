@@ -90,7 +90,7 @@ extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
 extern cudaError_t cudaMallocHost(void **ptr, size_t size) {
     // Achtung: we can't use host page-locked memory, so we use simple pageable
     // memory here.
-    if((*ptr = malloc(size)) == NULL)
+    if ((*ptr = malloc(size)) == NULL)
         return cudaErrorMemoryAllocation;
     return cudaSuccess;
 }
@@ -320,13 +320,15 @@ extern cudaError_t cudaMemcpyToArrayAsync(cudaArray *dst, size_t wOffset,
 extern cudaError_t cudaMemcpyToSymbol(const char *symbol, const void *src,
         size_t count, size_t offset __dv(0),
         cudaMemcpyKind kind __dv(cudaMemcpyHostToDevice)) {
-        Frontend *f = Frontend::GetFrontend();
+    Frontend *f = Frontend::GetFrontend();
     switch (kind) {
         case cudaMemcpyHostToHost:
             /* This should never happen. */
             return cudaErrorInvalidMemcpyDirection;
             break;
         case cudaMemcpyHostToDevice:
+            // Achtung: passing the address and the content of symbol
+            f->AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
             f->AddStringForArguments(symbol);
             f->AddHostPointerForArguments<char>(static_cast<char *>
                     (const_cast<void *> (src)), count);
@@ -340,6 +342,7 @@ extern cudaError_t cudaMemcpyToSymbol(const char *symbol, const void *src,
             return cudaErrorInvalidMemcpyDirection;
             break;
         case cudaMemcpyDeviceToDevice:
+            f->AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
             f->AddStringForArguments(symbol);
             f->AddDevicePointerForArguments(src);
             f->AddVariableForArguments(count);
