@@ -82,8 +82,7 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     int size = input_buffer->Get<int>();
     int constant = input_buffer->Get<int>();
     int global = input_buffer->Get<int>();
-    cout << deviceName << endl;
-    cout << handler << endl;
+
     // FIXME: this shouldn't be lost as it is
     hostVar = (char *) malloc(size);
 

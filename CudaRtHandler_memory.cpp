@@ -59,6 +59,7 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
             result = new Result(exit_code);
             break;
         case cudaMemcpyDeviceToHost:
+            // FIXME: use buffer delegate
             dst = new char[count];
             /* skipping a char for fake host pointer */
             input_buffer->Assign<char>();
@@ -117,6 +118,7 @@ CUDA_ROUTINE_HANDLER(MemcpyAsync) {
             result = new Result(exit_code);
             break;
         case cudaMemcpyDeviceToHost:
+            // FIXME: use buffer delegate
             dst = new char[count];
             /* skipping a char for fake host pointer */
             input_buffer->Assign<char>();
