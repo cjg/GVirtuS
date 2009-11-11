@@ -45,9 +45,14 @@ extern cudaChannelFormatDesc cudaCreateChannelDesc(int x, int y, int z, int w,
 
 extern cudaError_t cudaGetChannelDesc(cudaChannelFormatDesc *desc,
         const cudaArray *array) {
-    // FIXME: implement
-    cerr << "*** Error: cudaGetChannelDesc() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(desc);
+    f->AddDevicePointerForArguments(array);
+    f->Execute("cudaGetChannelDesc");
+    if(f->Success())
+        memmove(desc, f->GetOutputHostPointer<cudaChannelFormatDesc>(),
+                sizeof(cudaChannelFormatDesc));
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaGetTextureAlignmentOffset(size_t *offset,
@@ -66,7 +71,8 @@ extern cudaError_t cudaGetTextureReference(const textureReference **texref,
 }
 
 extern cudaError_t cudaUnbindTexture(const textureReference *texref) {
-    // FIXME: implement
-    cerr << "*** Error: cudaUnbindTexture() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
+    f->Execute("cudaUnbindTexture");
+    return f->GetExitCode();
 }

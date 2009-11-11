@@ -18,9 +18,14 @@ extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
 
 extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
         const char *func) {
-    // FIXME: implement
-    cerr << "*** Error: cudaFuncGetAttributes() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(attr);
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(func));
+    f->Execute("cudaFuncGetAttributes");
+    if(f->Success())
+        memmove(attr, f->GetOutputHostPointer<cudaFuncAttributes>(),
+                sizeof(cudaFuncAttributes));
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaLaunch(const char *entry) {
