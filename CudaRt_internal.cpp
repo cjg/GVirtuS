@@ -8,16 +8,15 @@
 
 extern void** __cudaRegisterFatBinary(void *fatCubin) {
     /* Fake host pointer */
-    void ** handler = (void **) & fatCubin;
     Buffer * input_buffer = new Buffer();
-    input_buffer->AddString(CudaUtil::MarshalHostPointer(handler));
+    input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) fatCubin));
     input_buffer = CudaUtil::MarshalFatCudaBinary(
             (__cudaFatCudaBinary *) fatCubin, input_buffer);
 
     Frontend *f = Frontend::GetFrontend();
     f->Execute("cudaRegisterFatBinary", input_buffer);
     if (f->Success())
-        return handler;
+        return (void **) fatCubin;
     return NULL;
 }
 
