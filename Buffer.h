@@ -108,6 +108,20 @@ public:
         return result;
     }
 
+    template <class T>T * Delegate(size_t n = 1) {
+        size_t size = sizeof(T) * n;
+        Add(size);
+        if ((mLength + size) >= mSize) {
+            mSize = ((mLength + size) / mBlockSize + 1) * mBlockSize;
+            if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
+                throw "Can't reallocate memory.";
+        }
+        T * dst = mpBuffer + mLength;
+        mLength += size;
+        mBackOffset = mLength;
+        return dst;
+    }
+
     template <class T>T * Assign(size_t n = 1) {
         if(Get<size_t>() == 0)
             return NULL;
