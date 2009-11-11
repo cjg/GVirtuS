@@ -67,6 +67,9 @@ extern "C" {
     extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr);
     extern void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
             size_t size, size_t alignment, int storage);
+    extern void __cudaRegisterTexture(void **fatCubinHandle,
+        const textureReference *hostVar, void **deviceAddress, char *deviceName,
+        int dim, int norm, int ext);
     extern int __cudaSynchronizeThreads(void** x, void* y);
     extern void __cudaTextureFetch(const void *tex, void *index, int integer,
             void *val);

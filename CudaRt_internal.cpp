@@ -81,6 +81,13 @@ extern void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
     cerr << "*** Error: __cudaRegisterSharedVar() not yet implemented!" << endl;
 }
 
+extern void __cudaRegisterTexture(void **fatCubinHandle,
+        const textureReference *hostVar, void **deviceAddress, char *deviceName,
+        int dim, int norm, int ext) {
+    cerr << "*** Error: __cudaRegisterTexture() not yet implemented!" << endl;
+}
+
+
 /* */
 
 extern int __cudaSynchronizeThreads(void** x, void* y) {

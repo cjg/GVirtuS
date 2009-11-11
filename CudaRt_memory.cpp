@@ -289,9 +289,42 @@ extern cudaError_t cudaMemcpyFromArrayAsync(void *dst, const cudaArray *src,
 extern cudaError_t cudaMemcpyFromSymbol(void *dst, const char *symbol,
         size_t count, size_t offset __dv(0),
         cudaMemcpyKind kind __dv(cudaMemcpyDeviceToHost)) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemcpyFromSymbol() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    switch (kind) {
+        case cudaMemcpyHostToHost:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        case cudaMemcpyHostToDevice:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        case cudaMemcpyDeviceToHost:
+            // Achtung: adding a fake host pointer 
+            f->AddDevicePointerForArguments((void *) 0x666);
+            // Achtung: passing the address and the content of symbol
+            f->AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
+            f->AddStringForArguments(symbol);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(offset);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpyFromSymbol");
+            if (f->Success())
+                memmove(dst, f->GetOutputHostPointer<char>(count), count);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            f->AddDevicePointerForArguments(dst);
+            // Achtung: passing the address and the content of symbol
+            f->AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
+            f->AddStringForArguments(symbol);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(offset);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpyFromSymbol");
+            break;
+    }
+
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMemcpyFromSymbolAsync(void *dst, const char *symbol,
@@ -342,6 +375,7 @@ extern cudaError_t cudaMemcpyToSymbol(const char *symbol, const void *src,
             return cudaErrorInvalidMemcpyDirection;
             break;
         case cudaMemcpyDeviceToDevice:
+            // Achtung: passing the address and the content of symbol
             f->AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
             f->AddStringForArguments(symbol);
             f->AddDevicePointerForArguments(src);
