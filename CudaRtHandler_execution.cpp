@@ -17,7 +17,6 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
 }
 
 CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
-    /* cudaError_t cudaLaunch(const char * entry) */
     cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
     char *handler = input_buffer->AssignString();
     const char *entry = pThis->GetDeviceFunction(handler);
