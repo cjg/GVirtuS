@@ -174,12 +174,9 @@ CUDA_ROUTINE_HANDLER(MemcpyFromSymbol) {
             result = new Result(cudaErrorInvalidMemcpyDirection);
             break;
         case cudaMemcpyDeviceToHost:
-            dst = new char[count];
-            /* skipping a char for fake host pointer */
+            out = new Buffer(count);
+            dst = out->Delegate<char>(count);
             exit_code = cudaMemcpyFromSymbol(dst, symbol, count, offset, kind);
-            out = new Buffer();
-            out->Add<char>((char *) dst, count);
-            delete[] (char *) dst;
             result = new Result(exit_code, out);
             break;
         case cudaMemcpyDeviceToDevice:
