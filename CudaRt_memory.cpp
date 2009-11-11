@@ -13,9 +13,10 @@ extern cudaError_t cudaFree(void *devPtr) {
 }
 
 extern cudaError_t cudaFreeArray(cudaArray *array) {
-    // FIXME: implement
-    cerr << "*** Error: cudaFreeArray() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddDevicePointerForArguments((void *) array);
+    f->Execute("cudaFreeArray");
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaFreeHost(void *ptr) {
@@ -82,9 +83,16 @@ extern cudaError_t cudaMalloc3DArray(cudaArray **arrayPtr,
 
 extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMallocArray() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+
+    /* Fake device pointer */
+    *arrayPtr = (cudaArray *) new char[1];
+    f->AddDevicePointerForArguments(*arrayPtr);
+    f->AddHostPointerForArguments(desc);
+    f->AddVariableForArguments(width);
+    f->AddVariableForArguments(height);
+    f->Execute("cudaMallocArray");
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMallocHost(void **ptr, size_t size) {
@@ -337,9 +345,39 @@ extern cudaError_t cudaMemcpyFromSymbolAsync(void *dst, const char *symbol,
 
 extern cudaError_t cudaMemcpyToArray(cudaArray *dst, size_t wOffset,
         size_t hOffset, const void *src, size_t count, cudaMemcpyKind kind) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemcpyToArray() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    switch (kind) {
+        case cudaMemcpyHostToHost:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        case cudaMemcpyHostToDevice:
+            cout << "h2d " << count << endl;
+            f->AddDevicePointerForArguments((void *) dst);
+            f->AddVariableForArguments(wOffset);
+            f->AddVariableForArguments(hOffset);
+            f->AddHostPointerForArguments<char>(static_cast<char *>
+                    (const_cast<void *> (src)), count);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpyToArray");
+            break;
+        case cudaMemcpyDeviceToHost:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        case cudaMemcpyDeviceToDevice:
+            f->AddDevicePointerForArguments((void *) dst);
+            f->AddVariableForArguments(wOffset);
+            f->AddVariableForArguments(hOffset);
+            f->AddDevicePointerForArguments(src);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpyToArray");
+            break;
+    }
+
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMemcpyToArrayAsync(cudaArray *dst, size_t wOffset,

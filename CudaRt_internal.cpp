@@ -83,7 +83,17 @@ extern void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
 extern void __cudaRegisterTexture(void **fatCubinHandle,
         const textureReference *hostVar, void **deviceAddress, char *deviceName,
         int dim, int norm, int ext) {
-    cerr << "*** Error: __cudaRegisterTexture() not yet implemented!" << endl;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
+    // Achtung: passing the address and the content of the textureReference
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(hostVar));
+    f->AddHostPointerForArguments(hostVar);
+    f->AddHostPointerForArguments(deviceAddress);
+    f->AddStringForArguments(deviceName);
+    f->AddVariableForArguments(dim);
+    f->AddVariableForArguments(norm);
+    f->AddVariableForArguments(ext);
+    f->Execute("cudaRegisterTexture");
 }
 
 

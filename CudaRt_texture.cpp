@@ -22,16 +22,24 @@ extern cudaError_t cudaBindTexture2D(size_t *offset,
 
 extern cudaError_t cudaBindTextureToArray(const textureReference *texref, 
         const cudaArray *array, const cudaChannelFormatDesc *desc) {
-    // FIXME: implement
-    cerr << "*** Error: cudaBindTextureToArray() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    // Achtung: passing the address and the content of the textureReference
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
+    f->AddHostPointerForArguments(texref);
+    f->AddDevicePointerForArguments((void *) array);
+    f->AddHostPointerForArguments(desc);
+    f->Execute("cudaBindTextureToArray");
+    return f->GetExitCode();
 }
 
 extern cudaChannelFormatDesc cudaCreateChannelDesc(int x, int y, int z, int w,
         cudaChannelFormatKind f) {
-    // FIXME: implement
-    cerr << "*** Error: cudaCreateChannelDesc() not yet implemented!" << endl;
-    cudaChannelFormatDesc desc = {0};
+    cudaChannelFormatDesc desc;
+    desc.x = x;
+    desc.y = y;
+    desc.z = z;
+    desc.w = w;
+    desc.f = f;
     return desc;
 }
 
