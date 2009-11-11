@@ -352,7 +352,6 @@ extern cudaError_t cudaMemcpyToArray(cudaArray *dst, size_t wOffset,
             return cudaErrorInvalidMemcpyDirection;
             break;
         case cudaMemcpyHostToDevice:
-            cout << "h2d " << count << endl;
             f->AddDevicePointerForArguments((void *) dst);
             f->AddVariableForArguments(wOffset);
             f->AddVariableForArguments(hOffset);
