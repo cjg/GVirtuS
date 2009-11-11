@@ -46,6 +46,11 @@ public:
     void RegisterVar(const char *handler, const char *symbol);
     const char *GetVar(std::string & handler);
     const char *GetVar(const char *handler);
+
+    void RegisterTexture(std::string & handler, textureReference *texref);
+    void RegisterTexture(const char *handler, textureReference *texref);
+    textureReference *GetTexture(std::string & handler);
+    textureReference *GetTexture(const char *handler);
 private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
@@ -54,6 +59,7 @@ private:
     std::map<std::string, void **> * mpFatBinary;
     std::map<std::string, std::string> * mpDeviceFunction;
     std::map<std::string, std::string> * mpVar;
+    std::map<std::string, textureReference *> * mpTexture;
 };
 
 #define CUDA_ROUTINE_HANDLER(name) Result * handle##name(CudaRtHandler * pThis, Buffer * input_buffer)
@@ -92,13 +98,17 @@ CUDA_ROUTINE_HANDLER(UnregisterFatBinary);
 CUDA_ROUTINE_HANDLER(RegisterFunction);
 CUDA_ROUTINE_HANDLER(RegisterVar);
 CUDA_ROUTINE_HANDLER(RegisterShared);
+CUDA_ROUTINE_HANDLER(RegisterTexture);
 
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);
+CUDA_ROUTINE_HANDLER(FreeArray);
 CUDA_ROUTINE_HANDLER(Malloc);
+CUDA_ROUTINE_HANDLER(MallocArray);
 CUDA_ROUTINE_HANDLER(Memcpy);
 CUDA_ROUTINE_HANDLER(MemcpyAsync);
 CUDA_ROUTINE_HANDLER(MemcpyFromSymbol);
+CUDA_ROUTINE_HANDLER(MemcpyToArray);
 CUDA_ROUTINE_HANDLER(MemcpyToSymbol);
 CUDA_ROUTINE_HANDLER(Memset);
 
@@ -107,6 +117,9 @@ CUDA_ROUTINE_HANDLER(StreamCreate);
 CUDA_ROUTINE_HANDLER(StreamDestroy);
 CUDA_ROUTINE_HANDLER(StreamQuery);
 CUDA_ROUTINE_HANDLER(StreamSynchronize);
+
+/* CudaRtHandler_texture */
+CUDA_ROUTINE_HANDLER(BindTextureToArray);
 
 /* CudaRtHandler_thread */
 CUDA_ROUTINE_HANDLER(ThreadExit);

@@ -19,6 +19,9 @@ extern "C" {
             char *deviceAddress, const char *deviceName, int ext, int size,
             int constant, int global);
     extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr);
+    extern void __cudaRegisterTexture(void **fatCubinHandle,
+        const textureReference *hostVar, void **deviceAddress, char *deviceName,
+        int dim, int norm, int ext);
 };
 
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
@@ -98,6 +101,30 @@ CUDA_ROUTINE_HANDLER(RegisterShared) {
     void **fatCubinHandle = pThis->GetFatBinary(handler);
     char *devPtr = input_buffer->AssignString();
     __cudaRegisterShared(fatCubinHandle, (void **) devPtr);
+
+    return new Result(cudaSuccess);
+}
+
+CUDA_ROUTINE_HANDLER(RegisterTexture) {
+    char * handler = input_buffer->AssignString();
+    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    handler = input_buffer->AssignString();
+    textureReference *hostVar = new textureReference;
+    memmove(hostVar, input_buffer->Assign<textureReference>(),
+            sizeof(textureReference));
+    void **deviceAddress = (void **) input_buffer->AssignAll<char>();
+    char *deviceName = strdup(input_buffer->AssignString());
+    int dim = input_buffer->Get<int>();
+    int norm = input_buffer->Get<int>();
+    int ext = input_buffer->Get<int>();
+
+    // FIXME: this shouldn't be lost as it is
+    // hostVar = (char *) malloc(size);
+
+    __cudaRegisterTexture(fatCubinHandle, hostVar, deviceAddress, deviceName,
+            dim, norm, ext);
+
+    pThis->RegisterTexture(handler, hostVar);
 
     return new Result(cudaSuccess);
 }

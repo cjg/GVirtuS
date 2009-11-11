@@ -29,6 +29,7 @@
     <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_internal.cpp</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_memory.cpp</itemPath>
     <itemPath>CudaRtHandler_stream.cpp</itemPath>
+    <itemPath>CudaRtHandler_texture.cpp</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_thread.cpp</itemPath>
     <itemPath>CudaRtHandler_version.cpp</itemPath>
     <itemPath>MemoryEntry.cpp</itemPath>

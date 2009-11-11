@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/CudaRtHandler_version.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_execution.o \
 	${OBJECTDIR}/CudaRtHandler_event.o \
+	${OBJECTDIR}/CudaRtHandler_texture.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.o \
 	${OBJECTDIR}/CudaRtHandler_stream.o \
 	${OBJECTDIR}/MemoryEntry.o \
@@ -121,6 +122,11 @@ ${OBJECTDIR}/CudaRtHandler_event.o: nbproject/Makefile-${CND_CONF}.mk CudaRtHand
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRtHandler_event.o CudaRtHandler_event.cpp
+
+${OBJECTDIR}/CudaRtHandler_texture.o: nbproject/Makefile-${CND_CONF}.mk CudaRtHandler_texture.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -I../EchoesUtil -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaRtHandler_texture.o CudaRtHandler_texture.cpp
 
 ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesBackend

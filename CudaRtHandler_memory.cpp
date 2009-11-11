@@ -3,12 +3,22 @@
 #include "CudaRtHandler.h"
 
 CUDA_ROUTINE_HANDLER(Free) {
-    /* cudaError_t cudaFree(void *devPtr) */
     char *dev_ptr_handler =
             input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
     void *devPtr = pThis->GetDevicePointer(dev_ptr_handler);
 
     cudaError_t exit_code = cudaFree(devPtr);
+    pThis->UnregisterDevicePointer(dev_ptr_handler);
+
+    return new Result(exit_code);
+}
+
+CUDA_ROUTINE_HANDLER(FreeArray) {
+    char *dev_ptr_handler =
+            input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
+    void *devPtr = pThis->GetDevicePointer(dev_ptr_handler);
+
+    cudaError_t exit_code = cudaFreeArray((cudaArray *) devPtr);
     pThis->UnregisterDevicePointer(dev_ptr_handler);
 
     return new Result(exit_code);
@@ -23,6 +33,22 @@ CUDA_ROUTINE_HANDLER(Malloc) {
 
     cudaError_t exit_code = cudaMalloc(&devPtr, size);
     pThis->RegisterDevicePointer(dev_ptr_handler, devPtr, size);
+
+    return new Result(exit_code);
+}
+
+CUDA_ROUTINE_HANDLER(MallocArray) {
+    cudaArray *arrayPtr = NULL;
+    char *array_ptr_handler =
+            input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
+    cudaChannelFormatDesc *desc =
+            input_buffer->Assign<cudaChannelFormatDesc > ();
+    size_t width = input_buffer->Get<size_t > ();
+    size_t height = input_buffer->Get<size_t > ();
+
+    cudaError_t exit_code = cudaMallocArray(&arrayPtr, desc, width, height);
+    pThis->RegisterDevicePointer(array_ptr_handler, (void *) arrayPtr,
+            width * height);
 
     return new Result(exit_code);
 }
@@ -63,7 +89,7 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
             dst = new char[count];
             /* skipping a char for fake host pointer */
             input_buffer->Assign<char>();
-            dev_ptr_handler = 
+            dev_ptr_handler =
                     input_buffer->Assign<char>(
                     CudaUtil::MarshaledDevicePointerSize);
             src = pThis->GetDevicePointer(dev_ptr_handler);
@@ -74,11 +100,11 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
             result = new Result(exit_code, out);
             break;
         case cudaMemcpyDeviceToDevice:
-            dev_ptr_handler = 
+            dev_ptr_handler =
                     input_buffer->Assign<char>(
                     CudaUtil::MarshaledDevicePointerSize);
             dst = pThis->GetDevicePointer(dev_ptr_handler);
-            dev_ptr_handler = 
+            dev_ptr_handler =
                     input_buffer->Assign<char>(
                     CudaUtil::MarshaledDevicePointerSize);
             src = pThis->GetDevicePointer(dev_ptr_handler);
@@ -92,8 +118,8 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
 CUDA_ROUTINE_HANDLER(MemcpyAsync) {
     void *dst = NULL;
     void *src = NULL;
-    
-    cudaStream_t stream = input_buffer->BackGet<cudaStream_t>();
+
+    cudaStream_t stream = input_buffer->BackGet<cudaStream_t > ();
     cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
     size_t count = input_buffer->BackGet<size_t > ();
     char *dev_ptr_handler;
@@ -155,12 +181,12 @@ CUDA_ROUTINE_HANDLER(MemcpyFromSymbol) {
     char *symbol_handler = input_buffer->AssignString();
     char *symbol = input_buffer->AssignString();
     size_t count = input_buffer->Get<size_t > ();
-    size_t offset = input_buffer->Get<size_t>();
+    size_t offset = input_buffer->Get<size_t > ();
     cudaMemcpyKind kind = input_buffer->Get<cudaMemcpyKind > ();
 
-    char *our_symbol = const_cast<char *>(pThis->GetVar(symbol_handler));
-    if(our_symbol != NULL)
-        symbol = const_cast<char *>(our_symbol);
+    char *our_symbol = const_cast<char *> (pThis->GetVar(symbol_handler));
+    if (our_symbol != NULL)
+        symbol = const_cast<char *> (our_symbol);
 
     cudaError_t exit_code;
     Result * result = NULL;
@@ -190,17 +216,61 @@ CUDA_ROUTINE_HANDLER(MemcpyFromSymbol) {
     return result;
 }
 
+CUDA_ROUTINE_HANDLER(MemcpyToArray) {
+    void *src = NULL;
+
+    char *handler = input_buffer->Assign<char>(
+            CudaUtil::MarshaledDevicePointerSize);
+    cudaArray *dst = (cudaArray *) pThis->GetDevicePointer(handler);
+    size_t wOffset = input_buffer->Get<size_t > ();
+    size_t hOffset = input_buffer->Get<size_t > ();
+    cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
+    size_t count = input_buffer->BackGet<size_t > ();
+    cudaError_t exit_code;
+    Result * result = NULL;
+
+    switch (kind) {
+        case cudaMemcpyHostToHost:
+            // This should never happen
+            result = new Result(cudaErrorInvalidMemcpyDirection);
+            break;
+        case cudaMemcpyHostToDevice:
+            /* Achtung: this isn't strictly correct because here we assign just
+             * a pointer to one character, any successive assign should
+             * take inaxpectated result ... but it works here!
+             */
+            src = input_buffer->AssignAll<char>();
+            exit_code = cudaMemcpyToArray(dst, wOffset, hOffset, src, count,
+                    kind);
+            result = new Result(exit_code);
+            break;
+        case cudaMemcpyDeviceToHost:
+            // This should never happen
+            result = new Result(cudaErrorInvalidMemcpyDirection);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            handler = input_buffer->Assign<char>(
+                    CudaUtil::MarshaledDevicePointerSize);
+            src = pThis->GetDevicePointer(handler);
+            exit_code = cudaMemcpyToArray(dst, wOffset, hOffset, src, count,
+                    kind);
+            result = new Result(exit_code);
+            break;
+    }
+    return result;
+}
+
 CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
     void *src = NULL;
 
     cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
-    size_t offset = input_buffer->BackGet<size_t>();
+    size_t offset = input_buffer->BackGet<size_t > ();
     size_t count = input_buffer->BackGet<size_t > ();
     char *handler = input_buffer->AssignString();
     char *symbol = input_buffer->AssignString();
-    char *our_symbol = const_cast<char *>(pThis->GetVar(handler));
-    if(our_symbol != NULL)
-        symbol = const_cast<char *>(our_symbol);
+    char *our_symbol = const_cast<char *> (pThis->GetVar(handler));
+    if (our_symbol != NULL)
+        symbol = const_cast<char *> (our_symbol);
     char *dev_ptr_handler;
     cudaError_t exit_code;
     Result * result = NULL;
@@ -240,7 +310,7 @@ CUDA_ROUTINE_HANDLER(Memset) {
             input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
     void *devPtr = pThis->GetDevicePointer(dev_ptr_handler);
     int value = input_buffer->Get<int>();
-    size_t count = input_buffer->Get<size_t>();
+    size_t count = input_buffer->Get<size_t > ();
 
     cudaError_t exit_code = cudaMemset(devPtr, value, count);
 

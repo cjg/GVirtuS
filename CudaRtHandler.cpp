@@ -23,6 +23,7 @@ CudaRtHandler::CudaRtHandler() {
     mpFatBinary = new map<string, void **>();
     mpDeviceFunction = new map<string, string>();
     mpVar = new map<string, string>();
+    mpTexture = new map<string, textureReference *>();
     Initialize();
 }
 
@@ -183,6 +184,30 @@ const char * CudaRtHandler::GetVar(const char* handler) {
     return GetVar(tmp);
 }
 
+void CudaRtHandler::RegisterTexture(string& handler, textureReference* texref) {
+    mpTexture->insert(make_pair(handler, texref));
+    cout << "Registered Texture " << texref << " with handler " << handler
+            << endl;
+}
+
+void CudaRtHandler::RegisterTexture(const char* handler,
+        textureReference* texref) {
+    string tmp(handler);
+    RegisterTexture(tmp, texref);
+}
+
+textureReference *CudaRtHandler::GetTexture(string & handler) {
+    map<string, textureReference *>::iterator it = mpTexture->find(handler);
+    if(it == mpTexture->end())
+        return NULL;
+    return it->second;
+}
+
+textureReference * CudaRtHandler::GetTexture(const char* handler) {
+    string tmp(handler);
+    return GetTexture(tmp);
+}
+
 void CudaRtHandler::Initialize() {
     if(mspHandlers != NULL)
         return;
@@ -221,13 +246,17 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFunction));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterVar));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterShared));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterTexture));
 
     /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FreeArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyAsync));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyFromSymbol));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToSymbol));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memset));
 
@@ -236,6 +265,9 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamDestroy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamQuery));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
+
+    /* CudaRtHandler_texture */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTextureToArray));
 
     /* CudaRtHandler_thread */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));
