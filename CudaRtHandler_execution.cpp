@@ -16,6 +16,20 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
     return new Result(exit_code);
 }
 
+CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
+    /* cudaError_t cudaLaunch(const char * entry) */
+    cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
+    char *handler = input_buffer->AssignString();
+    const char *entry = pThis->GetDeviceFunction(handler);
+    Buffer * out = new Buffer();
+    cudaFuncAttributes *attr = out->Delegate<cudaFuncAttributes>();
+    memmove(attr, guestAttr, sizeof(cudaFuncAttributes));
+    
+    cudaError_t exit_code = cudaFuncGetAttributes(attr, entry);
+
+    return new Result(exit_code, out);
+}
+
 CUDA_ROUTINE_HANDLER(Launch) {
     /* cudaError_t cudaLaunch(const char * entry) */
     char *handler = input_buffer->AssignString();

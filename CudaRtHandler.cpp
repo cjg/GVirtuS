@@ -239,6 +239,7 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_execution */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ConfigureCall));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FuncGetAttributes));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Launch));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetupArgument));
 
@@ -270,6 +271,8 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_texture */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTextureToArray));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetChannelDesc));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnbindTexture));
 
     /* CudaRtHandler_thread */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));

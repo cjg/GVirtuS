@@ -89,6 +89,7 @@ CUDA_ROUTINE_HANDLER(EventSynchronize);
 
 /* CudaRtHandler_execution */
 CUDA_ROUTINE_HANDLER(ConfigureCall);
+CUDA_ROUTINE_HANDLER(FuncGetAttributes);
 CUDA_ROUTINE_HANDLER(Launch);
 CUDA_ROUTINE_HANDLER(SetupArgument);
 
@@ -120,6 +121,8 @@ CUDA_ROUTINE_HANDLER(StreamSynchronize);
 
 /* CudaRtHandler_texture */
 CUDA_ROUTINE_HANDLER(BindTextureToArray);
+CUDA_ROUTINE_HANDLER(GetChannelDesc);
+CUDA_ROUTINE_HANDLER(UnbindTexture);
 
 /* CudaRtHandler_thread */
 CUDA_ROUTINE_HANDLER(ThreadExit);

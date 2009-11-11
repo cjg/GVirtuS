@@ -18,3 +18,27 @@ CUDA_ROUTINE_HANDLER(BindTextureToArray) {
 
     return new Result(exit_code);
 }
+
+CUDA_ROUTINE_HANDLER(GetChannelDesc) {
+    cudaChannelFormatDesc *guestDesc =
+            input_buffer->Assign<cudaChannelFormatDesc>();
+    char * arrayHandler =
+        input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
+    cudaArray *array = (cudaArray *) pThis->GetDevicePointer(arrayHandler);
+    Buffer *out = new Buffer();
+    cudaChannelFormatDesc *desc = out->Delegate<cudaChannelFormatDesc>();
+    memmove(desc, guestDesc, sizeof(cudaChannelFormatDesc));
+
+    cudaError_t exit_code = cudaGetChannelDesc(desc, array);
+
+    return new Result(exit_code, out);
+}
+
+CUDA_ROUTINE_HANDLER(UnbindTexture) {
+    char * texrefHandler = input_buffer->AssignString();
+    textureReference *texref = pThis->GetTexture(texrefHandler);
+
+    cudaError_t exit_code = cudaUnbindTexture(texref);
+
+    return new Result(exit_code);
+}
