@@ -99,9 +99,9 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
 CUDA_ROUTINE_HANDLER(RegisterShared) {
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
-    char *devPtr = input_buffer->AssignString();
+    char *devPtr = strdup(input_buffer->AssignString());
     __cudaRegisterShared(fatCubinHandle, (void **) devPtr);
-
+    cout << "Registerd Shared: " << (char *) devPtr << " for " << fatCubinHandle << endl;
     return new Result(cudaSuccess);
 }
 
@@ -117,9 +117,6 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
     int dim = input_buffer->Get<int>();
     int norm = input_buffer->Get<int>();
     int ext = input_buffer->Get<int>();
-
-    // FIXME: this shouldn't be lost as it is
-    // hostVar = (char *) malloc(size);
 
     __cudaRegisterTexture(fatCubinHandle, hostVar, deviceAddress, deviceName,
             dim, norm, ext);
