@@ -116,7 +116,7 @@ public:
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
                 throw "Can't reallocate memory.";
         }
-        T * dst = mpBuffer + mLength;
+        T * dst = (T *) (mpBuffer + mLength);
         mLength += size;
         mBackOffset = mLength;
         return dst;
