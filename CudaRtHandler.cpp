@@ -52,6 +52,8 @@ void CudaRtHandler::RegisterDevicePointer(const char* handler, void* devPtr,
 }
 
 void * CudaRtHandler::GetDevicePointer(string & handler) {
+    if(handler.compare("(nil)") == 0)
+        return NULL;
     map<string, MemoryEntry *>::iterator it = mpDeviceMemory->find(handler);
     if (it == mpDeviceMemory->end()) {
         void *hostPtr = (void *) strtoul(handler.c_str(), NULL, 16);
