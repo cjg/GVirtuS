@@ -120,7 +120,11 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
     /* Achtung: no debug is possible */
     marshal->Add(0);
 
+#if 0
     for(count = 0; bin->exported != NULL && bin->exported[count].name != NULL; count++);
+#else
+    count = 0;
+#endif
     marshal->Add(count);
     for(int i = 0; i < count; i++) {
         size = strlen(bin->exported[i].name) + 1;
@@ -128,7 +132,11 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
         marshal->Add(bin->exported[i].name, size);
     }
 
+#if 0
     for(count = 0; bin->imported != NULL && bin->imported[count].name != NULL; count++);
+#else
+    count = 0;
+#endif
     marshal->Add(count);
     for(int i = 0; i < count; i++) {
         size = strlen(bin->imported[i].name) + 1;
