@@ -132,6 +132,18 @@ public:
         return result;
     }
 
+    template <class T>T * AssignAll() {
+        size_t size = Get<size_t>();
+        if(size == 0)
+            return NULL;
+        size_t n = size / sizeof(T);
+        if (mOffset + sizeof (T) * n > mLength)
+            throw "Can't read  " + std::string(typeid (T).name()) + ".";
+        T * result = (T *) (mpBuffer + mOffset);
+        mOffset += sizeof (T) * n;
+        return result;
+    }
+
     char * AssignString() {
         size_t size = Get<size_t>();
         return Assign<char>(size);
