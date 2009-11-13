@@ -20,8 +20,8 @@ extern "C" {
             int constant, int global);
     extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr);
     extern void __cudaRegisterTexture(void **fatCubinHandle,
-        const textureReference *hostVar, void **deviceAddress, char *deviceName,
-        int dim, int norm, int ext);
+            const textureReference *hostVar, void **deviceAddress, char *deviceName,
+            int dim, int norm, int ext);
 };
 
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
@@ -75,31 +75,40 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
 }
 
 CUDA_ROUTINE_HANDLER(RegisterVar) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
-    handler = input_buffer->AssignString();
-    char *hostVar;
-    char *deviceAddress = strdup(input_buffer->AssignString());
-    char *deviceName = strdup(input_buffer->AssignString());
-    int ext = input_buffer->Get<int>();
-    int size = input_buffer->Get<int>();
-    int constant = input_buffer->Get<int>();
-    int global = input_buffer->Get<int>();
-
-    // FIXME: this shouldn't be lost as it is
-    hostVar = (char *) malloc(size);
-
-    __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
-            size, constant, global);
-    pThis->RegisterVar(handler, deviceName);
-
-    void *devPtr;
-    if(cudaGetSymbolAddress(&devPtr, deviceName) == cudaSuccess) {
-        pThis->RegisterDevicePointer(handler, devPtr, size);
-        return new Result(cudaSuccess);
+    CudaUtil::CudaVar *var;
+    vector<CudaUtil::CudaVar *> *vars = new vector<CudaUtil::CudaVar *>();
+    while (true) {
+        try {
+            var = input_buffer->Assign<CudaUtil::CudaVar > ();
+            vars->push_back(var);
+        } catch (string e) {
+            break;
+        }
     }
 
-    return new Result(cudaErrorUnknown);
+    void **fatCubinHandle = pThis->GetFatBinary(var->fatCubinHandle);
+
+    for (vector<CudaUtil::CudaVar *>::iterator it = vars->begin();
+            it != vars->end(); it++) {
+        var = *it;
+        __cudaRegisterVar(fatCubinHandle,
+                (char *) CudaUtil::UnmarshalPointer(var->hostVar),
+                var->deviceAddress, var->deviceName, var->ext, var->size,
+                var->constant, var->global);
+    }
+    for (vector<CudaUtil::CudaVar *>::iterator it = vars->begin();
+            it != vars->end(); it++) {
+        var = *it;
+        void *devPtr;
+        if(cudaGetSymbolAddress(&devPtr, var->deviceName) != cudaSuccess) {
+            cerr << "Error while registering Var " << var->deviceName << endl;
+            continue;
+        }
+        pThis->RegisterVar(var->hostVar, var->deviceName);
+        pThis->RegisterDevicePointer(var->hostVar, devPtr, var->size);
+    }
+
+    return new Result(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterShared) {
@@ -116,8 +125,8 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
     void **fatCubinHandle = pThis->GetFatBinary(handler);
     handler = input_buffer->AssignString();
     textureReference *hostVar = new textureReference;
-    memmove(hostVar, input_buffer->Assign<textureReference>(),
-            sizeof(textureReference));
+    memmove(hostVar, input_buffer->Assign<textureReference > (),
+            sizeof (textureReference));
     void **deviceAddress = (void **) input_buffer->AssignAll<char>();
     char *deviceName = strdup(input_buffer->AssignString());
     int dim = input_buffer->Get<int>();
