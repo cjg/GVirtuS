@@ -30,6 +30,17 @@ public:
     static Buffer * MarshalFatCudaBinary(__cudaFatCudaBinary * bin, Buffer * marshal = NULL);
     static __cudaFatCudaBinary * UnmarshalFatCudaBinary(Buffer * marshal);
     static void DumpFatCudaBinary(__cudaFatCudaBinary * bin, std::ostream & out);
+
+    struct CudaVar {
+        char fatCubinHandle[MarshaledHostPointerSize];
+        char hostVar[MarshaledDevicePointerSize];
+        char deviceAddress[255];
+        char deviceName[255];
+        int ext;
+        int size;
+        int constant;
+        int global;
+    };
 private:
 };
 
