@@ -93,7 +93,13 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
             size, constant, global);
     pThis->RegisterVar(handler, deviceName);
 
-    return new Result(cudaSuccess);
+    void *devPtr;
+    if(cudaGetSymbolAddress(&devPtr, deviceName) == cudaSuccess) {
+        pThis->RegisterDevicePointer(handler, devPtr, size);
+        return new Result(cudaSuccess);
+    }
+
+    return new Result(cudaErrorUnknown);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterShared) {
