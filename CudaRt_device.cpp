@@ -38,8 +38,11 @@ extern cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     f->AddHostPointerForArguments(prop);
     f->AddVariableForArguments(device);
     f->Execute("cudaGetDeviceProperties");
-    if(f->Success())
-        *prop = *(f->GetOutputHostPointer<struct cudaDeviceProp>());
+    if(f->Success()) {
+        memmove(prop, f->GetOutputHostPointer<cudaDeviceProp>(),
+                sizeof(cudaDeviceProp));
+        prop->canMapHostMemory = 0;
+    }
     return f->GetExitCode();
 }
 
