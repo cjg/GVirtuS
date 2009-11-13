@@ -98,7 +98,8 @@ CUDA_ROUTINE_HANDLER(GetTextureReference) {
     if (our_symbol != NULL)
         symbol = const_cast<char *> (our_symbol);
 
-    cudaError_t exit_code = cudaGetTextureReference((const textureReference ** ) &texref, symbol);
+    cudaError_t exit_code = cudaGetTextureReference(
+            (const textureReference ** ) &texref, symbol);
 
     Buffer *out = new Buffer();
     if(exit_code == cudaSuccess)
