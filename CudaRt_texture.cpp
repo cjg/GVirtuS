@@ -6,21 +6,41 @@ using namespace std;
 extern cudaError_t cudaBindTexture(size_t *offset,
         const textureReference *texref, const void *devPtr,
         const cudaChannelFormatDesc *desc, size_t size) {
-    // FIXME: implement
-    cerr << "*** Error: cudaBindTexture() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(offset);
+    // Achtung: passing the address and the content of the textureReference
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
+    f->AddHostPointerForArguments(texref);
+    f->AddDevicePointerForArguments(devPtr);
+    f->AddHostPointerForArguments(desc);
+    f->AddVariableForArguments(size);
+    f->Execute("cudaBindTexture");
+    if (f->Success())
+        *offset = *(f->GetOutputHostPointer<size_t > ());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaBindTexture2D(size_t *offset,
         const textureReference *texref, const void *devPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height,
         size_t pitch) {
-    // FIXME: implement
-    cerr << "*** Error: cudaBindTexture2D() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(offset);
+    // Achtung: passing the address and the content of the textureReference
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
+    f->AddHostPointerForArguments(texref);
+    f->AddDevicePointerForArguments(devPtr);
+    f->AddHostPointerForArguments(desc);
+    f->AddVariableForArguments(width);
+    f->AddVariableForArguments(height);
+    f->AddVariableForArguments(pitch);
+    f->Execute("cudaBindTexture2D");
+    if (f->Success())
+        *offset = *(f->GetOutputHostPointer<size_t > ());
+    return f->GetExitCode();
 }
 
-extern cudaError_t cudaBindTextureToArray(const textureReference *texref, 
+extern cudaError_t cudaBindTextureToArray(const textureReference *texref,
         const cudaArray *array, const cudaChannelFormatDesc *desc) {
     Frontend *f = Frontend::GetFrontend();
     // Achtung: passing the address and the content of the textureReference
@@ -49,25 +69,36 @@ extern cudaError_t cudaGetChannelDesc(cudaChannelFormatDesc *desc,
     f->AddHostPointerForArguments(desc);
     f->AddDevicePointerForArguments(array);
     f->Execute("cudaGetChannelDesc");
-    if(f->Success())
-        memmove(desc, f->GetOutputHostPointer<cudaChannelFormatDesc>(),
-                sizeof(cudaChannelFormatDesc));
+    if (f->Success())
+        memmove(desc, f->GetOutputHostPointer<cudaChannelFormatDesc > (),
+            sizeof (cudaChannelFormatDesc));
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaGetTextureAlignmentOffset(size_t *offset,
         const textureReference *texref) {
-    // FIXME: implement
-    cerr << "*** Error: cudaGetTextureAlignmentOffset() not yet implemented!"
-            << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(offset);
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
+    f->Execute("cudaGetTextureAlignmentOffset");
+    if (f->Success())
+        *offset = *(f->GetOutputHostPointer<size_t > ());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaGetTextureReference(const textureReference **texref,
         const char *symbol) {
-    // FIXME: implement
-    cerr << "*** Error: cudaGetTextureReference() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    // Achtung: skipping to add texref
+    // Achtung: passing the address and the content of symbol
+    f->AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
+    f->AddStringForArguments(symbol);
+    f->Execute("cudaGetTextureReference");
+    if (f->Success()) {
+        char *texrefHandler = f->GetOutputString();
+        *texref = (textureReference *) strtoul(texrefHandler, NULL, 16);
+    }
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaUnbindTexture(const textureReference *texref) {
