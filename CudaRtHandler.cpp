@@ -21,8 +21,8 @@ map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NUL
 CudaRtHandler::CudaRtHandler() {
     mpDeviceMemory = new map<string, MemoryEntry *>();
     mpFatBinary = new map<string, void **>();
-    mpDeviceFunction = new map<string, string>();
-    mpVar = new map<string, string>();
+    mpDeviceFunction = new map<string, string > ();
+    mpVar = new map<string, string > ();
     mpTexture = new map<string, textureReference *>();
     Initialize();
 }
@@ -52,14 +52,14 @@ void CudaRtHandler::RegisterDevicePointer(const char* handler, void* devPtr,
 }
 
 void * CudaRtHandler::GetDevicePointer(string & handler) {
-    if(handler.compare("(nil)") == 0)
+    if (handler.compare("(nil)") == 0)
         return NULL;
     map<string, MemoryEntry *>::iterator it = mpDeviceMemory->find(handler);
     if (it == mpDeviceMemory->end()) {
         void *hostPtr = (void *) strtoul(handler.c_str(), NULL, 16);
-        for(it = mpDeviceMemory->begin(); it != mpDeviceMemory->end(); it++) {
+        for (it = mpDeviceMemory->begin(); it != mpDeviceMemory->end(); it++) {
             void *devPtr = it->second->Get(hostPtr);
-            if(devPtr != NULL)
+            if (devPtr != NULL)
                 return devPtr;
         }
         throw "Device Pointer '" + handler + "' not found";
@@ -91,7 +91,7 @@ void CudaRtHandler::UnregisterDevicePointer(const char* handler) {
 Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
     map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
-    if(it == mspHandlers->end())
+    if (it == mspHandlers->end())
         throw "No handler for '" + routine + "' found!";
     return it->second(this, input_buffer);
 }
@@ -139,7 +139,7 @@ void CudaRtHandler::UnregisterFatBinary(const char * handler) {
 
 void CudaRtHandler::RegisterDeviceFunction(std::string & handler, std::string & function) {
     map<string, string>::iterator it = mpDeviceFunction->find(handler);
-    if(it != mpDeviceFunction->end())
+    if (it != mpDeviceFunction->end())
         mpDeviceFunction->erase(it);
     mpDeviceFunction->insert(make_pair(handler, function));
     cout << "Registered DeviceFunction " << function << " with handler " << handler << endl;
@@ -153,8 +153,8 @@ void CudaRtHandler::RegisterDeviceFunction(const char * handler, const char * fu
 
 const char *CudaRtHandler::GetDeviceFunction(std::string & handler) {
     map<string, string>::iterator it = mpDeviceFunction->find(handler);
-    if(it == mpDeviceFunction->end())
-        throw "Device Function '" +  handler + "' not fount";
+    if (it == mpDeviceFunction->end())
+        throw "Device Function '" + handler + "' not fount";
     return it->second.c_str();
 }
 
@@ -165,7 +165,7 @@ const char *CudaRtHandler::GetDeviceFunction(const char * handler) {
 
 void CudaRtHandler::RegisterVar(string & handler, string & symbol) {
     mpVar->insert(make_pair(handler, symbol));
-    cout << "Registered Var " << symbol<< " with handler " << handler << endl;
+    cout << "Registered Var " << symbol << " with handler " << handler << endl;
 }
 
 void CudaRtHandler::RegisterVar(const char* handler, const char* symbol) {
@@ -176,7 +176,7 @@ void CudaRtHandler::RegisterVar(const char* handler, const char* symbol) {
 
 const char *CudaRtHandler::GetVar(string & handler) {
     map<string, string>::iterator it = mpVar->find(handler);
-    if(it == mpVar->end())
+    if (it == mpVar->end())
         return NULL;
     return it->second.c_str();
 }
@@ -200,7 +200,7 @@ void CudaRtHandler::RegisterTexture(const char* handler,
 
 textureReference *CudaRtHandler::GetTexture(string & handler) {
     map<string, textureReference *>::iterator it = mpTexture->find(handler);
-    if(it == mpTexture->end())
+    if (it == mpTexture->end())
         return NULL;
     return it->second;
 }
@@ -210,10 +210,18 @@ textureReference * CudaRtHandler::GetTexture(const char* handler) {
     return GetTexture(tmp);
 }
 
+const char *CudaRtHandler::GetTextureHandler(textureReference* texref) {
+    for (map<string, textureReference *>::iterator it = mpTexture->begin();
+            it != mpTexture->end(); it++)
+        if (it->second == texref)
+            return it->first.c_str();
+    return NULL;
+}
+
 void CudaRtHandler::Initialize() {
-    if(mspHandlers != NULL)
+    if (mspHandlers != NULL)
         return;
-    mspHandlers = new map<string, CudaRtHandler::CudaRoutineHandler>();
+    mspHandlers = new map<string, CudaRtHandler::CudaRoutineHandler > ();
 
     /* CudaRtHandler_device */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ChooseDevice));
@@ -272,8 +280,12 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
 
     /* CudaRtHandler_texture */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTextureToArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetChannelDesc));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureAlignmentOffset));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureReference));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnbindTexture));
 
     /* CudaRtHandler_thread */

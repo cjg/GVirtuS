@@ -51,6 +51,7 @@ public:
     void RegisterTexture(const char *handler, textureReference *texref);
     textureReference *GetTexture(std::string & handler);
     textureReference *GetTexture(const char *handler);
+    const char *GetTextureHandler(textureReference *texref);
 private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
@@ -122,8 +123,12 @@ CUDA_ROUTINE_HANDLER(StreamQuery);
 CUDA_ROUTINE_HANDLER(StreamSynchronize);
 
 /* CudaRtHandler_texture */
+CUDA_ROUTINE_HANDLER(BindTexture);
+CUDA_ROUTINE_HANDLER(BindTexture2D);
 CUDA_ROUTINE_HANDLER(BindTextureToArray);
 CUDA_ROUTINE_HANDLER(GetChannelDesc);
+CUDA_ROUTINE_HANDLER(GetTextureAlignmentOffset);
+CUDA_ROUTINE_HANDLER(GetTextureReference);
 CUDA_ROUTINE_HANDLER(UnbindTexture);
 
 /* CudaRtHandler_thread */
