@@ -91,6 +91,8 @@ CUDA_ROUTINE_HANDLER(EventSynchronize);
 CUDA_ROUTINE_HANDLER(ConfigureCall);
 CUDA_ROUTINE_HANDLER(FuncGetAttributes);
 CUDA_ROUTINE_HANDLER(Launch);
+CUDA_ROUTINE_HANDLER(SetDoubleForDevice);
+CUDA_ROUTINE_HANDLER(SetDoubleForHost);
 CUDA_ROUTINE_HANDLER(SetupArgument);
 
 /* CudaRtHandler_internal */

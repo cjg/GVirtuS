@@ -241,6 +241,8 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ConfigureCall));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FuncGetAttributes));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Launch));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForDevice));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForHost));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetupArgument));
 
     /* CudaRtHandler_internal */

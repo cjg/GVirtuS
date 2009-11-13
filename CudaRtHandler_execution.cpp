@@ -38,6 +38,28 @@ CUDA_ROUTINE_HANDLER(Launch) {
     return new Result(exit_code);
 }
 
+CUDA_ROUTINE_HANDLER(SetDoubleForDevice) {
+    double *guestD = input_buffer->Assign<double>();
+    Buffer *out = new Buffer();
+    double *d = out->Delegate<double>();
+    memmove(d, guestD, sizeof(double));
+
+    cudaError_t exit_code = cudaSetDoubleForDevice(d);
+
+    return new Result(exit_code, out);
+}
+
+CUDA_ROUTINE_HANDLER(SetDoubleForHost) {
+    double *guestD = input_buffer->Assign<double>();
+    Buffer *out = new Buffer();
+    double *d = out->Delegate<double>();
+    memmove(d, guestD, sizeof(double));
+
+    cudaError_t exit_code = cudaSetDoubleForHost(d);
+
+    return new Result(exit_code, out);
+}
+
 CUDA_ROUTINE_HANDLER(SetupArgument) {
     /* cudaError_t cudaSetupArgument(const void *arg, size_t size, size_t offset) */
     size_t offset = input_buffer->BackGet<size_t>();
