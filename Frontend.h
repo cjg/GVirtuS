@@ -38,6 +38,11 @@ public:
         delete[] tmp;
     }
 
+    void AddSymbolForArguments(const char *symbol) {
+        AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
+        AddStringForArguments(symbol);
+    }
+
     bool Success() {
         return mExitCode == cudaSuccess;
     }
