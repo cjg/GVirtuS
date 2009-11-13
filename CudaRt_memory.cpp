@@ -25,15 +25,23 @@ extern cudaError_t cudaFreeHost(void *ptr) {
 }
 
 extern cudaError_t cudaGetSymbolAddress(void **devPtr, const char *symbol) {
-    // FIXME: implement
-    cerr << "*** Error: cudaGetSymbolAddress() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    // Achtung: skip adding devPtr
+    f->AddSymbolForArguments(symbol);
+    f->Execute("cudaGetSymbolAddress");
+    if(f->Success())
+        *devPtr = CudaUtil::UnmarshalPointer(f->GetOutputString());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaGetSymbolSize(size_t *size, const char *symbol) {
-    // FIXME: implement
-    cerr << "*** Error: cudaGetSymbolSize() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(size);
+    f->AddSymbolForArguments(symbol);
+    f->Execute("cudaGetSymbolSize");
+    if(f->Success())
+        *size = *(f->GetOutputHostPointer<size_t>());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaHostAlloc(void **ptr, size_t size, unsigned int flags) {

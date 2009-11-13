@@ -52,7 +52,7 @@ extern void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
     wSize = f->GetOutputHostPointer<int>();
 }
 
-extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
+extern void *__cudaRegisterVar(void **fatCubinHandle, char *hostVar,
         char *deviceAddress, const char *deviceName, int ext, int size,
         int constant, int global) {
     Frontend *f = Frontend::GetFrontend();
@@ -65,6 +65,7 @@ extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
     f->AddVariableForArguments(constant);
     f->AddVariableForArguments(global);
     f->Execute("cudaRegisterVar");
+    return NULL;
 }
 
 extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
