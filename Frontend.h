@@ -12,11 +12,12 @@
 #include "Communicator.h"
 #include "Result.h"
 #include "CudaUtil.h"
+#include <vector>
 
 class Frontend {
 public:
     virtual ~Frontend();
-    static Frontend * GetFrontend();
+    static Frontend * GetFrontend(bool register_var = false);
     void Execute(const char *routine, const Buffer *input_buffer = NULL);
     void Prepare();
 
@@ -62,6 +63,8 @@ public:
     cudaError_t GetExitCode() {
         return mExitCode;
     }
+
+    void AddVar(CudaUtil::CudaVar * var);
 private:
     Frontend();
     Communicator *mpCommunicator;
@@ -69,6 +72,8 @@ private:
     Buffer * mpOutputBuffer;
     cudaError_t mExitCode;
     static Frontend *mspFrontend;
+    std::vector<CudaUtil::CudaVar *> * mpVar;
+    bool mAddingVar; 
 };
 
 #endif	/* _FRONTEND_H */

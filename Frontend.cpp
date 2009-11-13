@@ -27,6 +27,8 @@ Frontend::Frontend() {
     mpInputBuffer = new Buffer();
     mpOutputBuffer = new Buffer();
     mExitCode = cudaErrorUnknown;
+    mpVar = new vector<CudaUtil::CudaVar *>();
+    mAddingVar = false;
 }
 
 Frontend::~Frontend() {
@@ -34,7 +36,7 @@ Frontend::~Frontend() {
     delete mpCommunicator;
 }
 
-Frontend * Frontend::GetFrontend() {
+Frontend * Frontend::GetFrontend(bool register_var) {
     if (mspFrontend == NULL) {
         try {
             mspFrontend = new Frontend();
@@ -44,6 +46,14 @@ Frontend * Frontend::GetFrontend() {
         }
     }
     mspFrontend->Prepare();
+    if (mspFrontend->mAddingVar && !register_var) {
+        for (vector<CudaUtil::CudaVar *>::iterator it = mspFrontend->mpVar->begin();
+                it != mspFrontend->mpVar->end(); it++)
+            mspFrontend->AddHostPointerForArguments(*it);
+        mspFrontend->Execute("cudaRegisterVar");
+        mspFrontend->mAddingVar = false;
+        mspFrontend->Prepare();
+    }
     return mspFrontend;
 }
 
@@ -71,4 +81,9 @@ void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
 
 void Frontend::Prepare() {
     mpInputBuffer->Reset();
+}
+
+void Frontend::AddVar(CudaUtil::CudaVar* var) {
+    mAddingVar = true;
+    mpVar->push_back(var);
 }
