@@ -24,6 +24,9 @@ public:
     static void MarshalHostPointer(const void * ptr, char * marshal);
     static char * MarshalDevicePointer(const void *devPtr);
     static void MarshalDevicePointer(const void *devPtr, char * marshal);
+    static inline void * UnmarshalPointer(const char *marshal) {
+        return (void *) strtoul(marshal, NULL, 16);
+    }
     static Buffer * MarshalFatCudaBinary(__cudaFatCudaBinary * bin, Buffer * marshal = NULL);
     static __cudaFatCudaBinary * UnmarshalFatCudaBinary(Buffer * marshal);
     static void DumpFatCudaBinary(__cudaFatCudaBinary * bin, std::ostream & out);
