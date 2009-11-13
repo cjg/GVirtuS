@@ -36,15 +36,21 @@ extern cudaError_t cudaLaunch(const char *entry) {
 }
 
 extern cudaError_t cudaSetDoubleForDevice(double *d) {
-    // FIXME: implement
-    cerr << "*** Error: cudaSetDoubleForDevice() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(d);
+    f->Execute("cudaSetDoubleForDevice");
+    if(f->Success())
+        *d = *(f->GetOutputHostPointer<double >());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaSetDoubleForHost(double *d) {
-    // FIXME: implement
-    cerr << "*** Error: cudaSetDoubleForHost() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+    f->AddHostPointerForArguments(d);
+    f->Execute("cudaSetDoubleForHost");
+    if(f->Success())
+        *d = *(f->GetOutputHostPointer<double >());
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaSetupArgument(const void *arg, size_t size,
