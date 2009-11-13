@@ -36,7 +36,6 @@ void Process::Execute(void * arg) {
     string routine;
     Buffer * input_buffer = new Buffer();
     while (getline(mpInput, routine)) {
-        //Buffer * input_buffer = new Buffer(mpInput);
         input_buffer->Reset(mpInput);
         Result * result;
         try {

@@ -29,6 +29,7 @@ public:
     void *GetDevicePointer(const char * handler);
     void UnregisterDevicePointer(std::string & handler);
     void UnregisterDevicePointer(const char * handler);
+    const char *GetDevicePointerHandler(void *devPtr);
 
     void RegisterFatBinary(std::string & handler, void **fatCubinHandle);
     void RegisterFatBinary(const char * handler, void **fatCubinHandle);
@@ -52,6 +53,8 @@ public:
     textureReference *GetTexture(std::string & handler);
     textureReference *GetTexture(const char *handler);
     const char *GetTextureHandler(textureReference *texref);
+
+    const char *GetSymbol(Buffer * in);
 private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
@@ -107,6 +110,8 @@ CUDA_ROUTINE_HANDLER(RegisterTexture);
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);
 CUDA_ROUTINE_HANDLER(FreeArray);
+CUDA_ROUTINE_HANDLER(GetSymbolAddress);
+CUDA_ROUTINE_HANDLER(GetSymbolSize);
 CUDA_ROUTINE_HANDLER(Malloc);
 CUDA_ROUTINE_HANDLER(MallocArray);
 CUDA_ROUTINE_HANDLER(Memcpy);

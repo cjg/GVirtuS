@@ -88,6 +88,14 @@ void CudaRtHandler::UnregisterDevicePointer(const char* handler) {
     UnregisterDevicePointer(tmp);
 }
 
+const char *CudaRtHandler::GetDevicePointerHandler(void* devPtr) {
+    for (map<string, MemoryEntry *>::iterator it = mpDeviceMemory->begin();
+            it != mpDeviceMemory->end(); it++)
+        if (it->second->Get() == devPtr)
+            return it->first.c_str();
+    return NULL;
+}
+
 Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
     map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
@@ -218,6 +226,15 @@ const char *CudaRtHandler::GetTextureHandler(textureReference* texref) {
     return NULL;
 }
 
+const char *CudaRtHandler::GetSymbol(Buffer* in) {
+    char *symbol_handler = in->AssignString();
+    char *symbol = in->AssignString();
+    char *our_symbol = const_cast<char *> (GetVar(symbol_handler));
+    if (our_symbol != NULL)
+        symbol = const_cast<char *> (our_symbol);
+    return symbol;
+}
+
 void CudaRtHandler::Initialize() {
     if (mspHandlers != NULL)
         return;
@@ -264,6 +281,8 @@ void CudaRtHandler::Initialize() {
     /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FreeArray));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetSymbolAddress));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetSymbolSize));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));

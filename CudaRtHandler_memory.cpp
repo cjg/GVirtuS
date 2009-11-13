@@ -24,6 +24,30 @@ CUDA_ROUTINE_HANDLER(FreeArray) {
     return new Result(exit_code);
 }
 
+CUDA_ROUTINE_HANDLER(GetSymbolAddress) {
+    void *devPtr;
+    const char *symbol = pThis->GetSymbol(input_buffer);
+    
+    cudaError_t exit_code = cudaGetSymbolAddress(&devPtr, symbol);
+
+    Buffer *out = new Buffer();
+    if(exit_code == cudaSuccess)
+        out->AddString(pThis->GetDevicePointerHandler(devPtr));
+
+    return new Result(exit_code, out);
+}
+
+CUDA_ROUTINE_HANDLER(GetSymbolSize) {
+    Buffer *out = new Buffer();
+    size_t *size = out->Delegate<size_t>();
+    *size = *(input_buffer->Assign<size_t>());
+    const char *symbol = pThis->GetSymbol(input_buffer);
+
+    cudaError_t exit_code = cudaGetSymbolSize(size, symbol);
+
+    return new Result(exit_code, out);
+}
+
 CUDA_ROUTINE_HANDLER(Malloc) {
     /* cudaError_t cudaMalloc(void **devPtr, size_t size) */
     void *devPtr = NULL;
