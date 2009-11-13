@@ -37,23 +37,23 @@ extern cudaError_t cudaGetSymbolSize(size_t *size, const char *symbol) {
 }
 
 extern cudaError_t cudaHostAlloc(void **ptr, size_t size, unsigned int flags) {
-    // FIXME: implement
-    cerr << "*** Error: cudaHostAlloc() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    // Achtung: we can't use host page-locked memory, so we use simple pageable
+    // memory here.
+    if ((*ptr = malloc(size)) == NULL)
+        return cudaErrorMemoryAllocation;
+    return cudaSuccess;
 }
 
 extern cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost,
         unsigned int flags) {
-    // FIXME: implement
-    cerr << "*** Error: cudaHostGetDevicePointer() not yet implemented!"
-            << endl;
-    return cudaErrorUnknown;
+    // Achtung: we can't use mapped memory
+    return cudaErrorMemoryAllocation;
 }
 
 extern cudaError_t cudaHostGetFlags(unsigned int *pFlags, void *pHost) {
-    // FIXME: implement
-    cerr << "*** Error: cudaHostGetFlags() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    // Achtung: falling back to the simplest method because we can't map memory
+    *pFlags = cudaHostAllocDefault;
+    return cudaSuccess;
 }
 
 extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
