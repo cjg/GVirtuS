@@ -26,6 +26,7 @@ Frontend::Frontend() {
     mpCommunicator->Connect();
     mpInputBuffer = new Buffer();
     mpOutputBuffer = new Buffer();
+    mpLaunchBuffer = new Buffer();
     mExitCode = cudaErrorUnknown;
     mpVar = new vector<CudaUtil::CudaVar *>();
     mAddingVar = false;

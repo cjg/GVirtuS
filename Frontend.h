@@ -65,11 +65,17 @@ public:
     }
 
     void AddVar(CudaUtil::CudaVar * var);
+
+    inline Buffer * GetLaunchBuffer() {
+        return mpLaunchBuffer;
+    }
+    
 private:
     Frontend();
     Communicator *mpCommunicator;
     Buffer * mpInputBuffer;
     Buffer * mpOutputBuffer;
+    Buffer * mpLaunchBuffer;
     cudaError_t mExitCode;
     static Frontend *mspFrontend;
     std::vector<CudaUtil::CudaVar *> * mpVar;
