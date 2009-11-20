@@ -30,10 +30,61 @@ CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
 }
 
 CUDA_ROUTINE_HANDLER(Launch) {
+#if 0
     /* cudaError_t cudaLaunch(const char * entry) */
     char *handler = input_buffer->AssignString();
     const char *entry = pThis->GetDeviceFunction(handler);
     cudaError_t exit_code = cudaLaunch(entry);
+
+    return new Result(exit_code);
+#endif
+    int ctrl;
+
+    // cudaConfigureCall
+    ctrl = input_buffer->Get<int>();
+    if(ctrl != 0x434e34c)
+        throw "Expecting cudaConfigureCall";
+
+    dim3 gridDim = input_buffer->Get<dim3>();
+    dim3 blockDim = input_buffer->Get<dim3>();
+    size_t sharedMem = input_buffer->Get<size_t>();
+    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+
+    cudaError_t exit_code = cudaConfigureCall(gridDim, blockDim, sharedMem,
+            stream);
+
+    if(exit_code != cudaSuccess)
+        return new Result(exit_code);
+
+    // cudaSetupArgument
+    while((ctrl = input_buffer->Get<int>()) == 0x53544147) {
+        void *arg = input_buffer->AssignAll<char>();
+        size_t size = input_buffer->Get<size_t>();
+        size_t offset = input_buffer->Get<size_t>();
+
+        // try to translate arg to a device pointer
+        if(size == sizeof(void *)) {
+            char *handler = CudaUtil::MarshalDevicePointer((void *) * ((int *) arg));
+            try {
+                void *devPtr = pThis->GetDevicePointer(handler);
+                arg = (void *) ((char *) &devPtr);
+            } catch(string e) {
+            }
+            delete[] handler;
+        }
+
+        exit_code = cudaSetupArgument(arg, size, offset);
+        if(exit_code != cudaSuccess)
+            return new Result(exit_code);
+    }
+
+    // cudaLaunch
+    if(ctrl != 0x4c41554e)
+        throw "Expecting cudaLaunch";
+
+    char *handler = input_buffer->AssignString();
+    const char *entry = pThis->GetDeviceFunction(handler);
+    exit_code = cudaLaunch(entry);
 
     return new Result(exit_code);
 }
