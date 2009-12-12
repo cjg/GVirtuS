@@ -157,7 +157,7 @@
             <pElem>../EchoesUtil</pElem>
           </incDir>
           <preprocessorList>
-            <Elem>_CONFIG_FILE="/home/cjg/echoes.xml"</Elem>
+            <Elem>_CONFIG_FILE="/opt/echoes/etc/echoes.xml"</Elem>
           </preprocessorList>
           <warningLevel>2</warningLevel>
         </ccTool>

@@ -18,8 +18,12 @@ Frontend::Frontend() {
     ConfigFile *cf = new ConfigFile(_CONFIG_FILE);
     ConfigFile::Section communicators =
             cf->GetTopLevel()->GetSection("communicators");
-    string default_communicator_name =
-            cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
+    string default_communicator_name;
+    char *tmp;
+    if((tmp = getenv("COMMUNICATOR")) != NULL)
+        default_communicator_name = string(tmp);
+    else
+        cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
     ConfigFile::Element default_communicator =
             communicators.GetElement(default_communicator_name);
     mpCommunicator = Communicator::Create(default_communicator);
