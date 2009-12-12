@@ -40,6 +40,8 @@
     <itemPath>TcpCommunicator.h</itemPath>
     <itemPath>Thread.cpp</itemPath>
     <itemPath>Thread.h</itemPath>
+    <itemPath>VMSocketCommunicator.cpp</itemPath>
+    <itemPath>VMSocketCommunicator.h</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.h</itemPath>
   </logicalFolder>

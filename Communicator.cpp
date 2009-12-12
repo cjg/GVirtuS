@@ -9,6 +9,7 @@
 #include "AfUnixCommunicator.h"
 #include "TcpCommunicator.h"
 #include "VmciCommunicator.h"
+#include "VMSocketCommunicator.h"
 #include "Communicator.h"
 
 Communicator * Communicator::Create(ConfigFile::Element & config) {
@@ -22,6 +23,8 @@ Communicator * Communicator::Create(ConfigFile::Element & config) {
     else if (strcasecmp(type, "Vmci") == 0)
         return new VmciCommunicator(config.GetShortValue("port"),
                 config.GetShortValue("cid"));
+    else if (strcasecmp(type, "VMSocket") == 0)
+        return new VMSocketCommunicator(config.GetValue("device"));
     else
         throw "Not a valid type!";
     return NULL;

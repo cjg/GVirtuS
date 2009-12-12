@@ -31,18 +31,19 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Communicator.o \
 	${OBJECTDIR}/Thread.o \
-	${OBJECTDIR}/Observer.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o \
-	${OBJECTDIR}/ConfigFile.o \
 	${OBJECTDIR}/Mutex.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o \
-	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o \
-	${OBJECTDIR}/CudaUtil.o \
 	${OBJECTDIR}/TcpCommunicator.o \
 	${OBJECTDIR}/Observable.o \
-	${OBJECTDIR}/AfUnixCommunicator.o
+	${OBJECTDIR}/AfUnixCommunicator.o \
+	${OBJECTDIR}/Communicator.o \
+	${OBJECTDIR}/Observer.o \
+	${OBJECTDIR}/VMSocketCommunicator.o \
+	${OBJECTDIR}/ConfigFile.o \
+	${OBJECTDIR}/CudaUtil.o \
+	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o
 
 # C Compiler Flags
 CFLAGS=
@@ -68,30 +69,15 @@ dist/MacOSX/GNU-Linux-x86/libEchoesUtil.so: ${OBJECTFILES}
 	${MKDIR} -p dist/MacOSX/GNU-Linux-x86
 	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/Communicator.o: nbproject/Makefile-${CND_CONF}.mk Communicator.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Communicator.o Communicator.cpp
-
 ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Thread.o Thread.cpp
 
-${OBJECTDIR}/Observer.o: nbproject/Makefile-${CND_CONF}.mk Observer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
-
 ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o /home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.cpp
-
-${OBJECTDIR}/ConfigFile.o: nbproject/Makefile-${CND_CONF}.mk ConfigFile.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ConfigFile.o ConfigFile.cpp
 
 ${OBJECTDIR}/Mutex.o: nbproject/Makefile-${CND_CONF}.mk Mutex.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -102,16 +88,6 @@ ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o: nbproject/Makef
 	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Buffer.o /home/cjg/NetBeansProjects/EchoesUtil/Buffer.cpp
-
-${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp
-
-${OBJECTDIR}/CudaUtil.o: nbproject/Makefile-${CND_CONF}.mk CudaUtil.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaUtil.o CudaUtil.cpp
 
 ${OBJECTDIR}/TcpCommunicator.o: nbproject/Makefile-${CND_CONF}.mk TcpCommunicator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -127,6 +103,36 @@ ${OBJECTDIR}/AfUnixCommunicator.o: nbproject/Makefile-${CND_CONF}.mk AfUnixCommu
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/AfUnixCommunicator.o AfUnixCommunicator.cpp
+
+${OBJECTDIR}/Communicator.o: nbproject/Makefile-${CND_CONF}.mk Communicator.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Communicator.o Communicator.cpp
+
+${OBJECTDIR}/Observer.o: nbproject/Makefile-${CND_CONF}.mk Observer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Observer.o Observer.cpp
+
+${OBJECTDIR}/VMSocketCommunicator.o: nbproject/Makefile-${CND_CONF}.mk VMSocketCommunicator.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/VMSocketCommunicator.o VMSocketCommunicator.cpp
+
+${OBJECTDIR}/ConfigFile.o: nbproject/Makefile-${CND_CONF}.mk ConfigFile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ConfigFile.o ConfigFile.cpp
+
+${OBJECTDIR}/CudaUtil.o: nbproject/Makefile-${CND_CONF}.mk CudaUtil.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/CudaUtil.o CudaUtil.cpp
+
+${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o: nbproject/Makefile-${CND_CONF}.mk /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o /home/cjg/NetBeansProjects/EchoesUtil/Result.cpp
 
 # Subprojects
 .build-subprojects:
