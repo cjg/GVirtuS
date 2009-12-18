@@ -23,17 +23,6 @@ public:
     virtual ~CudaRtHandler();
     Result * Execute(std::string routine, Buffer * input_buffer);
 
-#if 0
-    void RegisterDevicePointer(std::string & handler, void *devPtr,
-            size_t size);
-    void RegisterDevicePointer(const char * handler, void *devPtr, size_t size);
-    void *GetDevicePointer(std::string & handler);
-    void *GetDevicePointer(const char * handler);
-    void UnregisterDevicePointer(std::string & handler);
-    void UnregisterDevicePointer(const char * handler);
-    const char *GetDevicePointerHandler(void *devPtr);
-#endif
-    
     void RegisterFatBinary(std::string & handler, void **fatCubinHandle);
     void RegisterFatBinary(const char * handler, void **fatCubinHandle);
     void **GetFatBinary(std::string & handler);
@@ -62,9 +51,6 @@ private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
     static std::map<std::string, CudaRoutineHandler> * mspHandlers;
-#if 0
-    std::map<std::string, MemoryEntry *> * mpDeviceMemory;
-#endif
     std::map<std::string, void **> * mpFatBinary;
     std::map<std::string, std::string> * mpDeviceFunction;
     std::map<std::string, std::string> * mpVar;

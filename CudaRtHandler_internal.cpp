@@ -107,7 +107,7 @@ CUDA_ROUTINE_HANDLER(RegisterSharedVar) {
 
     __cudaRegisterSharedVar(fatCubinHandle, devicePtr, size, alignment, storage);
 
-    cout << "######### Registered SharedVar: " << (char *) devicePtr << endl;
+    cout << "Registered SharedVar " << (char *) devicePtr << endl;
 
     return new Result(cudaSuccess);
 }
@@ -117,7 +117,7 @@ CUDA_ROUTINE_HANDLER(RegisterShared) {
     void **fatCubinHandle = pThis->GetFatBinary(handler);
     char *devPtr = strdup(input_buffer->AssignString());
     __cudaRegisterShared(fatCubinHandle, (void **) devPtr);
-    cout << "Registerd Shared: " << (char *) devPtr << " for " << fatCubinHandle << endl;
+    cout << "Registerd Shared " << (char *) devPtr << " for " << fatCubinHandle << endl;
     return new Result(cudaSuccess);
 }
 

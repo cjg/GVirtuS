@@ -19,9 +19,6 @@ using namespace std;
 map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;
 
 CudaRtHandler::CudaRtHandler() {
-#if 0
-    mpDeviceMemory = new map<string, MemoryEntry *>();
-#endif
     mpFatBinary = new map<string, void **>();
     mpDeviceFunction = new map<string, string > ();
     mpVar = new map<string, string > ();
@@ -32,74 +29,6 @@ CudaRtHandler::CudaRtHandler() {
 CudaRtHandler::~CudaRtHandler() {
 
 }
-
-#if 0
-void CudaRtHandler::RegisterDevicePointer(std::string& handler, void* devPtr,
-        size_t size) {
-    map<string, MemoryEntry *>::iterator it = mpDeviceMemory->find(handler);
-    if (it != mpDeviceMemory->end()) {
-        /* FIXME: think about freeing memory */
-        mpDeviceMemory->erase(it);
-    }
-    unsigned addr = strtoul(handler.c_str(), NULL, 16);
-    mpDeviceMemory->insert(make_pair(handler, new MemoryEntry((void *) addr,
-            devPtr, size)));
-    cout << "Registered DevicePointer " << devPtr << " with handler " << handler
-            << " and a size of " << size << endl;
-}
-
-void CudaRtHandler::RegisterDevicePointer(const char* handler, void* devPtr,
-        size_t size) {
-    string tmp(handler);
-    RegisterDevicePointer(tmp, devPtr, size);
-}
-
-void * CudaRtHandler::GetDevicePointer(string & handler) {
-    if (handler.compare("(nil)") == 0)
-        return NULL;
-    map<string, MemoryEntry *>::iterator it = mpDeviceMemory->find(handler);
-    if (it == mpDeviceMemory->end()) {
-        void *hostPtr = (void *) strtoul(handler.c_str(), NULL, 16);
-        for (it = mpDeviceMemory->begin(); it != mpDeviceMemory->end(); it++) {
-            void *devPtr = it->second->Get(hostPtr);
-            if (devPtr != NULL)
-                return devPtr;
-        }
-        throw "Device Pointer '" + handler + "' not found";
-    }
-    return it->second->Get();
-}
-
-void * CudaRtHandler::GetDevicePointer(const char * handler) {
-    string tmp(handler);
-    return GetDevicePointer(tmp);
-}
-
-void CudaRtHandler::UnregisterDevicePointer(std::string& handler) {
-    map<string, MemoryEntry *>::iterator it = mpDeviceMemory->find(handler);
-    if (it == mpDeviceMemory->end()) {
-        /* FIXME: think about throwing an exception */
-        return;
-    }
-    /* FIXME: think about freeing memory */
-    cout << "Unregistered DevicePointer " << it->second << " with handler " << handler << endl;
-    mpDeviceMemory->erase(it);
-}
-
-void CudaRtHandler::UnregisterDevicePointer(const char* handler) {
-    string tmp(handler);
-    UnregisterDevicePointer(tmp);
-}
-
-const char *CudaRtHandler::GetDevicePointerHandler(void* devPtr) {
-    for (map<string, MemoryEntry *>::iterator it = mpDeviceMemory->begin();
-            it != mpDeviceMemory->end(); it++)
-        if (it->second->Get() == devPtr)
-            return it->first.c_str();
-    return NULL;
-}
-
-#endif
 
 Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
     map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;

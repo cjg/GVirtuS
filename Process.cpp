@@ -46,12 +46,12 @@ void Process::Execute(void * arg) {
             result = new Result(cudaErrorUnknown, new Buffer());
         }
         result->Dump(mpOutput);
-        //if (result->GetExitCode() != cudaSuccess) {
+        if (result->GetExitCode() != cudaSuccess) {
             cout << "[Process " << GetThreadId() << "]: Requested '" << routine
                     << "' routine." << endl;
             cout << "[Process " << GetThreadId() << "]: Exit Code '"
                     << cudaGetErrorString(result->GetExitCode()) << "'." << endl;
-        //}
+        }
         delete result;
     }
     delete input_buffer;

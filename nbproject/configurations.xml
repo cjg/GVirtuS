@@ -32,8 +32,6 @@
     <itemPath>CudaRtHandler_texture.cpp</itemPath>
     <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_thread.cpp</itemPath>
     <itemPath>CudaRtHandler_version.cpp</itemPath>
-    <itemPath>MemoryEntry.cpp</itemPath>
-    <itemPath>MemoryEntry.h</itemPath>
     <itemPath>Process.cpp</itemPath>
     <itemPath>Process.h</itemPath>
     <itemPath>main.cpp</itemPath>

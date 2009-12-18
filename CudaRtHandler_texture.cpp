@@ -10,10 +10,7 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
     textureReference *guestTexref = input_buffer->Assign<textureReference>();
     textureReference *texref = pThis->GetTexture(texrefHandler);
     memmove(texref, guestTexref, sizeof(textureReference));
-    char * devPtrHandler =
-        input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
-    //void *devPtr = pThis->GetDevicePointer(devPtrHandler);
-    void *devPtr = CudaUtil::UnmarshalPointer(devPtrHandler);
+    void *devPtr = input_buffer->GetFromMarshal<void *>();
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
     size_t size = input_buffer->Get<size_t>();
 
@@ -49,15 +46,11 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
 CUDA_ROUTINE_HANDLER(BindTextureToArray) {
     char * texrefHandler = input_buffer->AssignString();
     textureReference *guestTexref = input_buffer->Assign<textureReference>();
-    char * arrayHandler =
-        input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
+    cudaArray *array = input_buffer->GetFromMarshal<cudaArray *>();
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
 
     textureReference *texref = pThis->GetTexture(texrefHandler);
     memmove(texref, guestTexref, sizeof(textureReference));
-
-    //cudaArray *array = (cudaArray *) pThis->GetDevicePointer(arrayHandler);
-    cudaArray *array = (cudaArray *) CudaUtil::UnmarshalPointer(arrayHandler);
 
     cudaError_t exit_code = cudaBindTextureToArray(texref, array, desc);
 
@@ -67,10 +60,7 @@ CUDA_ROUTINE_HANDLER(BindTextureToArray) {
 CUDA_ROUTINE_HANDLER(GetChannelDesc) {
     cudaChannelFormatDesc *guestDesc =
             input_buffer->Assign<cudaChannelFormatDesc>();
-    char * arrayHandler =
-        input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
-    //cudaArray *array = (cudaArray *) pThis->GetDevicePointer(arrayHandler);
-    cudaArray *array = (cudaArray *) CudaUtil::UnmarshalPointer(arrayHandler);
+    cudaArray *array = (cudaArray *) input_buffer->GetFromMarshal<cudaArray *>();
     Buffer *out = new Buffer();
     cudaChannelFormatDesc *desc = out->Delegate<cudaChannelFormatDesc>();
     memmove(desc, guestDesc, sizeof(cudaChannelFormatDesc));
