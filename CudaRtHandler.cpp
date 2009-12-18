@@ -19,7 +19,9 @@ using namespace std;
 map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;
 
 CudaRtHandler::CudaRtHandler() {
+#if 0
     mpDeviceMemory = new map<string, MemoryEntry *>();
+#endif
     mpFatBinary = new map<string, void **>();
     mpDeviceFunction = new map<string, string > ();
     mpVar = new map<string, string > ();
@@ -31,6 +33,7 @@ CudaRtHandler::~CudaRtHandler() {
 
 }
 
+#if 0
 void CudaRtHandler::RegisterDevicePointer(std::string& handler, void* devPtr,
         size_t size) {
     map<string, MemoryEntry *>::iterator it = mpDeviceMemory->find(handler);
@@ -95,6 +98,8 @@ const char *CudaRtHandler::GetDevicePointerHandler(void* devPtr) {
             return it->first.c_str();
     return NULL;
 }
+
+#endif
 
 Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
     map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;
@@ -184,7 +189,7 @@ void CudaRtHandler::RegisterVar(const char* handler, const char* symbol) {
 
 const char *CudaRtHandler::GetVar(string & handler) {
     map<string, string>::iterator it = mpVar->find(handler);
-    if (it == mpVar->end())
+    if (it == mpVar->end()) 
         return NULL;
     return it->second.c_str();
 }
@@ -275,6 +280,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnregisterFatBinary));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFunction));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterVar));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterSharedVar));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterShared));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterTexture));
 

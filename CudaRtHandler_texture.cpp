@@ -12,7 +12,8 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
     memmove(texref, guestTexref, sizeof(textureReference));
     char * devPtrHandler =
         input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
-    void *devPtr = pThis->GetDevicePointer(devPtrHandler);
+    //void *devPtr = pThis->GetDevicePointer(devPtrHandler);
+    void *devPtr = CudaUtil::UnmarshalPointer(devPtrHandler);
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
     size_t size = input_buffer->Get<size_t>();
 
@@ -55,7 +56,8 @@ CUDA_ROUTINE_HANDLER(BindTextureToArray) {
     textureReference *texref = pThis->GetTexture(texrefHandler);
     memmove(texref, guestTexref, sizeof(textureReference));
 
-    cudaArray *array = (cudaArray *) pThis->GetDevicePointer(arrayHandler);
+    //cudaArray *array = (cudaArray *) pThis->GetDevicePointer(arrayHandler);
+    cudaArray *array = (cudaArray *) CudaUtil::UnmarshalPointer(arrayHandler);
 
     cudaError_t exit_code = cudaBindTextureToArray(texref, array, desc);
 
@@ -67,7 +69,8 @@ CUDA_ROUTINE_HANDLER(GetChannelDesc) {
             input_buffer->Assign<cudaChannelFormatDesc>();
     char * arrayHandler =
         input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
-    cudaArray *array = (cudaArray *) pThis->GetDevicePointer(arrayHandler);
+    //cudaArray *array = (cudaArray *) pThis->GetDevicePointer(arrayHandler);
+    cudaArray *array = (cudaArray *) CudaUtil::UnmarshalPointer(arrayHandler);
     Buffer *out = new Buffer();
     cudaChannelFormatDesc *desc = out->Delegate<cudaChannelFormatDesc>();
     memmove(desc, guestDesc, sizeof(cudaChannelFormatDesc));

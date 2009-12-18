@@ -64,6 +64,7 @@ CUDA_ROUTINE_HANDLER(Launch) {
         size_t size = input_buffer->Get<size_t>();
         size_t offset = input_buffer->Get<size_t>();
 
+#if 0
         // try to translate arg to a device pointer
         if(size == sizeof(void *)) {
             char *handler = CudaUtil::MarshalDevicePointer((void *) * ((int *) arg));
@@ -74,6 +75,7 @@ CUDA_ROUTINE_HANDLER(Launch) {
             }
             delete[] handler;
         }
+#endif
 
         exit_code = cudaSetupArgument(arg, size, offset);
         if(exit_code != cudaSuccess)
@@ -120,6 +122,7 @@ CUDA_ROUTINE_HANDLER(SetupArgument) {
     void *arg = input_buffer->Assign<char>(size);
 
     // try to translate arg to a device pointer
+#if 0
     if(size == sizeof(void *)) {
         char *handler = CudaUtil::MarshalDevicePointer((void *) * ((int *) arg));
         try {
@@ -129,7 +132,8 @@ CUDA_ROUTINE_HANDLER(SetupArgument) {
         }
         delete[] handler;
     }
-
+#endif
+    
     cudaError_t exit_code = cudaSetupArgument(arg, size, offset);
 
     return new Result(exit_code);

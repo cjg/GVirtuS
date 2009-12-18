@@ -18,6 +18,8 @@ extern "C" {
     extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
             char *deviceAddress, const char *deviceName, int ext, int size,
             int constant, int global);
+    extern void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
+            size_t size, size_t alignment, int storage);
     extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr);
     extern void __cudaRegisterTexture(void **fatCubinHandle,
             const textureReference *hostVar, void **deviceAddress, char *deviceName,
@@ -75,13 +77,10 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
 }
 
 CUDA_ROUTINE_HANDLER(RegisterVar) {
-/*        extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
-            char *deviceAddress, const char *deviceName, int ext, int size,
-            int constant, int global);
-*/
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
-    char *hostVar = strdup(input_buffer->AssignString());
+    char *hostVar = (char *)
+        CudaUtil::UnmarshalPointer(input_buffer->AssignString());
     char *deviceAddress = strdup(input_buffer->AssignString());
     const char *deviceName = strdup(input_buffer->AssignString());
     int ext = input_buffer->Get<int>();
@@ -91,7 +90,25 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
 
     __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
             size, constant, global);
-    pThis->RegisterVar(hostVar, deviceName);
+
+    cout << "Registered Var " << deviceAddress << " with handler "
+            << (void *) hostVar << endl;
+
+    return new Result(cudaSuccess);
+}
+
+CUDA_ROUTINE_HANDLER(RegisterSharedVar) {
+    char * handler = input_buffer->AssignString();
+    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    void **devicePtr = (void **) input_buffer->AssignString();
+    size_t size = input_buffer->Get<size_t>();
+    size_t alignment = input_buffer->Get<size_t>();
+    int storage = input_buffer->Get<int>();
+
+    __cudaRegisterSharedVar(fatCubinHandle, devicePtr, size, alignment, storage);
+
+    cout << "######### Registered SharedVar: " << (char *) devicePtr << endl;
+
     return new Result(cudaSuccess);
 }
 
