@@ -114,6 +114,7 @@
             <pElem>/opt/cuda/include</pElem>
             <pElem>/usr/lib/vmware/include</pElem>
           </incDir>
+          <commandLine>`if [ -d /usr/lib/vmware/include/vmci ]; then echo "-DHAVE_VMCI"; fi`</commandLine>
           <warningLevel>2</warningLevel>
         </ccTool>
         <linkerTool>

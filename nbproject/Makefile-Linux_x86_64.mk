@@ -15,7 +15,7 @@ RANLIB=ranlib
 CC=gcc
 CCC=g++
 CXX=g++
-FC=
+FC=gfortran
 AS=as
 
 # Macros
@@ -49,8 +49,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=`if [ -d /usr/lib/vmware/include/vmci ]; then echo "-DHAVE_VMCI"; fi` 
+CXXFLAGS=`if [ -d /usr/lib/vmware/include/vmci ]; then echo "-DHAVE_VMCI"; fi` 
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -138,7 +138,7 @@ ${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/Result.o: nbproject/Makef
 .build-subprojects:
 
 # Clean Targets
-.clean-conf:
+.clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Linux_x86_64
 	${RM} dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so
 

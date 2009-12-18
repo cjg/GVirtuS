@@ -5,6 +5,8 @@
  * Created on November 4, 2009, 2:50 PM
  */
 
+#ifdef HAVE_VMCI
+
 #include <cstring>
 #include "VmciCommunicator.h"
 
@@ -94,3 +96,5 @@ void VmciCommunicator::InitializeStream() {
     mpInput = new istream(mpInputBuf);
     mpOutput = new ostream(mpOutputBuf);
 }
+
+#endif /* HAVE_VMCI */

@@ -8,6 +8,8 @@
 #ifndef _VMCICOMMUNICATOR_H
 #define	_VMCICOMMUNICATOR_H
 
+#ifdef HAVE_VMCI
+
 #include <vmci/vmci_sockets.h>
 #include <ext/stdio_filebuf.h>
 #include "Communicator.h"
@@ -35,6 +37,8 @@ private:
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
 };
+
+#endif /* HAVE_VMCI */
 
 #endif	/* _VMCICOMMUNICATOR_H */
 

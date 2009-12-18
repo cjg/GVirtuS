@@ -20,9 +20,11 @@ Communicator * Communicator::Create(ConfigFile::Element & config) {
         return new TcpCommunicator(
                 config.GetValue("hostname").c_str(),
                 config.GetShortValue("port"));
+#ifdef HAVE_VMCI
     else if (strcasecmp(type, "Vmci") == 0)
         return new VmciCommunicator(config.GetShortValue("port"),
                 config.GetShortValue("cid"));
+#endif
     else if (strcasecmp(type, "VMSocket") == 0)
         return new VMSocketCommunicator(config.GetValue("device"));
     else

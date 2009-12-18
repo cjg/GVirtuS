@@ -149,8 +149,10 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
     /* Achtung: no dependends added */
     marshal->Add(0);
 
+#if CUDA_VERSION == 2030
     marshal->Add(bin->characteristic);
-
+#endif
+    
     return marshal;
 }
 
@@ -233,7 +235,9 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
     marshal->Get<int>();
     bin->dependends = NULL;
 
+#if CUDA_VERSION == 2030
     bin->characteristic = marshal->Get<unsigned int>();
+#endif
     
     return bin;
 }
@@ -281,6 +285,8 @@ void CudaUtil::DumpFatCudaBinary(__cudaFatCudaBinary* bin, ostream & out) {
         CudaUtil::DumpFatCudaBinary(bin->dependends + i);
     }
 #endif
+#if CUDA_VERSION == 2030
     out << "characteristic: " << bin->characteristic << endl;
+#endif
     out << "----------" << endl << endl;
 }
