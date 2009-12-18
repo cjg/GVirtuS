@@ -73,7 +73,7 @@ extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
     f->Execute("cudaMalloc");
 
     if(f->Success())
-        *devPtr = CudaUtil::UnmarshalPointer(f->GetOutputString());
+        *devPtr = f->GetOutputDevicePointer();
 
     return f->GetExitCode();
 }
@@ -97,13 +97,12 @@ extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height) {
     Frontend *f = Frontend::GetFrontend();
 
-    f->AddDevicePointerForArguments(*arrayPtr);
     f->AddHostPointerForArguments(desc);
     f->AddVariableForArguments(width);
     f->AddVariableForArguments(height);
     f->Execute("cudaMallocArray");
     if(f->Success())
-        *arrayPtr = (cudaArray *) CudaUtil::UnmarshalPointer(f->GetOutputString());
+        *arrayPtr = (cudaArray *) f->GetOutputDevicePointer();
     return f->GetExitCode();
 }
 

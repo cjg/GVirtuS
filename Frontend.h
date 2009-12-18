@@ -34,9 +34,7 @@ public:
     }
 
     void AddDevicePointerForArguments(const void *ptr) {
-        char *tmp = CudaUtil::MarshalDevicePointer(ptr);
-        mpInputBuffer->Add(tmp, CudaUtil::MarshaledDevicePointerSize);
-        delete[] tmp;
+        mpInputBuffer->Add((uint64_t) ptr);
     }
 
     void AddSymbolForArguments(const char *symbol) {
@@ -54,6 +52,10 @@ public:
 
     template <class T>T * GetOutputHostPointer(size_t n = 1) {
         return mpOutputBuffer->Assign<T> (n);
+    }
+
+    void * GetOutputDevicePointer() {
+        return (void *) mpOutputBuffer->Get<uint64_t>();
     }
 
     char * GetOutputString() {
