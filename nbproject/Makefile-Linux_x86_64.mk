@@ -15,7 +15,7 @@ RANLIB=ranlib
 CC=gcc
 CCC=g++
 CXX=g++
-FC=
+FC=gfortran
 AS=as
 
 # Macros
@@ -61,7 +61,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L/opt/cuda/lib64 -lcudart -Wl,-rpath ../EchoesUtil/dist/Linux_x86_64/GNU-Linux-x86 -L../EchoesUtil/dist/Linux_x86_64/GNU-Linux-x86 -lEchoesUtil
+LDLIBSOPTIONS=-L/opt/cuda/lib64 -L/opt/cuda/lib -lcudart -Wl,-rpath ../EchoesUtil/dist/Linux_x86_64/GNU-Linux-x86 -L../EchoesUtil/dist/Linux_x86_64/GNU-Linux-x86 -lEchoesUtil
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

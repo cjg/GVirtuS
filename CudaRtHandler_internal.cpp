@@ -15,7 +15,7 @@ extern "C" {
             const char *hostFun, char *deviceFun, const char *deviceName,
             int thread_limit, uint3 *tid, uint3 *bid, dim3 *bDim, dim3 *gDim,
             int *wSize);
-    extern void * __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
+    extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
             char *deviceAddress, const char *deviceName, int ext, int size,
             int constant, int global);
     extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr);
@@ -75,39 +75,23 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
 }
 
 CUDA_ROUTINE_HANDLER(RegisterVar) {
-    CudaUtil::CudaVar *var;
-    vector<CudaUtil::CudaVar *> *vars = new vector<CudaUtil::CudaVar *>();
-    while (true) {
-        try {
-            var = input_buffer->Assign<CudaUtil::CudaVar > ();
-            vars->push_back(var);
-        } catch (string e) {
-            break;
-        }
-    }
+/*        extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
+            char *deviceAddress, const char *deviceName, int ext, int size,
+            int constant, int global);
+*/
+    char * handler = input_buffer->AssignString();
+    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    char *hostVar = strdup(input_buffer->AssignString());
+    char *deviceAddress = strdup(input_buffer->AssignString());
+    const char *deviceName = strdup(input_buffer->AssignString());
+    int ext = input_buffer->Get<int>();
+    int size = input_buffer->Get<int>();
+    int constant = input_buffer->Get<int>();
+    int global = input_buffer->Get<int>();
 
-    void **fatCubinHandle = pThis->GetFatBinary(var->fatCubinHandle);
-
-    for (vector<CudaUtil::CudaVar *>::iterator it = vars->begin();
-            it != vars->end(); it++) {
-        var = *it;
-        __cudaRegisterVar(fatCubinHandle,
-                (char *) CudaUtil::UnmarshalPointer(var->hostVar),
-                var->deviceAddress, var->deviceName, var->ext, var->size,
-                var->constant, var->global);
-    }
-    for (vector<CudaUtil::CudaVar *>::iterator it = vars->begin();
-            it != vars->end(); it++) {
-        var = *it;
-        void *devPtr;
-        if(cudaGetSymbolAddress(&devPtr, var->deviceName) != cudaSuccess) {
-            cerr << "Error while registering Var " << var->deviceName << endl;
-            continue;
-        }
-        pThis->RegisterVar(var->hostVar, var->deviceName);
-        pThis->RegisterDevicePointer(var->hostVar, devPtr, var->size);
-    }
-
+    __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
+            size, constant, global);
+    pThis->RegisterVar(hostVar, deviceName);
     return new Result(cudaSuccess);
 }
 

@@ -164,6 +164,7 @@
         <linkerTool>
           <linkerAddLib>
             <pElem>/opt/cuda/lib64</pElem>
+            <pElem>/opt/cuda/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibLibItem>cudart</linkerLibLibItem>

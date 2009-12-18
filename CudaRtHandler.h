@@ -43,8 +43,8 @@ public:
     const char *GetDeviceFunction(std::string & handler);
     const char *GetDeviceFunction(const char * handler);
 
-    void RegisterVar(std::string & handler, std::string & symbol);
-    void RegisterVar(const char *handler, const char *symbol);
+    void RegisterVar(std::string & handler, std::string &deviceName);
+    void RegisterVar(const char *handler, const char *deviceName);
     const char *GetVar(std::string & handler);
     const char *GetVar(const char *handler);
 

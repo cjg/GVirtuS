@@ -246,8 +246,8 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceCount));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceProperties));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDevice));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDeviceFlags));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetValidDevices));
+//    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDeviceFlags));
+//    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetValidDevices));
 
     /* CudaRtHandler_error */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetErrorString));
@@ -255,7 +255,7 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_event */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreate));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreateWithFlags));
+//    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreateWithFlags));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventDestroy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventElapsedTime));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventQuery));
@@ -264,7 +264,7 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_execution */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ConfigureCall));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FuncGetAttributes));
+//    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FuncGetAttributes));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Launch));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForDevice));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForHost));
@@ -300,7 +300,7 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_texture */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
+//    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTextureToArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetChannelDesc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureAlignmentOffset));
@@ -312,6 +312,6 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadSynchronize));
 
     /* CudaRtHandler_version */
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DriverGetVersion));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RuntimeGetVersion));
+//    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DriverGetVersion));
+//    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RuntimeGetVersion));
 }

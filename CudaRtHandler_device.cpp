@@ -55,6 +55,7 @@ CUDA_ROUTINE_HANDLER(SetDevice) {
     return new Result(exit_code);
 }
 
+#if 0
 CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
     int flags = input_buffer->Get<int>();
 
@@ -74,3 +75,4 @@ CUDA_ROUTINE_HANDLER(SetValidDevices) {
 
     return new Result(exit_code, out);
 }
+#endif
