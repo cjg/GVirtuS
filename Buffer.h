@@ -59,6 +59,11 @@ public:
         Add(s, size);
     }
 
+    template <class T> void AddMarshal(T item) {
+        Add((uint64_t) item);
+    }
+
+
     template <class T> void Read(std::istream & in) {
         while ((mLength + sizeof (T)) >= mSize) {
             mSize += mBlockSize;
@@ -155,6 +160,10 @@ public:
         T * result = (T *) (mpBuffer + mBackOffset - sizeof(T) * n);
         mBackOffset -= sizeof (T) * n + sizeof(size_t);
         return result;
+    }
+
+    template <class T>T GetFromMarshal() {
+        return (T) Get<uint64_t>();
     }
 
     void Reset();
