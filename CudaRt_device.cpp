@@ -41,7 +41,9 @@ extern cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     if(f->Success()) {
         memmove(prop, f->GetOutputHostPointer<cudaDeviceProp>(),
                 sizeof(cudaDeviceProp));
+#if CUDA_VERSION
         prop->canMapHostMemory = 0;
+#endif
     }
     return f->GetExitCode();
 }

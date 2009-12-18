@@ -60,7 +60,9 @@ extern cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost,
 
 extern cudaError_t cudaHostGetFlags(unsigned int *pFlags, void *pHost) {
     // Achtung: falling back to the simplest method because we can't map memory
+#if CUDA_VERSION
     *pFlags = cudaHostAllocDefault;
+#endif
     return cudaSuccess;
 }
 

@@ -61,7 +61,7 @@ extern "C" {
             const char *hostFun, char *deviceFun, const char *deviceName,
             int thread_limit, uint3 *tid, uint3 *bid, dim3 *bDim, dim3 *gDim,
             int *wSize);
-    extern void *__cudaRegisterVar(void **fatCubinHandle, char *hostVar,
+    extern void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
             char *deviceAddress, const char *deviceName, int ext, int size,
             int constant, int global);
     extern void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr);
