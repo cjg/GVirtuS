@@ -69,11 +69,12 @@ extern cudaError_t cudaHostGetFlags(unsigned int *pFlags, void *pHost) {
 extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
     Frontend *f = Frontend::GetFrontend();
 
-    /* Fake device pointer */
-    *devPtr = new char[1];
-    f->AddDevicePointerForArguments(*devPtr);
     f->AddVariableForArguments(size);
     f->Execute("cudaMalloc");
+
+    if(f->Success())
+        *devPtr = CudaUtil::UnmarshalPointer(f->GetOutputString());
+
     return f->GetExitCode();
 }
 
@@ -91,17 +92,18 @@ extern cudaError_t cudaMalloc3DArray(cudaArray **arrayPtr,
     return cudaErrorUnknown;
 }
 
+// FIXME: new mapping way
 extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height) {
     Frontend *f = Frontend::GetFrontend();
 
-    /* Fake device pointer */
-    *arrayPtr = (cudaArray *) new char[1];
     f->AddDevicePointerForArguments(*arrayPtr);
     f->AddHostPointerForArguments(desc);
     f->AddVariableForArguments(width);
     f->AddVariableForArguments(height);
     f->Execute("cudaMallocArray");
+    if(f->Success())
+        *arrayPtr = (cudaArray *) CudaUtil::UnmarshalPointer(f->GetOutputString());
     return f->GetExitCode();
 }
 
