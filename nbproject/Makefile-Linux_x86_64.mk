@@ -31,6 +31,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Subprocess.o \
 	${OBJECTDIR}/Thread.o \
 	${OBJECTDIR}/_ext/home/cjg/NetBeansProjects/EchoesUtil/VmciCommunicator.o \
 	${OBJECTDIR}/Mutex.o \
@@ -68,6 +69,11 @@ LDLIBSOPTIONS=-lpthread -lexpat
 dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_x86_64/GNU-Linux-x86
 	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libEchoesUtil.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/Subprocess.o: nbproject/Makefile-${CND_CONF}.mk Subprocess.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -I/opt/cuda/include -I/usr/lib/vmware/include -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/Subprocess.o Subprocess.cpp
 
 ${OBJECTDIR}/Thread.o: nbproject/Makefile-${CND_CONF}.mk Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}
