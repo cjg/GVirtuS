@@ -8,12 +8,12 @@
 #ifndef _PROCESS_H
 #define	_PROCESS_H
 
-#include "Thread.h"
+#include "Subprocess.h"
 #include "Observable.h"
 #include "Communicator.h"
 #include "CudaRtHandler.h"
 
-class Process : public Thread, public Observable {
+class Process : public Subprocess, public Observable {
 public:
     Process(const Communicator *communicator);
     virtual ~Process();

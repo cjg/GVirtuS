@@ -23,14 +23,10 @@ void Backend::Start() {
         Communicator *client =
                 const_cast<Communicator *>(mpCommunicator->Accept());
         Process *process = new Process(client);
-        process->AddObserver("process-ended", this);
         process->Start(NULL);
     }
 }
 
 void Backend::EventOccurred(std::string& event, void* object) {
     std::cout << "EventOccurred: " << event << std::endl;
-    if(event.compare("process-ended") == 0) {
-
-    }
 }

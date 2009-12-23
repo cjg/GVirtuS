@@ -14,16 +14,15 @@
 using namespace std;
 
 Process::Process(const Communicator *communicator)
-: Thread(), Observable(),
+: Subprocess(), Observable(),
 mpInput(const_cast<Communicator *> (communicator)->GetInputStream()),
 mpOutput(const_cast<Communicator *> (communicator)->GetOutputStream()) {
     mpCommunicator = const_cast<Communicator *> (communicator);
     mpHandler = new CudaRtHandler();
-    cout << "[Process ]: Created." << endl;
 }
 
 Process::~Process() {
-    cout << "[Process " << GetThreadId() << "]: Destroyed." << endl;
+    cout << "[Process " << GetPid() << "]: Destroyed." << endl;
 }
 
 void Process::Setup() {
@@ -31,7 +30,7 @@ void Process::Setup() {
 }
 
 void Process::Execute(void * arg) {
-    cout << "[Process " << GetThreadId() << "]: Started." << endl;
+    cout << "[Process " << GetPid() << "]: Started." << endl;
 
     string routine;
     Buffer * input_buffer = new Buffer();
@@ -41,15 +40,15 @@ void Process::Execute(void * arg) {
         try {
             result = mpHandler->Execute(routine, input_buffer);
         } catch (string e) {
-            cout << "[Process " << GetThreadId() << "]: Exception " << e
+            cout << "[Process " << GetPid() << "]: Exception " << e
                     << "." << endl;
             result = new Result(cudaErrorUnknown, new Buffer());
         }
         result->Dump(mpOutput);
         if (result->GetExitCode() != cudaSuccess) {
-            cout << "[Process " << GetThreadId() << "]: Requested '" << routine
+            cout << "[Process " << GetPid() << "]: Requested '" << routine
                     << "' routine." << endl;
-            cout << "[Process " << GetThreadId() << "]: Exit Code '"
+            cout << "[Process " << GetPid() << "]: Exit Code '"
                     << cudaGetErrorString(result->GetExitCode()) << "'." << endl;
         }
         delete result;
