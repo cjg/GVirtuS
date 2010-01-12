@@ -19,7 +19,7 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
     return new Result(exit_code, out);
 }
 
-#if 0
+
 CUDA_ROUTINE_HANDLER(BindTexture2D) {
     Buffer *out = new Buffer();
     size_t *offset = out->Delegate<size_t>();
@@ -28,9 +28,7 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
     textureReference *guestTexref = input_buffer->Assign<textureReference>();
     textureReference *texref = pThis->GetTexture(texrefHandler);
     memmove(texref, guestTexref, sizeof(textureReference));
-    char * devPtrHandler =
-        input_buffer->Assign<char>(CudaUtil::MarshaledDevicePointerSize);
-    void *devPtr = pThis->GetDevicePointer(devPtrHandler);
+    void *devPtr = input_buffer->GetFromMarshal<void *>();
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
     size_t width = input_buffer->Get<size_t>();
     size_t height = input_buffer->Get<size_t>();
@@ -41,7 +39,6 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
 
     return new Result(exit_code, out);
 }
-#endif
 
 CUDA_ROUTINE_HANDLER(BindTextureToArray) {
     char * texrefHandler = input_buffer->AssignString();

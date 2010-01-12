@@ -16,7 +16,7 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
     return new Result(exit_code);
 }
 
-#if 0
+
 CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
     cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
     char *handler = input_buffer->AssignString();
@@ -29,17 +29,8 @@ CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
 
     return new Result(exit_code, out);
 }
-#endif
 
 CUDA_ROUTINE_HANDLER(Launch) {
-#if 0
-    /* cudaError_t cudaLaunch(const char * entry) */
-    char *handler = input_buffer->AssignString();
-    const char *entry = pThis->GetDeviceFunction(handler);
-    cudaError_t exit_code = cudaLaunch(entry);
-
-    return new Result(exit_code);
-#endif
     int ctrl;
 
     // cudaConfigureCall
@@ -63,19 +54,6 @@ CUDA_ROUTINE_HANDLER(Launch) {
         void *arg = input_buffer->AssignAll<char>();
         size_t size = input_buffer->Get<size_t>();
         size_t offset = input_buffer->Get<size_t>();
-
-#if 0
-        // try to translate arg to a device pointer
-        if(size == sizeof(void *)) {
-            char *handler = CudaUtil::MarshalDevicePointer((void *) * ((int *) arg));
-            try {
-                void *devPtr = pThis->GetDevicePointer(handler);
-                arg = (void *) ((char *) &devPtr);
-            } catch(string e) {
-            }
-            delete[] handler;
-        }
-#endif
 
         exit_code = cudaSetupArgument(arg, size, offset);
         if(exit_code != cudaSuccess)
@@ -121,19 +99,6 @@ CUDA_ROUTINE_HANDLER(SetupArgument) {
     size_t size = input_buffer->BackGet<size_t>();
     void *arg = input_buffer->Assign<char>(size);
 
-    // try to translate arg to a device pointer
-#if 0
-    if(size == sizeof(void *)) {
-        char *handler = CudaUtil::MarshalDevicePointer((void *) * ((int *) arg));
-        try {
-            void *devPtr = pThis->GetDevicePointer(handler);
-            arg = (void *) ((char *) &devPtr);
-        } catch(string e) {
-        }
-        delete[] handler;
-    }
-#endif
-    
     cudaError_t exit_code = cudaSetupArgument(arg, size, offset);
 
     return new Result(exit_code);
