@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <typeinfo>
 #include <cstring>
+#include <stdint.h>
 
 #define BLOCK_SIZE  4096
 
