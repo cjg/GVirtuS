@@ -27,7 +27,7 @@ extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
     return cudaSuccess;
 }
 
-#if 0
+
 extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
         const char *func) {
     Frontend *f = Frontend::GetFrontend();
@@ -39,7 +39,6 @@ extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
                 sizeof(cudaFuncAttributes));
     return f->GetExitCode();
 }
-#endif
 
 extern cudaError_t cudaLaunch(const char *entry) {
     Frontend *f = Frontend::GetFrontend();

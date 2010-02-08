@@ -15,7 +15,7 @@ using namespace std;
 Frontend *Frontend::mspFrontend = NULL;
 
 Frontend::Frontend() {
-    char *config_file;
+    const char *config_file;
     if((config_file = getenv("CONFIG_FILE")) == NULL)
         config_file = _CONFIG_FILE;
     ConfigFile *cf = new ConfigFile(config_file);
