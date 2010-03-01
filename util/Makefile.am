@@ -1,0 +1,30 @@
+lib_LTLIBRARIES = util.la
+util_la_SOURCES = \
+AfUnixCommunicator.cpp\
+AfUnixCommunicator.h\
+Buffer.cpp\
+Buffer.h\
+Communicator.cpp\
+Communicator.h\
+ConfigFile.cpp\
+ConfigFile.h\
+CudaUtil.cpp\
+CudaUtil.h\
+Mutex.cpp\
+Mutex.h\
+Observable.cpp\
+Observable.h\
+Observer.cpp\
+Observer.h\
+Result.cpp\
+Result.h\
+Subprocess.cpp\
+Subprocess.h\
+TcpCommunicator.cpp\
+TcpCommunicator.h\
+Thread.cpp\
+Thread.h\
+VmciCommunicator.cpp\
+VmciCommunicator.h\
+VMSocketCommunicator.cpp\
+VMSocketCommunicator.h
