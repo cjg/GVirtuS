@@ -13,8 +13,7 @@ CUDA_ROUTINE_HANDLER(EventCreate) {
     return new Result(exit_code, out);
 }
 
-#if 0 
-// FIXME: this should be conditioned on cuda version
+#if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
     cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
     int flags = input_buffer->Get<int>();

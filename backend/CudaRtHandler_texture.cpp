@@ -19,8 +19,7 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
     return new Result(exit_code, out);
 }
 
-#if 0 
-// FIXME: this should be conditioned on cuda version
+#if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(BindTexture2D) {
     Buffer *out = new Buffer();
     size_t *offset = out->Delegate<size_t>();

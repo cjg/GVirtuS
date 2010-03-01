@@ -16,8 +16,7 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
     return new Result(exit_code);
 }
 
-#if 0 
-// FIXME: this should be conditioned on cuda version
+#if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
     cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
     char *handler = input_buffer->AssignString();

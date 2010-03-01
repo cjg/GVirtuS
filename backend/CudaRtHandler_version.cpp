@@ -1,8 +1,7 @@
 #include <cuda_runtime_api.h>
 #include "CudaRtHandler.h"
 
-#if 0 
-// FIXME: this should be conditioned on cuda version
+#if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(DriverGetVersion) {
     int *driverVersion = input_buffer->Assign<int>();
 
