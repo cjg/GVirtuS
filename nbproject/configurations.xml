@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <df name="gvirtus" root=".">
+      <df name="autom4te.cache">
+      </df>
+      <df name="backend">
+        <df name=".libs">
+        </df>
+        <in>Backend.cpp</in>
+        <in>Backend.h</in>
+        <in>CudaRtHandler.cpp</in>
+        <in>CudaRtHandler.h</in>
+        <in>CudaRtHandler_device.cpp</in>
+        <in>CudaRtHandler_error.cpp</in>
+        <in>CudaRtHandler_event.cpp</in>
+        <in>CudaRtHandler_execution.cpp</in>
+        <in>CudaRtHandler_internal.cpp</in>
+        <in>CudaRtHandler_memory.cpp</in>
+        <in>CudaRtHandler_stream.cpp</in>
+        <in>CudaRtHandler_texture.cpp</in>
+        <in>CudaRtHandler_thread.cpp</in>
+        <in>CudaRtHandler_version.cpp</in>
+        <in>MemoryEntry.cpp</in>
+        <in>MemoryEntry.h</in>
+        <in>Process.cpp</in>
+        <in>Process.h</in>
+        <in>main.cpp</in>
+      </df>
+      <df name="frontend">
+        <in>CudaRt.cpp</in>
+        <in>CudaRt.h</in>
+        <in>CudaRt_device.cpp</in>
+        <in>CudaRt_error.cpp</in>
+        <in>CudaRt_event.cpp</in>
+        <in>CudaRt_execution.cpp</in>
+        <in>CudaRt_internal.cpp</in>
+        <in>CudaRt_memory.cpp</in>
+        <in>CudaRt_opengl.cpp</in>
+        <in>CudaRt_stream.cpp</in>
+        <in>CudaRt_texture.cpp</in>
+        <in>CudaRt_thread.cpp</in>
+        <in>CudaRt_version.cpp</in>
+        <in>Frontend.cpp</in>
+        <in>Frontend.h</in>
+      </df>
+      <df name="util">
+        <in>AfUnixCommunicator.cpp</in>
+        <in>AfUnixCommunicator.h</in>
+        <in>Buffer.cpp</in>
+        <in>Buffer.h</in>
+        <in>Communicator.cpp</in>
+        <in>Communicator.h</in>
+        <in>ConfigFile.cpp</in>
+        <in>ConfigFile.h</in>
+        <in>CudaUtil.cpp</in>
+        <in>CudaUtil.h</in>
+        <in>Mutex.cpp</in>
+        <in>Mutex.h</in>
+        <in>Observable.cpp</in>
+        <in>Observable.h</in>
+        <in>Observer.cpp</in>
+        <in>Observer.h</in>
+        <in>Result.cpp</in>
+        <in>Result.h</in>
+        <in>Subprocess.cpp</in>
+        <in>Subprocess.h</in>
+        <in>TcpCommunicator.cpp</in>
+        <in>TcpCommunicator.h</in>
+        <in>Thread.cpp</in>
+        <in>Thread.h</in>
+        <in>VMSocketCommunicator.cpp</in>
+        <in>VMSocketCommunicator.h</in>
+        <in>VmciCommunicator.cpp</in>
+        <in>VmciCommunicator.h</in>
+      </df>
+      <in>config.h</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-gvirtus.mk</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile-gvirtus.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>$(MAKE) -f Makefile</buildCommand>
+          <cleanCommand>$(MAKE) -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+      </makefileType>
+      <item path="backend/Backend.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_device.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_error.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_event.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_execution.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_internal.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_memory.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_stream.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_texture.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_thread.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/CudaRtHandler_version.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/MemoryEntry.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/Process.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="backend/main.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>util</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="config.h" ex="true" tool="3">
+      </item>
+      <folder path="gvirtus/backend">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="gvirtus/frontend">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>frontend</pElem>
+            <pElem>util</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="gvirtus/util">
+        <ccTool>
+          <incDir>
+            <pElem>util</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="frontend/CudaRt.cpp" ex="true" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_device.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_error.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_event.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_execution.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_internal.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_memory.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_opengl.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/GL</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_stream.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_texture.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_thread.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_version.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/Frontend.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/AfUnixCommunicator.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Buffer.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Communicator.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/ConfigFile.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/CudaUtil.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+            <pElem>/opt/cuda/include</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Mutex.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Observable.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Observer.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Result.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+            <pElem>/opt/cuda/include</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Subprocess.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/TcpCommunicator.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Thread.cpp" ex="false" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/VMSocketCommunicator.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>../../.ccache</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/VmciCommunicator.cpp" ex="true" tool="1">
+        <ccTool>
+          <preprocessorList>
+            <Elem>_CONFIG_FILE="/usr/local/etc/echoes.xml"</Elem>
+            <Elem>HAVE_CONFIG_H</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
