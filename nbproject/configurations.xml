@@ -36,10 +36,18 @@
           <ccTool>
             <incDir>
               <pElem>/opt/cuda/include</pElem>
+              <pElem>util</pElem>
             </incDir>
           </ccTool>
         </makeTool>
       </makefileType>
+      <folder path="backend">
+        <ccTool>
+          <incDir>
+            <pElem>util</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
     </conf>
   </confs>
 </configurationDescriptor>
