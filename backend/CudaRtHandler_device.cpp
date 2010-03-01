@@ -40,8 +40,10 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
     int device = input_buffer->Get<int>();
 
     cudaError_t exit_code = cudaGetDeviceProperties(prop, device);
-    
+#if 0 
+// FIXME: this should be conditioned on cuda version
     prop->canMapHostMemory = 0;
+#endif
 
     Buffer *out = new Buffer();
     out->Add(prop);
@@ -57,6 +59,8 @@ CUDA_ROUTINE_HANDLER(SetDevice) {
     return new Result(exit_code);
 }
 
+#if 0 
+// FIXME: this should be conditioned on cuda version
 CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
     int flags = input_buffer->Get<int>();
 
@@ -76,3 +80,5 @@ CUDA_ROUTINE_HANDLER(SetValidDevices) {
 
     return new Result(exit_code, out);
 }
+#endif
+

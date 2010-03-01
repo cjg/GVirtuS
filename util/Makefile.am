@@ -1,5 +1,5 @@
-lib_LTLIBRARIES = util.la
-util_la_SOURCES = \
+noinst_LIBRARIES = libutil.a
+libutil_a_SOURCES = \
 AfUnixCommunicator.cpp\
 AfUnixCommunicator.h\
 Buffer.cpp\
@@ -28,3 +28,4 @@ VmciCommunicator.cpp\
 VmciCommunicator.h\
 VMSocketCommunicator.cpp\
 VMSocketCommunicator.h
+AM_CXXFLAGS=-fPIC

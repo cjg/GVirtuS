@@ -13,6 +13,8 @@ CUDA_ROUTINE_HANDLER(EventCreate) {
     return new Result(exit_code, out);
 }
 
+#if 0 
+// FIXME: this should be conditioned on cuda version
 CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
     cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
     int flags = input_buffer->Get<int>();
@@ -24,6 +26,7 @@ CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
 
     return new Result(exit_code, out);
 }
+#endif
 
 CUDA_ROUTINE_HANDLER(EventDestroy) {
     cudaEvent_t event = input_buffer->Get<cudaEvent_t>();

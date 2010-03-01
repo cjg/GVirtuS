@@ -19,7 +19,8 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
     return new Result(exit_code, out);
 }
 
-
+#if 0 
+// FIXME: this should be conditioned on cuda version
 CUDA_ROUTINE_HANDLER(BindTexture2D) {
     Buffer *out = new Buffer();
     size_t *offset = out->Delegate<size_t>();
@@ -39,6 +40,7 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
 
     return new Result(exit_code, out);
 }
+#endif
 
 CUDA_ROUTINE_HANDLER(BindTextureToArray) {
     char * texrefHandler = input_buffer->AssignString();
