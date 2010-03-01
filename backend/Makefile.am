@@ -19,4 +19,4 @@ MemoryEntry.cpp\
 MemoryEntry.h\
 Process.cpp\
 Process.h
-gvirtus_backend_LDADD = ../util/libutil.a $(CUDA_LIB_FLAGS) -lcudart
+gvirtus_backend_LDADD = ../util/libutil.a -lexpat $(CUDA_LIB_FLAGS) -lcudart

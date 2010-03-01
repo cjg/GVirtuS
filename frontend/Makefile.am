@@ -15,5 +15,5 @@ CudaRt_thread.cpp\
 CudaRt_version.cpp\
 Frontend.cpp\
 Frontend.h
-libgvirtus_frontend_la_LIBADD = ../util/libutil.a
+libgvirtus_frontend_la_LIBADD = ../util/libutil.a -lexpat
 
