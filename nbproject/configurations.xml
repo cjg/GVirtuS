@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <itemPath>Backend.cpp</itemPath>
+    <itemPath>Backend.h</itemPath>
+    <itemPath>CudaRtHandler.cpp</itemPath>
+    <itemPath>CudaRtHandler.h</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_device.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_error.cpp</itemPath>
+    <itemPath>CudaRtHandler_event.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_execution.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_internal.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_memory.cpp</itemPath>
+    <itemPath>CudaRtHandler_stream.cpp</itemPath>
+    <itemPath>CudaRtHandler_texture.cpp</itemPath>
+    <itemPath>/home/cjg/NetBeansProjects/EchoesBackend/CudaRtHandler_thread.cpp</itemPath>
+    <itemPath>CudaRtHandler_version.cpp</itemPath>
+    <itemPath>Process.cpp</itemPath>
+    <itemPath>Process.h</itemPath>
+    <itemPath>main.cpp</itemPath>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../EchoesUtil</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtil"
+                            CT="2"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtil"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="dist/Debug/GNU-Linux-x86/libEchoesUtil.so">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibLibItem>expat</linkerLibLibItem>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
+        <requiredProjects>
+          <makeArtifact PL="../EchoesUtil"
+                        CT="2"
+                        CN="Debug"
+                        AC="true"
+                        BL="true"
+                        WD="../EchoesUtil"
+                        BC="${MAKE}  -f Makefile CONF=Debug"
+                        CC="${MAKE}  -f Makefile CONF=Debug clean"
+                        OP="dist/Debug/GNU-MacOSX/libEchoesUtil.dylib">
+          </makeArtifact>
+          <makeArtifact PL="../EchoesUtil"
+                        CT="2"
+                        CN="Release"
+                        AC="false"
+                        BL="true"
+                        WD="../EchoesUtil"
+                        BC="${MAKE}  -f Makefile CONF=Release"
+                        CC="${MAKE}  -f Makefile CONF=Release clean"
+                        OP="dist/Release/GNU-MacOSX/libEchoesUtil.dylib">
+          </makeArtifact>
+        </requiredProjects>
+      </compileType>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="MacOSX" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../EchoesUtil</pElem>
+          </incDir>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtil"
+                            CT="2"
+                            CN="MacOSX"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtil"
+                            BC="${MAKE}  -f Makefile CONF=MacOSX"
+                            CC="${MAKE}  -f Makefile CONF=MacOSX clean"
+                            OP="dist/MacOSX/GNU-MacOSX/libEchoesUtil.dylib">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Linux_x86_64" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../EchoesUtil</pElem>
+            <pElem>/opt/cuda/include</pElem>
+          </incDir>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>/opt/cuda/lib64</pElem>
+            <pElem>/opt/cuda/lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibLibItem>cudart</linkerLibLibItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtil"
+                            CT="2"
+                            CN="Linux_x86_64"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtil"
+                            BC="${MAKE}  -f Makefile CONF=Linux_x86_64"
+                            CC="${MAKE}  -f Makefile CONF=Linux_x86_64 clean"
+                            OP="dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Linux_x86_64_Release" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>6</developmentMode>
+          <incDir>
+            <pElem>../EchoesUtil</pElem>
+            <pElem>/opt/cuda/include</pElem>
+          </incDir>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>/opt/cuda/lib64</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibLibItem>cudart</linkerLibLibItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../EchoesUtil"
+                            CT="2"
+                            CN="Linux_x86_64"
+                            AC="true"
+                            BL="true"
+                            WD="../EchoesUtil"
+                            BC="${MAKE}  -f Makefile CONF=Linux_x86_64"
+                            CC="${MAKE}  -f Makefile CONF=Linux_x86_64 clean"
+                            OP="dist/Linux_x86_64/GNU-Linux-x86/libEchoesUtil.so">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>
