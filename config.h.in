@@ -92,6 +92,9 @@
 /* Define to 1 if you have the <vfork.h> header file. */
 #undef HAVE_VFORK_H
 
+/* Define to 1 if you have the <vmci/vmci_sockets.h> header file. */
+#undef HAVE_VMCI_VMCI_SOCKETS_H
+
 /* Define to 1 if `fork' works. */
 #undef HAVE_WORKING_FORK
 
@@ -100,6 +103,10 @@
 
 /* Define to 1 if the system has the type `_Bool'. */
 #undef HAVE__BOOL
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
 
 /* Name of package */
 #undef PACKAGE

@@ -5,7 +5,9 @@
  * Created on November 4, 2009, 2:50 PM
  */
 
-#ifdef HAVE_VMCI
+#include "../config.h"
+
+#ifdef HAVE_VMCI_VMCI_SOCKETS_H
 
 #include <cstring>
 #include "VmciCommunicator.h"
