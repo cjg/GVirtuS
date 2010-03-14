@@ -15,7 +15,7 @@ AC_PROG_LIBTOOL
 AC_ARG_WITH([vmware-include], [AC_HELP_STRING([--with-vmware-include=PATH],
     [set PATH to the VMware include directory])], [
     VMWARE_INCLUDE="$withval"
-    VMWARE_FLAGS="-I$VMWARE_INCLUDE"
+    VMWARE_FLAGS="-isystem $VMWARE_INCLUDE"
 ], [
     VMWARE_FLAGS=""
 ])
@@ -24,11 +24,11 @@ CPPFLAGS="$CPPFLAGS $VMWARE_FLAGS"
 AC_ARG_WITH([cuda-include], [AC_HELP_STRING([--with-cuda-include=PATH],
     [set PATH to the CUDA include directory])], [
     CUDA_INCLUDE="$withval"
-    CUDA_FLAGS="-I$CUDA_INCLUDE"
+    CUDA_FLAGS="-isystem $CUDA_INCLUDE"
 ], [
-    CUDA_FLAGS="-I/usr/include"
-    CUDA_FLAGS="$CUDA_FLAGS -I/usr/local/cuda/include"
-    CUDA_FLAGS="$CUDA_FLAGS -I/opt/cuda/include"
+    CUDA_FLAGS="-isystem /usr/include"
+    CUDA_FLAGS="$CUDA_FLAGS -isystem /usr/local/cuda/include"
+    CUDA_FLAGS="$CUDA_FLAGS -isystem /opt/cuda/include"
 ])
 CPPFLAGS="$CPPFLAGS $CUDA_FLAGS"
 
@@ -74,7 +74,7 @@ AC_CHECK_HEADER([cuda.h], [], [
         ])])
 
 CPPFLAGS="$CPPFLAGS -I`pwd`/util -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.xml\\\""
-CXXFLAGS="$CXXFLAGS -Werror"
+CXXFLAGS="$CXXFLAGS -pedantic -Werror"
 
 AC_CONFIG_FILES([Makefile
                  backend/Makefile

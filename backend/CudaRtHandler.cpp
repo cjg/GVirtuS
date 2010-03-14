@@ -180,6 +180,9 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceCount));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetDeviceProperties));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDevice));
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDeviceFlags));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetValidDevices));
@@ -191,6 +194,9 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_event */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreate));
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreateWithFlags));
 #endif
@@ -202,6 +208,9 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_execution */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ConfigureCall));
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FuncGetAttributes));
 #endif
@@ -226,6 +235,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetSymbolSize));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocArray));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocPitch));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyAsync));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyFromSymbol));
@@ -241,6 +251,9 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_texture */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture));
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
 #endif
@@ -255,6 +268,9 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadSynchronize));
 
     /* CudaRtHandler_version */
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DriverGetVersion));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RuntimeGetVersion));

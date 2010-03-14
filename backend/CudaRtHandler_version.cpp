@@ -1,6 +1,9 @@
 #include <cuda_runtime_api.h>
 #include "CudaRtHandler.h"
 
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(DriverGetVersion) {
     int *driverVersion = input_buffer->Assign<int>();

@@ -35,7 +35,7 @@ public:
         memmove(mpBuffer + mLength, (char *) & item, sizeof (T));
         mLength += sizeof (T);
         mBackOffset = mLength;
-    };
+    }
 
     template <class T> void Add(T *item, size_t n = 1) {
         if(item == NULL) {

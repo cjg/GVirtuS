@@ -7,6 +7,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include <cuda.h>
 #include "CudaUtil.h"
 
 using namespace std;
@@ -149,6 +150,9 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
     /* Achtung: no dependends added */
     marshal->Add(0);
 
+#ifndef CUDA_VERSION
+#error CUDA_VERSION not defined
+#endif
 #if CUDA_VERSION == 2030
     marshal->Add(bin->characteristic);
 #endif
@@ -235,6 +239,9 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
     marshal->Get<int>();
     bin->dependends = NULL;
 
+#ifndef CUDA_VERSION
+#error CUDA_VERSION not defined
+#endif
 #if CUDA_VERSION == 2030
     bin->characteristic = marshal->Get<unsigned int>();
 #endif
@@ -284,6 +291,9 @@ void CudaUtil::DumpFatCudaBinary(__cudaFatCudaBinary* bin, ostream & out) {
     for(int i = 0; bin->dependends != NULL && bin->dependends[i].key != NULL; i++) {
         CudaUtil::DumpFatCudaBinary(bin->dependends + i);
     }
+#endif
+#ifndef CUDA_VERSION
+#error CUDA_VERSION not defined
 #endif
 #if CUDA_VERSION == 2030
     out << "characteristic: " << bin->characteristic << endl;

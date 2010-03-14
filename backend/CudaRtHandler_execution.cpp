@@ -16,6 +16,9 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
     return new Result(exit_code);
 }
 
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
     cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();

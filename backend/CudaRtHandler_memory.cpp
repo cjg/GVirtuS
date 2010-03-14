@@ -72,6 +72,25 @@ CUDA_ROUTINE_HANDLER(MallocArray) {
     return new Result(exit_code, out);
 }
 
+CUDA_ROUTINE_HANDLER(MallocPitch) {
+    void *devPtr = NULL;
+    size_t *pitch = input_buffer->Assign<size_t>();
+    size_t width = input_buffer->Get<size_t>();
+    size_t height = input_buffer->Get<size_t>();
+
+    cudaError_t exit_code = cudaMallocPitch(&devPtr, pitch, width, height);
+
+    cout << "Allocated DevicePointer " << devPtr << " with a size of " << width * height
+            << endl;
+
+    Buffer *out = new Buffer();
+    out->AddMarshal(devPtr);
+    out->Add(pitch);
+
+    return new Result(exit_code, out);
+}
+
+
 CUDA_ROUTINE_HANDLER(Memcpy) {
     /* cudaError_t cudaError_t cudaMemcpy(void *dst, const void *src,
         size_t count, cudaMemcpyKind kind) */

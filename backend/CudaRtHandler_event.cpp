@@ -13,6 +13,9 @@ CUDA_ROUTINE_HANDLER(EventCreate) {
     return new Result(exit_code, out);
 }
 
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
     cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();

@@ -40,6 +40,9 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
     int device = input_buffer->Get<int>();
 
     cudaError_t exit_code = cudaGetDeviceProperties(prop, device);
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
     prop->canMapHostMemory = 0;
 #endif
@@ -58,6 +61,9 @@ CUDA_ROUTINE_HANDLER(SetDevice) {
     return new Result(exit_code);
 }
 
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
     int flags = input_buffer->Get<int>();

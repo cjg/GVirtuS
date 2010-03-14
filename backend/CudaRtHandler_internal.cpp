@@ -24,7 +24,7 @@ extern "C" {
     extern void __cudaRegisterTexture(void **fatCubinHandle,
             const textureReference *hostVar, void **deviceAddress, char *deviceName,
             int dim, int norm, int ext);
-};
+}
 
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
     char * handler = input_buffer->AssignString();

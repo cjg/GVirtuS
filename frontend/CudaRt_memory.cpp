@@ -1,3 +1,4 @@
+#include <cuda.h>
 #include <cstring>
 #include "Frontend.h"
 #include "CudaUtil.h"
@@ -60,7 +61,10 @@ extern cudaError_t cudaHostGetDevicePointer(void **pDevice, void *pHost,
 
 extern cudaError_t cudaHostGetFlags(unsigned int *pFlags, void *pHost) {
     // Achtung: falling back to the simplest method because we can't map memory
-#if CUDA_VERSION
+#ifndef CUDA_VERSION
+#error CUDA_VERSION not defined
+#endif
+#if CUDA_VERSION >= 2030
     *pFlags = cudaHostAllocDefault;
 #endif
     return cudaSuccess;
@@ -116,9 +120,18 @@ extern cudaError_t cudaMallocHost(void **ptr, size_t size) {
 
 extern cudaError_t cudaMallocPitch(void **devPtr, size_t *pitch, size_t width,
         size_t height) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMallocPitch() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    Frontend *f = Frontend::GetFrontend();
+
+    f->AddHostPointerForArguments(pitch);
+    f->AddVariableForArguments(width);
+    f->AddVariableForArguments(height);
+    f->Execute("cudaMallocPitch");
+
+    if(f->Success()) {
+        *devPtr = f->GetOutputDevicePointer();
+        *pitch = *(f->GetOutputHostPointer<size_t>());
+    }
+    return f->GetExitCode();
 }
 
 extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,

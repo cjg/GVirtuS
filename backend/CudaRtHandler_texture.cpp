@@ -19,6 +19,9 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
     return new Result(exit_code, out);
 }
 
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(BindTexture2D) {
     Buffer *out = new Buffer();

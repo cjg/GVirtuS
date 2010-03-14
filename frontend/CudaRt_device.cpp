@@ -1,4 +1,5 @@
 #include <cstring>
+#include <cuda.h>
 #include "Frontend.h"
 #include "CudaUtil.h"
 #include "CudaRt.h"
@@ -41,7 +42,10 @@ extern cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     if(f->Success()) {
         memmove(prop, f->GetOutputHostPointer<cudaDeviceProp>(),
                 sizeof(cudaDeviceProp));
-#if CUDA_VERSION
+#ifndef CUDA_VERSION
+#error CUDA_VERSION not defined
+#endif
+#if CUDA_VERSION >= 2030 
         prop->canMapHostMemory = 0;
 #endif
     }
