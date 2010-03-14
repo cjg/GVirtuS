@@ -9,13 +9,14 @@
 #define	_AFUNIXCOMMUNICATOR_H
 
 #include <ext/stdio_filebuf.h>
+#include <sys/stat.h>
 #include "Communicator.h"
 
 class AfUnixCommunicator : public Communicator {
 public:
-    AfUnixCommunicator(std::string &path);
+    AfUnixCommunicator(std::string &path, mode_t mode = 00660);
     AfUnixCommunicator(int fd);
-    AfUnixCommunicator(const char * path);
+    AfUnixCommunicator(const char * path, mode_t mode = 00660);
     virtual ~AfUnixCommunicator();
     void Serve();
     const Communicator * const Accept() const;
@@ -28,6 +29,7 @@ private:
     std::istream *mpInput;
     std::ostream *mpOutput;
     std::string mPath;
+    mode_t mMode;
     int mSocketFd;
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;

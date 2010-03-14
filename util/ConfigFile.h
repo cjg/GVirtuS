@@ -22,6 +22,7 @@ public:
         virtual ~Element();
         std::string & GetName() const;
         bool HasKey(std::string & key);
+        bool HasKey(const char * key);
         std::string & GetValue(std::string & key) const;
         std::string & GetValue(const char * key) const;
         std::string & GetValue(std::string & key,
@@ -33,6 +34,7 @@ public:
         void Dump(int sectionLevel);
 
         short GetShortValue(const char * key);
+        short GetShortValueFromOctal(const char * key);
     private:
         std::string *mpName;
         std::map<std::string, std::string> * mpContent;

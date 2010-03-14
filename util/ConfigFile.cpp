@@ -49,6 +49,11 @@ bool ConfigFile::Element::HasKey(std::string & key) {
     return mpContent->find(key) != mpContent->end();
 }
 
+bool ConfigFile::Element::HasKey(const char * key) {
+    string tmp(key);
+    return HasKey(tmp);
+}
+
 string & ConfigFile::Element::GetValue(std::string & key) const {
     map<string, string>::iterator it;
     it = mpContent->find(key);
@@ -121,6 +126,16 @@ short ConfigFile::Element::GetShortValue(const char* key) {
         throw "ConfigFile: Error converting string to short.";
     return result;
 }
+
+short ConfigFile::Element::GetShortValueFromOctal(const char* key) {
+    string value = GetValue(key);
+    istringstream iss(value);
+    short result;
+    if(!(iss >> std::oct >> result))
+        throw "ConfigFile: Error converting string to short.";
+    return result;
+}
+
 
 /* Section Implementation */
 ConfigFile::Section::Section(std::string &name) {

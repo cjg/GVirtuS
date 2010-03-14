@@ -13,8 +13,9 @@
 
 using namespace std;
 
-AfUnixCommunicator::AfUnixCommunicator(string &path) {
+AfUnixCommunicator::AfUnixCommunicator(string &path, mode_t mode) {
     mPath = path;
+    mMode = mode;
 }
 
 AfUnixCommunicator::AfUnixCommunicator(int fd) {
@@ -22,8 +23,9 @@ AfUnixCommunicator::AfUnixCommunicator(int fd) {
     InitializeStream();
 }
 
-AfUnixCommunicator::AfUnixCommunicator(const char *path) {
+AfUnixCommunicator::AfUnixCommunicator(const char *path, mode_t mode) {
     mPath = string(path);
+    mMode = mode;
 }
 
 AfUnixCommunicator::~AfUnixCommunicator() {
@@ -47,6 +49,8 @@ void AfUnixCommunicator::Serve() {
 
     if (listen(mSocketFd, 5) != 0)
         throw "AfUnixCommunicator: Can't listen from socket.";
+
+    chmod(mPath.c_str(), mMode);
 }
 
 const Communicator * const AfUnixCommunicator::Accept() const {
