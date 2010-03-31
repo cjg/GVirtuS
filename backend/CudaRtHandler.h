@@ -14,6 +14,9 @@
 #include <host_defines.h>
 #include <builtin_types.h>
 #include <driver_types.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "Result.h"
 #include "MemoryEntry.h"
 
@@ -47,6 +50,24 @@ public:
     const char *GetTextureHandler(textureReference *texref);
 
     const char *GetSymbol(Buffer * in);
+
+    void RegisterSharedMemory(const char *name) {
+        mShmFd = shm_open(name, O_RDWR, S_IRWXU);
+
+	if((mpShm = mmap(NULL, 256 * 1024 * 1024, PROT_READ | PROT_WRITE, MAP_SHARED, mShmFd,
+            0)) == MAP_FAILED) {
+		std::cout << "Failed to mmap" << std::endl;
+                mpShm = NULL;
+        }
+    }
+
+    void *GetSharedMemory() {
+        return mpShm;
+    }
+
+    bool HasSharedMemory() {
+        return mpShm != NULL;
+    }
 private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
@@ -55,6 +76,8 @@ private:
     std::map<std::string, std::string> * mpDeviceFunction;
     std::map<std::string, std::string> * mpVar;
     std::map<std::string, textureReference *> * mpTexture;
+    void *mpShm;
+    int mShmFd;
 };
 
 #define CUDA_ROUTINE_HANDLER(name) Result * handle##name(CudaRtHandler * pThis, Buffer * input_buffer)
@@ -98,6 +121,7 @@ CUDA_ROUTINE_HANDLER(RegisterVar);
 CUDA_ROUTINE_HANDLER(RegisterSharedVar);
 CUDA_ROUTINE_HANDLER(RegisterShared);
 CUDA_ROUTINE_HANDLER(RegisterTexture);
+CUDA_ROUTINE_HANDLER(RegisterSharedMemory);
 
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);

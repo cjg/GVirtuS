@@ -71,6 +71,10 @@ public:
     inline Buffer * GetLaunchBuffer() {
         return mpLaunchBuffer;
     }
+
+    Communicator * GetCommunicator() {
+        return mpCommunicator;
+    }
     
 private:
     Frontend();

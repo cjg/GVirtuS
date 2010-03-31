@@ -21,6 +21,9 @@ public:
     virtual std::istream & GetInputStream() const = 0;
     virtual std::ostream & GetOutputStream() const = 0;
     virtual void Close() = 0;
+    virtual bool HasSharedMemory() = 0;
+    virtual void * GetSharedMemory() = 0;
+    virtual const char * GetSharedMemoryName() = 0;
 private:
 
 };

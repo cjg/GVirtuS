@@ -15,6 +15,7 @@ class VMSocketCommunicator : public Communicator {
 public:
     VMSocketCommunicator(std::string &path);
     VMSocketCommunicator(const char * path);
+    VMSocketCommunicator(std::string & path, std::string & shm);
     virtual ~VMSocketCommunicator();
     void Serve();
     const Communicator * const Accept() const;
@@ -22,6 +23,9 @@ public:
     std::istream & GetInputStream() const;
     std::ostream & GetOutputStream() const;
     void Close();
+    bool HasSharedMemory();
+    void * GetSharedMemory();
+    const char * GetSharedMemoryName();
 private:
     void InitializeStream();
     std::istream *mpInput;
@@ -30,6 +34,10 @@ private:
     int mFd;
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
+    bool mHasSharedMemory;
+    int mSharedMemoryFd;
+    void *mpSharedMemory;
+    char *mpSharedMemoryName;
 };
 
 

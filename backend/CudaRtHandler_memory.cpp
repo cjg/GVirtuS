@@ -110,22 +110,36 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
             result = NULL;
             break;
         case cudaMemcpyHostToDevice:
-            dst = input_buffer->GetFromMarshal<void *>();
-            src = input_buffer->AssignAll<char>();
-            exit_code = cudaMemcpy(dst, src, count, kind);
-            result = new Result(exit_code);
+            if(pThis->HasSharedMemory()) {
+                dst = input_buffer->GetFromMarshal<void *>();
+                src = pThis->GetSharedMemory();
+                exit_code = cudaMemcpy(dst, src, count, kind);
+                result = new Result(exit_code);
+            } else {
+                dst = input_buffer->GetFromMarshal<void *>();
+                src = input_buffer->AssignAll<char>();
+                exit_code = cudaMemcpy(dst, src, count, kind);
+                result = new Result(exit_code);
+            }
             break;
         case cudaMemcpyDeviceToHost:
-            // FIXME: use buffer delegate
-            dst = new char[count];
-            /* skipping a char for fake host pointer */
-            input_buffer->Assign<char>();
-            src = input_buffer->GetFromMarshal<void *>();
-            exit_code = cudaMemcpy(dst, src, count, kind);
-            out = new Buffer();
-            out->Add<char>((char *) dst, count);
-            delete[] (char *) dst;
-            result = new Result(exit_code, out);
+            if(pThis->HasSharedMemory()) {
+                dst = pThis->GetSharedMemory();
+                src = input_buffer->GetFromMarshal<void *>();
+                exit_code = cudaMemcpy(dst, src, count, kind);
+                result = new Result(exit_code);
+            } else {
+                // FIXME: use buffer delegate
+                dst = new char[count];
+                /* skipping a char for fake host pointer */
+                input_buffer->Assign<char>();
+                src = input_buffer->GetFromMarshal<void *>();
+                exit_code = cudaMemcpy(dst, src, count, kind);
+                out = new Buffer();
+                out->Add<char>((char *) dst, count);
+                delete[] (char *) dst;
+                result = new Result(exit_code, out);
+            }
             break;
         case cudaMemcpyDeviceToDevice:
             dst = input_buffer->GetFromMarshal<void *>();

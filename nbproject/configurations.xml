@@ -2,14 +2,72 @@
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <df name="backend" root="backend">
-      <df name=".libs">
-      </df>
+      <in>Backend.cpp</in>
+      <in>Backend.h</in>
+      <in>CudaRtHandler.cpp</in>
+      <in>CudaRtHandler.h</in>
+      <in>CudaRtHandler_device.cpp</in>
+      <in>CudaRtHandler_error.cpp</in>
+      <in>CudaRtHandler_event.cpp</in>
+      <in>CudaRtHandler_execution.cpp</in>
+      <in>CudaRtHandler_internal.cpp</in>
+      <in>CudaRtHandler_memory.cpp</in>
+      <in>CudaRtHandler_stream.cpp</in>
+      <in>CudaRtHandler_texture.cpp</in>
+      <in>CudaRtHandler_thread.cpp</in>
+      <in>CudaRtHandler_version.cpp</in>
+      <in>MemoryEntry.cpp</in>
+      <in>MemoryEntry.h</in>
+      <in>Process.cpp</in>
+      <in>Process.h</in>
+      <in>main.cpp</in>
     </df>
     <df name="frontend" root="frontend">
-      <df name=".libs">
-      </df>
+      <in>CudaRt.cpp</in>
+      <in>CudaRt.h</in>
+      <in>CudaRt_device.cpp</in>
+      <in>CudaRt_error.cpp</in>
+      <in>CudaRt_event.cpp</in>
+      <in>CudaRt_execution.cpp</in>
+      <in>CudaRt_internal.cpp</in>
+      <in>CudaRt_memory.cpp</in>
+      <in>CudaRt_opengl.cpp</in>
+      <in>CudaRt_stream.cpp</in>
+      <in>CudaRt_texture.cpp</in>
+      <in>CudaRt_thread.cpp</in>
+      <in>CudaRt_version.cpp</in>
+      <in>Frontend.cpp</in>
+      <in>Frontend.h</in>
     </df>
     <df name="util" root="util">
+      <in>AfUnixCommunicator.cpp</in>
+      <in>AfUnixCommunicator.h</in>
+      <in>Buffer.cpp</in>
+      <in>Buffer.h</in>
+      <in>Communicator.cpp</in>
+      <in>Communicator.h</in>
+      <in>ConfigFile.cpp</in>
+      <in>ConfigFile.h</in>
+      <in>CudaUtil.cpp</in>
+      <in>CudaUtil.h</in>
+      <in>Mutex.cpp</in>
+      <in>Mutex.h</in>
+      <in>Observable.cpp</in>
+      <in>Observable.h</in>
+      <in>Observer.cpp</in>
+      <in>Observer.h</in>
+      <in>Result.cpp</in>
+      <in>Result.h</in>
+      <in>Subprocess.cpp</in>
+      <in>Subprocess.h</in>
+      <in>TcpCommunicator.cpp</in>
+      <in>TcpCommunicator.h</in>
+      <in>Thread.cpp</in>
+      <in>Thread.h</in>
+      <in>VMSocketCommunicator.cpp</in>
+      <in>VMSocketCommunicator.h</in>
+      <in>VmciCommunicator.cpp</in>
+      <in>VmciCommunicator.h</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

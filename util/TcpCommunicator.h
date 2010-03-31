@@ -22,6 +22,11 @@ public:
     std::istream & GetInputStream() const;
     std::ostream & GetOutputStream() const;
     void Close();
+    bool HasSharedMemory() {
+        return false;
+    }
+    void * GetSharedMemory() { return NULL; }
+    const char * GetSharedMemoryName() { return NULL; }
 private:
     void InitializeStream();
     std::istream *mpInput;

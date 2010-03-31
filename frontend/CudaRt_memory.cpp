@@ -137,6 +137,7 @@ extern cudaError_t cudaMallocPitch(void **devPtr, size_t *pitch, size_t width,
 extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
         cudaMemcpyKind kind) {
     Frontend *f = Frontend::GetFrontend();
+    Communicator *c;
     switch (kind) {
         case cudaMemcpyHostToHost:
             /* NOTE: no communication is performed, because it's just overhead
@@ -146,22 +147,66 @@ extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
             return cudaSuccess;
             break;
         case cudaMemcpyHostToDevice:
-            f->AddDevicePointerForArguments(dst);
-            f->AddHostPointerForArguments<char>(static_cast<char *>
-                    (const_cast<void *> (src)), count);
-            f->AddVariableForArguments(count);
-            f->AddVariableForArguments(kind);
-            f->Execute("cudaMemcpy");
+            c = f->GetCommunicator();
+            if(c->HasSharedMemory()) {
+                size_t offset = 0;
+                size_t copyied = 0;
+                size_t chunk_size = 256 * 1024 * 1024;
+                void *shm = c->GetSharedMemory();
+
+                while(copyied < count) {
+                    if(chunk_size > count - copyied)
+                        chunk_size = count - copyied;
+                    f->Prepare();
+                    f->AddDevicePointerForArguments(static_cast<char *>(dst) + offset);
+                    f->AddVariableForArguments(chunk_size);
+                    f->AddVariableForArguments(kind);
+                    memmove(shm, static_cast<char *>(const_cast<void *>(src)) + offset,
+                            chunk_size);
+                    f->Execute("cudaMemcpy");
+                    offset += chunk_size;
+                    copyied += chunk_size;
+                }
+            } else {
+                f->AddDevicePointerForArguments(dst);
+                f->AddHostPointerForArguments<char>(static_cast<char *>
+                        (const_cast<void *> (src)), count);
+                f->AddVariableForArguments(count);
+                f->AddVariableForArguments(kind);
+                f->Execute("cudaMemcpy");
+            }
             break;
         case cudaMemcpyDeviceToHost:
-            /* NOTE: adding a fake host pointer */
-            f->AddHostPointerForArguments("");
-            f->AddDevicePointerForArguments(src);
-            f->AddVariableForArguments(count);
-            f->AddVariableForArguments(kind);
-            f->Execute("cudaMemcpy");
-            if (f->Success())
-                memmove(dst, f->GetOutputHostPointer<char>(count), count);
+            c = f->GetCommunicator();
+            if(c->HasSharedMemory()) {
+                size_t offset = 0;
+                size_t copyied = 0;
+                size_t chunk_size = 256 * 1024 * 1024;
+                void *shm = c->GetSharedMemory();
+
+                while(copyied < count) {
+                    if(chunk_size > count - copyied)
+                        chunk_size = count - copyied;
+                    f->Prepare();
+                    f->AddDevicePointerForArguments(static_cast<char *>(const_cast<void *>(src)) + offset);
+                    f->AddVariableForArguments(chunk_size);
+                    f->AddVariableForArguments(kind);
+                    f->Execute("cudaMemcpy");
+                    memmove(static_cast<char *>(dst) + offset, shm,
+                            chunk_size);
+                    offset += chunk_size;
+                    copyied += chunk_size;
+                }
+            } else {
+                /* NOTE: adding a fake host pointer */
+                f->AddHostPointerForArguments("");
+                f->AddDevicePointerForArguments(src);
+                f->AddVariableForArguments(count);
+                f->AddVariableForArguments(kind);
+                f->Execute("cudaMemcpy");
+                if (f->Success())
+                    memmove(dst, f->GetOutputHostPointer<char>(count), count);
+            }
             break;
         case cudaMemcpyDeviceToDevice:
             f->AddDevicePointerForArguments(dst);

@@ -29,6 +29,21 @@ public:
     std::istream & GetInputStream() const;
     std::ostream & GetOutputStream() const;
     void Close();
+
+    /* Semaphores and Shared Memory */
+    bool HasSemaphoresAndShm() {
+        return false;
+    }
+    void HostWait() {}
+    void HostPost() {}
+    void HostSet(int value) {}
+    void GuestWait() {}
+    void GuestPost() {}
+    void GuestSet(int value) {}
+    void * GetShm() { return NULL; }
+    const char * GetHostSemName() { return NULL; }
+    const char * GetGuestSemName() { return NULL; }
+    const char * GetShmName() { return NULL; }
 private:
     void InitializeStream();
     std::istream *mpInput;

@@ -7,6 +7,8 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
 #include <fcntl.h>
 #include <csignal>
 #include "VMSocketCommunicator.h"
@@ -15,10 +17,22 @@ using namespace std;
 
 VMSocketCommunicator::VMSocketCommunicator(string &path) {
     mPath = path;
+    mHasSharedMemory = false;
 }
 
 VMSocketCommunicator::VMSocketCommunicator(const char *path) {
     mPath = string(path);
+    mHasSharedMemory = false;
+}
+
+VMSocketCommunicator::VMSocketCommunicator(std::string& path, std::string& shm) {
+    mPath = path;
+    mSharedMemoryFd = open(shm.c_str(), O_RDWR);
+    mpSharedMemory = mmap(NULL, 256 * 1024 * 1024, PROT_READ | PROT_WRITE,
+            MAP_SHARED, mSharedMemoryFd, 0);
+    mHasSharedMemory = true;
+    mpSharedMemoryName = new char[1024];
+    read(mSharedMemoryFd, mpSharedMemoryName, 1024);
 }
 
 VMSocketCommunicator::~VMSocketCommunicator() {
@@ -58,4 +72,26 @@ void VMSocketCommunicator::InitializeStream() {
     mpOutput = new ostream(mpOutputBuf);
     /* FIXME: handle SIGPIPE instead of just ignoring it */
     signal(SIGPIPE, SIG_IGN);
+}
+
+/*
+ * bool HasSemaphoresAndShm();
+    void HostWait();
+    void HostPost();
+    void HostSet(int value);
+    void GuestWait();
+    void GuestPost();
+    void GuestSet(int value);
+    void * GetShm();*/
+
+bool VMSocketCommunicator::HasSharedMemory() {
+    return mHasSharedMemory;
+}
+
+void * VMSocketCommunicator::GetSharedMemory() {
+    return mpSharedMemory;
+}
+
+const char * VMSocketCommunicator::GetSharedMemoryName() {
+    return mpSharedMemoryName;
 }

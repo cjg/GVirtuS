@@ -30,7 +30,11 @@ Communicator * Communicator::Create(ConfigFile::Element & config) {
                 config.GetShortValue("cid"));
 #endif
     else if (strcasecmp(type, "VMSocket") == 0)
-        return new VMSocketCommunicator(config.GetValue("device"));
+        if(config.HasKey("shm"))
+            return new VMSocketCommunicator(config.GetValue("device"),
+                    config.GetValue("shm"));
+        else
+            return new VMSocketCommunicator(config.GetValue("device"));
     else
         throw "Not a valid type!";
     return NULL;

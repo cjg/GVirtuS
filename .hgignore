@@ -8,9 +8,6 @@
 ^util/Makefile$
 ^util/Makefile\.in$
 ^autom4te\.cache/requests$
-^backend/Makefile$
-^backend/Makefile\.in$
-^backend/gvirtus-backend$
 ^frontend/Makefile$
 ^frontend/Makefile\.in$
 ^config\.status$
@@ -31,3 +28,6 @@
 ^autom4te\.cache/output\.1$
 ^autom4te\.cache/traces\.0$
 ^autom4te\.cache/traces\.1$
+^backend/gvirtus-backend$
+^backend/Makefile\.in$
+^backend/Makefile$
