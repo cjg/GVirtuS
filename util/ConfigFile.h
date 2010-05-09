@@ -35,6 +35,8 @@ public:
 
         short GetShortValue(const char * key);
         short GetShortValueFromOctal(const char * key);
+
+        bool GetBoolValue(const char * key);
     private:
         std::string *mpName;
         std::map<std::string, std::string> * mpContent;

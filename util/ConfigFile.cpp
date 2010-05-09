@@ -136,6 +136,12 @@ short ConfigFile::Element::GetShortValueFromOctal(const char* key) {
     return result;
 }
 
+bool ConfigFile::Element::GetBoolValue(const char* key) {
+    const char *value = GetValue(key).c_str();
+    if(strcasecmp(value, "true") == 0 || strcasecmp(value, "1") == 0)
+        return true;
+    return false;
+}
 
 /* Section Implementation */
 ConfigFile::Section::Section(std::string &name) {
