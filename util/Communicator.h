@@ -24,6 +24,7 @@ public:
     virtual bool HasSharedMemory() = 0;
     virtual void * GetSharedMemory() = 0;
     virtual const char * GetSharedMemoryName() = 0;
+    virtual void SetSharedMemory(const char *name, size_t size) = 0;
 private:
 
 };

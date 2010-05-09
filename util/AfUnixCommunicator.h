@@ -9,7 +9,9 @@
 #define	_AFUNIXCOMMUNICATOR_H
 
 #include <ext/stdio_filebuf.h>
+#include <sys/mman.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include "Communicator.h"
 
 class AfUnixCommunicator : public Communicator {
@@ -25,10 +27,28 @@ public:
     std::ostream & GetOutputStream() const;
     void Close();
     bool HasSharedMemory() {
-        return false;
+        return true;
     }
-    void * GetSharedMemory() { return NULL; }
-    const char * GetSharedMemoryName() { return NULL; }
+
+    void * GetSharedMemory() {
+        return mpSharedMemory;
+    }
+
+    const char * GetSharedMemoryName() {
+        return mpSharedMemoryName;
+    }
+
+    void SetSharedMemory(const char *name, size_t size) {
+        mpSharedMemoryName = strdup(name);
+        mSharedMemoryFd = shm_open(name, O_RDWR, S_IRWXU);
+
+	if((mpSharedMemory = mmap(NULL, size, PROT_READ | PROT_WRITE,
+            MAP_SHARED, mSharedMemoryFd, 0)) == MAP_FAILED) {
+		std::cout << "Failed to mmap" << std::endl;
+                mpSharedMemory = NULL;
+        }
+    }
+
 private:
     void InitializeStream();
     std::istream *mpInput;
@@ -38,6 +58,9 @@ private:
     int mSocketFd;
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
+    int mSharedMemoryFd;
+    void *mpSharedMemory;
+    char *mpSharedMemoryName;
 };
 
 #endif	/* _AFUNIXCOMMUNICATOR_H */

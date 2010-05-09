@@ -26,6 +26,7 @@ public:
     bool HasSharedMemory();
     void * GetSharedMemory();
     const char * GetSharedMemoryName();
+    void SetSharedMemory(const char *name, size_t size) { }
 private:
     void InitializeStream();
     std::istream *mpInput;

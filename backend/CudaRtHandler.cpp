@@ -228,6 +228,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterShared));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterTexture));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterSharedMemory));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RequestSharedMemory));
 
     /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));

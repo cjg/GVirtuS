@@ -11,6 +11,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <cstdio>
 #include <host_defines.h>
 #include <builtin_types.h>
 #include <driver_types.h>
@@ -55,6 +56,26 @@ public:
         mShmFd = shm_open(name, O_RDWR, S_IRWXU);
 
 	if((mpShm = mmap(NULL, 256 * 1024 * 1024, PROT_READ | PROT_WRITE, MAP_SHARED, mShmFd,
+            0)) == MAP_FAILED) {
+		std::cout << "Failed to mmap" << std::endl;
+                mpShm = NULL;
+        }
+    }
+
+    void RequestSharedMemory(char *name, size_t *size) {
+        sprintf(name, "/gvirtus-%d", getpid());
+        *size = 128 * 1024 * 1024;
+        std::cout << "SHM name " << name << std::endl;
+
+        mShmFd = shm_open(name, O_RDWR | O_CREAT, S_IRWXU);
+
+        if(ftruncate(mShmFd, *size) != 0) {
+            std::cout << "Failed to truncate" << std::endl;
+            mpShm = NULL;
+            return;
+        }
+
+	if((mpShm = mmap(NULL, *size, PROT_READ | PROT_WRITE, MAP_SHARED, mShmFd,
             0)) == MAP_FAILED) {
 		std::cout << "Failed to mmap" << std::endl;
                 mpShm = NULL;
@@ -122,6 +143,7 @@ CUDA_ROUTINE_HANDLER(RegisterSharedVar);
 CUDA_ROUTINE_HANDLER(RegisterShared);
 CUDA_ROUTINE_HANDLER(RegisterTexture);
 CUDA_ROUTINE_HANDLER(RegisterSharedMemory);
+CUDA_ROUTINE_HANDLER(RequestSharedMemory);
 
 /* CudaRtHandler_memory */
 CUDA_ROUTINE_HANDLER(Free);
