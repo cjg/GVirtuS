@@ -32,7 +32,8 @@ VMSocketCommunicator::VMSocketCommunicator(std::string& path, std::string& shm) 
             MAP_SHARED, mSharedMemoryFd, 0);
     mHasSharedMemory = true;
     mpSharedMemoryName = new char[1024];
-    read(mSharedMemoryFd, mpSharedMemoryName, 1024);
+    ssize_t readed = read(mSharedMemoryFd, mpSharedMemoryName, 1024);
+    mpSharedMemoryName[readed] = 0;
 }
 
 VMSocketCommunicator::~VMSocketCommunicator() {
