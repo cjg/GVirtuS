@@ -41,8 +41,13 @@ public:
         return mpSharedMemoryName;
     }
 
+    size_t GetSharedMemorySize() {
+        return mSharedMemorySize;
+    }
+
     void SetSharedMemory(const char *name, size_t size) {
         mpSharedMemoryName = strdup(name);
+        mSharedMemorySize = size;
         if ((mSharedMemoryFd = shm_open(name, O_RDWR, S_IRWXU)) < 0) {
             std::cout << "Failed to shm_open" << std::endl;
             mpSharedMemory = NULL;
@@ -68,6 +73,7 @@ private:
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
     bool mHasSharedMemory;
     int mSharedMemoryFd;
+    size_t mSharedMemorySize;
     void *mpSharedMemory;
     char *mpSharedMemoryName;
 };

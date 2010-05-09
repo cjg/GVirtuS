@@ -151,7 +151,7 @@ extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
             if(c->HasSharedMemory()) {
                 size_t offset = 0;
                 size_t copyied = 0;
-                size_t chunk_size = 256 * 1024 * 1024;
+                size_t chunk_size = c->GetSharedMemorySize();
                 void *shm = c->GetSharedMemory();
 
                 while(copyied < count) {

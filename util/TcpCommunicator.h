@@ -27,6 +27,7 @@ public:
     }
     void * GetSharedMemory() { return NULL; }
     const char * GetSharedMemoryName() { return NULL; }
+    size_t GetSharedMemorySize() { return 0; }
     void SetSharedMemory(const char *name, size_t size) { }
 private:
     void InitializeStream();
