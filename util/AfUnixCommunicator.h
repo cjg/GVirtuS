@@ -16,9 +16,11 @@
 
 class AfUnixCommunicator : public Communicator {
 public:
-    AfUnixCommunicator(std::string &path, mode_t mode = 00660);
+    AfUnixCommunicator(std::string &path, mode_t mode = 00660,
+            bool use_shm = false);
     AfUnixCommunicator(int fd);
-    AfUnixCommunicator(const char * path, mode_t mode = 00660);
+    AfUnixCommunicator(const char * path, mode_t mode = 00660,
+            bool use_shm = false);
     virtual ~AfUnixCommunicator();
     void Serve();
     const Communicator * const Accept() const;
@@ -26,8 +28,9 @@ public:
     std::istream & GetInputStream() const;
     std::ostream & GetOutputStream() const;
     void Close();
+
     bool HasSharedMemory() {
-        return true;
+        return mHasSharedMemory;
     }
 
     void * GetSharedMemory() {
@@ -40,12 +43,17 @@ public:
 
     void SetSharedMemory(const char *name, size_t size) {
         mpSharedMemoryName = strdup(name);
-        mSharedMemoryFd = shm_open(name, O_RDWR, S_IRWXU);
+        if ((mSharedMemoryFd = shm_open(name, O_RDWR, S_IRWXU)) < 0) {
+            std::cout << "Failed to shm_open" << std::endl;
+            mpSharedMemory = NULL;
+            mHasSharedMemory = false;
+        }
 
-	if((mpSharedMemory = mmap(NULL, size, PROT_READ | PROT_WRITE,
-            MAP_SHARED, mSharedMemoryFd, 0)) == MAP_FAILED) {
-		std::cout << "Failed to mmap" << std::endl;
-                mpSharedMemory = NULL;
+        if ((mpSharedMemory = mmap(NULL, size, PROT_READ | PROT_WRITE,
+                MAP_SHARED, mSharedMemoryFd, 0)) == MAP_FAILED) {
+            std::cout << "Failed to mmap" << std::endl;
+            mpSharedMemory = NULL;
+            mHasSharedMemory = false;
         }
     }
 
@@ -58,6 +66,7 @@ private:
     int mSocketFd;
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
+    bool mHasSharedMemory;
     int mSharedMemoryFd;
     void *mpSharedMemory;
     char *mpSharedMemoryName;
