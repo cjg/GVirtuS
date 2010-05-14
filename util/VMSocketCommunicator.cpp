@@ -11,6 +11,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <csignal>
+#include <cstring>
 #include "VMSocketCommunicator.h"
 
 using namespace std;
@@ -25,15 +26,10 @@ VMSocketCommunicator::VMSocketCommunicator(const char *path) {
     mHasSharedMemory = false;
 }
 
-VMSocketCommunicator::VMSocketCommunicator(std::string& path, std::string& shm) {
+VMSocketCommunicator::VMSocketCommunicator(std::string& path, string &shm) {
     mPath = path;
-    mSharedMemoryFd = open(shm.c_str(), O_RDWR);
-    mpSharedMemory = mmap(NULL, 256 * 1024 * 1024, PROT_READ | PROT_WRITE,
-            MAP_SHARED, mSharedMemoryFd, 0);
     mHasSharedMemory = true;
-    mpSharedMemoryName = new char[1024];
-    ssize_t readed = read(mSharedMemoryFd, mpSharedMemoryName, 1024);
-    mpSharedMemoryName[readed] = 0;
+    mSharedMemoryDev = shm;
 }
 
 VMSocketCommunicator::~VMSocketCommunicator() {
@@ -95,4 +91,25 @@ void * VMSocketCommunicator::GetSharedMemory() {
 
 const char * VMSocketCommunicator::GetSharedMemoryName() {
     return mpSharedMemoryName;
+}
+
+size_t VMSocketCommunicator::GetSharedMemorySize() {
+    return mSharedMemorySize;
+}
+
+void VMSocketCommunicator::SetSharedMemory(const char* name, size_t size) {
+    mpSharedMemoryName = strdup(name);
+    if((mSharedMemoryFd = open(mSharedMemoryDev.c_str(), O_RDWR)) < 0) {
+        cout << "Failed to open " << mSharedMemoryDev << endl;
+        return;
+    }
+    if((mSharedMemorySize = write(mSharedMemoryFd, mpSharedMemoryName,
+            strlen(mpSharedMemoryName) + 1)) < 0) {
+        cout << "Failed to obtain shared memory " << mpSharedMemoryName << endl;
+        return;
+    }
+
+    mpSharedMemory = mmap(NULL, mSharedMemorySize, PROT_READ | PROT_WRITE,
+            MAP_SHARED, mSharedMemoryFd, 0);
+    mHasSharedMemory = true;
 }

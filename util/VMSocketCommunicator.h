@@ -26,8 +26,8 @@ public:
     bool HasSharedMemory();
     void * GetSharedMemory();
     const char * GetSharedMemoryName();
-    size_t GetSharedMemorySize() { return 0; }
-    void SetSharedMemory(const char *name, size_t size) { }
+    size_t GetSharedMemorySize();
+    void SetSharedMemory(const char *name, size_t size);
 private:
     void InitializeStream();
     std::istream *mpInput;
@@ -37,9 +37,11 @@ private:
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
     bool mHasSharedMemory;
+    std::string mSharedMemoryDev;
     int mSharedMemoryFd;
     void *mpSharedMemory;
     char *mpSharedMemoryName;
+    int mSharedMemorySize;
 };
 
 
