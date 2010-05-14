@@ -67,7 +67,7 @@ public:
         *size = 128 * 1024 * 1024;
         std::cout << "SHM name " << name << std::endl;
 
-        mShmFd = shm_open(name, O_RDWR | O_CREAT, S_IRWXU);
+        mShmFd = shm_open(name, O_RDWR | O_CREAT, 00666);
 
         if(ftruncate(mShmFd, *size) != 0) {
             std::cout << "Failed to truncate" << std::endl;
