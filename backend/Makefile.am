@@ -15,8 +15,6 @@ CudaRtHandler_texture.cpp\
 CudaRtHandler_thread.cpp\
 CudaRtHandler_version.cpp\
 main.cpp\
-MemoryEntry.cpp\
-MemoryEntry.h\
 Process.cpp\
 Process.h
 gvirtus_backend_LDADD = ../util/libutil.a -lexpat $(CUDA_LIB_FLAGS) -lcudart
