@@ -10,6 +10,14 @@
             <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>backend</sourceRootElem>
+                <sourceRootElem>frontend</sourceRootElem>
+                <sourceRootElem>util</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>Default</confElem>
+            </confList>
         </data>
     </configuration>
 </project>

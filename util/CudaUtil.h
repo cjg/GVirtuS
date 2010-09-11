@@ -1,8 +1,36 @@
-/* 
- * File:   CudaUtil.h
- * Author: cjg
+/*
+ * gVirtuS -- A GPGPU transparent virtualization component.
  *
- * Created on October 11, 2009, 5:16 PM
+ * Copyright (C) 2009-2010  The University of Napoli Parthenope at Naples.
+ *
+ * This file is part of gVirtuS.
+ *
+ * gVirtuS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * gVirtuS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with gVirtuS; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Written by: Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>,
+ *             Department of Applied Science
+ */
+
+/**
+ * @file   CudaUtil.h
+ * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
+ * @date   Sun Oct 11 17:16:48 2009
+ * 
+ * @brief  
+ * 
+ * 
  */
 
 #ifndef _CUDAUTIL_H
@@ -13,6 +41,11 @@
 #include "__cudaFatFormat.h"
 #include "Buffer.h"
 
+/**
+ * CudaUtil contains facility functions used by gVirtuS. These functions
+ * includes the ones for marshalling and unmarshalling pointers and "CUDA fat
+ * binaries". 
+ */
 class CudaUtil {
 public:
     CudaUtil();
@@ -34,6 +67,10 @@ public:
     static __cudaFatCudaBinary * UnmarshalFatCudaBinary(Buffer * marshal);
     static void DumpFatCudaBinary(__cudaFatCudaBinary * bin, std::ostream & out);
 
+    /**
+     * CudaVar is a data structure used for storing information about shared
+     * variables.
+     */
     struct CudaVar {
         char fatCubinHandle[MarshaledHostPointerSize];
         char hostVar[MarshaledDevicePointerSize];

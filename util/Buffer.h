@@ -1,8 +1,36 @@
-/* 
- * File:   Buffer.h
- * Author: cjg
+/*
+ * gVirtuS -- A GPGPU transparent virtualization component.
  *
- * Created on October 18, 2009, 1:16 PM
+ * Copyright (C) 2009-2010  The University of Napoli Parthenope at Naples.
+ *
+ * This file is part of gVirtuS.
+ *
+ * gVirtuS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * gVirtuS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with gVirtuS; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Written by: Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>,
+ *             Department of Applied Science
+ */
+
+/**
+ * @file   Buffer.h
+ * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
+ * @date   Sun Oct 18 13:16:46 2009
+ * 
+ * @brief  
+ * 
+ * 
  */
 
 #ifndef _BUFFER_H
@@ -18,6 +46,12 @@
 
 using namespace std;
 
+/**
+ * Buffer is a general purpose for marshalling and unmarshalling data. It's used
+ * for exchanging data beetwen Frontend and Backend. It has the functionality to
+ * be created starting from an input stream and to be sent over an output
+ * stream.
+ */
 class Buffer {
 public:
     Buffer(size_t initial_size = 0, size_t block_size = BLOCK_SIZE);

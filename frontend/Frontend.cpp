@@ -1,8 +1,36 @@
-/* 
- * File:   Frontend.cpp
- * Author: cjg
- * 
- * Created on 30 settembre 2009, 12.57
+/*
+ * gVirtuS -- A GPGPU transparent virtualization component.
+ *
+ * Copyright (C) 2009-2010  The University of Napoli Parthenope at Naples.
+ *
+ * This file is part of gVirtuS.
+ *
+ * gVirtuS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * gVirtuS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with gVirtuS; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Written by: Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>,
+ *             Department of Applied Science
+ */
+
+/**
+ * @file   Frontend.cpp
+ * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
+ * @date   Wed Sep 30 12:57:11 2009
+ *
+ * @brief
+ *
+ *
  */
 
 #include <iostream>
@@ -14,6 +42,9 @@ using namespace std;
 
 Frontend *Frontend::mspFrontend = NULL;
 
+/**
+ *
+ */
 Frontend::Frontend() {
     const char *config_file;
     if((config_file = getenv("CONFIG_FILE")) == NULL)
@@ -28,10 +59,10 @@ Frontend::Frontend() {
     else
         default_communicator_name =
                 cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
-    ConfigFile::Element default_communicator =
-            communicators.GetElement(default_communicator_name);
-    mpCommunicator = Communicator::Create(default_communicator);
-    mpCommunicator->Connect();
+        ConfigFile::Element default_communicator =
+                communicators.GetElement(default_communicator_name);
+        mpCommunicator = Communicator::Create(default_communicator);
+        mpCommunicator->Connect();
     mpInputBuffer = new Buffer();
     mpOutputBuffer = new Buffer();
     mpLaunchBuffer = new Buffer();
@@ -100,9 +131,4 @@ void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
 
 void Frontend::Prepare() {
     mpInputBuffer->Reset();
-}
-
-void Frontend::AddVar(CudaUtil::CudaVar* var) {
-    mAddingVar = true;
-    mpVar->push_back(var);
 }

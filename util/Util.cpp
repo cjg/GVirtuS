@@ -24,39 +24,34 @@
  */
 
 /**
- * @file   Result.h
+ * @file   Util.cpp
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Sun Oct 18 13:23:56 2009
- * 
- * @brief  
- * 
- * 
+ * @date   Wed Jul 21 10:19:26 2010
+ *
+ * @brief
+ *
+ *
  */
 
-#ifndef _RESULT_H
-#define	_RESULT_H
+#include "Util.h"
 
-#include <iostream>
-#include <builtin_types.h>
-#include "Buffer.h"
+#include <cstdio>
 
-/**
- * Result is used to store the results of a CUDA Runtime routine.
- */
-class Result {
-public:
-    Result(cudaError_t exit_code);
-    Result(cudaError_t exit_code, const Buffer * output_buffer);
-    Result(const Result& orig);
-    Result(std::istream & in);
-    virtual ~Result();
-    cudaError_t GetExitCode();
-    const Buffer * GetOutputBufffer() const;
-    void Dump(std::ostream & out);
-private:
-    cudaError_t mExitCode;
-    Buffer * mpOutputBuffer;
-};
+using namespace std;
 
-#endif	/* _RESULT_H */
+string Util::Exec(const char* cmd) {
+    FILE* pipe = popen(cmd, "r");
+    if (!pipe) return "ERROR";
+    char buffer[128];
+    std::string result = "";
+    while (!feof(pipe)) {
+        if (fgets(buffer, 128, pipe) != NULL)
+            result += buffer;
+    }
+    pclose(pipe);
+    return result;
+}
 
+string Util::Exec(std::string& cmd) {
+    return Exec(cmd.c_str());
+}
