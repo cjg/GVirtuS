@@ -1,5 +1,5 @@
-lib_LTLIBRARIES = libgvirtus-frontend.la
-libgvirtus_frontend_la_SOURCES = \
+lib_LTLIBRARIES = libcudart.la
+libcudart_la_SOURCES = \
 CudaRt.cpp\
 CudaRt_device.cpp\
 CudaRt_error.cpp\
@@ -15,5 +15,6 @@ CudaRt_thread.cpp\
 CudaRt_version.cpp\
 Frontend.cpp\
 Frontend.h
-libgvirtus_frontend_la_LIBADD = ../util/libutil.a -lexpat -lrt
+libcudart_la_LIBADD = ../util/libutil.a -lexpat -lrt
+libcudart_la_LDFLAGS = -version-info 3:14:0
 
