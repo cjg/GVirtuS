@@ -32,30 +32,30 @@ using namespace std;
 
 extern cudaError_t cudaStreamCreate(cudaStream_t *pStream) {
     Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(pStream);
+    //f->AddHostPointerForArguments(pStream);
     f->Execute("cudaStreamCreate");
     if(f->Success())
-        *pStream = *(f->GetOutputHostPointer<cudaStream_t>());
+        *pStream = (cudaStream_t) f->GetOutputDevicePointer();
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaStreamDestroy(cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
-    f->AddVariableForArguments(stream);
+    f->AddDevicePointerForArguments(stream);
     f->Execute("cudaStreamDestroy");
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaStreamQuery(cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
-    f->AddVariableForArguments(stream);
+    f->AddDevicePointerForArguments(stream);
     f->Execute("cudaStreamQuery");
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaStreamSynchronize(cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
-    f->AddVariableForArguments(stream);
+    f->AddDevicePointerForArguments(stream);
     f->Execute("cudaStreamSynchronize");
     return f->GetExitCode();
 }

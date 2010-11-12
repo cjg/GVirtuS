@@ -28,12 +28,12 @@
 #include "CudaRtHandler.h"
 
 CUDA_ROUTINE_HANDLER(EventCreate) {
-    cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
+    cudaEvent_t event; //= input_buffer->Assign<cudaEvent_t>();
 
-    cudaError_t exit_code = cudaEventCreate(event);
+    cudaError_t exit_code = cudaEventCreate(&event);
 
     Buffer *out = new Buffer();
-    out->Add(event);
+    out->Add((uint64_t) event);
 
     return new Result(exit_code, out);
 }
@@ -43,13 +43,13 @@ CUDA_ROUTINE_HANDLER(EventCreate) {
 #endif
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
-    cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
+    cudaEvent_t event; //= input_buffer->Assign<cudaEvent_t>();
     int flags = input_buffer->Get<int>();
 
-    cudaError_t exit_code = cudaEventCreateWithFlags(event, flags);
+    cudaError_t exit_code = cudaEventCreateWithFlags(&event, flags);
 
     Buffer *out = new Buffer();
-    out->Add(event);
+    out->Add((uint64_t) event);
 
     return new Result(exit_code, out);
 }

@@ -49,7 +49,7 @@ extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
     launch->Add(gridDim);
     launch->Add(blockDim);
     launch->Add(sharedMem);
-    launch->Add(stream);
+    launch->Add((uint64_t) stream);
     return cudaSuccess;
 }
 

@@ -28,12 +28,12 @@
 #include "CudaRtHandler.h"
 
 CUDA_ROUTINE_HANDLER(StreamCreate) {
-    cudaStream_t *pStream = input_buffer->Assign<cudaStream_t>();
+    cudaStream_t pStream; // = input_buffer->Assign<cudaStream_t>();
 
-    cudaError_t exit_code = cudaStreamCreate(pStream);
+    cudaError_t exit_code = cudaStreamCreate(&pStream);
 
     Buffer *out = new Buffer();
-    out->Add(pStream);
+    out->Add((uint64_t) pStream);
 
     return new Result(exit_code, out);
 }
