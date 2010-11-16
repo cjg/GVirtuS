@@ -41,10 +41,9 @@
 
 using namespace std;
 
-AfUnixCommunicator::AfUnixCommunicator(string &path, mode_t mode, bool use_shm) {
+AfUnixCommunicator::AfUnixCommunicator(string &path, mode_t mode) {
     mPath = path;
     mMode = mode;
-    mHasSharedMemory = use_shm;
 }
 
 AfUnixCommunicator::AfUnixCommunicator(int fd) {
@@ -52,10 +51,9 @@ AfUnixCommunicator::AfUnixCommunicator(int fd) {
     InitializeStream();
 }
 
-AfUnixCommunicator::AfUnixCommunicator(const char *path, mode_t mode, bool use_shm) {
+AfUnixCommunicator::AfUnixCommunicator(const char *path, mode_t mode) {
     mPath = string(path);
     mMode = mode;
-    mHasSharedMemory = use_shm;
 }
 
 AfUnixCommunicator::~AfUnixCommunicator() {

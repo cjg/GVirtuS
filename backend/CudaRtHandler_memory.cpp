@@ -29,7 +29,7 @@
 
 CUDA_ROUTINE_HANDLER(Free) {
     void *devPtr = input_buffer->GetFromMarshal<void *>();
-    
+
     cudaError_t exit_code = cudaFree(devPtr);
 
     return new Result(exit_code);
@@ -46,11 +46,11 @@ CUDA_ROUTINE_HANDLER(FreeArray) {
 CUDA_ROUTINE_HANDLER(GetSymbolAddress) {
     void *devPtr;
     const char *symbol = pThis->GetSymbol(input_buffer);
-    
+
     cudaError_t exit_code = cudaGetSymbolAddress(&devPtr, symbol);
 
     Buffer *out = new Buffer();
-    if(exit_code == cudaSuccess)
+    if (exit_code == cudaSuccess)
         out->AddMarshal(devPtr);
 
     return new Result(exit_code, out);
@@ -58,8 +58,8 @@ CUDA_ROUTINE_HANDLER(GetSymbolAddress) {
 
 CUDA_ROUTINE_HANDLER(GetSymbolSize) {
     Buffer *out = new Buffer();
-    size_t *size = out->Delegate<size_t>();
-    *size = *(input_buffer->Assign<size_t>());
+    size_t *size = out->Delegate<size_t > ();
+    *size = *(input_buffer->Assign<size_t > ());
     const char *symbol = pThis->GetSymbol(input_buffer);
 
     cudaError_t exit_code = cudaGetSymbolSize(size, symbol);
@@ -99,9 +99,9 @@ CUDA_ROUTINE_HANDLER(MallocArray) {
 
 CUDA_ROUTINE_HANDLER(MallocPitch) {
     void *devPtr = NULL;
-    size_t *pitch = input_buffer->Assign<size_t>();
-    size_t width = input_buffer->Get<size_t>();
-    size_t height = input_buffer->Get<size_t>();
+    size_t *pitch = input_buffer->Assign<size_t > ();
+    size_t width = input_buffer->Get<size_t > ();
+    size_t height = input_buffer->Get<size_t > ();
 
     cudaError_t exit_code = cudaMallocPitch(&devPtr, pitch, width, height);
 
@@ -114,7 +114,6 @@ CUDA_ROUTINE_HANDLER(MallocPitch) {
 
     return new Result(exit_code, out);
 }
-
 
 CUDA_ROUTINE_HANDLER(Memcpy) {
     /* cudaError_t cudaError_t cudaMemcpy(void *dst, const void *src,
@@ -135,36 +134,22 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
             result = NULL;
             break;
         case cudaMemcpyHostToDevice:
-            if(pThis->HasSharedMemory()) {
-                dst = input_buffer->GetFromMarshal<void *>();
-                src = pThis->GetSharedMemory();
-                exit_code = cudaMemcpy(dst, src, count, kind);
-                result = new Result(exit_code);
-            } else {
-                dst = input_buffer->GetFromMarshal<void *>();
-                src = input_buffer->AssignAll<char>();
-                exit_code = cudaMemcpy(dst, src, count, kind);
-                result = new Result(exit_code);
-            }
+            dst = input_buffer->GetFromMarshal<void *>();
+            src = input_buffer->AssignAll<char>();
+            exit_code = cudaMemcpy(dst, src, count, kind);
+            result = new Result(exit_code);
             break;
         case cudaMemcpyDeviceToHost:
-            if(pThis->HasSharedMemory()) {
-                dst = pThis->GetSharedMemory();
-                src = input_buffer->GetFromMarshal<void *>();
-                exit_code = cudaMemcpy(dst, src, count, kind);
-                result = new Result(exit_code);
-            } else {
-                // FIXME: use buffer delegate
-                dst = new char[count];
-                /* skipping a char for fake host pointer */
-                input_buffer->Assign<char>();
-                src = input_buffer->GetFromMarshal<void *>();
-                exit_code = cudaMemcpy(dst, src, count, kind);
-                out = new Buffer();
-                out->Add<char>((char *) dst, count);
-                delete[] (char *) dst;
-                result = new Result(exit_code, out);
-            }
+            // FIXME: use buffer delegate
+            dst = new char[count];
+            /* skipping a char for fake host pointer */
+            input_buffer->Assign<char>();
+            src = input_buffer->GetFromMarshal<void *>();
+            exit_code = cudaMemcpy(dst, src, count, kind);
+            out = new Buffer();
+            out->Add<char>((char *) dst, count);
+            delete[] (char *) dst;
+            result = new Result(exit_code, out);
             break;
         case cudaMemcpyDeviceToDevice:
             dst = input_buffer->GetFromMarshal<void *>();

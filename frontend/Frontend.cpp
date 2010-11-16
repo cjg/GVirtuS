@@ -69,16 +69,6 @@ Frontend::Frontend() {
     mExitCode = cudaErrorUnknown;
     mpVar = new vector<CudaUtil::CudaVar *>();
     mAddingVar = false;
-
-    if(mpCommunicator->HasSharedMemory()) {
-        Prepare();
-        Buffer * input_buffer = new Buffer();
-        Execute("cudaRequestSharedMemory", input_buffer);
-        char *name = GetOutputString();
-        size_t size = GetOutputVariable<size_t>();
-        mpCommunicator->SetSharedMemory(name, size);
-        delete input_buffer;
-    }
 }
 
 Frontend::~Frontend() {

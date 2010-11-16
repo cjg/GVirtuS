@@ -167,18 +167,3 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
     return new Result(cudaSuccess);
 }
 
-CUDA_ROUTINE_HANDLER(RegisterSharedMemory) {
-    cout << "Can use Shared Memory" << endl;
-    pThis->RegisterSharedMemory(input_buffer->AssignString());
-    return new Result(cudaSuccess);
-}
-
-CUDA_ROUTINE_HANDLER(RequestSharedMemory) {
-    char *name = new char[1024];
-    size_t size;
-    pThis->RequestSharedMemory(name, &size);
-    Buffer *b = new Buffer();
-    b->AddString(name);
-    b->Add(size);
-    return new Result(cudaSuccess, b);
-}

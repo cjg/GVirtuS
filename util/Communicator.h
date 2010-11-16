@@ -91,11 +91,6 @@ public:
      * Closes the connection with the end point.
      */
     virtual void Close() = 0;
-    virtual bool HasSharedMemory() = 0;
-    virtual void * GetSharedMemory() = 0;
-    virtual const char * GetSharedMemoryName() = 0;
-    virtual size_t GetSharedMemorySize() = 0;
-    virtual void SetSharedMemory(const char *name, size_t size) = 0;
 private:
 
 };

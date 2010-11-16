@@ -86,43 +86,6 @@ public:
 
     const char *GetSymbol(Buffer * in);
 
-    void RegisterSharedMemory(const char *name) {
-        mShmFd = shm_open(name, O_RDWR, S_IRWXU);
-
-	if((mpShm = mmap(NULL, 256 * 1024 * 1024, PROT_READ | PROT_WRITE, MAP_SHARED, mShmFd,
-            0)) == MAP_FAILED) {
-		std::cout << "Failed to mmap" << std::endl;
-                mpShm = NULL;
-        }
-    }
-
-    void RequestSharedMemory(char *name, size_t *size) {
-        sprintf(name, "/gvirtus-%d", getpid());
-        *size = 128 * 1024 * 1024;
-        std::cout << "SHM name " << name << std::endl;
-
-        mShmFd = shm_open(name, O_RDWR | O_CREAT, 00666);
-
-        if(ftruncate(mShmFd, *size) != 0) {
-            std::cout << "Failed to truncate" << std::endl;
-            mpShm = NULL;
-            return;
-        }
-
-	if((mpShm = mmap(NULL, *size, PROT_READ | PROT_WRITE, MAP_SHARED, mShmFd,
-            0)) == MAP_FAILED) {
-		std::cout << "Failed to mmap" << std::endl;
-                mpShm = NULL;
-        }
-    }
-
-    void *GetSharedMemory() {
-        return mpShm;
-    }
-
-    bool HasSharedMemory() {
-        return mpShm != NULL;
-    }
 private:
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);

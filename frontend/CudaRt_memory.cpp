@@ -55,7 +55,7 @@ extern cudaError_t cudaGetSymbolAddress(void **devPtr, const char *symbol) {
     // Achtung: skip adding devPtr
     f->AddSymbolForArguments(symbol);
     f->Execute("cudaGetSymbolAddress");
-    if(f->Success())
+    if (f->Success())
         *devPtr = CudaUtil::UnmarshalPointer(f->GetOutputString());
     return f->GetExitCode();
 }
@@ -65,8 +65,8 @@ extern cudaError_t cudaGetSymbolSize(size_t *size, const char *symbol) {
     f->AddHostPointerForArguments(size);
     f->AddSymbolForArguments(symbol);
     f->Execute("cudaGetSymbolSize");
-    if(f->Success())
-        *size = *(f->GetOutputHostPointer<size_t>());
+    if (f->Success())
+        *size = *(f->GetOutputHostPointer<size_t > ());
     return f->GetExitCode();
 }
 
@@ -101,7 +101,7 @@ extern cudaError_t cudaMalloc(void **devPtr, size_t size) {
     f->AddVariableForArguments(size);
     f->Execute("cudaMalloc");
 
-    if(f->Success())
+    if (f->Success())
         *devPtr = f->GetOutputDevicePointer();
 
     return f->GetExitCode();
@@ -122,6 +122,7 @@ extern cudaError_t cudaMalloc3DArray(cudaArray **arrayPtr,
 }
 
 // FIXME: new mapping way
+
 extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height) {
     Frontend *f = Frontend::GetFrontend();
@@ -130,7 +131,7 @@ extern cudaError_t cudaMallocArray(cudaArray **arrayPtr,
     f->AddVariableForArguments(width);
     f->AddVariableForArguments(height);
     f->Execute("cudaMallocArray");
-    if(f->Success())
+    if (f->Success())
         *arrayPtr = (cudaArray *) f->GetOutputDevicePointer();
     return f->GetExitCode();
 }
@@ -152,9 +153,9 @@ extern cudaError_t cudaMallocPitch(void **devPtr, size_t *pitch, size_t width,
     f->AddVariableForArguments(height);
     f->Execute("cudaMallocPitch");
 
-    if(f->Success()) {
+    if (f->Success()) {
         *devPtr = f->GetOutputDevicePointer();
-        *pitch = *(f->GetOutputHostPointer<size_t>());
+        *pitch = *(f->GetOutputHostPointer<size_t > ());
     }
     return f->GetExitCode();
 }
@@ -173,65 +174,23 @@ extern cudaError_t cudaMemcpy(void *dst, const void *src, size_t count,
             break;
         case cudaMemcpyHostToDevice:
             c = f->GetCommunicator();
-            if(c->HasSharedMemory()) {
-                size_t offset = 0;
-                size_t copyied = 0;
-                size_t chunk_size = c->GetSharedMemorySize();
-                void *shm = c->GetSharedMemory();
-
-                while(copyied < count) {
-                    if(chunk_size > count - copyied)
-                        chunk_size = count - copyied;
-                    f->Prepare();
-                    f->AddDevicePointerForArguments(static_cast<char *>(dst) + offset);
-                    f->AddVariableForArguments(chunk_size);
-                    f->AddVariableForArguments(kind);
-                    memmove(shm, static_cast<char *>(const_cast<void *>(src)) + offset,
-                            chunk_size);
-                    f->Execute("cudaMemcpy");
-                    offset += chunk_size;
-                    copyied += chunk_size;
-                }
-            } else {
-                f->AddDevicePointerForArguments(dst);
-                f->AddHostPointerForArguments<char>(static_cast<char *>
-                        (const_cast<void *> (src)), count);
-                f->AddVariableForArguments(count);
-                f->AddVariableForArguments(kind);
-                f->Execute("cudaMemcpy");
-            }
+            f->AddDevicePointerForArguments(dst);
+            f->AddHostPointerForArguments<char>(static_cast<char *>
+                    (const_cast<void *> (src)), count);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpy");
             break;
         case cudaMemcpyDeviceToHost:
             c = f->GetCommunicator();
-            if(c->HasSharedMemory()) {
-                size_t offset = 0;
-                size_t copyied = 0;
-                size_t chunk_size = c->GetSharedMemorySize();
-                void *shm = c->GetSharedMemory();
-
-                while(copyied < count) {
-                    if(chunk_size > count - copyied)
-                        chunk_size = count - copyied;
-                    f->Prepare();
-                    f->AddDevicePointerForArguments(static_cast<char *>(const_cast<void *>(src)) + offset);
-                    f->AddVariableForArguments(chunk_size);
-                    f->AddVariableForArguments(kind);
-                    f->Execute("cudaMemcpy");
-                    memmove(static_cast<char *>(dst) + offset, shm,
-                            chunk_size);
-                    offset += chunk_size;
-                    copyied += chunk_size;
-                }
-            } else {
-                /* NOTE: adding a fake host pointer */
-                f->AddHostPointerForArguments("");
-                f->AddDevicePointerForArguments(src);
-                f->AddVariableForArguments(count);
-                f->AddVariableForArguments(kind);
-                f->Execute("cudaMemcpy");
-                if (f->Success())
-                    memmove(dst, f->GetOutputHostPointer<char>(count), count);
-            }
+            /* NOTE: adding a fake host pointer */
+            f->AddHostPointerForArguments("");
+            f->AddDevicePointerForArguments(src);
+            f->AddVariableForArguments(count);
+            f->AddVariableForArguments(kind);
+            f->Execute("cudaMemcpy");
+            if (f->Success())
+                memmove(dst, f->GetOutputHostPointer<char>(count), count);
             break;
         case cudaMemcpyDeviceToDevice:
             f->AddDevicePointerForArguments(dst);

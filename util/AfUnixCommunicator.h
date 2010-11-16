@@ -55,8 +55,7 @@ public:
      * @param mode
      * @param use_shm	
      */
-    AfUnixCommunicator(std::string &path, mode_t mode = 00660,
-            bool use_shm = false);
+    AfUnixCommunicator(std::string &path, mode_t mode = 00660);
 
     /** 
      * Creates a new AfUnixCommunicator for binding or connecting it to the
@@ -66,9 +65,9 @@ public:
      * @param mode
      * @param use_shm	
      */
-    AfUnixCommunicator(const char * path, mode_t mode = 00660,
-            bool use_shm = false);
-    /** 
+    AfUnixCommunicator(const char * path, mode_t mode = 00660);
+
+    /**
      * Creates a new AfUnixCommunicator for binding or connecting it to the
      * AF_UNIX socket specified from path.
      * 
@@ -85,39 +84,6 @@ public:
     void Sync();
     void Close();
 
-    bool HasSharedMemory() {
-        return mHasSharedMemory;
-    }
-
-    void * GetSharedMemory() {
-        return mpSharedMemory;
-    }
-
-    const char * GetSharedMemoryName() {
-        return mpSharedMemoryName;
-    }
-
-    size_t GetSharedMemorySize() {
-        return mSharedMemorySize;
-    }
-
-    void SetSharedMemory(const char *name, size_t size) {
-        mpSharedMemoryName = strdup(name);
-        mSharedMemorySize = size;
-        if ((mSharedMemoryFd = shm_open(name, O_RDWR, S_IRWXU)) < 0) {
-            std::cout << "Failed to shm_open" << std::endl;
-            mpSharedMemory = NULL;
-            mHasSharedMemory = false;
-        }
-
-        if ((mpSharedMemory = mmap(NULL, size, PROT_READ | PROT_WRITE,
-                MAP_SHARED, mSharedMemoryFd, 0)) == MAP_FAILED) {
-            std::cout << "Failed to mmap" << std::endl;
-            mpSharedMemory = NULL;
-            mHasSharedMemory = false;
-        }
-    }
-
 private:
     /** 
      * Initializes the input and output streams.
@@ -130,11 +96,6 @@ private:
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
     mode_t mMode;
-    bool mHasSharedMemory;
-    int mSharedMemoryFd;
-    size_t mSharedMemorySize;
-    void *mpSharedMemory;
-    char *mpSharedMemoryName;
 };
 
 #endif	/* _AFUNIXCOMMUNICATOR_H */
