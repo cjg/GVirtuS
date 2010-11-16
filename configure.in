@@ -26,7 +26,6 @@ AC_ARG_WITH([cuda-include], [AC_HELP_STRING([--with-cuda-include=PATH],
     CUDA_INCLUDE="$withval"
     CUDA_FLAGS="-isystem $CUDA_INCLUDE"
 ], [
-    CUDA_FLAGS="-isystem /usr/include"
     CUDA_FLAGS="$CUDA_FLAGS -isystem /usr/local/cuda/include"
     CUDA_FLAGS="$CUDA_FLAGS -isystem /opt/cuda/include"
 ])

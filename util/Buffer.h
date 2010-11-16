@@ -27,10 +27,10 @@
  * @file   Buffer.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
  * @date   Sun Oct 18 13:16:46 2009
- * 
- * @brief  
- * 
- * 
+ *
+ * @brief
+ *
+ *
  */
 
 #ifndef _BUFFER_H
