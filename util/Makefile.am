@@ -26,6 +26,8 @@ TcpCommunicator.cpp\
 TcpCommunicator.h\
 Thread.cpp\
 Thread.h\
+VMShmCommunicator.cpp\
+VMShmCommunicator.h\
 VmciCommunicator.cpp\
 VmciCommunicator.h
 AM_CXXFLAGS=-fPIC

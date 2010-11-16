@@ -40,6 +40,7 @@
 #include "VmciCommunicator.h"
 #include "Communicator.h"
 #include "ShmCommunicator.h"
+#include "VMShmCommunicator.h"
 
 Communicator * Communicator::Create(ConfigFile::Element & config) {
     const char *type = config.GetValue("type").c_str();
@@ -59,6 +60,10 @@ Communicator * Communicator::Create(ConfigFile::Element & config) {
 #endif
     else if (strcasecmp(type, "Shm") == 0)
         return new ShmCommunicator();
+    else if (strcasecmp(type, "VMShm") == 0)
+        return new VMShmCommunicator(
+            config.GetValue("hostname").c_str(),
+            config.GetShortValue("port"));
     else
         throw "Not a valid type!";
     return NULL;
