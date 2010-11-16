@@ -53,8 +53,6 @@ public:
     void Execute(void * arg);
 private:
     Communicator * mpCommunicator;
-    std::istream & mpInput;
-    std::ostream & mpOutput;
     CudaRtHandler * mpHandler;
 };
 

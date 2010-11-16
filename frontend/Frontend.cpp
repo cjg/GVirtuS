@@ -112,21 +112,20 @@ void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
         input_buffer = mpInputBuffer;
 
     /* sending job */
-    std::ostream &out = mpCommunicator->GetOutputStream();
-    out << routine << std::endl;
-    input_buffer->Dump(out);
-    out.flush();
+    mpCommunicator->Write(routine, strlen(routine) + 1);
+    input_buffer->Dump(mpCommunicator);
+    mpCommunicator->Sync();
 
     /* receiving output */
-    std::istream &in = mpCommunicator->GetInputStream();
+    //std::istream &in = mpCommunicator->GetInputStream();
 
     mpOutputBuffer->Reset();
 
-    in.read((char *) & mExitCode, sizeof (cudaError_t));
+    mpCommunicator->Read((char *) & mExitCode, sizeof (cudaError_t));
     size_t out_buffer_size;
-    in.read((char *) & out_buffer_size, sizeof (size_t));
+    mpCommunicator->Read((char *) & out_buffer_size, sizeof (size_t));
     if (out_buffer_size > 0)
-        mpOutputBuffer->Read<char>(in, out_buffer_size);
+        mpOutputBuffer->Read<char>(mpCommunicator, out_buffer_size);
 }
 
 void Frontend::Prepare() {

@@ -52,7 +52,7 @@ public:
     virtual ~Result();
     cudaError_t GetExitCode();
     const Buffer * GetOutputBufffer() const;
-    void Dump(std::ostream & out);
+    void Dump(Communicator * c);
 private:
     cudaError_t mExitCode;
     Buffer * mpOutputBuffer;

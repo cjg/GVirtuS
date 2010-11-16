@@ -42,6 +42,8 @@
 #include <cstring>
 #include <stdint.h>
 
+#include "Communicator.h"
+
 #define BLOCK_SIZE  4096
 
 using namespace std;
@@ -99,24 +101,24 @@ public:
     }
 
 
-    template <class T> void Read(std::istream & in) {
+    template <class T> void Read(Communicator * c) {
         while ((mLength + sizeof (T)) >= mSize) {
             mSize += mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
                 throw "Can't reallocate memory.";
         }
-        in.read(mpBuffer + mLength, sizeof (T));
+        c->Read(mpBuffer + mLength, sizeof (T));
         mLength += sizeof (T);
         mBackOffset = mLength;
     }
 
-    template <class T> void Read(std::istream & in, size_t n = 1) {
+    template <class T> void Read(Communicator *c, size_t n = 1) {
         while ((mLength + (sizeof (T) * n)) >= mSize) {
             mSize += mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
                 throw "Can't reallocate memory.";
         }
-        in.read(mpBuffer + mLength, sizeof (T) * n);
+        c->Read(mpBuffer + mLength, sizeof (T) * n);
         mLength += sizeof (T) * n;
         mBackOffset = mLength;
     }
@@ -202,10 +204,10 @@ public:
     }
 
     void Reset();
-    void Reset(std::istream & in);
+    void Reset(Communicator *c);
     const char * const GetBuffer() const;
     size_t GetBufferSize() const;
-    void Dump(std::ostream & out) const;
+    void Dump(Communicator * c) const;
 private:
     size_t mBlockSize;
     size_t mSize;

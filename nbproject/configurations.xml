@@ -2,6 +2,10 @@
 <configurationDescriptor version="69">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <df name="backend" root="backend">
+      <df name=".deps">
+      </df>
+      <df name=".libs">
+      </df>
       <in>Backend.cpp</in>
       <in>Backend.h</in>
       <in>CudaRtHandler.cpp</in>
@@ -21,6 +25,13 @@
       <in>main.cpp</in>
     </df>
     <df name="frontend" root="frontend">
+      <df name=".deps">
+      </df>
+      <df name=".libs">
+        <in>libcudart.lai</in>
+        <in>libcudart.so.3</in>
+        <in>libcudart.so.3.0.14</in>
+      </df>
       <in>CudaRt.cpp</in>
       <in>CudaRt.h</in>
       <in>CudaRt_device.cpp</in>
@@ -38,6 +49,8 @@
       <in>Frontend.h</in>
     </df>
     <df name="util" root="util">
+      <df name=".deps">
+      </df>
       <in>AfUnixCommunicator.cpp</in>
       <in>AfUnixCommunicator.h</in>
       <in>Buffer.cpp</in>
@@ -64,8 +77,6 @@
       <in>Thread.h</in>
       <in>Util.cpp</in>
       <in>Util.h</in>
-      <in>VMSocketCommunicator.cpp</in>
-      <in>VMSocketCommunicator.h</in>
       <in>VmciCommunicator.cpp</in>
       <in>VmciCommunicator.h</in>
     </df>

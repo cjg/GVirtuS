@@ -119,12 +119,20 @@ void TcpCommunicator::Connect() {
 void TcpCommunicator::Close() {
 }
 
-std::istream & TcpCommunicator::GetInputStream() const {
-    return *(this->mpInput);
+size_t TcpCommunicator::Read(char* buffer, size_t size) {
+    mpInput->read(buffer, size);
+    if(mpInput->bad() || mpInput->eof())
+        return 0;
+    return size;
 }
 
-std::ostream & TcpCommunicator::GetOutputStream() const {
-    return *(this->mpOutput);
+size_t TcpCommunicator::Write(const char* buffer, size_t size) {
+    mpOutput->write(buffer, size);
+    return size;
+}
+
+void TcpCommunicator::Sync() {
+    mpOutput->flush();
 }
 
 void TcpCommunicator::InitializeStream() {

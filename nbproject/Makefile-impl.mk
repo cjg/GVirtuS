@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=gvirtus.osl
+PROJECTNAME=gvirtus
 
 # Active Configuration
 DEFAULTCONF=Default

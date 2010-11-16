@@ -83,20 +83,10 @@ public:
      */
     virtual void Connect() = 0;
 
-    /** 
-     * Returns the InputStream for sending data to the end point.
-     * 
-     * @return the InputStream.
-     */
-    virtual std::istream & GetInputStream() const = 0;
-
-    /** 
-     * Returns the OutputStream for receiving data from the end point.
-     * 
-     * @return the OutputStream.
-     */
-    virtual std::ostream & GetOutputStream() const = 0;
-
+    virtual size_t Read(char *buffer, size_t size) = 0;
+    virtual size_t Write(const char *buffer, size_t size) = 0;
+    virtual void Sync() = 0;
+    
     /** 
      * Closes the connection with the end point.
      */

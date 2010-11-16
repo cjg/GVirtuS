@@ -115,12 +115,20 @@ void AfUnixCommunicator::Connect() {
 void AfUnixCommunicator::Close() {
 }
 
-std::istream & AfUnixCommunicator::GetInputStream() const {
-    return *(this->mpInput);
+size_t AfUnixCommunicator::Read(char* buffer, size_t size) {
+    mpInput->read(buffer, size);
+    if(mpInput->bad() || mpInput->eof())
+        return 0;
+    return size;
 }
 
-std::ostream & AfUnixCommunicator::GetOutputStream() const {
-    return *(this->mpOutput);
+size_t AfUnixCommunicator::Write(const char* buffer, size_t size) {
+    mpOutput->write(buffer, size);
+    return size;
+}
+
+void AfUnixCommunicator::Sync() {
+    mpOutput->flush();
 }
 
 void AfUnixCommunicator::InitializeStream() {

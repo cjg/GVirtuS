@@ -42,9 +42,7 @@
 using namespace std;
 
 Process::Process(const Communicator *communicator)
-: Subprocess(), Observable(),
-mpInput(const_cast<Communicator *> (communicator)->GetInputStream()),
-mpOutput(const_cast<Communicator *> (communicator)->GetOutputStream()) {
+: Subprocess(), Observable() {
     mpCommunicator = const_cast<Communicator *> (communicator);
     mpHandler = new CudaRtHandler();
 }
@@ -57,13 +55,25 @@ void Process::Setup() {
 
 }
 
+static bool getstring(Communicator *c, string & s) {
+    s = "";
+    char ch;
+    while(c->Read(&ch, 1) == 1) {
+        if(ch == 0) {
+            return true;
+        }
+        s += ch;
+    }
+    return false;
+}
+
 void Process::Execute(void * arg) {
     cout << "[Process " << GetPid() << "]: Started." << endl;
 
     string routine;
     Buffer * input_buffer = new Buffer();
-    while (getline(mpInput, routine)) {
-        input_buffer->Reset(mpInput);
+    while (getstring(mpCommunicator, routine)) {
+        input_buffer->Reset(mpCommunicator);
         Result * result;
         try {
             result = mpHandler->Execute(routine, input_buffer);
@@ -72,7 +82,7 @@ void Process::Execute(void * arg) {
                     << "." << endl;
             result = new Result(cudaErrorUnknown, new Buffer());
         }
-        result->Dump(mpOutput);
+        result->Dump(mpCommunicator);
         if (result->GetExitCode() != cudaSuccess) {
             cout << "[Process " << GetPid() << "]: Requested '" << routine
                     << "' routine." << endl;

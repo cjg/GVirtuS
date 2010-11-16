@@ -50,8 +50,9 @@ public:
     void Serve();
     const Communicator * const Accept() const;
     void Connect();
-    std::istream & GetInputStream() const;
-    std::ostream & GetOutputStream() const;
+    size_t Read(char *buffer, size_t size);
+    size_t Write(const char *buffer, size_t size);
+    void Sync();
     void Close();
     bool HasSharedMemory() {
         return false;

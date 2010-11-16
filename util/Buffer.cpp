@@ -95,8 +95,8 @@ void Buffer::Reset() {
     mBackOffset = 0;
 }
 
-void Buffer::Reset(std::istream & in) {
-    in.read((char *) & mLength, sizeof (size_t));
+void Buffer::Reset(Communicator *c) {
+    c->Read((char *) & mLength, sizeof (size_t));
     mOffset = 0;
     mBackOffset = mLength;
     if (mLength >= mSize) {
@@ -104,7 +104,7 @@ void Buffer::Reset(std::istream & in) {
         if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
             throw "Can't reallocate memory.";
     }
-    in.read(mpBuffer, mLength);
+    c->Read(mpBuffer, mLength);
 }
 
 const char * const Buffer::GetBuffer() const {
@@ -115,9 +115,9 @@ size_t Buffer::GetBufferSize() const {
     return mLength;
 }
 
-void Buffer::Dump(std::ostream& out) const {
-    out.write((char *) & mLength, sizeof (size_t));
-    out.write(mpBuffer, mLength);
-    out.flush();
+void Buffer::Dump(Communicator * c) const {
+    c->Write((char *) & mLength, sizeof (size_t));
+    c->Write(mpBuffer, mLength);
+    c->Sync();
 }
 

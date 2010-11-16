@@ -65,13 +65,13 @@ const Buffer * Result::GetOutputBufffer() const {
     return mpOutputBuffer;
 }
 
-void Result::Dump(std::ostream& out) {
-    out.write((char *) &mExitCode, sizeof(cudaError_t));
+void Result::Dump(Communicator * c) {
+    c->Write((char *) &mExitCode, sizeof(cudaError_t));
     if(mpOutputBuffer != NULL)
-        mpOutputBuffer->Dump(out);
+        mpOutputBuffer->Dump(c);
     else {
         size_t size = 0;
-        out.write((char *) &size, sizeof(size_t));
-        out.flush();
+        c->Write((char *) &size, sizeof(size_t));
+        c->Sync();
     }
 }
