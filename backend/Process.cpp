@@ -57,7 +57,7 @@ void Process::Setup() {
 
 static bool getstring(Communicator *c, string & s) {
     s = "";
-    char ch;
+    char ch = 0;
     while(c->Read(&ch, 1) == 1) {
         if(ch == 0) {
             return true;

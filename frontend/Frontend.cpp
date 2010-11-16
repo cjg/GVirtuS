@@ -40,12 +40,13 @@
 
 using namespace std;
 
-Frontend *Frontend::mspFrontend = NULL;
+static Frontend msFrontend;
+static bool initialized = false;
 
 /**
  *
  */
-Frontend::Frontend() {
+void Frontend::Init() {
     const char *config_file;
     if((config_file = getenv("CONFIG_FILE")) == NULL)
         config_file = _CONFIG_FILE;
@@ -77,24 +78,24 @@ Frontend::~Frontend() {
 }
 
 Frontend * Frontend::GetFrontend(bool register_var) {
-    if (mspFrontend == NULL) {
+    if (!initialized) {
         try {
-            mspFrontend = new Frontend();
+            msFrontend.Init();
+            initialized = true;
         } catch (const char *e) {
             cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
-            mspFrontend = NULL;
         }
     }
-    mspFrontend->Prepare();
-    if (mspFrontend->mAddingVar && !register_var) {
-        for (vector<CudaUtil::CudaVar *>::iterator it = mspFrontend->mpVar->begin();
-                it != mspFrontend->mpVar->end(); it++)
-            mspFrontend->AddHostPointerForArguments(*it);
-        mspFrontend->Execute("cudaRegisterVar");
-        mspFrontend->mAddingVar = false;
-        mspFrontend->Prepare();
+    msFrontend.Prepare();
+    if (msFrontend.mAddingVar && !register_var) {
+        for (vector<CudaUtil::CudaVar *>::iterator it = msFrontend.mpVar->begin();
+                it != msFrontend.mpVar->end(); it++)
+            msFrontend.AddHostPointerForArguments(*it);
+        msFrontend.Execute("cudaRegisterVar");
+        msFrontend.mAddingVar = false;
+        msFrontend.Prepare();
     }
-    return mspFrontend;
+    return &msFrontend;
 }
 
 void Frontend::Execute(const char* routine, const Buffer* input_buffer) {

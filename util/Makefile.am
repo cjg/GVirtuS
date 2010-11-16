@@ -18,6 +18,8 @@ Observer.cpp\
 Observer.h\
 Result.cpp\
 Result.h\
+ShmCommunicator.cpp\
+ShmCommunicator.h\
 Subprocess.cpp\
 Subprocess.h\
 TcpCommunicator.cpp\

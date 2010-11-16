@@ -217,13 +217,12 @@ private:
      * use obtaining the information from the configuration file which path is
      * setted at compile time.
      */
-    Frontend();
+    void Init();
     Communicator *mpCommunicator;
     Buffer * mpInputBuffer;
     Buffer * mpOutputBuffer;
     Buffer * mpLaunchBuffer;
     cudaError_t mExitCode;
-    static Frontend *mspFrontend;
     std::vector<CudaUtil::CudaVar *> * mpVar;
     bool mAddingVar;
 };

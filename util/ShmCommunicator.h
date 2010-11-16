@@ -24,46 +24,55 @@
  */
 
 /**
- * @file   Communicator.cpp
+ * @file   ShmCommunicator.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Wed Sep 30 11:56:44 2009
+ * @date   Tue Nov 16 9:52:26 2010
  *
  * @brief
  *
  *
  */
 
-#include <cstring>
-#include <cstdlib>
-#include "AfUnixCommunicator.h"
-#include "TcpCommunicator.h"
-#include "VmciCommunicator.h"
+#ifndef SHMCOMMUNICATOR_H
+#define	SHMCOMMUNICATOR_H
+
 #include "Communicator.h"
-#include "ShmCommunicator.h"
+#include <semaphore.h>
 
-Communicator * Communicator::Create(ConfigFile::Element & config) {
-    const char *type = config.GetValue("type").c_str();
-    if (strcasecmp(type, "AfUnix") == 0) {
-        mode_t mode = 0660;
-        if (config.HasKey("mode"))
-            mode = config.GetShortValueFromOctal("mode");
-        return new AfUnixCommunicator(config.GetValue("path"), mode);
-    } else if (strcasecmp(type, "Tcp") == 0)
-        return new TcpCommunicator(
-            config.GetValue("hostname").c_str(),
-            config.GetShortValue("port"));
-#ifdef HAVE_VMCI
-    else if (strcasecmp(type, "Vmci") == 0)
-        return new VmciCommunicator(config.GetShortValue("port"),
-            config.GetShortValue("cid"));
-#endif
-    else if (strcasecmp(type, "Shm") == 0)
-        return new ShmCommunicator();
-    else
-        throw "Not a valid type!";
-    return NULL;
-}
+class ShmCommunicator : public Communicator {
+public:
+    ShmCommunicator();
+    virtual ~ShmCommunicator();
+    void Serve();
+    const Communicator * const Accept() const;
+    void Connect();
+    size_t Read(char *buffer, size_t size);
+    size_t Write(const char *buffer, size_t size);
+    void Sync();
+    void Close();
+private:
+    ShmCommunicator(const char *name);
+    size_t ReadPacket(char *buffer);
+    int mSocketFd;
+    int mFd;
+    char *mpShm;
+    size_t mIOSize;
+    int *mpClosed;
+    sem_t *mpInEmpty;
+    sem_t *mpInFull;
+    size_t *mpInSize;
+    char *mpIn;
+    sem_t *mpOutEmpty;
+    sem_t *mpOutFull;
+    size_t *mpOutSize;
+    char *mpOut;
+    char *mpLocalIn;
+    size_t mLocalInSize;
+    size_t mLocalInOffset;
+    char *mpLocalOut;
+    size_t mLocalOutSize;
+    size_t mLocalOutOffset;
+};
 
-Communicator::~Communicator() {
-}
+#endif	/* SHMCOMMUNICATOR_H */
 
