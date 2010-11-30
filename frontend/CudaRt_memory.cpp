@@ -23,11 +23,16 @@
  *             Department of Applied Science
  */
 
+#include <cuda_runtime_api.h>
 #include <cuda.h>
 #include <cstring>
 #include "Frontend.h"
 #include "CudaUtil.h"
 #include "CudaRt.h"
+
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
 
 using namespace std;
 
@@ -292,7 +297,11 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
             f->AddHostPointerForArguments("");
             f->AddHostPointerForArguments("");
             f->AddVariableForArguments(kind);
+#if CUDART_VERSION > 3030    
             f->AddDevicePointerForArguments(stream);
+#else
+            f->AddVariableForArguments(stream);
+#endif
             f->Execute("cudaMemcpyAsync");
             if (memmove(dst, src, count) == NULL)
                 return cudaErrorInvalidValue;
@@ -304,7 +313,11 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
                     (const_cast<void *> (src)), count);
             f->AddVariableForArguments(count);
             f->AddVariableForArguments(kind);
+#if CUDART_VERSION > 3030    
             f->AddDevicePointerForArguments(stream);
+#else
+            f->AddVariableForArguments(stream);
+#endif
             f->Execute("cudaMemcpyAsync");
             break;
         case cudaMemcpyDeviceToHost:
@@ -313,7 +326,11 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
             f->AddDevicePointerForArguments(src);
             f->AddVariableForArguments(count);
             f->AddVariableForArguments(kind);
+#if CUDART_VERSION > 3030    
             f->AddDevicePointerForArguments(stream);
+#else
+            f->AddVariableForArguments(stream);
+#endif
             f->Execute("cudaMemcpyAsync");
             if (f->Success())
                 memmove(dst, f->GetOutputHostPointer<char>(count), count);
@@ -323,7 +340,11 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
             f->AddDevicePointerForArguments(src);
             f->AddVariableForArguments(count);
             f->AddVariableForArguments(kind);
+#if CUDART_VERSION > 3030    
             f->AddDevicePointerForArguments(stream);
+#else
+            f->AddVariableForArguments(stream);
+#endif
             f->Execute("cudaMemcpyAsync");
             break;
     }

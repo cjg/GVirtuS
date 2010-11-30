@@ -27,14 +27,21 @@
 #include "CudaUtil.h"
 #include "CudaRtHandler.h"
 
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
+
 CUDA_ROUTINE_HANDLER(StreamCreate) {
-    cudaStream_t pStream; // = input_buffer->Assign<cudaStream_t>();
-
-    cudaError_t exit_code = cudaStreamCreate(&pStream);
-
     Buffer *out = new Buffer();
+#if CUDART_VERSION > 3030
+    cudaStream_t pStream; // = input_buffer->Assign<cudaStream_t>();
+    cudaError_t exit_code = cudaStreamCreate(&pStream);
     out->Add((uint64_t) pStream);
-
+#else
+    cudaStream_t *pStream = input_buffer->Assign<cudaStream_t>();
+    cudaError_t exit_code = cudaStreamCreate(pStream);
+    out->Add(pStream);
+#endif
     return new Result(exit_code, out);
 }
 

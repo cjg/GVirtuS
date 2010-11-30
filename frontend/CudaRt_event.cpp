@@ -26,30 +26,53 @@
 #include "Frontend.h"
 #include "CudaRt.h"
 
+#include <cuda_runtime_api.h>
+
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
+
 using namespace std;
 
 extern cudaError_t cudaEventCreate(cudaEvent_t *event) {
     Frontend *f = Frontend::GetFrontend();
-    //f->AddHostPointerForArguments(event);
+#if CUDART_VERSION > 3030
     f->Execute("cudaEventCreate");
     if(f->Success())
         *event = (cudaEvent_t) f->GetOutputDevicePointer();
+#else
+    f->AddHostPointerForArguments(event);
+    f->Execute("cudaEventCreate");
+    if(f->Success())
+        *event = *(f->GetOutputHostPointer<cudaEvent_t>());
+#endif
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, int flags) {
     Frontend *f = Frontend::GetFrontend();
-    //f->AddHostPointerForArguments(event);
+#if CUDART_VERSION > 3030    
     f->AddVariableForArguments(flags);
     f->Execute("cudaEventCreateWithFlags");
     if(f->Success())
         *event = (cudaEvent_t) f->GetOutputDevicePointer();
+#else
+    f->AddHostPointerForArguments(event);
+    f->AddVariableForArguments(flags);
+    f->Execute("cudaEventCreateWithFlags");
+    if(f->Success())
+        *event = *(f->GetOutputHostPointer<cudaEvent_t>());
+#endif
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaEventDestroy(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
+#if CUDART_VERSION > 3030
     f->AddDevicePointerForArguments(event);
+#else
+    f->AddVariableForArguments(event);
+#endif
     f->Execute("cudaEventDestroy");
     return f->GetExitCode();
 }
@@ -57,8 +80,13 @@ extern cudaError_t cudaEventDestroy(cudaEvent_t event) {
 extern cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_t end) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(ms);
+#if CUDART_VERSION > 3030
     f->AddDevicePointerForArguments(start);
     f->AddDevicePointerForArguments(end);
+#else
+    f->AddVariableForArguments(start);
+    f->AddVariableForArguments(end);
+#endif
     f->Execute("cudaEventElapsedTime");
     if(f->Success())
         *ms = *(f->GetOutputHostPointer<float>());
@@ -67,22 +95,35 @@ extern cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_
 
 extern cudaError_t cudaEventQuery(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
+#if CUDART_VERSION > 3030
     f->AddDevicePointerForArguments(event);
+#else
+    f->AddVariableForArguments(event);
+#endif
     f->Execute("cudaEventQuery");
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
+#if CUDART_VERSION > 3030
     f->AddDevicePointerForArguments(event);
     f->AddDevicePointerForArguments(stream);
+#else
+    f->AddVariableForArguments(event);
+    f->AddVariableForArguments(stream);
+#endif
     f->Execute("cudaEventRecord");
     return f->GetExitCode();
 }
 
 extern cudaError_t cudaEventSynchronize(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
+#if CUDART_VERSION > 3030    
     f->AddDevicePointerForArguments(event);
+#else
+    f->AddVariableForArguments(event);
+#endif    
     f->Execute("cudaEventSynchronize");
     return f->GetExitCode();
 }

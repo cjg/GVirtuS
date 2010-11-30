@@ -27,30 +27,38 @@
 #include "CudaUtil.h"
 #include "CudaRtHandler.h"
 
-CUDA_ROUTINE_HANDLER(EventCreate) {
-    cudaEvent_t event; //= input_buffer->Assign<cudaEvent_t>();
-
-    cudaError_t exit_code = cudaEventCreate(&event);
-
-    Buffer *out = new Buffer();
-    out->Add((uint64_t) event);
-
-    return new Result(exit_code, out);
-}
-
 #ifndef CUDART_VERSION
 #error CUDART_VERSION not defined
 #endif
+
+CUDA_ROUTINE_HANDLER(EventCreate) {
+    Buffer *out = new Buffer();
+#if CUDART_VERSION > 3030
+    cudaEvent_t event;
+    cudaError_t exit_code = cudaEventCreate(&event);
+    out->Add((uint64_t) event);
+#else
+    cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
+    cudaError_t exit_code = cudaEventCreate(event);
+    out->Add(event);
+#endif
+    return new Result(exit_code, out);
+}
+
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
-    cudaEvent_t event; //= input_buffer->Assign<cudaEvent_t>();
-    int flags = input_buffer->Get<int>();
-
-    cudaError_t exit_code = cudaEventCreateWithFlags(&event, flags);
-
     Buffer *out = new Buffer();
+#if CUDART_VERSION > 3030    
+    cudaEvent_t event;
+    int flags = input_buffer->Get<int>();
+    cudaError_t exit_code = cudaEventCreateWithFlags(&event, flags);
     out->Add((uint64_t) event);
-
+#else
+    cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
+    int flags = input_buffer->Get<int>();
+    cudaError_t exit_code = cudaEventCreateWithFlags(event, flags);
+    out->Add(event);
+#endif
     return new Result(exit_code, out);
 }
 #endif
