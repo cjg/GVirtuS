@@ -288,7 +288,7 @@ CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
     size_t count = input_buffer->BackGet<size_t > ();
     char *handler = input_buffer->AssignString();
     char *symbol = input_buffer->AssignString();
-    symbol = (char *) CudaUtil::UnmarshalPointer(handler);
+    handler = (char *) CudaUtil::UnmarshalPointer(handler);
 
     cudaError_t exit_code;
     Result * result = NULL;
