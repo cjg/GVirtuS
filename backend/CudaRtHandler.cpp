@@ -33,14 +33,13 @@
  *
  */
 
-#include <host_defines.h>
-#include <builtin_types.h>
-#include <driver_types.h>
-#include <GL/gl.h>
-#include <cuda_runtime_api.h>
-#include <cstring>
-#include "CudaUtil.h"
 #include "CudaRtHandler.h"
+
+#include <cstring>
+
+#include <cuda_runtime_api.h>
+
+#include "CudaUtil.h"
 
 using namespace std;
 

@@ -33,7 +33,7 @@ using namespace std;
 
 extern cudaError_t cudaStreamCreate(cudaStream_t *pStream) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->Execute("cudaStreamCreate");
     if(f->Success())
         *pStream = (cudaStream_t) f->GetOutputDevicePointer();
@@ -48,7 +48,7 @@ extern cudaError_t cudaStreamCreate(cudaStream_t *pStream) {
 
 extern cudaError_t cudaStreamDestroy(cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(stream);
 #else
     f->AddVariableForArguments(stream);
@@ -59,7 +59,7 @@ extern cudaError_t cudaStreamDestroy(cudaStream_t stream) {
 
 extern cudaError_t cudaStreamQuery(cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(stream);
 #else
     f->AddVariableForArguments(stream);
@@ -70,7 +70,7 @@ extern cudaError_t cudaStreamQuery(cudaStream_t stream) {
 
 extern cudaError_t cudaStreamSynchronize(cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(stream);
 #else
     f->AddVariableForArguments(stream);

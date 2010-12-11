@@ -28,6 +28,11 @@
 
 using namespace std;
 
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
+
+#if CUDART_VERSION <= 2030
 extern cudaError_t cudaGLMapBufferObject(void **devPtr, GLuint bufObj) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
@@ -86,3 +91,4 @@ extern cudaError_t cudaGLUnregisterBufferObject(GLuint bufObj) {
     exit(-1);
     return cudaErrorUnknown;
 }
+#endif

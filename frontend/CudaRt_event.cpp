@@ -36,7 +36,7 @@ using namespace std;
 
 extern cudaError_t cudaEventCreate(cudaEvent_t *event) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->Execute("cudaEventCreate");
     if(f->Success())
         *event = (cudaEvent_t) f->GetOutputDevicePointer();
@@ -51,7 +51,7 @@ extern cudaError_t cudaEventCreate(cudaEvent_t *event) {
 
 extern cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, int flags) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030    
+#if CUDART_VERSION >= 3010
     f->AddVariableForArguments(flags);
     f->Execute("cudaEventCreateWithFlags");
     if(f->Success())
@@ -68,7 +68,7 @@ extern cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, int flags) {
 
 extern cudaError_t cudaEventDestroy(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
 #else
     f->AddVariableForArguments(event);
@@ -80,7 +80,7 @@ extern cudaError_t cudaEventDestroy(cudaEvent_t event) {
 extern cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_t end) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(ms);
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(start);
     f->AddDevicePointerForArguments(end);
 #else
@@ -95,7 +95,7 @@ extern cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_
 
 extern cudaError_t cudaEventQuery(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
 #else
     f->AddVariableForArguments(event);
@@ -106,7 +106,7 @@ extern cudaError_t cudaEventQuery(cudaEvent_t event) {
 
 extern cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
     f->AddDevicePointerForArguments(stream);
 #else
@@ -119,7 +119,7 @@ extern cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream) {
 
 extern cudaError_t cudaEventSynchronize(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
-#if CUDART_VERSION > 3030    
+#if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
 #else
     f->AddVariableForArguments(event);

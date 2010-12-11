@@ -281,7 +281,7 @@ extern cudaError_t cudaMemcpy3DAsync(const cudaMemcpy3DParms *p,
 extern cudaError_t cudaMemcpyArrayToArray(cudaArray *dst, size_t wOffsetDst,
         size_t hOffsetDst, const cudaArray *src, size_t wOffsetSrc,
         size_t hOffsetSrc, size_t count,
-        cudaMemcpyKind kind __dv(cudaMemcpyDeviceToDevice)) {
+        cudaMemcpyKind kind) {
     // FIXME: implement
     cerr << "*** Error: cudaMemcpyArrayToArray() not yet implemented!" << endl;
     return cudaErrorUnknown;
@@ -297,7 +297,7 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
             f->AddHostPointerForArguments("");
             f->AddHostPointerForArguments("");
             f->AddVariableForArguments(kind);
-#if CUDART_VERSION > 3030    
+#if CUDART_VERSION >= 3010
             f->AddDevicePointerForArguments(stream);
 #else
             f->AddVariableForArguments(stream);
@@ -313,7 +313,7 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
                     (const_cast<void *> (src)), count);
             f->AddVariableForArguments(count);
             f->AddVariableForArguments(kind);
-#if CUDART_VERSION > 3030    
+#if CUDART_VERSION >= 3010
             f->AddDevicePointerForArguments(stream);
 #else
             f->AddVariableForArguments(stream);
@@ -326,7 +326,7 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
             f->AddDevicePointerForArguments(src);
             f->AddVariableForArguments(count);
             f->AddVariableForArguments(kind);
-#if CUDART_VERSION > 3030    
+#if CUDART_VERSION >= 3010
             f->AddDevicePointerForArguments(stream);
 #else
             f->AddVariableForArguments(stream);
@@ -340,7 +340,7 @@ extern cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
             f->AddDevicePointerForArguments(src);
             f->AddVariableForArguments(count);
             f->AddVariableForArguments(kind);
-#if CUDART_VERSION > 3030    
+#if CUDART_VERSION >= 3010
             f->AddDevicePointerForArguments(stream);
 #else
             f->AddVariableForArguments(stream);
@@ -369,8 +369,8 @@ extern cudaError_t cudaMemcpyFromArrayAsync(void *dst, const cudaArray *src,
 }
 
 extern cudaError_t cudaMemcpyFromSymbol(void *dst, const char *symbol,
-        size_t count, size_t offset __dv(0),
-        cudaMemcpyKind kind __dv(cudaMemcpyDeviceToHost)) {
+        size_t count, size_t offset,
+        cudaMemcpyKind kind) {
     Frontend *f = Frontend::GetFrontend();
     switch (kind) {
         case cudaMemcpyHostToHost:
@@ -462,8 +462,8 @@ extern cudaError_t cudaMemcpyToArrayAsync(cudaArray *dst, size_t wOffset,
 }
 
 extern cudaError_t cudaMemcpyToSymbol(const char *symbol, const void *src,
-        size_t count, size_t offset __dv(0),
-        cudaMemcpyKind kind __dv(cudaMemcpyHostToDevice)) {
+        size_t count, size_t offset,
+        cudaMemcpyKind kind) {
     Frontend *f = Frontend::GetFrontend();
     switch (kind) {
         case cudaMemcpyHostToHost:
