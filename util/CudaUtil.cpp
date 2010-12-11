@@ -181,7 +181,7 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
 #ifndef CUDA_VERSION
 #error CUDA_VERSION not defined
 #endif
-#if CUDA_VERSION == 2030
+#if CUDA_VERSION >= 2030
     marshal->Add(bin->characteristic);
 #endif
     
@@ -270,8 +270,11 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
 #ifndef CUDA_VERSION
 #error CUDA_VERSION not defined
 #endif
-#if CUDA_VERSION == 2030
+#if CUDA_VERSION >= 2030
     bin->characteristic = marshal->Get<unsigned int>();
+#endif
+#if CUDA_VERSION >= 3010
+    bin->elf = NULL;
 #endif
     
     return bin;
