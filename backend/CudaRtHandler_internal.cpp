@@ -23,13 +23,14 @@
  *             Department of Applied Science
  */
 
+#include "CudaRtHandler.h"
+
 #include <string>
 #include <iostream>
 #include <cstdio>
 #include <vector>
-#include "cuda_runtime_api.h"
+
 #include "CudaUtil.h"
-#include "CudaRtHandler.h"
 
 using namespace std;
 

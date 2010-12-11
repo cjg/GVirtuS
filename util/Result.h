@@ -37,7 +37,9 @@
 #define	_RESULT_H
 
 #include <iostream>
-#include <builtin_types.h>
+
+#include <cuda_runtime_api.h>
+
 #include "Buffer.h"
 
 /**

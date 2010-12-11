@@ -23,11 +23,6 @@
  *             Department of Applied Science
  */
 
-#include <cuda_runtime_api.h>
-#include <cuda.h>
-#include <cstring>
-#include "Frontend.h"
-#include "CudaUtil.h"
 #include "CudaRt.h"
 
 #ifndef CUDART_VERSION

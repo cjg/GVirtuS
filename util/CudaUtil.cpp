@@ -33,10 +33,12 @@
  *
  */
 
+#include "CudaUtil.h"
+
 #include <cstdio>
 #include <iostream>
+
 #include <cuda.h>
-#include "CudaUtil.h"
 
 using namespace std;
 

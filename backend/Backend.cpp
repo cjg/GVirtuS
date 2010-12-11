@@ -33,9 +33,11 @@
  *
  */
 
-#include <iostream>
-#include "Process.h"
 #include "Backend.h"
+
+#include <iostream>
+
+#include "Process.h"
 
 Backend::Backend(const Communicator * communicator) : Observer() {
     mpCommunicator = const_cast<Communicator *> (communicator);

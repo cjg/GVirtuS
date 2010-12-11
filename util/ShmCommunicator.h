@@ -36,8 +36,9 @@
 #ifndef SHMCOMMUNICATOR_H
 #define	SHMCOMMUNICATOR_H
 
-#include "Communicator.h"
 #include <semaphore.h>
+
+#include "Communicator.h"
 
 class ShmCommunicator : public Communicator {
 public:

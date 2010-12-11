@@ -23,7 +23,6 @@
  *             Department of Applied Science
  */
 
-#include "Frontend.h"
 #include "CudaRt.h"
 
 /*

@@ -38,6 +38,7 @@
 #ifdef HAVE_VMCI_VMCI_SOCKETS_H
 
 #include <cstring>
+
 #include "VmciCommunicator.h"
 
 using namespace std;

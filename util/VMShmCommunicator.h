@@ -36,9 +36,11 @@
 #ifndef VMSHMCOMMUNICATOR_H
 #define	VMSHMCOMMUNICATOR_H
 
-#include "Communicator.h"
 #include <pthread.h>
+
 #include <string>
+
+#include "Communicator.h"
 
 typedef struct {
 	pthread_spinlock_t *mLock;

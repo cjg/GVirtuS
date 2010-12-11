@@ -33,10 +33,12 @@
  *
  */
 
+#include "Frontend.h"
+
 #include <iostream>
 #include <string>
+
 #include "ConfigFile.h"
-#include "Frontend.h"
 
 using namespace std;
 

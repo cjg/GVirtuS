@@ -33,8 +33,8 @@
  *
  */
 
-
 #include "VMShmCommunicator.h"
+
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -42,12 +42,13 @@
 #include <sys/un.h>
 #include <netinet/in.h>
 #include <fcntl.h>
-#include <cstring>
-#include <cstdio>
 #include <arpa/inet.h>
 #include <errno.h>
-#include <cstdlib>
 #include <sys/ioctl.h>
+
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
 
 using namespace std;
 

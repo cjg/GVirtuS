@@ -37,6 +37,7 @@
 #define	_TCPCOMMUNICATOR_H
 
 #include <ext/stdio_filebuf.h>
+
 #include "Communicator.h"
 
 /**

@@ -38,7 +38,9 @@
 
 #include <iostream>
 #include <cstdlib>
+
 #include "__cudaFatFormat.h"
+
 #include "Buffer.h"
 
 /**

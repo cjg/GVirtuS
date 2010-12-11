@@ -40,12 +40,13 @@
 #include <map>
 #include <string>
 #include <cstdio>
-#include <host_defines.h>
-#include <builtin_types.h>
-#include <driver_types.h>
+
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+#include <cuda_runtime_api.h>
+
 #include "Result.h"
 
 /**						

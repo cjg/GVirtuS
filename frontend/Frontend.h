@@ -36,11 +36,12 @@
 #ifndef _FRONTEND_H
 #define	_FRONTEND_H
 
-#include <builtin_types.h>
-#include "Communicator.h"
-#include "Result.h"
-#include "CudaUtil.h"
 #include <vector>
+
+#include <cuda_runtime_api.h>
+
+#include "Communicator.h"
+#include "CudaUtil.h"
 
 /**
  * Frontend is the object used by every cuda routine wrapper for requesting the

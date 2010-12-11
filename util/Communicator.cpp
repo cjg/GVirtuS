@@ -33,12 +33,14 @@
  *
  */
 
+#include "Communicator.h"
+
 #include <cstring>
 #include <cstdlib>
+
 #include "AfUnixCommunicator.h"
 #include "TcpCommunicator.h"
 #include "VmciCommunicator.h"
-#include "Communicator.h"
 #include "ShmCommunicator.h"
 #include "VMShmCommunicator.h"
 

@@ -23,9 +23,9 @@
  *             Department of Applied Science
  */
 
-#include <cuda_runtime_api.h>
-#include "CudaUtil.h"
 #include "CudaRtHandler.h"
+
+#include "CudaUtil.h"
 
 CUDA_ROUTINE_HANDLER(Free) {
     void *devPtr = input_buffer->GetFromMarshal<void *>();

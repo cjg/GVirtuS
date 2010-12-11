@@ -23,10 +23,7 @@
  *             Department of Applied Science
  */
 
-#include "Frontend.h"
 #include "CudaRt.h"
-
-#include <cuda_runtime_api.h>
 
 #ifndef CUDART_VERSION
 #error CUDART_VERSION not defined

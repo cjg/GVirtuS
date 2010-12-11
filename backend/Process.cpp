@@ -33,11 +33,11 @@
  *
  */
 
+#include "Process.h"
+
 #include <iostream>
 #include <cstdio>
 #include <string>
-#include "cuda_runtime_api.h"
-#include "Process.h"
 
 using namespace std;
 

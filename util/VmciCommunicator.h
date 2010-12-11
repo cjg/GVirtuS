@@ -40,8 +40,10 @@
 
 #ifdef HAVE_VMCI_VMCI_SOCKETS_H
 
-#include <vmci/vmci_sockets.h>
 #include <ext/stdio_filebuf.h>
+
+#include <vmci/vmci_sockets.h>
+
 #include "Communicator.h"
 
 #define AF_VMCI VMCISock_GetAFValue()

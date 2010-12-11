@@ -37,6 +37,7 @@
 #define	_COMMUNICATOR_H
 
 #include <iostream>
+
 #include "ConfigFile.h"
 
 /**

@@ -36,6 +36,7 @@
 #ifndef _CUDART_H
 #define	_CUDART_H
 
+#include <cuda.h>
 #include <cuda_runtime_api.h>
 
 #include "CudaUtil.h"

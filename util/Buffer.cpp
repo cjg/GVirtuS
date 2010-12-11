@@ -33,7 +33,6 @@
  *
  */
 
-#include <cstring>
 #include "Buffer.h"
 
 using namespace std;

@@ -23,7 +23,6 @@
  *             Department of Applied Science
  */
 
-#include <cuda_runtime_api.h>
 #include "CudaRtHandler.h"
 
 CUDA_ROUTINE_HANDLER(GetErrorString) {

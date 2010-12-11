@@ -36,10 +36,12 @@
 #ifndef _AFUNIXCOMMUNICATOR_H
 #define	_AFUNIXCOMMUNICATOR_H
 
-#include <ext/stdio_filebuf.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+#include <ext/stdio_filebuf.h>
+
 #include "Communicator.h"
 
 /**

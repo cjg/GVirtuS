@@ -36,11 +36,12 @@
 #ifndef _BUFFER_H
 #define	_BUFFER_H
 
+#include <stdint.h>
+
 #include <iostream>
 #include <cstdlib>
 #include <typeinfo>
 #include <cstring>
-#include <stdint.h>
 
 #include "Communicator.h"
 

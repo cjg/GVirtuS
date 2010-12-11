@@ -33,10 +33,12 @@
  *
  */
 
+#include "Subprocess.h"
+
 #include <sys/wait.h>
 #include <stdlib.h>
+
 #include <csignal>
-#include "Subprocess.h"
 
 Subprocess::Subprocess() {
     signal(SIGCHLD, SIG_IGN);

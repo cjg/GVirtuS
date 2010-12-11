@@ -33,13 +33,15 @@
  *
  */
 
+#include "ConfigFile.h"
+
 #include <cstring>
 #include <fstream>
-#include <expat.h>
 #include <iostream>
 #include <sstream>
 #include <stack>
-#include "ConfigFile.h"
+
+#include <expat.h>
 
 using namespace std;
 
