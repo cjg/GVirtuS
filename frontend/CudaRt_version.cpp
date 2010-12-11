@@ -27,7 +27,7 @@
 
 using namespace std;
 
-extern cudaError_t cudaDriverGetVersion(int *driverVersion) {
+extern "C" cudaError_t cudaDriverGetVersion(int *driverVersion) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(driverVersion);
     f->Execute("cudaDriverGetVersion");
@@ -36,7 +36,7 @@ extern cudaError_t cudaDriverGetVersion(int *driverVersion) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaRuntimeGetVersion(int *runtimeVersion) {
+extern "C" cudaError_t cudaRuntimeGetVersion(int *runtimeVersion) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(runtimeVersion);
     f->Execute("cudaDriverGetVersion");

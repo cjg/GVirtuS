@@ -27,7 +27,7 @@
 
 using namespace std;
 
-extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
+extern "C" cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
         size_t sharedMem, cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
 #if 0
@@ -57,7 +57,7 @@ extern cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
 #error CUDA_VERSION not defined
 #endif
 #if CUDA_VERSION >= 2030
-extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
+extern "C" cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
         const char *func) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(attr);
@@ -70,7 +70,7 @@ extern cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
 }
 #endif
 
-extern cudaError_t cudaLaunch(const char *entry) {
+extern "C" cudaError_t cudaLaunch(const char *entry) {
     Frontend *f = Frontend::GetFrontend();
 #if 0
     f->AddStringForArguments(CudaUtil::MarshalHostPointer(entry));
@@ -85,7 +85,7 @@ extern cudaError_t cudaLaunch(const char *entry) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaSetDoubleForDevice(double *d) {
+extern "C" cudaError_t cudaSetDoubleForDevice(double *d) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(d);
     f->Execute("cudaSetDoubleForDevice");
@@ -94,7 +94,7 @@ extern cudaError_t cudaSetDoubleForDevice(double *d) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaSetDoubleForHost(double *d) {
+extern "C" cudaError_t cudaSetDoubleForHost(double *d) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(d);
     f->Execute("cudaSetDoubleForHost");
@@ -103,7 +103,7 @@ extern cudaError_t cudaSetDoubleForHost(double *d) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaSetupArgument(const void *arg, size_t size,
+extern "C" cudaError_t cudaSetupArgument(const void *arg, size_t size,
         size_t offset) {
     Frontend *f = Frontend::GetFrontend();
 #if 0

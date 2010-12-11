@@ -27,7 +27,7 @@
 
 using namespace std;
 
-extern const char* cudaGetErrorString(cudaError_t error) {
+extern "C" const char* cudaGetErrorString(cudaError_t error) {
     Frontend *f = Frontend::GetFrontend();
     f->AddVariableForArguments(error);
     f->Execute("cudaGetErrorString");
@@ -35,7 +35,7 @@ extern const char* cudaGetErrorString(cudaError_t error) {
     return error_string;
 }
 
-extern cudaError_t cudaGetLastError(void) {
+extern "C" cudaError_t cudaGetLastError(void) {
     Frontend *f = Frontend::GetFrontend();
     f->Execute("cudaGetLastError");
     return f->GetExitCode();

@@ -27,7 +27,7 @@
 
 using namespace std;
 
-extern cudaError_t cudaChooseDevice(int *device, const cudaDeviceProp *prop) {
+extern "C" cudaError_t cudaChooseDevice(int *device, const cudaDeviceProp *prop) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(device);
     f->AddHostPointerForArguments(prop);
@@ -37,7 +37,7 @@ extern cudaError_t cudaChooseDevice(int *device, const cudaDeviceProp *prop) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaGetDevice(int *device) {
+extern "C" cudaError_t cudaGetDevice(int *device) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(device);
     f->Execute("cudaGetDevice");
@@ -46,7 +46,7 @@ extern cudaError_t cudaGetDevice(int *device) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaGetDeviceCount(int *count) {
+extern "C" cudaError_t cudaGetDeviceCount(int *count) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(count);
     f->Execute("cudaGetDeviceCount");
@@ -55,7 +55,7 @@ extern cudaError_t cudaGetDeviceCount(int *count) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
+extern "C" cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(prop);
     f->AddVariableForArguments(device);
@@ -73,21 +73,25 @@ extern cudaError_t cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaSetDevice(int device) {
+extern "C" cudaError_t cudaSetDevice(int device) {
     Frontend *f = Frontend::GetFrontend();
     f->AddVariableForArguments(device);
     f->Execute("cudaSetDevice");
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaSetDeviceFlags(int flags) {
+#if CUDART_VERSION >= 2030
+extern "C" cudaError_t cudaSetDeviceFlags(unsigned int flags) {
+#else
+extern "C" cudaError_t cudaSetDeviceFlags(int flags) {
+#endif
     Frontend *f = Frontend::GetFrontend();
     f->AddVariableForArguments(flags);
     f->Execute("cudaSetDeviceFlags");
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaSetValidDevices(int *device_arr, int len) {
+extern "C" cudaError_t cudaSetValidDevices(int *device_arr, int len) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(device_arr, len);
     f->AddVariableForArguments(len);

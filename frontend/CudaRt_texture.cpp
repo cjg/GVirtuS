@@ -27,7 +27,7 @@
 
 using namespace std;
 
-extern cudaError_t cudaBindTexture(size_t *offset,
+extern "C" cudaError_t cudaBindTexture(size_t *offset,
         const textureReference *texref, const void *devPtr,
         const cudaChannelFormatDesc *desc, size_t size) {
     Frontend *f = Frontend::GetFrontend();
@@ -44,7 +44,7 @@ extern cudaError_t cudaBindTexture(size_t *offset,
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaBindTexture2D(size_t *offset,
+extern "C" cudaError_t cudaBindTexture2D(size_t *offset,
         const textureReference *texref, const void *devPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height,
         size_t pitch) {
@@ -64,7 +64,7 @@ extern cudaError_t cudaBindTexture2D(size_t *offset,
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaBindTextureToArray(const textureReference *texref,
+extern "C" cudaError_t cudaBindTextureToArray(const textureReference *texref,
         const cudaArray *array, const cudaChannelFormatDesc *desc) {
     Frontend *f = Frontend::GetFrontend();
     // Achtung: passing the address and the content of the textureReference
@@ -76,7 +76,7 @@ extern cudaError_t cudaBindTextureToArray(const textureReference *texref,
     return f->GetExitCode();
 }
 
-extern cudaChannelFormatDesc cudaCreateChannelDesc(int x, int y, int z, int w,
+extern "C" cudaChannelFormatDesc cudaCreateChannelDesc(int x, int y, int z, int w,
         cudaChannelFormatKind f) {
     cudaChannelFormatDesc desc;
     desc.x = x;
@@ -87,7 +87,7 @@ extern cudaChannelFormatDesc cudaCreateChannelDesc(int x, int y, int z, int w,
     return desc;
 }
 
-extern cudaError_t cudaGetChannelDesc(cudaChannelFormatDesc *desc,
+extern "C" cudaError_t cudaGetChannelDesc(cudaChannelFormatDesc *desc,
         const cudaArray *array) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(desc);
@@ -99,7 +99,7 @@ extern cudaError_t cudaGetChannelDesc(cudaChannelFormatDesc *desc,
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaGetTextureAlignmentOffset(size_t *offset,
+extern "C" cudaError_t cudaGetTextureAlignmentOffset(size_t *offset,
         const textureReference *texref) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(offset);
@@ -110,7 +110,7 @@ extern cudaError_t cudaGetTextureAlignmentOffset(size_t *offset,
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaGetTextureReference(const textureReference **texref,
+extern "C" cudaError_t cudaGetTextureReference(const textureReference **texref,
         const char *symbol) {
     Frontend *f = Frontend::GetFrontend();
     // Achtung: skipping to add texref
@@ -125,7 +125,7 @@ extern cudaError_t cudaGetTextureReference(const textureReference **texref,
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaUnbindTexture(const textureReference *texref) {
+extern "C" cudaError_t cudaUnbindTexture(const textureReference *texref) {
     Frontend *f = Frontend::GetFrontend();
     f->AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
     f->Execute("cudaUnbindTexture");

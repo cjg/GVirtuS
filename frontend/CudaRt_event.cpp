@@ -31,7 +31,7 @@
 
 using namespace std;
 
-extern cudaError_t cudaEventCreate(cudaEvent_t *event) {
+extern "C" cudaError_t cudaEventCreate(cudaEvent_t *event) {
     Frontend *f = Frontend::GetFrontend();
 #if CUDART_VERSION >= 3010
     f->Execute("cudaEventCreate");
@@ -46,7 +46,12 @@ extern cudaError_t cudaEventCreate(cudaEvent_t *event) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, int flags) {
+#if CUDART_VERSION >= 3000
+extern "C" cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event,
+        unsigned int flags) {
+#else
+extern "C" cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, int flags) {
+#endif
     Frontend *f = Frontend::GetFrontend();
 #if CUDART_VERSION >= 3010
     f->AddVariableForArguments(flags);
@@ -63,7 +68,7 @@ extern cudaError_t cudaEventCreateWithFlags(cudaEvent_t *event, int flags) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaEventDestroy(cudaEvent_t event) {
+extern "C" cudaError_t cudaEventDestroy(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
 #if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
@@ -74,7 +79,7 @@ extern cudaError_t cudaEventDestroy(cudaEvent_t event) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_t end) {
+extern "C" cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_t end) {
     Frontend *f = Frontend::GetFrontend();
     f->AddHostPointerForArguments(ms);
 #if CUDART_VERSION >= 3010
@@ -90,7 +95,7 @@ extern cudaError_t cudaEventElapsedTime(float *ms, cudaEvent_t start, cudaEvent_
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaEventQuery(cudaEvent_t event) {
+extern "C" cudaError_t cudaEventQuery(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
 #if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
@@ -101,7 +106,7 @@ extern cudaError_t cudaEventQuery(cudaEvent_t event) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream) {
+extern "C" cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream) {
     Frontend *f = Frontend::GetFrontend();
 #if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
@@ -114,7 +119,7 @@ extern cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream) {
     return f->GetExitCode();
 }
 
-extern cudaError_t cudaEventSynchronize(cudaEvent_t event) {
+extern "C" cudaError_t cudaEventSynchronize(cudaEvent_t event) {
     Frontend *f = Frontend::GetFrontend();
 #if CUDART_VERSION >= 3010
     f->AddDevicePointerForArguments(event);
