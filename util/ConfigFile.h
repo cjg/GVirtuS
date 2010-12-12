@@ -117,15 +117,13 @@ public:
 
 
 public:
-    ConfigFile();
     ConfigFile(const char * filename);
     virtual ~ConfigFile();
-    Section * GetTopLevel() {
-        return mpContent;
-    }
+    bool HasKey(const std::string & key) const;
+    const std::string Get(const std::string & key) const;
     void Dump();
 private:
-    Section *mpContent;
+    std::map<std::string, std::string> mValues;
 };
 
 #endif	/* _CONFIGFILE_H */

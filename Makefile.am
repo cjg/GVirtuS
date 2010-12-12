@@ -1,1 +1,1 @@
-SUBDIRS=util frontend backend
+SUBDIRS=util frontend backend conf

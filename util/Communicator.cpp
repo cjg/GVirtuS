@@ -44,30 +44,25 @@
 #include "ShmCommunicator.h"
 #include "VMShmCommunicator.h"
 
-Communicator * Communicator::Create(ConfigFile::Element & config) {
-    const char *type = config.GetValue("type").c_str();
-    if (strcasecmp(type, "AfUnix") == 0) {
-        mode_t mode = 0660;
-        if (config.HasKey("mode"))
-            mode = config.GetShortValueFromOctal("mode");
-        return new AfUnixCommunicator(config.GetValue("path"), mode);
-    } else if (strcasecmp(type, "Tcp") == 0)
-        return new TcpCommunicator(
-            config.GetValue("hostname").c_str(),
-            config.GetShortValue("port"));
-#ifdef HAVE_VMCI
-    else if (strcasecmp(type, "Vmci") == 0)
-        return new VmciCommunicator(config.GetShortValue("port"),
-            config.GetShortValue("cid"));
-#endif
-    else if (strcasecmp(type, "Shm") == 0)
-        return new ShmCommunicator();
-    else if (strcasecmp(type, "VMShm") == 0)
-        return new VMShmCommunicator(
-            config.GetValue("hostname").c_str(),
-            config.GetShortValue("port"));
-    else
-        throw "Not a valid type!";
+using namespace std;
+
+Communicator * Communicator::Get(const std::string & communicator) {
+    const char *s = communicator.c_str();
+    const char *tmp = strstr(s, "://");
+    if (tmp == NULL)
+        throw "Invalid communicator string.";
+    char *type = new char[tmp - s + 1];
+    memmove(type, s, tmp - s);
+    type[tmp - s] = 0;
+    if (strcmp(type, "afunix") == 0)
+        return new AfUnixCommunicator(communicator);
+    if (strcmp(type, "shm") == 0)
+        return new ShmCommunicator(communicator);
+    if (strcmp(type, "tcp") == 0)
+        return new TcpCommunicator(communicator);
+    if (strcmp(type, "vmshm") == 0)
+        return new VMShmCommunicator(communicator);
+    throw "Not a valid communicator type!";
     return NULL;
 }
 

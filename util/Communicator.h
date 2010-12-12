@@ -62,7 +62,8 @@ public:
      * 
      * @return a new Communicator.
      */
-    static Communicator * Create(ConfigFile::Element & config);
+    static Communicator * Get(const std::string & communicator);
+
     virtual ~Communicator();
 
     /** 

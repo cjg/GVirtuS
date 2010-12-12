@@ -53,19 +53,14 @@ void Frontend::Init() {
     if((config_file = getenv("CONFIG_FILE")) == NULL)
         config_file = _CONFIG_FILE;
     ConfigFile *cf = new ConfigFile(config_file);
-    ConfigFile::Section communicators =
-            cf->GetTopLevel()->GetSection("communicators");
-    string default_communicator_name;
+    string communicator;
     char *tmp;
     if((tmp = getenv("COMMUNICATOR")) != NULL)
-        default_communicator_name = string(tmp);
+        communicator = string(tmp);
     else
-        default_communicator_name =
-                cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
-        ConfigFile::Element default_communicator =
-                communicators.GetElement(default_communicator_name);
-        mpCommunicator = Communicator::Create(default_communicator);
-        mpCommunicator->Connect();
+        communicator = cf->Get("communicator");
+    mpCommunicator = Communicator::Get(communicator);
+    mpCommunicator->Connect();
     mpInputBuffer = new Buffer();
     mpOutputBuffer = new Buffer();
     mpLaunchBuffer = new Buffer();

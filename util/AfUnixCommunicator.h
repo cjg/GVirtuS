@@ -49,6 +49,7 @@
  */
 class AfUnixCommunicator : public Communicator {
 public:
+    AfUnixCommunicator(const std::string &communicator);
     /** 
      * Creates a new AfUnixCommunicator for binding or connecting it to the
      * AF_UNIX socket specified from path.
@@ -57,7 +58,7 @@ public:
      * @param mode
      * @param use_shm	
      */
-    AfUnixCommunicator(std::string &path, mode_t mode = 00660);
+    AfUnixCommunicator(std::string &path, mode_t mode);
 
     /** 
      * Creates a new AfUnixCommunicator for binding or connecting it to the
@@ -67,7 +68,7 @@ public:
      * @param mode
      * @param use_shm	
      */
-    AfUnixCommunicator(const char * path, mode_t mode = 00660);
+    AfUnixCommunicator(const char * path, mode_t mode);
 
     /**
      * Creates a new AfUnixCommunicator for binding or connecting it to the

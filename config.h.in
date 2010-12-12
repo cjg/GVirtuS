@@ -21,9 +21,6 @@
 /* Define to 1 if you have the `cudart' library (-lcudart). */
 #undef HAVE_LIBCUDART
 
-/* Define to 1 if you have the `expat' library (-lexpat). */
-#undef HAVE_LIBEXPAT
-
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 #undef HAVE_MALLOC

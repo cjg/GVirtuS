@@ -90,6 +90,18 @@ int vmshm_sem_wait(vmshm_sem_t self) {
     return value;
 }
 
+VMShmCommunicator::VMShmCommunicator(const std::string& communicator) {
+    const char *valueptr = strstr(communicator.c_str(), "://") + 3;
+    const char *portptr = strchr(valueptr, ':');
+    if (portptr == NULL)
+        throw "Port not specified.";
+    mPort = strtol(portptr + 1, NULL, 10);
+    char *hostname = strdup(valueptr);
+    hostname[portptr - valueptr] = 0;
+    mHostname = string(hostname);
+    free(hostname);
+}
+
 VMShmCommunicator::VMShmCommunicator(const char *hostname, short port) {
     mHostname = string(hostname);
     mPort = port;

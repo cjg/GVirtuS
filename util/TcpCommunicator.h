@@ -45,6 +45,7 @@
  */
 class TcpCommunicator : public Communicator {
 public:
+    TcpCommunicator(const std::string & communicator);
     TcpCommunicator(const char *hostname, short port);
     TcpCommunicator(int fd, const char *hostname);
     virtual ~TcpCommunicator();

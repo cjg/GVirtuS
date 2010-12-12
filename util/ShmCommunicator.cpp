@@ -53,6 +53,10 @@
 
 using namespace std;
 
+ShmCommunicator::ShmCommunicator(const std::string& communicator) {
+    
+}
+
 ShmCommunicator::ShmCommunicator() {
 }
 

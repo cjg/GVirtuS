@@ -42,8 +42,27 @@
 #include <netdb.h>
 
 #include <cstring>
+#include <cstdlib>
 
 using namespace std;
+
+TcpCommunicator::TcpCommunicator(const std::string& communicator) {
+    const char *valueptr = strstr(communicator.c_str(), "://") + 3;
+    const char *portptr = strchr(valueptr, ':');
+    if (portptr == NULL)
+        throw "Port not specified.";
+    mPort = strtol(portptr + 1, NULL, 10);
+    char *hostname = strdup(valueptr);
+    hostname[portptr - valueptr] = 0;
+    mHostname = string(hostname);
+    struct hostent *ent = gethostbyname(hostname);
+    free(hostname);
+    if (ent == NULL)
+        throw "TcpCommunicator: Can't resolve hostname '" + mHostname + "'.";
+    mInAddrSize = ent->h_length;
+    mInAddr = new char[mInAddrSize];
+    memcpy(mInAddr, *ent->h_addr_list, mInAddrSize);
+}
 
 TcpCommunicator::TcpCommunicator(const char *hostname, short port) {
     mHostname = string(hostname);
@@ -74,7 +93,7 @@ void TcpCommunicator::Serve() {
 
     socket_addr.sin_family = AF_INET;
     socket_addr.sin_port = htons(mPort);
-    memcpy(&socket_addr.sin_addr, mInAddr, mInAddrSize);
+    socket_addr.sin_addr.s_addr = INADDR_ANY;
 
     int on = 1;
     setsockopt(mSocketFd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
@@ -123,7 +142,7 @@ void TcpCommunicator::Close() {
 
 size_t TcpCommunicator::Read(char* buffer, size_t size) {
     mpInput->read(buffer, size);
-    if(mpInput->bad() || mpInput->eof())
+    if (mpInput->bad() || mpInput->eof())
         return 0;
     return size;
 }

@@ -83,18 +83,12 @@ int main(int argc, char** argv) {
     }
     try {
         ConfigFile *cf = new ConfigFile(argv[1]);
-        ConfigFile::Section communicators =
-                cf->GetTopLevel()->GetSection("communicators");
-        string default_communicator_name =
-                cf->GetTopLevel()->GetElement("default_communicator").GetValue("value");
-        ConfigFile::Element default_communicator =
-                communicators.GetElement(default_communicator_name);
-        Communicator *c = Communicator::Create(default_communicator);
+        Communicator *c = Communicator::Get(cf->Get("communicator"));
+        delete cf;
         Backend *b = new Backend(c);
         b->Start();
         delete b;
         delete c;
-        delete cf;
     } catch (string &e) {
         cerr << "Exception: " << e << endl;
     } catch(const char *e) {

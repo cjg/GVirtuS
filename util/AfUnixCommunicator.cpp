@@ -40,8 +40,24 @@
 #include <sys/un.h>
 
 #include <csignal>
+#include <stdlib.h>
 
 using namespace std;
+
+AfUnixCommunicator::AfUnixCommunicator(const std::string& communicator) {
+    const char *valueptr = strstr(communicator.c_str(), "://") + 3;
+    const char *modeptr = strchr(valueptr, ':');
+    if(modeptr != NULL) {
+        mMode = strtol(modeptr + 1, NULL, 8);
+        char *path = strdup(valueptr);
+        path[modeptr - valueptr] = 0;
+        mPath = string(path);
+        free(path);
+    } else {
+        mPath = string(valueptr);
+        mMode = 0660;
+    }
+}
 
 AfUnixCommunicator::AfUnixCommunicator(string &path, mode_t mode) {
     mPath = path;

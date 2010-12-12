@@ -35,15 +35,11 @@
 
 #include "ConfigFile.h"
 
-#include <cstring>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <stack>
+using namespace std;
 
+#if 0
 #include <expat.h>
 
-using namespace std;
 
 /* Element Implementation */
 ConfigFile::Element::Element(std::string & name) {
@@ -372,4 +368,101 @@ ConfigFile::~ConfigFile() {
 
 void ConfigFile::Dump() {
     mpContent->Dump();
+}
+
+#endif
+
+#include <stdio.h>
+
+#include <iostream>
+#include <sstream>
+#include <cstdlib>
+#include <string.h>
+
+void eatcomments(char *s) {
+    char *comments = strchr(s, '#');
+    if(comments)
+        s[comments - s] = 0;
+}
+
+void stripspaces(char *s) {
+    int i = 0;
+    size_t len = strlen(s);
+    for(i = 0; i < len; i++)
+        if(!isspace(s[i]))
+            break;
+    if(i < len) {
+        memmove(s, s + i, len - i);
+        s[len - i] = 0;
+    }
+    for(i = strlen(s) - 1; i >= 0; i--)
+        if(isspace(s[i]))
+            s[i] = 0;
+        else
+            break;
+}
+
+bool split(const char *s, char **key, char **value) {
+    const char *valueptr = strchr(s, ':');
+    if(valueptr == NULL)
+        return false;
+    *key = (char *) malloc(valueptr - s + 1);
+    memmove(*key, s, valueptr - s);
+    (*key)[valueptr - s] = 0;
+    *value = strdup(valueptr + 1);
+    stripspaces(*key);
+    stripspaces(*value);
+    return true;
+}
+
+ConfigFile::ConfigFile(const char* filename) {
+    FILE *fp = fopen(filename, "r");
+    char *line = NULL;
+    size_t size = 0;
+    while(getline(&line, &size, fp) >= 0) {
+        eatcomments(line);
+        stripspaces(line);
+        if(strlen(line) == 0)
+            continue;
+        char *key, *value;
+        if(!split(line, &key, &value))
+            throw "Invalid entry in config file.";
+        mValues.insert(make_pair(string(key), string(value)));
+        free(key);
+        free(value);
+    }
+    free(line);
+    fclose(fp);
+    Dump();
+}
+
+ConfigFile::~ConfigFile() {
+
+}
+
+const string tolower(const std::string &s) {
+    string l;
+    stringstream ss;
+
+    for(int i = 0; i < s.length(); i++)
+        ss << (char)(tolower(s[i]));
+    return ss.str();
+}
+
+bool ConfigFile::HasKey(const std::string& key) const {
+    map<string,string>::const_iterator i = mValues.find(tolower(key));
+    return i != mValues.end();
+}
+
+const string ConfigFile::Get(const std::string& key) const {
+    map<string,string>::const_iterator i = mValues.find(tolower(key));
+    if(i == mValues.end())
+        throw "Key not found.";
+    return i->second;
+}
+
+void ConfigFile::Dump() {
+    for(map<string,string>::iterator i = mValues.begin(); i != mValues.end();
+            i++)
+        cout << "ConfigFile[" << i->first << "]: " << i->second << endl;
 }

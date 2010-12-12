@@ -46,7 +46,6 @@ LDFLAGS="$LDFLAGS $CUDA_LIB_FLAGS"
 AC_SUBST(CUDA_LIB_FLAGS)
 
 # Checks for libraries.
-AC_CHECK_LIB([expat], [XML_ParserCreate], , AC_MSG_ERROR([Could not find the expat library.]))
 AC_CHECK_LIB([cudart], [__cudaRegisterFatBinary], , AC_MSG_ERROR([Could not find the cuda library.]))
 LIBS=""
 
@@ -72,11 +71,12 @@ AC_CHECK_HEADER([cuda.h], [], [
             AC_MSG_ERROR([Could not find the cuda header.])
         ])])
 
-CPPFLAGS="$CPPFLAGS -I`pwd`/util -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.xml\\\""
+CPPFLAGS="$CPPFLAGS -I`pwd`/util -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.properties\\\""
 CXXFLAGS="$CXXFLAGS -pedantic -Werror"
 
 AC_CONFIG_FILES([Makefile
                  backend/Makefile
+                 conf/Makefile
                  frontend/Makefile
                  util/Makefile])
 AC_OUTPUT

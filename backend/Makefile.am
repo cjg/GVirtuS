@@ -17,4 +17,4 @@ CudaRtHandler_version.cpp\
 main.cpp\
 Process.cpp\
 Process.h
-gvirtus_backend_LDADD = ../util/libutil.a -lexpat $(CUDA_LIB_FLAGS) -lcudart -lrt
+gvirtus_backend_LDADD = ../util/libutil.a $(CUDA_LIB_FLAGS) -lcudart -lrt

@@ -42,6 +42,7 @@
 
 class ShmCommunicator : public Communicator {
 public:
+    ShmCommunicator(const std::string & communicator);
     ShmCommunicator();
     virtual ~ShmCommunicator();
     void Serve();

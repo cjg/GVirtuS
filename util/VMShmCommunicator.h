@@ -49,6 +49,7 @@ typedef struct {
 
 class VMShmCommunicator : public Communicator {
 public:
+    VMShmCommunicator(const std::string & communicator);
     VMShmCommunicator(const char *hostname, short port);
     virtual ~VMShmCommunicator();
     void Serve();

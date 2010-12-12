@@ -15,6 +15,6 @@ CudaRt_thread.cpp\
 CudaRt_version.cpp\
 Frontend.cpp\
 Frontend.h
-libcudart_la_LIBADD = ../util/libutil.a -lexpat -lrt
+libcudart_la_LIBADD = ../util/libutil.a -lrt
 libcudart_la_LDFLAGS = -version-info 3:14:0
 
