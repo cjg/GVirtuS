@@ -433,7 +433,6 @@ ConfigFile::ConfigFile(const char* filename) {
     }
     free(line);
     fclose(fp);
-    Dump();
 }
 
 ConfigFile::~ConfigFile() {
