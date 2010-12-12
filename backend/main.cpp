@@ -77,12 +77,11 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    if(argc != 2) {
-        cerr << "Usage: " << argv[0] << " /path/to/config.xml" << endl;
-        return 1;
-    }
+    string conf = _CONFIG_FILE;
+    if(argc == 2)
+        conf = string(argv[1]);
     try {
-        ConfigFile *cf = new ConfigFile(argv[1]);
+        ConfigFile *cf = new ConfigFile(conf.c_str());
         Communicator *c = Communicator::Get(cf->Get("communicator"));
         delete cf;
         Backend *b = new Backend(c);
