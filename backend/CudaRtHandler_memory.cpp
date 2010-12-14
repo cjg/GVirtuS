@@ -208,10 +208,16 @@ CUDA_ROUTINE_HANDLER(MemcpyFromSymbol) {
     void *dst = input_buffer->GetFromMarshal<void *>();
     char *handler = input_buffer->AssignString();
     char *symbol = input_buffer->AssignString();
-    symbol = (char *) CudaUtil::UnmarshalPointer(handler);
+    handler = (char *) CudaUtil::UnmarshalPointer(handler);
     size_t count = input_buffer->Get<size_t > ();
     size_t offset = input_buffer->Get<size_t > ();
     cudaMemcpyKind kind = input_buffer->Get<cudaMemcpyKind > ();
+    size_t size;
+
+    if(cudaGetSymbolSize(&size, symbol) != cudaSuccess) {
+        symbol = handler;
+        cudaGetLastError();
+    }
 
     cudaError_t exit_code;
     Result * result = NULL;
