@@ -32,6 +32,9 @@ using namespace std;
 #endif
 
 #if CUDART_VERSION <= 2030
+
+#include <cuda_gl_interop.h>
+
 extern "C" cudaError_t cudaGLMapBufferObject(void **devPtr, GLuint bufObj) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
