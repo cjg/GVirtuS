@@ -78,5 +78,6 @@ AC_CONFIG_FILES([Makefile
                  backend/Makefile
                  conf/Makefile
                  frontend/Makefile
+                 test/Makefile
                  util/Makefile])
 AC_OUTPUT

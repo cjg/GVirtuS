@@ -1,1 +1,1 @@
-SUBDIRS=util frontend backend conf
+SUBDIRS=util frontend backend conf test
