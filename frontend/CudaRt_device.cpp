@@ -80,7 +80,7 @@ extern "C" cudaError_t cudaSetDevice(int device) {
     return f->GetExitCode();
 }
 
-#if CUDART_VERSION >= 2030
+#if CUDART_VERSION >= 3000
 extern "C" cudaError_t cudaSetDeviceFlags(unsigned int flags) {
 #else
 extern "C" cudaError_t cudaSetDeviceFlags(int flags) {
