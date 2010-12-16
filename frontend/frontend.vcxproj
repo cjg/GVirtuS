@@ -40,7 +40,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>../util;$(CUDA_INC_PATH);$(IncludePath)</IncludePath>
-    <LibraryPath>..\gvirtus\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>../Debug;$(LibraryPath)</LibraryPath>
+    <TargetName>cudart32_32_7</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -56,7 +57,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>util.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>util.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -94,6 +96,9 @@
   <ItemGroup>
     <ClInclude Include="CudaRt.h" />
     <ClInclude Include="Frontend.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
