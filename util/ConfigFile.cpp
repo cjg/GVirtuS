@@ -110,6 +110,8 @@ ConfigFile::ConfigFile(const char* filename) {
 	FILE *fp;
 	fopen_s(&fp, filename, "r");
 #endif
+	if(fp == NULL)
+		throw "Cannot open gVirtuS config file.";
     char *line = NULL;
     size_t size = 0;
     while(getline(&line, &size, fp) >= 0) {

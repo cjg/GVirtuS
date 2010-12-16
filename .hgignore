@@ -35,3 +35,7 @@
 ^autom4te\.cache/traces\.2$
 ^conf/Makefile$
 ^conf/Makefile\.in$
+\.o$
+glob:\.deps/
+glob:Debug/
+glob:Release/

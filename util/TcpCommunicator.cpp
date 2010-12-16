@@ -42,7 +42,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #else
-#include <WinSock.h>
+#include <WinSock2.h>
+static bool initialized = false;
 #endif
 
 #include <cstring>
@@ -51,6 +52,14 @@
 using namespace std;
 
 TcpCommunicator::TcpCommunicator(const std::string& communicator) {
+#ifdef _WIN32
+	if(!initialized) {
+		WSADATA data;
+		if(WSAStartup(MAKEWORD(2, 2), &data) != 0)
+			throw "Cannot initialized WinSock.";
+		initialized = true;
+	}
+#endif
     const char *valueptr = strstr(communicator.c_str(), "://") + 3;
     const char *portptr = strchr(valueptr, ':');
     if (portptr == NULL)
