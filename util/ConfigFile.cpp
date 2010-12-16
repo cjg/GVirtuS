@@ -60,7 +60,7 @@ void stripspaces(char *s) {
         memmove(s, s + i, len - i);
         s[len - i] = 0;
     }
-    for(i = strlen(s) - 1; i >= 0; i--)
+    for(i = strlen(s) - 1; strlen(s) > 0 && i >= 0; i--)
         if(isspace(s[i]))
             s[i] = 0;
         else
