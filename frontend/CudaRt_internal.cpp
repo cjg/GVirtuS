@@ -30,7 +30,7 @@
  KEEP THEM WITH CARE
  */
 
-extern "C" void** __cudaRegisterFatBinary(void *fatCubin) {
+extern "C" __host__ void** __cudaRegisterFatBinary(void *fatCubin) {
     /* Fake host pointer */
     Buffer * input_buffer = new Buffer();
     input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) fatCubin));
@@ -44,14 +44,14 @@ extern "C" void** __cudaRegisterFatBinary(void *fatCubin) {
     return NULL;
 }
 
-extern "C" void __cudaUnregisterFatBinary(void **fatCubinHandle) {
+extern "C" __host__ void __cudaUnregisterFatBinary(void **fatCubinHandle) {
     Frontend *f = Frontend::GetFrontend();
     f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
 
     f->Execute("cudaUnregisterFatBinary");
 }
 
-extern "C" void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
+extern "C" __host__ void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
         char *deviceFun, const char *deviceName, int thread_limit, uint3 *tid,
         uint3 *bid, dim3 *bDim, dim3 *gDim, int *wSize) {
     Frontend *f = Frontend::GetFrontend();
@@ -76,7 +76,7 @@ extern "C" void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFu
     wSize = f->GetOutputHostPointer<int>();
 }
 
-extern "C" void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
+extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
         char *deviceAddress, const char *deviceName, int ext, int size,
         int constant, int global) {
     Frontend *f = Frontend::GetFrontend();
@@ -91,14 +91,14 @@ extern "C" void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
     f->Execute("cudaRegisterVar");
 }
 
-extern "C" void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
+extern "C" __host__ void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
     Frontend *f = Frontend::GetFrontend();
     f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     f->AddStringForArguments((char *) devicePtr);
     f->Execute("cudaRegisterShared");
 }
 
-extern "C" void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
+extern "C" __host__ void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
         size_t size, size_t alignment, int storage) {
     Frontend *f = Frontend::GetFrontend();
     f->AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
@@ -109,7 +109,7 @@ extern "C" void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
     f->Execute("cudaRegisterSharedVar");
 }
 
-extern "C" void __cudaRegisterTexture(void **fatCubinHandle,
+extern "C" __host__ void __cudaRegisterTexture(void **fatCubinHandle,
         const textureReference *hostVar, void **deviceAddress, char *deviceName,
         int dim, int norm, int ext) {
     Frontend *f = Frontend::GetFrontend();
@@ -128,14 +128,14 @@ extern "C" void __cudaRegisterTexture(void **fatCubinHandle,
 
 /* */
 
-extern "C" int __cudaSynchronizeThreads(void** x, void* y) {
+extern "C" __host__ int __cudaSynchronizeThreads(void** x, void* y) {
     // FIXME: implement
     cerr << "*** Error: __cudaSynchronizeThreads() not yet implemented!"
             << endl;
     return 0;
 }
 
-extern "C" void __cudaTextureFetch(const void *tex, void *index, int integer,
+extern "C" __host__ void __cudaTextureFetch(const void *tex, void *index, int integer,
         void *val) {
     // FIXME: implement 
     cerr << "*** Error: __cudaTextureFetch() not yet implemented!" << endl;

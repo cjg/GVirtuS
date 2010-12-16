@@ -50,14 +50,20 @@ static bool initialized = false;
  */
 void Frontend::Init() {
     const char *config_file;
+#ifdef _CONFIG_FILE
     if((config_file = getenv("CONFIG_FILE")) == NULL)
         config_file = _CONFIG_FILE;
+#else
+	config_file = "gvirtus.properties";
+#endif
     ConfigFile *cf = new ConfigFile(config_file);
     string communicator;
+#ifndef _WIN32
     char *tmp;
-    if((tmp = getenv("COMMUNICATOR")) != NULL)
+	if((tmp = getenv("COMMUNICATOR")) != NULL)
         communicator = string(tmp);
     else
+#endif
         communicator = cf->Get("communicator");
     mpCommunicator = Communicator::Get(communicator);
     mpCommunicator->Connect();

@@ -27,13 +27,13 @@
 
 using namespace std;
 
-extern "C" cudaError_t cudaThreadSynchronize() {
+extern "C" __host__ cudaError_t CUDARTAPI cudaThreadSynchronize() {
     Frontend *f = Frontend::GetFrontend();
     f->Execute("cudaThreadSynchronize");
     return f->GetExitCode();
 }
 
-extern "C" cudaError_t cudaThreadExit() {
+extern "C" __host__ cudaError_t CUDARTAPI cudaThreadExit() {
     Frontend *f = Frontend::GetFrontend();
     f->Execute("cudaThreadExit");
     return f->GetExitCode();

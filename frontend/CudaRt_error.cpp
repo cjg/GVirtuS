@@ -27,15 +27,15 @@
 
 using namespace std;
 
-extern "C" const char* cudaGetErrorString(cudaError_t error) {
+extern "C" __host__ const char* CUDARTAPI cudaGetErrorString(cudaError_t error) {
     Frontend *f = Frontend::GetFrontend();
     f->AddVariableForArguments(error);
     f->Execute("cudaGetErrorString");
-    char *error_string = strdup(f->GetOutputString());
+    char *error_string = _strdup(f->GetOutputString());
     return error_string;
 }
 
-extern "C" cudaError_t cudaGetLastError(void) {
+extern "C" __host__ cudaError_t CUDARTAPI cudaGetLastError(void) {
     Frontend *f = Frontend::GetFrontend();
     f->Execute("cudaGetLastError");
     return f->GetExitCode();

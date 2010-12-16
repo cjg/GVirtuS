@@ -35,14 +35,14 @@ using namespace std;
 
 #include <cuda_gl_interop.h>
 
-extern "C" cudaError_t cudaGLMapBufferObject(void **devPtr, GLuint bufObj) {
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLMapBufferObject(void **devPtr, GLuint bufObj) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
     exit(-1);
     return cudaErrorUnknown;
 }
 
-extern "C" cudaError_t cudaGLMapBufferObjectAsync(void **devPtr, GLuint bufObj,
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLMapBufferObjectAsync(void **devPtr, GLuint bufObj,
         cudaStream_t stream) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
@@ -50,14 +50,14 @@ extern "C" cudaError_t cudaGLMapBufferObjectAsync(void **devPtr, GLuint bufObj,
     return cudaErrorUnknown;
 }
 
-extern "C" cudaError_t cudaGLRegisterBufferObject(GLuint bufObj) {
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLRegisterBufferObject(GLuint bufObj) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
     exit(-1);
     return cudaErrorUnknown;
 }
 
-extern "C" cudaError_t cudaGLSetBufferObjectMapFlags(GLuint bufObj,
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLSetBufferObjectMapFlags(GLuint bufObj,
         unsigned int flags) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
@@ -65,21 +65,21 @@ extern "C" cudaError_t cudaGLSetBufferObjectMapFlags(GLuint bufObj,
     return cudaErrorUnknown;
 }
 
-extern "C" cudaError_t cudaGLSetGLDevice(int device) {
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLSetGLDevice(int device) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
     exit(-1);
     return cudaErrorUnknown;
 }
 
-extern "C" cudaError_t cudaGLUnmapBufferObject(GLuint bufObj) {
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLUnmapBufferObject(GLuint bufObj) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
     exit(-1);
     return cudaErrorUnknown;
 }
 
-extern "C" cudaError_t cudaGLUnmapBufferObjectAsync(GLuint bufObj,
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLUnmapBufferObjectAsync(GLuint bufObj,
         cudaStream_t stream) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
@@ -87,7 +87,7 @@ extern "C" cudaError_t cudaGLUnmapBufferObjectAsync(GLuint bufObj,
     return cudaErrorUnknown;
 }
 
-extern "C" cudaError_t cudaGLUnregisterBufferObject(GLuint bufObj) {
+extern "C" __host__ cudaError_t CUDARTAPI cudaGLUnregisterBufferObject(GLuint bufObj) {
     cerr << "I'm sorry but it isn't possibile to use OpenGL Interoperability "
             << "API." << endl << "Giving up ..." << endl;
     exit(-1);
