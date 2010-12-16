@@ -56,7 +56,11 @@ TcpCommunicator::TcpCommunicator(const std::string& communicator) {
     if (portptr == NULL)
         throw "Port not specified.";
     mPort = (short) strtol(portptr + 1, NULL, 10);
+#ifdef _WIN32
     char *hostname = _strdup(valueptr);
+#else
+    char *hostname = strdup(valueptr);
+#endif
     hostname[portptr - valueptr] = 0;
     mHostname = string(hostname);
     struct hostent *ent = gethostbyname(hostname);
@@ -164,11 +168,16 @@ void TcpCommunicator::Sync() {
 }
 
 void TcpCommunicator::InitializeStream() {
-	FILE *i = _fdopen(mSocketFd, "r");
-	mpInputBuf = new filebuf(i);
-	mpInput = new istream(mpInputBuf);
+#ifdef _WIN32
+        FILE *i = _fdopen(mSocketFd, "r");
 	FILE *o = _fdopen(mSocketFd, "w");
+	mpInputBuf = new filebuf(i);
 	mpOutputBuf = new filebuf(o);
+#else
+	mpInputBuf = new __gnu_cxx::stdio_filebuf<char>(mSocketFd, ios_base::in);
+	mpOutputBuf = new __gnu_cxx::stdio_filebuf<char>(mSocketFd, ios_base::out);
+#endif
+	mpInput = new istream(mpInputBuf);
 	mpOutput = new ostream(mpOutputBuf);
 }
 

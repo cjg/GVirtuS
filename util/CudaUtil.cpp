@@ -58,7 +58,11 @@ char * CudaUtil::MarshalHostPointer(const void* ptr) {
 }
 
 void CudaUtil::MarshalHostPointer(const void * ptr, char * marshal) {
+#ifdef _WIN32
     sprintf_s(marshal, 10, "%p", ptr);
+#else
+    sprintf(marshal, "%p", ptr);
+#endif
 }
 
 char * CudaUtil::MarshalDevicePointer(const void* devPtr) {
@@ -68,7 +72,11 @@ char * CudaUtil::MarshalDevicePointer(const void* devPtr) {
 }
 
 void CudaUtil::MarshalDevicePointer(const void* devPtr, char * marshal) {
+#ifdef _WIN32
     sprintf_s(marshal, 10, "%p", devPtr);
+#else
+    sprintf(marshal, "%p", devPtr);
+#endif
 }
 
 #if 0

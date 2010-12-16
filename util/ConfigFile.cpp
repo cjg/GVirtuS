@@ -74,7 +74,11 @@ bool split(const char *s, char **key, char **value) {
     *key = (char *) malloc(valueptr - s + 1);
     memmove(*key, s, valueptr - s);
     (*key)[valueptr - s] = 0;
+#ifdef _WIN32
     *value = _strdup(valueptr + 1);
+#else
+    *value = strdup(valueptr + 1);
+#endif
     stripspaces(*key);
     stripspaces(*value);
     return true;

@@ -31,7 +31,11 @@ extern "C" __host__ const char* CUDARTAPI cudaGetErrorString(cudaError_t error) 
     Frontend *f = Frontend::GetFrontend();
     f->AddVariableForArguments(error);
     f->Execute("cudaGetErrorString");
+#ifdef _WIN32
     char *error_string = _strdup(f->GetOutputString());
+#else
+    char *error_string = strdup(f->GetOutputString());
+#endif
     return error_string;
 }
 

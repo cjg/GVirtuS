@@ -36,7 +36,11 @@
 #ifndef _TCPCOMMUNICATOR_H
 #define	_TCPCOMMUNICATOR_H
 
+#ifdef _WIN32
 #include <fstream>
+#else
+#include <ext/stdio_filebuf.h>
+#endif
 
 #include "Communicator.h"
 
@@ -65,8 +69,13 @@ private:
     int mInAddrSize;
     short mPort;
     int mSocketFd;
-	std::filebuf *mpInputBuf;
+#ifdef _WIN32
+    std::filebuf *mpInputBuf;
     std::filebuf *mpOutputBuf;
+#else
+    __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
+    __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
+#endif
 };
 
 #endif	/* _TCPCOMMUNICATOR_H */
