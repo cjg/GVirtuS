@@ -33,6 +33,8 @@
  *
  */
 
+#ifndef _WIN32
+
 #include "AfUnixCommunicator.h"
 
 #include <sys/types.h>
@@ -157,3 +159,5 @@ void AfUnixCommunicator::InitializeStream() {
     /* FIXME: handle SIGPIPE instead of just ignoring it */
     signal(SIGPIPE, SIG_IGN);
 }
+
+#endif

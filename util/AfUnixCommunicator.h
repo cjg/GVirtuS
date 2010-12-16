@@ -36,6 +36,8 @@
 #ifndef _AFUNIXCOMMUNICATOR_H
 #define	_AFUNIXCOMMUNICATOR_H
 
+#ifndef __WIN32
+
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -100,6 +102,8 @@ private:
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
     mode_t mMode;
 };
+
+#endif
 
 #endif	/* _AFUNIXCOMMUNICATOR_H */
 

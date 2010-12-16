@@ -33,6 +33,8 @@
  *
  */
 
+#ifndef _WIN32
+
 #include "../config.h"
 
 #ifdef HAVE_VMCI_VMCI_SOCKETS_H
@@ -129,3 +131,5 @@ void VmciCommunicator::InitializeStream() {
 }
 
 #endif /* HAVE_VMCI */
+
+#endif

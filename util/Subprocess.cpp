@@ -33,6 +33,8 @@
  *
  */
 
+#ifndef _WIN32
+
 #include "Subprocess.h"
 
 #include <sys/wait.h>
@@ -81,3 +83,4 @@ pid_t Subprocess::GetPid() {
     return mPid;
 }
 
+#endif

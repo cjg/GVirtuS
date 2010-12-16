@@ -51,7 +51,7 @@ void eatcomments(char *s) {
 }
 
 void stripspaces(char *s) {
-    int i = 0;
+    unsigned i = 0;
     size_t len = strlen(s);
     for(i = 0; i < len; i++)
         if(!isspace(s[i]))
@@ -74,14 +74,38 @@ bool split(const char *s, char **key, char **value) {
     *key = (char *) malloc(valueptr - s + 1);
     memmove(*key, s, valueptr - s);
     (*key)[valueptr - s] = 0;
-    *value = strdup(valueptr + 1);
+    *value = _strdup(valueptr + 1);
     stripspaces(*key);
     stripspaces(*value);
     return true;
 }
 
+#ifdef _WIN32
+int getline(char **line, size_t *size, FILE *fp) {
+	int len = -1;
+	char c;
+	while(true) {
+		if(fread(&c, 1, 1, fp) <= 0)
+			return len;
+		len++;
+		if((unsigned) len >= *size) {
+			*size += 256;
+			*line = (char *) realloc(*line, *size);
+		}
+		(*line)[len] = c;
+		(*line)[len + 1] = 0;
+	}
+	return -1;
+}
+#endif
+
 ConfigFile::ConfigFile(const char* filename) {
+#ifndef _WIN32
     FILE *fp = fopen(filename, "r");
+#else
+	FILE *fp;
+	fopen_s(&fp, filename, "r");
+#endif
     char *line = NULL;
     size_t size = 0;
     while(getline(&line, &size, fp) >= 0) {
@@ -108,7 +132,7 @@ const string tolower(const std::string &s) {
     string l;
     stringstream ss;
 
-    for(int i = 0; i < s.length(); i++)
+    for(unsigned i = 0; i < s.length(); i++)
         ss << (char)(tolower(s[i]));
     return ss.str();
 }

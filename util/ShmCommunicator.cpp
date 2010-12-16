@@ -33,6 +33,7 @@
  *
  */
 
+#ifndef _WIN32
 
 #include "ShmCommunicator.h"
 
@@ -297,3 +298,5 @@ void ShmCommunicator::Close() {
     *mpOutSize = 0;
     sem_post(mpOutFull);
 }
+
+#endif

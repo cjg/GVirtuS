@@ -33,6 +33,8 @@
  *
  */
 
+#ifndef _WIN32
+
 #include "VMShmCommunicator.h"
 
 #include <sys/mman.h>
@@ -331,3 +333,5 @@ void VMShmCommunicator::Close() {
     *mpOutSize = 0;
     vmshm_sem_post(mpOutFull);
 }
+
+#endif

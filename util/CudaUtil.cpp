@@ -58,7 +58,7 @@ char * CudaUtil::MarshalHostPointer(const void* ptr) {
 }
 
 void CudaUtil::MarshalHostPointer(const void * ptr, char * marshal) {
-    sprintf(marshal, "%p", ptr);
+    sprintf_s(marshal, 10, "%p", ptr);
 }
 
 char * CudaUtil::MarshalDevicePointer(const void* devPtr) {
@@ -68,7 +68,7 @@ char * CudaUtil::MarshalDevicePointer(const void* devPtr) {
 }
 
 void CudaUtil::MarshalDevicePointer(const void* devPtr, char * marshal) {
-    sprintf(marshal, "%p", devPtr);
+    sprintf_s(marshal, 10, "%p", devPtr);
 }
 
 #if 0

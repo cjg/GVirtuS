@@ -35,11 +35,15 @@
 
 #include "TcpCommunicator.h"
 
+#ifndef _WIN32
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#else
+#include <WinSock.h>
+#endif
 
 #include <cstring>
 #include <cstdlib>
@@ -51,8 +55,8 @@ TcpCommunicator::TcpCommunicator(const std::string& communicator) {
     const char *portptr = strchr(valueptr, ':');
     if (portptr == NULL)
         throw "Port not specified.";
-    mPort = strtol(portptr + 1, NULL, 10);
-    char *hostname = strdup(valueptr);
+    mPort = (short) strtol(portptr + 1, NULL, 10);
+    char *hostname = _strdup(valueptr);
     hostname[portptr - valueptr] = 0;
     mHostname = string(hostname);
     struct hostent *ent = gethostbyname(hostname);
@@ -95,7 +99,7 @@ void TcpCommunicator::Serve() {
     socket_addr.sin_port = htons(mPort);
     socket_addr.sin_addr.s_addr = INADDR_ANY;
 
-    int on = 1;
+    char on = 1;
     setsockopt(mSocketFd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
 
     if (bind(mSocketFd, (struct sockaddr *) & socket_addr,
@@ -109,8 +113,11 @@ void TcpCommunicator::Serve() {
 const Communicator * const TcpCommunicator::Accept() const {
     unsigned client_socket_fd;
     struct sockaddr_in client_socket_addr;
+#ifndef _WIN32
     unsigned client_socket_addr_size;
-
+#else
+	int client_socket_addr_size;
+#endif
     client_socket_addr_size = sizeof (struct sockaddr_in);
     if ((client_socket_fd = accept(mSocketFd,
             (sockaddr *) & client_socket_addr,
@@ -157,11 +164,11 @@ void TcpCommunicator::Sync() {
 }
 
 void TcpCommunicator::InitializeStream() {
-    mpInputBuf = new __gnu_cxx::stdio_filebuf<char>(mSocketFd,
-            std::ios_base::in);
-    mpOutputBuf = new __gnu_cxx::stdio_filebuf<char>(mSocketFd,
-            std::ios_base::out);
-    mpInput = new istream(mpInputBuf);
-    mpOutput = new ostream(mpOutputBuf);
+	FILE *i = _fdopen(mSocketFd, "r");
+	mpInputBuf = new filebuf(i);
+	mpInput = new istream(mpInputBuf);
+	FILE *o = _fdopen(mSocketFd, "w");
+	mpOutputBuf = new filebuf(o);
+	mpOutput = new ostream(mpOutputBuf);
 }
 

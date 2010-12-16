@@ -38,11 +38,13 @@
 #include <cstring>
 #include <cstdlib>
 
+#ifndef _WIN32
 #include "AfUnixCommunicator.h"
-#include "TcpCommunicator.h"
 #include "VmciCommunicator.h"
 #include "ShmCommunicator.h"
 #include "VMShmCommunicator.h"
+#endif
+#include "TcpCommunicator.h"
 
 using namespace std;
 
@@ -54,14 +56,16 @@ Communicator * Communicator::Get(const std::string & communicator) {
     char *type = new char[tmp - s + 1];
     memmove(type, s, tmp - s);
     type[tmp - s] = 0;
-    if (strcmp(type, "afunix") == 0)
+#ifndef _WIN32
+	if (strcmp(type, "afunix") == 0)
         return new AfUnixCommunicator(communicator);
     if (strcmp(type, "shm") == 0)
         return new ShmCommunicator(communicator);
-    if (strcmp(type, "tcp") == 0)
-        return new TcpCommunicator(communicator);
     if (strcmp(type, "vmshm") == 0)
         return new VMShmCommunicator(communicator);
+#endif
+    if (strcmp(type, "tcp") == 0)
+        return new TcpCommunicator(communicator);
     throw "Not a valid communicator type!";
     return NULL;
 }
