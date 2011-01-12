@@ -73,8 +73,8 @@ CUDA_ROUTINE_HANDLER(Malloc) {
 
     cudaError_t exit_code = cudaMalloc(&devPtr, size);
 
-    cout << "Allocated DevicePointer " << devPtr << " with a size of " << size
-            << endl;
+    std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << size
+            << std::endl;
 
     Buffer *out = new Buffer();
     out->AddMarshal(devPtr);
@@ -105,8 +105,8 @@ CUDA_ROUTINE_HANDLER(MallocPitch) {
 
     cudaError_t exit_code = cudaMallocPitch(&devPtr, pitch, width, height);
 
-    cout << "Allocated DevicePointer " << devPtr << " with a size of " << width * height
-            << endl;
+    std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << width * height
+            << std::endl;
 
     Buffer *out = new Buffer();
     out->AddMarshal(devPtr);

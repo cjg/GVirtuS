@@ -71,7 +71,7 @@ AC_CHECK_HEADER([cuda.h], [], [
             AC_MSG_ERROR([Could not find the cuda header.])
         ])])
 
-CPPFLAGS="$CPPFLAGS -I`pwd`/util -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.properties\\\""
+CPPFLAGS="$CPPFLAGS -I`pwd`/util -I`pwd`/frontend -I`pwd`/backend -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.properties\\\""
 CXXFLAGS="$CXXFLAGS -pedantic -Werror"
 
 AC_CONFIG_FILES([Makefile
@@ -79,5 +79,9 @@ AC_CONFIG_FILES([Makefile
                  conf/Makefile
                  frontend/Makefile
                  test/Makefile
-                 util/Makefile])
+                 util/Makefile
+		 cuda/Makefile
+		 cuda/backend/Makefile
+		 cuda/frontend/Makefile
+		])
 AC_OUTPUT

@@ -36,6 +36,8 @@
 #ifndef HANDLER_H
 #define	HANDLER_H
 
+#include "Result.h"
+
 class Handler {
 public:
     virtual Result * Execute(std::string routine, Buffer * input_buffer) = 0;

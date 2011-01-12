@@ -39,7 +39,7 @@
 #include "Subprocess.h"
 #include "Observable.h"
 #include "Communicator.h"
-#include "CudaRtHandler.h"
+#include "Handler.h"
 
 /**
  * Process is the object used by the Backend to handle the request from a single
@@ -47,13 +47,13 @@
  */
 class Process : public Subprocess, public Observable {
 public:
-    Process(const Communicator *communicator);
+    Process(const Communicator *communicator, Handler *handler);
     virtual ~Process();
     void Setup();
     void Execute(void * arg);
 private:
     Communicator * mpCommunicator;
-    CudaRtHandler * mpHandler;
+    Handler * mpHandler;
 };
 
 #endif	/* _PROCESS_H */

@@ -39,20 +39,12 @@
 
 #include "Process.h"
 
-Backend::Backend(const Communicator * communicator) : Observer() {
-    mpCommunicator = const_cast<Communicator *> (communicator);
-}
-
-Backend::~Backend() {
-
-}
-
-void Backend::Start() {
-    mpCommunicator->Serve();
+void Backend::Start(Communicator * communicator) {
+    communicator->Serve();
     while (true) {
         Communicator *client =
-                const_cast<Communicator *> (mpCommunicator->Accept());
-        Process *process = new Process(client);
+                const_cast<Communicator *> (communicator->Accept());
+        Process *process = new Process(client, GetHandler());
         process->Start(NULL);
     }
 }

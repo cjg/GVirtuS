@@ -38,6 +38,7 @@
 
 #include "Observer.h"
 #include "Communicator.h"
+#include "Handler.h"
 
 /**
  * Backend is the main object of gvirtus-backend. It is responsible of accepting
@@ -46,17 +47,13 @@
  */
 class Backend : public Observer {
 public:
-    Backend(const Communicator * communicator);
-    virtual ~Backend();
-
     /** 
      * Starts the Backend. The call to Start() will make the Backend to serve
      * forever.
      */
-    void Start();
+    void Start(Communicator * communicator);
     void EventOccurred(std::string & event, void * object);
-private:
-    Communicator *mpCommunicator;
+    virtual Handler *GetHandler() = 0;
 };
 
 #endif	/* _BACKEND_H */

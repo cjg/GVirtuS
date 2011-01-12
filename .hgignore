@@ -41,3 +41,13 @@ glob:Debug/
 glob:Release/
 ^test/Makefile$
 ^test/Makefile\.in$
+^cuda/backend/gvirtus-cuda-backend$
+^cuda/backend/Makefile\.in$
+^cuda/backend/Makefile$
+^cuda/frontend/Makefile\.in$
+^cuda/frontend/Makefile$
+^cuda/Makefile\.in$
+^cuda/Makefile$
+^test/.*\.txt$
+^test/.*\.log$
+^test/.*\.csv$

@@ -74,7 +74,7 @@ public:
      * 
      * @return The instance of the Frontend class.
      */
-    static Frontend * GetFrontend(bool register_var = false);
+    static Frontend * GetFrontend(Communicator *c = NULL);
 
     /** 
      * Requests the execution of the CUDA RunTime routine with the arguments
@@ -94,6 +94,33 @@ public:
      */
     void Prepare();
 
+    inline Buffer *GetInputBuffer() {
+        return mpInputBuffer;
+    }
+
+    inline Buffer *GetOutputBuffer() {
+        return mpOutputBuffer;
+    }
+
+    /**
+     * Returns the exit code of the last execution request.
+     *
+     * @return the exit code of the last execution request.
+     */
+    int GetExitCode() {
+        return mExitCode;
+    }
+
+    /**
+     * Checks if the latest execution had been completed successfully.
+     *
+     * @return True if the last execution had been completed successfully.
+     */
+    bool Success(int success_value = 0) {
+        return mExitCode == success_value;
+    }
+
+#if 0
     /** 
      * Adds a scalar variabile as an input parameter for the next execution
      * request.
@@ -148,15 +175,6 @@ public:
         AddStringForArguments(symbol);
     }
 
-    /** 
-     * Checks if the latest execution had been completed successfully.
-     * 
-     * @return True if the last execution had been completed successfully.
-     */
-    bool Success() {
-        return mExitCode == cudaSuccess;
-    }
-
     template <class T>T GetOutputVariable() {
         return mpOutputBuffer->Get<T> ();
     }
@@ -195,37 +213,22 @@ public:
         return mpOutputBuffer->AssignString();
     }
 
-    /** 
-     * Returns the exit code of the last execution request.
-     * 
-     * @return the exit code of the last execution request.
-     */
-    cudaError_t GetExitCode() {
-        return mExitCode;
-    }
-
     inline Buffer * GetLaunchBuffer() {
         return mpLaunchBuffer;
     }
+#endif
 
-    Communicator * GetCommunicator() {
-        return mpCommunicator;
-    }
-    
 private:
     /** 
      * Constructs a new Frontend. It creates and sets also the Communicator to
      * use obtaining the information from the configuration file which path is
      * setted at compile time.
      */
-    void Init();
+    void Init(Communicator *c);
     Communicator *mpCommunicator;
     Buffer * mpInputBuffer;
     Buffer * mpOutputBuffer;
-    Buffer * mpLaunchBuffer;
-    cudaError_t mExitCode;
-    std::vector<CudaUtil::CudaVar *> * mpVar;
-    bool mAddingVar;
+    int mExitCode;
 };
 
 #endif	/* _FRONTEND_H */

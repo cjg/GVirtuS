@@ -72,7 +72,7 @@
 #include <iostream>
 #include "ConfigFile.h"
 #include "Communicator.h"
-#include "Backend.h"
+#include "CudaRtBackend.h"
 
 using namespace std;
 
@@ -84,9 +84,8 @@ int main(int argc, char** argv) {
         ConfigFile *cf = new ConfigFile(conf.c_str());
         Communicator *c = Communicator::Get(cf->Get("communicator"));
         delete cf;
-        Backend *b = new Backend(c);
-        b->Start();
-        delete b;
+        CudaRtBackend b;
+        b.Start(c);
         delete c;
     } catch (string &e) {
         cerr << "Exception: " << e << endl;

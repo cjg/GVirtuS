@@ -1,1 +1,1 @@
-SUBDIRS=util frontend backend conf test
+SUBDIRS=util frontend backend conf test cuda

@@ -47,6 +47,7 @@
 
 #include <cuda_runtime_api.h>
 
+#include "Handler.h"
 #include "Result.h"
 
 /**						
@@ -56,7 +57,7 @@
  * named CUDA Runtime routine unmarshalling the input parameters from the
  * provided Buffer.
  */
-class CudaRtHandler {
+class CudaRtHandler : public Handler {
 public:
     CudaRtHandler();
     virtual ~CudaRtHandler();

@@ -19,7 +19,6 @@ CCC=g++
 CXX=g++
 FC=
 AS=as
-PROC=proc
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86

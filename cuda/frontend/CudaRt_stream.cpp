@@ -28,49 +28,49 @@
 using namespace std;
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaStreamCreate(cudaStream_t *pStream) {
-    Frontend *f = Frontend::GetFrontend();
+    CudaRtFrontend::Prepare();
 #if CUDART_VERSION >= 3010
-    f->Execute("cudaStreamCreate");
-    if(f->Success())
-        *pStream = (cudaStream_t) f->GetOutputDevicePointer();
+    CudaRtFrontend::Execute("cudaStreamCreate");
+    if(CudaRtFrontend::Success())
+        *pStream = (cudaStream_t) CudaRtFrontend::GetOutputDevicePointer();
 #else
-    f->AddHostPointerForArguments(pStream);
-    f->Execute("cudaStreamCreate");
-    if(f->Success())
-        *pStream = *(f->GetOutputHostPointer<cudaStream_t>());
+    CudaRtFrontend::AddHostPointerForArguments(pStream);
+    CudaRtFrontend::Execute("cudaStreamCreate");
+    if(CudaRtFrontend::Success())
+        *pStream = *(CudaRtFrontend::GetOutputHostPointer<cudaStream_t>());
 #endif
-    return f->GetExitCode();
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaStreamDestroy(cudaStream_t stream) {
-    Frontend *f = Frontend::GetFrontend();
+    CudaRtFrontend::Prepare();
 #if CUDART_VERSION >= 3010
-    f->AddDevicePointerForArguments(stream);
+    CudaRtFrontend::AddDevicePointerForArguments(stream);
 #else
-    f->AddVariableForArguments(stream);
+    CudaRtFrontend::AddVariableForArguments(stream);
 #endif    
-    f->Execute("cudaStreamDestroy");
-    return f->GetExitCode();
+    CudaRtFrontend::Execute("cudaStreamDestroy");
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaStreamQuery(cudaStream_t stream) {
-    Frontend *f = Frontend::GetFrontend();
+    CudaRtFrontend::Prepare();
 #if CUDART_VERSION >= 3010
-    f->AddDevicePointerForArguments(stream);
+    CudaRtFrontend::AddDevicePointerForArguments(stream);
 #else
-    f->AddVariableForArguments(stream);
+    CudaRtFrontend::AddVariableForArguments(stream);
 #endif     
-    f->Execute("cudaStreamQuery");
-    return f->GetExitCode();
+    CudaRtFrontend::Execute("cudaStreamQuery");
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaStreamSynchronize(cudaStream_t stream) {
-    Frontend *f = Frontend::GetFrontend();
+    CudaRtFrontend::Prepare();
 #if CUDART_VERSION >= 3010
-    f->AddDevicePointerForArguments(stream);
+    CudaRtFrontend::AddDevicePointerForArguments(stream);
 #else
-    f->AddVariableForArguments(stream);
+    CudaRtFrontend::AddVariableForArguments(stream);
 #endif     
-    f->Execute("cudaStreamSynchronize");
-    return f->GetExitCode();
+    CudaRtFrontend::Execute("cudaStreamSynchronize");
+    return CudaRtFrontend::GetExitCode();
 }

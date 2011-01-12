@@ -27,20 +27,20 @@
 
 using namespace std;
 
-extern "C" __host__ cudaError_t CUDARTAPI cudaDriverGetVersion(int *driverVersion) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(driverVersion);
-    f->Execute("cudaDriverGetVersion");
-    if(f->Success())
-        *driverVersion = *(f->GetOutputHostPointer<int>());
-    return f->GetExitCode();
+extern "C" __host__ const char* CUDARTAPI cudaGetErrorString(cudaError_t error) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddVariableForArguments(error);
+    CudaRtFrontend::Execute("cudaGetErrorString");
+#ifdef _WIN32
+    char *error_string = _strdup(CudaRtFrontend::GetOutputString());
+#else
+    char *error_string = strdup(CudaRtFrontend::GetOutputString());
+#endif
+    return error_string;
 }
 
-extern "C" __host__ cudaError_t CUDARTAPI cudaRuntimeGetVersion(int *runtimeVersion) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(runtimeVersion);
-    f->Execute("cudaDriverGetVersion");
-    if(f->Success())
-        *runtimeVersion = *(f->GetOutputHostPointer<int>());
-    return f->GetExitCode();
+extern "C" __host__ cudaError_t CUDARTAPI cudaGetLastError(void) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::Execute("cudaGetLastError");
+    return CudaRtFrontend::GetExitCode();
 }

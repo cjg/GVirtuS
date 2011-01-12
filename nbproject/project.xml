@@ -11,8 +11,8 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>backend</sourceRootElem>
-                <sourceRootElem>frontend</sourceRootElem>
+                <sourceRootElem>cuda/backend</sourceRootElem>
+                <sourceRootElem>cuda/frontend</sourceRootElem>
                 <sourceRootElem>util</sourceRootElem>
             </sourceRootList>
             <confList>

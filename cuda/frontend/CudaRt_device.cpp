@@ -28,40 +28,40 @@
 using namespace std;
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaChooseDevice(int *device, const cudaDeviceProp *prop) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(device);
-    f->AddHostPointerForArguments(prop);
-    f->Execute("cudaChooseDevice");
-    if(f->Success())
-        *device = *(f->GetOutputHostPointer<int>());
-    return f->GetExitCode();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(device);
+    CudaRtFrontend::AddHostPointerForArguments(prop);
+    CudaRtFrontend::Execute("cudaChooseDevice");
+    if(CudaRtFrontend::Success())
+        *device = *(CudaRtFrontend::GetOutputHostPointer<int>());
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaGetDevice(int *device) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(device);
-    f->Execute("cudaGetDevice");
-    if(f->Success())
-        *device = *(f->GetOutputHostPointer<int>());
-    return f->GetExitCode();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(device);
+    CudaRtFrontend::Execute("cudaGetDevice");
+    if(CudaRtFrontend::Success())
+        *device = *(CudaRtFrontend::GetOutputHostPointer<int>());
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaGetDeviceCount(int *count) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(count);
-    f->Execute("cudaGetDeviceCount");
-    if(f->Success())
-        *count = *(f->GetOutputHostPointer<int>());
-    return f->GetExitCode();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(count);
+    CudaRtFrontend::Execute("cudaGetDeviceCount");
+    if(CudaRtFrontend::Success())
+        *count = *(CudaRtFrontend::GetOutputHostPointer<int>());
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(prop);
-    f->AddVariableForArguments(device);
-    f->Execute("cudaGetDeviceProperties");
-    if(f->Success()) {
-        memmove(prop, f->GetOutputHostPointer<cudaDeviceProp>(),
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(prop);
+    CudaRtFrontend::AddVariableForArguments(device);
+    CudaRtFrontend::Execute("cudaGetDeviceProperties");
+    if(CudaRtFrontend::Success()) {
+        memmove(prop, CudaRtFrontend::GetOutputHostPointer<cudaDeviceProp>(),
                 sizeof(cudaDeviceProp));
 #ifndef CUDA_VERSION
 #error CUDA_VERSION not defined
@@ -70,14 +70,14 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaGetDeviceProperties(cudaDeviceProp
         prop->canMapHostMemory = 0;
 #endif
     }
-    return f->GetExitCode();
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetDevice(int device) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddVariableForArguments(device);
-    f->Execute("cudaSetDevice");
-    return f->GetExitCode();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddVariableForArguments(device);
+    CudaRtFrontend::Execute("cudaSetDevice");
+    return CudaRtFrontend::GetExitCode();
 }
 
 #if CUDART_VERSION >= 3000
@@ -85,20 +85,20 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetDeviceFlags(unsigned int flags)
 #else
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetDeviceFlags(int flags) {
 #endif
-    Frontend *f = Frontend::GetFrontend();
-    f->AddVariableForArguments(flags);
-    f->Execute("cudaSetDeviceFlags");
-    return f->GetExitCode();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddVariableForArguments(flags);
+    CudaRtFrontend::Execute("cudaSetDeviceFlags");
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetValidDevices(int *device_arr, int len) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(device_arr, len);
-    f->AddVariableForArguments(len);
-    f->Execute("cudaSetValidDevices");
-    if(f->Success()) {
-        int *out_device_arr = f->GetOutputHostPointer<int>();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(device_arr, len);
+    CudaRtFrontend::AddVariableForArguments(len);
+    CudaRtFrontend::Execute("cudaSetValidDevices");
+    if(CudaRtFrontend::Success()) {
+        int *out_device_arr = CudaRtFrontend::GetOutputHostPointer<int>();
         memmove(device_arr, out_device_arr, sizeof(int) * len);
     }
-    return f->GetExitCode();
+    return CudaRtFrontend::GetExitCode();
 }

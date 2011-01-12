@@ -48,7 +48,8 @@ static bool initialized = false;
 /**
  *
  */
-void Frontend::Init() {
+void Frontend::Init(Communicator *c) {
+#if 0
     const char *config_file;
 #ifdef _CONFIG_FILE
     if((config_file = getenv("CONFIG_FILE")) == NULL)
@@ -66,13 +67,14 @@ void Frontend::Init() {
 #endif
         communicator = cf->Get("communicator");
     mpCommunicator = Communicator::Get(communicator);
+#else
+    mpCommunicator = c;
+#endif
+
     mpCommunicator->Connect();
     mpInputBuffer = new Buffer();
     mpOutputBuffer = new Buffer();
-    mpLaunchBuffer = new Buffer();
-    mExitCode = cudaErrorUnknown;
-    mpVar = new vector<CudaUtil::CudaVar *>();
-    mAddingVar = false;
+    mExitCode = -1;
 }
 
 Frontend::~Frontend() {
@@ -80,23 +82,14 @@ Frontend::~Frontend() {
     delete mpCommunicator;
 }
 
-Frontend * Frontend::GetFrontend(bool register_var) {
+Frontend * Frontend::GetFrontend(Communicator *c) {
     if (!initialized) {
         try {
-            msFrontend.Init();
+            msFrontend.Init(c);
             initialized = true;
         } catch (const char *e) {
             cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
         }
-    }
-    msFrontend.Prepare();
-    if (msFrontend.mAddingVar && !register_var) {
-        for (vector<CudaUtil::CudaVar *>::iterator it = msFrontend.mpVar->begin();
-                it != msFrontend.mpVar->end(); it++)
-            msFrontend.AddHostPointerForArguments(*it);
-        msFrontend.Execute("cudaRegisterVar");
-        msFrontend.mAddingVar = false;
-        msFrontend.Prepare();
     }
     return &msFrontend;
 }

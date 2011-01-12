@@ -41,10 +41,10 @@
 
 using namespace std;
 
-Process::Process(const Communicator *communicator)
+Process::Process(const Communicator *communicator, Handler *handler)
 : Subprocess(), Observable() {
     mpCommunicator = const_cast<Communicator *> (communicator);
-    mpHandler = new CudaRtHandler();
+    mpHandler = handler;
 }
 
 Process::~Process() {

@@ -29,16 +29,16 @@ using namespace std;
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaConfigureCall(dim3 gridDim, dim3 blockDim,
         size_t sharedMem, cudaStream_t stream) {
-    Frontend *f = Frontend::GetFrontend();
+    CudaRtFrontend::Prepare();
 #if 0
-    f->AddVariableForArguments(gridDim);
-    f->AddVariableForArguments(blockDim);
-    f->AddVariableForArguments(sharedMem);
-    f->AddVariableForArguments(stream);
-    f->Execute("cudaConfigureCall");
-    return f->GetExitCode();
+    CudaRtFrontend::AddVariableForArguments(gridDim);
+    CudaRtFrontend::AddVariableForArguments(blockDim);
+    CudaRtFrontend::AddVariableForArguments(sharedMem);
+    CudaRtFrontend::AddVariableForArguments(stream);
+    CudaRtFrontend::Execute("cudaConfigureCall");
+    return CudaRtFrontend::GetExitCode();
 #endif
-    Buffer *launch = f->GetLaunchBuffer();
+    Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
     launch->Reset();
     // CNCL
     launch->Add<int>(0x434e34c);
@@ -59,61 +59,59 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaConfigureCall(dim3 gridDim, dim3 b
 #if CUDA_VERSION >= 2030
 extern "C" __host__ cudaError_t CUDARTAPI cudaFuncGetAttributes(struct cudaFuncAttributes *attr,
         const char *func) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(attr);
-    f->AddStringForArguments(CudaUtil::MarshalHostPointer(func));
-    f->Execute("cudaFuncGetAttributes");
-    if(f->Success())
-        memmove(attr, f->GetOutputHostPointer<cudaFuncAttributes>(),
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(attr);
+    CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(func));
+    CudaRtFrontend::Execute("cudaFuncGetAttributes");
+    if(CudaRtFrontend::Success())
+        memmove(attr, CudaRtFrontend::GetOutputHostPointer<cudaFuncAttributes>(),
                 sizeof(cudaFuncAttributes));
-    return f->GetExitCode();
+    return CudaRtFrontend::GetExitCode();
 }
 #endif
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaLaunch(const char *entry) {
-    Frontend *f = Frontend::GetFrontend();
 #if 0
-    f->AddStringForArguments(CudaUtil::MarshalHostPointer(entry));
-    f->Execute("cudaLaunch");
-    return f->GetExitCode();
+    CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(entry));
+    CudaRtFrontend::Execute("cudaLaunch");
+    return CudaRtFrontend::GetExitCode();
 #endif
-    Buffer *launch = f->GetLaunchBuffer();
+    Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
     // LAUN
     launch->Add<int>(0x4c41554e);
     launch->AddString(CudaUtil::MarshalHostPointer(entry));
-    f->Execute("cudaLaunch", launch);
-    return f->GetExitCode();
+    CudaRtFrontend::Execute("cudaLaunch", launch);
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetDoubleForDevice(double *d) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(d);
-    f->Execute("cudaSetDoubleForDevice");
-    if(f->Success())
-        *d = *(f->GetOutputHostPointer<double >());
-    return f->GetExitCode();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(d);
+    CudaRtFrontend::Execute("cudaSetDoubleForDevice");
+    if(CudaRtFrontend::Success())
+        *d = *(CudaRtFrontend::GetOutputHostPointer<double >());
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetDoubleForHost(double *d) {
-    Frontend *f = Frontend::GetFrontend();
-    f->AddHostPointerForArguments(d);
-    f->Execute("cudaSetDoubleForHost");
-    if(f->Success())
-        *d = *(f->GetOutputHostPointer<double >());
-    return f->GetExitCode();
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(d);
+    CudaRtFrontend::Execute("cudaSetDoubleForHost");
+    if(CudaRtFrontend::Success())
+        *d = *(CudaRtFrontend::GetOutputHostPointer<double >());
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg, size_t size,
         size_t offset) {
-    Frontend *f = Frontend::GetFrontend();
 #if 0
-    f->AddHostPointerForArguments(static_cast<const char *> (arg), size);
-    f->AddVariableForArguments(size);
-    f->AddVariableForArguments(offset);
-    f->Execute("cudaSetupArgument");
-    return f->GetExitCode();
+    CudaRtFrontend::AddHostPointerForArguments(static_cast<const char *> (arg), size);
+    CudaRtFrontend::AddVariableForArguments(size);
+    CudaRtFrontend::AddVariableForArguments(offset);
+    CudaRtFrontend::Execute("cudaSetupArgument");
+    return CudaRtFrontend::GetExitCode();
 #endif
-    Buffer *launch = f->GetLaunchBuffer();
+    Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
     // STAG
     launch->Add<int>(0x53544147);
     launch->Add<char>(static_cast<char *>(const_cast<void *>(arg)), size);
@@ -121,5 +119,3 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg, siz
     launch->Add(offset);
     return cudaSuccess;
 }
-
-

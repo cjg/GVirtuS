@@ -47,8 +47,6 @@
 
 #define BLOCK_SIZE  4096
 
-using namespace std;
-
 /**
  * Buffer is a general purpose for marshalling and unmarshalling data. It's used
  * for exchanging data beetwen Frontend and Backend. It has the functionality to

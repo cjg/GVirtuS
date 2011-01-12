@@ -23,25 +23,18 @@
  *             Department of Applied Science
  */
 
-/**
- * @file   CudaRt.h
- * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Fri Oct 9 15:55:40 2009
- *
- * @brief
- *
- *
- */
+#include "CudaRt.h"
 
-#ifndef _CUDART_H
-#define	_CUDART_H
+using namespace std;
 
-#include <cuda.h>
-#include <cuda_runtime_api.h>
+extern "C" __host__ cudaError_t CUDARTAPI cudaThreadSynchronize() {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::Execute("cudaThreadSynchronize");
+    return CudaRtFrontend::GetExitCode();
+}
 
-#include "CudaUtil.h"
-#include "Frontend.h"
-
-
-#endif	/* _CUDART_H */
-
+extern "C" __host__ cudaError_t CUDARTAPI cudaThreadExit() {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::Execute("cudaThreadExit");
+    return CudaRtFrontend::GetExitCode();
+}
