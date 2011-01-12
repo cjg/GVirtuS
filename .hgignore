@@ -39,3 +39,5 @@
 glob:\.deps/
 glob:Debug/
 glob:Release/
+^test/Makefile$
+^test/Makefile\.in$
