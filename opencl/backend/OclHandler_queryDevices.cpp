@@ -42,7 +42,7 @@ OCL_ROUTINE_HANDLER(GetDeviceIDs) {
     out->Add<cl_device_id>(devices,num_entries);
 
 
-    return new Result((cudaError_t)exit_code, out); 
+    return new Result(exit_code, out); 
 }
 
 OCL_ROUTINE_HANDLER(GetDeviceInfo) {
@@ -59,6 +59,6 @@ OCL_ROUTINE_HANDLER(GetDeviceInfo) {
 
     out->Add(param_value,param_value_size_ret);
     
-    return new Result((cudaError_t)exit_code, out); 
+    return new Result(exit_code, out); 
 
 }

@@ -32,7 +32,7 @@ OCL_ROUTINE_HANDLER(WaitForEvents){
 
     cl_int exit_code = clWaitForEvents(num_events,event_list);
     
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 }
 
 OCL_ROUTINE_HANDLER(ReleaseEvent){
@@ -41,5 +41,5 @@ OCL_ROUTINE_HANDLER(ReleaseEvent){
 
     cl_int exit_code = clReleaseEvent(*event);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 }

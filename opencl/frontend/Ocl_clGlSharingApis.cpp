@@ -24,9 +24,9 @@
  */
 
 #include "Ocl.h"
-#include "cl_gl.h"
-#include "GL/glu.h"
-#include "GL/gl.h"
+#include <CL/cl_gl.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 
 
 

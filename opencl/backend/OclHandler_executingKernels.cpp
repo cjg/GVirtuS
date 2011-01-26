@@ -54,7 +54,7 @@ bool catch_event = input_buffer->Get<bool>();
     if (event != NULL)
         out->AddString(CudaUtil::MarshalHostPointer(*event));
     
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
             
 
 }

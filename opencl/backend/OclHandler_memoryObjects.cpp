@@ -45,7 +45,7 @@ OCL_ROUTINE_HANDLER(GetSupportedImageFormats) {
     out->Add(num_image_formats);
     out->Add(image_formats,num_entries);
 
-    return new Result((cudaError_t)exit_code, out); 
+    return new Result(exit_code, out); 
 }
 
 OCL_ROUTINE_HANDLER(CreateBuffer) {
@@ -65,7 +65,7 @@ OCL_ROUTINE_HANDLER(CreateBuffer) {
     Buffer *out=new Buffer();
     out->AddString(CudaUtil::MarshalHostPointer(mem));
     
-    return new Result((cudaError_t)errcode_ret, out); 
+    return new Result(errcode_ret, out); 
 }
 
 OCL_ROUTINE_HANDLER(EnqueueCopyBuffer) {
@@ -97,7 +97,7 @@ OCL_ROUTINE_HANDLER(EnqueueCopyBuffer) {
  if (event!=NULL)
     out->AddString(CudaUtil::MarshalHostPointer(*event));
 
- return new Result((cudaError_t)errcode_ret,out);
+ return new Result(errcode_ret,out);
 }
 
 OCL_ROUTINE_HANDLER(EnqueueReadBuffer) {
@@ -134,7 +134,7 @@ OCL_ROUTINE_HANDLER(EnqueueReadBuffer) {
         out->AddString(CudaUtil::MarshalHostPointer(*event));
     out->Add((char *)ptr,cb);
 
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
 }
 
 OCL_ROUTINE_HANDLER(EnqueueWriteBuffer) {
@@ -170,7 +170,7 @@ OCL_ROUTINE_HANDLER(EnqueueWriteBuffer) {
     if (event != NULL)
         out->AddString(CudaUtil::MarshalHostPointer(*event));
 
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
 }
 
 OCL_ROUTINE_HANDLER(ReleaseMemObject){
@@ -179,7 +179,7 @@ OCL_ROUTINE_HANDLER(ReleaseMemObject){
 
     cl_int exit_code = clReleaseMemObject(*memObj);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 }
 
 OCL_ROUTINE_HANDLER(EnqueueMapBuffer){
@@ -218,7 +218,7 @@ OCL_ROUTINE_HANDLER(EnqueueMapBuffer){
     if (event != NULL)
         out->AddString(CudaUtil::MarshalHostPointer(*event));
     
-    return new Result((cudaError_t)errcode_ret,out);
+    return new Result(errcode_ret,out);
 }
 
 OCL_ROUTINE_HANDLER(EnqueueUnmapMemObject){
@@ -248,6 +248,6 @@ OCL_ROUTINE_HANDLER(EnqueueUnmapMemObject){
         out->AddString(CudaUtil::MarshalHostPointer(*event));
     
 
-    return new Result((cudaError_t)errcode_ret,out);
+    return new Result(errcode_ret,out);
 
 }

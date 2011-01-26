@@ -16,4 +16,4 @@ OclHandler_flushAndFinish.cpp\
 OclHandler_eventObjects.cpp\
 OclHandler_profilingOperations.cpp\
 main.cpp
-gvirtus_opencl_backend_LDADD = ../../backend/libbackend.a ../../util/libutil.a  $(OPENCL_LIB_FLAGS) $(CUDA_LIB_FLAGS) -lOpenCL -lcudart -lrt
+gvirtus_opencl_backend_LDADD = ../../backend/libbackend.a ../../util/libutil.a  $(OPENCL_LIB_FLAGS) -lOpenCL -lrt

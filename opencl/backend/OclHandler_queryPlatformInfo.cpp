@@ -39,7 +39,7 @@ OCL_ROUTINE_HANDLER(GetPlatformIDs) {
     out->Add(num_platforms);
     out->Add(platforms);
 
-    return new Result((cudaError_t)exit_code, out); 
+    return new Result(exit_code, out); 
 }
 
 OCL_ROUTINE_HANDLER(GetPlatformInfo) {
@@ -55,6 +55,6 @@ OCL_ROUTINE_HANDLER(GetPlatformInfo) {
     Buffer *out = new Buffer();
     out->Add(&param_value_size_ret);
     out->AddString(param_value);
-    return new Result((cudaError_t)exit_code, out); 
+    return new Result(exit_code, out); 
 }
 

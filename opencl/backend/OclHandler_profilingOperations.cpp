@@ -39,6 +39,6 @@ OCL_ROUTINE_HANDLER(GetEventProfilingInfo){
     Buffer *out = new Buffer();
     out->Add(&param_value_size_ret);
     out->Add((char*)param_value,param_value_size_ret);
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
 
 }

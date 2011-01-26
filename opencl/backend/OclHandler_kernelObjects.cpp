@@ -37,7 +37,7 @@ OCL_ROUTINE_HANDLER(CreateKernel){
 
     out->Add(&kernel);
 
-    return new Result((cudaError_t)errcode_ret,out);
+    return new Result(errcode_ret,out);
 }
 
 OCL_ROUTINE_HANDLER(SetKernelArg){
@@ -49,7 +49,7 @@ OCL_ROUTINE_HANDLER(SetKernelArg){
 
     cl_int exit_code = clSetKernelArg(*kernel,arg_index,arg_size,arg_value);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 
 }
 
@@ -59,7 +59,7 @@ OCL_ROUTINE_HANDLER(ReleaseKernel){
 
     cl_int exit_code = clReleaseKernel(kernel);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 
 }
 
@@ -77,6 +77,6 @@ OCL_ROUTINE_HANDLER(GetKernelWorkGroupInfo){
     Buffer *out = new Buffer();
     out->Add(&param_value_size_ret);
     out->Add((char*)param_value,param_value_size_ret);
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
     
 }

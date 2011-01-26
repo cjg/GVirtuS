@@ -27,7 +27,7 @@
 #ifndef _OCL_H
 #define	_OCL_H
 
-#include <cl_platform.h>
+#include <CL/cl_platform.h>
 #include "CudaUtil.h"
 #include "OclFrontend.h"
 

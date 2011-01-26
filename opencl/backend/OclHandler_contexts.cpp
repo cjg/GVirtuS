@@ -38,7 +38,7 @@ OCL_ROUTINE_HANDLER(CreateContext) {
     Buffer *out = new Buffer();
     out->Add(&ret_context);
 
-    return new Result((cudaError_t)exit_code, out); 
+    return new Result(exit_code, out); 
 }
 
 OCL_ROUTINE_HANDLER(GetContextInfo) {
@@ -59,7 +59,7 @@ OCL_ROUTINE_HANDLER(GetContextInfo) {
     out->Add(param_value_size_ret);
     out->Add(param_value,*param_value_size_ret);
 
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
     
 }
 
@@ -68,5 +68,5 @@ OCL_ROUTINE_HANDLER(ReleaseContext){
 
     cl_int exit_code = clReleaseContext(context);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 }

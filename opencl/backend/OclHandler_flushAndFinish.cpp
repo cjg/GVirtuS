@@ -30,7 +30,7 @@ OCL_ROUTINE_HANDLER(Flush) {
 
     cl_int exit_code = clFlush(*command_queue);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 }
 
 OCL_ROUTINE_HANDLER(Finish) {
@@ -38,5 +38,5 @@ OCL_ROUTINE_HANDLER(Finish) {
 
     cl_int exit_code = clFinish(*command_queue);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 }

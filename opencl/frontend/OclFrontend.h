@@ -27,7 +27,8 @@
 #define	OCLFRONTEND_H
 
 #include "Frontend.h"
-#include "CL/cl.h"
+#include <CL/cl.h>
+#include "CudaUtil.h"
 
 
 class OclFrontend {

@@ -60,7 +60,7 @@ OCL_ROUTINE_HANDLER(CreateProgramWithSource) {
     Buffer *out=new Buffer();
     out->AddString(CudaUtil::MarshalHostPointer(program));
 
-    return new Result((cudaError_t)errcode_ret, out); 
+    return new Result(errcode_ret, out); 
     
 }
 
@@ -73,7 +73,7 @@ OCL_ROUTINE_HANDLER(BuildProgram) {
 
     cl_int errcode_ret = clBuildProgram(*program,num_devices,device_list,options,NULL,NULL);
 
-    return new Result((cudaError_t)errcode_ret);
+    return new Result(errcode_ret);
 
 }
 
@@ -82,7 +82,7 @@ OCL_ROUTINE_HANDLER(ReleaseProgram){
 
     cl_int exit_code = clReleaseProgram(program);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 }
 
 OCL_ROUTINE_HANDLER(GetProgramInfo){
@@ -131,7 +131,7 @@ OCL_ROUTINE_HANDLER(GetProgramInfo){
         }
     }
 
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
 
 
 }

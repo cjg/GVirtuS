@@ -38,7 +38,7 @@ OCL_ROUTINE_HANDLER(CreateCommandQueue) {
    
     out->Add(&command_queue);
 
-    return new Result((cudaError_t)errcode_ret, out); 
+    return new Result(errcode_ret, out); 
 }
 
 OCL_ROUTINE_HANDLER(ReleaseCommandQueue){
@@ -47,7 +47,7 @@ OCL_ROUTINE_HANDLER(ReleaseCommandQueue){
 
     cl_int exit_code = clReleaseCommandQueue(command_queue);
 
-    return new Result((cudaError_t)exit_code);
+    return new Result(exit_code);
 
 }
 
@@ -64,6 +64,6 @@ OCL_ROUTINE_HANDLER(GetCommandQueueInfo){
     Buffer *out = new Buffer();
     out->Add(&param_value_size_ret);
     out->Add((char*)param_value,param_value_size_ret);
-    return new Result((cudaError_t)exit_code,out);
+    return new Result(exit_code,out);
 
 }
