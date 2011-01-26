@@ -83,5 +83,8 @@ AC_CONFIG_FILES([Makefile
 		 cuda/Makefile
 		 cuda/backend/Makefile
 		 cuda/frontend/Makefile
+		 opengl/Makefile
+		 opengl/backend/Makefile
+		 opengl/frontend/Makefile
 		])
 AC_OUTPUT

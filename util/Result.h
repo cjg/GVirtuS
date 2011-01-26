@@ -38,8 +38,6 @@
 
 #include <iostream>
 
-#include <cuda_runtime_api.h>
-
 #include "Buffer.h"
 
 /**
@@ -47,16 +45,16 @@
  */
 class Result {
 public:
-    Result(cudaError_t exit_code);
-    Result(cudaError_t exit_code, const Buffer * output_buffer);
+    Result(int exit_code);
+    Result(int exit_code, const Buffer * output_buffer);
     Result(const Result& orig);
     Result(std::istream & in);
     virtual ~Result();
-    cudaError_t GetExitCode();
+    int GetExitCode();
     const Buffer * GetOutputBufffer() const;
     void Dump(Communicator * c);
 private:
-    cudaError_t mExitCode;
+    int mExitCode;
     Buffer * mpOutputBuffer;
 };
 

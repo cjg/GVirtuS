@@ -38,10 +38,8 @@
 
 #include <vector>
 
-#include <cuda_runtime_api.h>
-
 #include "Communicator.h"
-#include "CudaUtil.h"
+#include "Buffer.h"
 
 /**
  * Frontend is the object used by every cuda routine wrapper for requesting the

@@ -108,7 +108,7 @@ void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
 
     mpOutputBuffer->Reset();
 
-    mpCommunicator->Read((char *) & mExitCode, sizeof (cudaError_t));
+    mpCommunicator->Read((char *) & mExitCode, sizeof (int));
     size_t out_buffer_size;
     mpCommunicator->Read((char *) & out_buffer_size, sizeof (size_t));
     if (out_buffer_size > 0)

@@ -202,6 +202,10 @@ public:
         return (T) Get<uint64_t>();
     }
 
+    inline bool Empty() {
+        return mOffset == mLength;
+    }
+
     void Reset();
     void Reset(Communicator *c);
     const char * const GetBuffer() const;
