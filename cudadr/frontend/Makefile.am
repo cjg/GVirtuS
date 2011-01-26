@@ -15,7 +15,7 @@ CudaDr_stream.cpp\
 CudaDr_event.cpp\
 CudaDr_texture.cpp
 
-libcuda_la_LIBADD = ../../frontend/libfrontend.a ../../util/libutil.a -lrt -lcuda
+libcuda_la_LIBADD = ../../frontend/libfrontend.a ../../util/libutil.a -lrt 
 libcuda_la_LDFLAGS = -version-info 1:0:0
 
 

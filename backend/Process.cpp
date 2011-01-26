@@ -80,14 +80,14 @@ void Process::Execute(void * arg) {
         } catch (string e) {
             cout << "[Process " << GetPid() << "]: Exception " << e
                     << "." << endl;
-            result = new Result(cudaErrorUnknown, new Buffer());
+            result = new Result(-1, new Buffer());
         }
         result->Dump(mpCommunicator);
-        if (result->GetExitCode() != cudaSuccess) {
+        if (result->GetExitCode() != 0) {
             cout << "[Process " << GetPid() << "]: Requested '" << routine
                     << "' routine." << endl;
             cout << "[Process " << GetPid() << "]: Exit Code '"
-                    << cudaGetErrorString(result->GetExitCode()) << "'." << endl;
+                    << result->GetExitCode() << "'." << endl;
         }
         delete result;
     }

@@ -26,6 +26,10 @@
 #ifndef CUDADRFRONTEND_H
 #define	CUDADRFRONTEND_H
 
+#include <cuda_runtime_api.h>
+
+#include "CudaUtil.h"
+
 #include "Frontend.h"
 
 class CudaDrFrontend {
