@@ -86,6 +86,9 @@ AC_CONFIG_FILES([Makefile
 		 cudadr/Makefile
 		 cudadr/backend/Makefile
 		 cudadr/frontend/Makefile
+		 opencl/Makefile
+		 opencl/backend/Makefile
+		 opencl/frontend/Makefile
 		 opengl/Makefile
 		 opengl/backend/Makefile
 		 opengl/frontend/Makefile
