@@ -218,6 +218,7 @@ private:
     size_t mOffset;
     size_t mBackOffset;
     char * mpBuffer;
+    bool mOwnBuffer;
 };
 
 #endif	/* _BUFFER_H */

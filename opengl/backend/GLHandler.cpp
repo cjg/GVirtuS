@@ -63,8 +63,10 @@ Result * GLHandler::Execute(std::string routine, Buffer * input_buffer) {
 }
 
 const char *GLHandler::InitFramebuffer(size_t size, bool use_shm) {
+    cout << "InitFramebuffer. Use SHM: " << use_shm << ". Size: " << size << endl;
     if(!use_shm) {
         mpFramebuffer = new char[size];
+        cout << (void *) mpFramebuffer << endl;
         return NULL;
     }
     char *name = new char[1024];
@@ -127,24 +129,45 @@ void GLHandler::Initialize() {
 #include <X11/Xlib.h>
 #include <GL/glx.h>
 
-static Display *dpy = NULL;
-static XVisualInfo *info = NULL;
+//static Display *dpy = NULL;
+//static XVisualInfo *info = NULL;
+
+static Display *GetDisplay() {
+    static Display *dpy = NULL;
+    if(dpy == NULL)
+        dpy = XOpenDisplay(NULL);
+    return dpy;
+}
+
+static XVisualInfo *GetVisualInfo() {
+    static XVisualInfo *vi = NULL;
+    if(vi == NULL) {
+        int attribList[] = {
+		GLX_RGBA,
+    		GLX_RED_SIZE, 4,
+    		GLX_GREEN_SIZE, 4,
+    		GLX_BLUE_SIZE, 4,
+    		None};
+	vi = glXChooseVisual(GetDisplay(), 0, attribList);
+    }
+    return vi;
+}
+
 
 GL_ROUTINE_HANDLER(XChooseVisual) {
     //dpy = XOpenDisplay(in->AssignString());
     in->AssignString();
-    dpy = XOpenDisplay(NULL);
-    cout << dpy << endl;
     int screen = in->Get<int>();
     int *attribList = in->AssignAll<int>();
-    info = glXChooseVisual(dpy, screen, attribList);
-    cout << attribList << endl;
-    cout << screen << endl;
-    for(int i = 0; attribList[i] != None; i++)
-        cout << attribList[i] << endl;
-    if(info == NULL)
-        return new Result(-1);
-    cout << XVisualIDFromVisual(info->visual) << endl;
+    //info = glXChooseVisual(dpy, screen, attribList);
+    //cout << attribList << endl;
+    //cout << screen << endl;
+    //for(int i = 0; attribList[i] != None; i++)
+    //    cout << attribList[i] << endl;
+    //if(info == NULL)
+    //    return new Result(-1);
+    //cout << XVisualIDFromVisual(info->visual) << endl;
+    XVisualInfo *info = GetVisualInfo();
     Buffer *out = new Buffer();
     out->Add(info->visual);
     out->Add(info);
@@ -155,20 +178,13 @@ GL_ROUTINE_HANDLER(XChooseVisual) {
 GL_ROUTINE_HANDLER(XCreateContext) {
     cout << "cretecontex" << endl;
     //Display *dpy = XOpenDisplay(in->AssignString());
-    if(dpy == NULL)
-          dpy = XOpenDisplay(NULL);
-    int n;
-    XVisualInfo vis_template, *visual;
-    vis_template.screen = 0;
-    vis_template.visualid = XVisualIDFromVisual(DefaultVisual(dpy, 0));
-
-    info = XGetVisualInfo(dpy, VisualScreenMask | VisualIDMask,
-            &vis_template, &n);
-
-    in->Get<Visual>(1);
+    //in->Get<Visual>(1);
     GLXContext shareList = (GLXContext) in->Get<uint64_t>();
     Bool direct = in->Get<Bool>();
-    GLXContext ctx = glXCreateContext(dpy, info, shareList, direct);
+    cout << shareList << endl;
+    cout << direct << endl;
+    GLXContext ctx = glXCreateContext(GetDisplay(), GetVisualInfo(), shareList, direct);
+    cout << ctx << endl;
     if(ctx == NULL)
         return new Result(-1);
     Buffer *out = new Buffer();
@@ -180,16 +196,17 @@ GLXDrawable drawable2;
 GL_ROUTINE_HANDLER(XMakeCurrent) {
     cout << "makecurrent" << endl;
     //Display *dpy = XOpenDisplay(in->AssignString());
-    drawable = in->Get<GLXDrawable>();
+    //drawable = in->Get<GLXDrawable>();
     GLXContext ctx = (GLXContext) in->Get<uint64_t>();
     bool use_shm = in->Get<bool>();
-
-    drawable = XCreateSimpleWindow(dpy, XRootWindow(dpy, DefaultScreen(dpy)), 0, 0, 300, 300, 0, 0, 0);
+    cout << ctx << endl << use_shm << endl;
+    drawable = XCreateSimpleWindow(GetDisplay(), XRootWindow(GetDisplay(), DefaultScreen(GetDisplay())), 0, 0, 300, 300, 0, 0, 0);
 
     const char *name = pThis->InitFramebuffer(300 * 300 * sizeof(int), use_shm);
-    XMapWindow(dpy, drawable);
+    XMapWindow(GetDisplay(), drawable);
     //XMapWindow(dpy, drawable2);
-    Bool result = glXMakeCurrent(dpy, drawable, ctx);
+    Bool result = glXMakeCurrent(GetDisplay(), drawable, ctx);
+    cout << "result: " << result << endl;
     Buffer *out = new Buffer();
     out->Add(result);
     if(use_shm)
@@ -200,7 +217,7 @@ GL_ROUTINE_HANDLER(XMakeCurrent) {
 GL_ROUTINE_HANDLER(XQueryExtensionsString) {
     //Display *dpy = XOpenDisplay(in->AssignString());
     int screen = in->Get<int>();
-    const char *result = glXQueryExtensionsString(dpy, screen);
+    const char *result = glXQueryExtensionsString(GetDisplay(), screen);
     Buffer *out = new Buffer();
     out->AddString(result);
     return new Result(0, out);
@@ -338,7 +355,7 @@ GL_ROUTINE_HANDLER(Rotatef) {
 
 int *row = new int[300];
 GL_ROUTINE_HANDLER(XSwapBuffers) {
-    glXSwapBuffers(dpy, drawable);
+    glXSwapBuffers(GetDisplay(), drawable);
     pThis->Lock();
     char *buffer = pThis->GetFramebuffer();
     memset(buffer, 0, 300 * 300 * sizeof(int));
@@ -386,7 +403,7 @@ GL_ROUTINE_HANDLER(__GetBuffer) {
 GL_ROUTINE_HANDLER(XQueryExtension) {
     int errorBase;
     int eventBase;
-    glXQueryExtension(dpy, &errorBase, &eventBase);
+    glXQueryExtension(GetDisplay(), &errorBase, &eventBase);
     Buffer *out = new Buffer();
     out->Add(errorBase);
     out->Add(eventBase);

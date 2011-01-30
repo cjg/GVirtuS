@@ -43,6 +43,7 @@ Buffer::Buffer(size_t initial_size, size_t block_size) {
     mLength = 0;
     mOffset = 0;
     mpBuffer = NULL;
+    mOwnBuffer = true;
     if (mSize == 0)
         mSize = 0;
     if ((mSize = (mSize / mBlockSize) * mBlockSize) == 0)
@@ -58,6 +59,7 @@ Buffer::Buffer(const Buffer& orig) {
     mSize = orig.mLength;
     mOffset = orig.mOffset;
     mLength = orig.mLength;
+    mOwnBuffer = true;
     if ((mpBuffer = (char *) malloc(mSize)) == NULL)
         throw "Can't allocate memory.";
     memmove(mpBuffer, orig.mpBuffer, mLength);
@@ -69,6 +71,7 @@ Buffer::Buffer(istream & in) {
     mBlockSize = BLOCK_SIZE;
     mLength = mSize;
     mOffset = 0;
+    mOwnBuffer = true;
     if ((mpBuffer = (char *) malloc(mSize)) == NULL)
         throw "Can't allocate memory.";
     in.read(mpBuffer, mSize);
@@ -81,11 +84,13 @@ Buffer::Buffer(char* buffer, size_t buffer_size, size_t block_size) {
     mLength = mSize;
     mOffset = 0;
     mpBuffer = buffer;
+    mOwnBuffer = false;
     mBackOffset = mLength;
 }
 
 Buffer::~Buffer() {
-    free(mpBuffer);
+    if(mOwnBuffer)
+        free(mpBuffer);
 }
 
 void Buffer::Reset() {

@@ -94,7 +94,6 @@ static inline void FlushRoutines() {
 
 static inline Buffer *AddRoutine(const char *routine) {
     mspRoutines->AddString(routine);
-    cout << routine << endl;
     msRoutinesEmpty = false;
     return mspRoutines;
 }
@@ -213,8 +212,8 @@ extern "C" GLXContext glXCreateContext(Display *dpy, XVisualInfo *vis,
     Frontend *f = GetFrontend();
     Buffer *in = f->GetInputBuffer();
     //in->AddString(XDisplayString(dpy));
-    in->Add(vis);
-    in->Add(vis->visual);
+    //in->Add(vis);
+    //in->Add(vis->visual);
     in->Add((uint64_t) shareList);
     in->Add(direct);
     f->Execute("glXCreateContext");
@@ -231,11 +230,12 @@ extern "C" Bool glXMakeCurrent(Display *dpy, GLXDrawable drawable,
     Frontend *f = GetFrontend();
     Buffer *in = f->GetInputBuffer();
     //in->AddString(XDisplayString(dpy));
-    in->Add(drawable);
+    //in->Add(drawable);
     in->Add((uint64_t) ctx);
     bool use_shm = mShmType != NONE;
     cout << "use_shm: " << use_shm << endl;
     in->Add(use_shm);
+    cout << ctx << endl << use_shm << endl;
     f->Execute("glXMakeCurrent");
     Buffer *out = f->GetOutputBuffer();
     WindowInfo *w = new WindowInfo;
