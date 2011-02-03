@@ -13,5 +13,5 @@ CudaRtHandler_texture.cpp\
 CudaRtHandler_thread.cpp\
 CudaRtHandler_version.cpp
 libcudart_backend_la_AMCXXFLAGS = -fPIC
-libcudart_backend_la_LIBADD = ../../util/libutil.a $(CUDA_LIB_FLAGS) -lrt 
+libcudart_backend_la_LIBADD = $(CUDA_LIB_FLAGS) -lrt 
 

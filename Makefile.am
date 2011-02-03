@@ -1,2 +1,1 @@
-SUBDIRS=util frontend backend conf test cuda
-#cudadr opencl opengl
+SUBDIRS=frontend backend test 

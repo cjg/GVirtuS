@@ -39,7 +39,7 @@
 #include <cuda.h>
 #include <cuda_runtime_api.h>
 
-#include "CudaUtil.h"
+#include <util/CudaUtil.h>
 #include "CudaRtFrontend.h"
 
 

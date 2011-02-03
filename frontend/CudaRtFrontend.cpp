@@ -30,23 +30,7 @@ using namespace std;
 CudaRtFrontend msInstance __attribute_used__;
 
 CudaRtFrontend::CudaRtFrontend() {
-    const char *config_file;
-#ifdef _CONFIG_FILE
-    if ((config_file = getenv("CONFIG_FILE")) == NULL)
-        config_file = _CONFIG_FILE;
-#else
-    config_file = "gvirtus.properties";
-#endif
-    ConfigFile *cf = new ConfigFile(config_file);
-    string communicator;
-#ifndef _WIN32
-    char *tmp;
-    if ((tmp = getenv("COMMUNICATOR")) != NULL)
-        communicator = string(tmp);
-    else
-#endif
-        communicator = cf->Get("communicator");
-    Frontend::GetFrontend(Communicator::Get(communicator));
+    Frontend::GetFrontend();
 }
 
 

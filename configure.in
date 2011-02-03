@@ -2,24 +2,15 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.63])
-AC_INIT(gvirtus, 01-beta2, http://osl.uniparthenope.it/mailman/listinfo/gvirtus-devel)
+AC_INIT(gvirtus-cudart, 01-beta2, http://osl.uniparthenope.it/mailman/listinfo/gvirtus-devel)
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([backend/Backend.cpp])
+AC_CONFIG_SRCDIR([backend/CudaRtHandler.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_LIBTOOL
-
-AC_ARG_WITH([vmware-include], [AC_HELP_STRING([--with-vmware-include=PATH],
-    [set PATH to the VMware include directory])], [
-    VMWARE_INCLUDE="$withval"
-    VMWARE_FLAGS="-isystem $VMWARE_INCLUDE"
-], [
-    VMWARE_FLAGS=""
-])
-CPPFLAGS="$CPPFLAGS $VMWARE_FLAGS"
 
 AC_ARG_WITH([cuda-include], [AC_HELP_STRING([--with-cuda-include=PATH],
     [set PATH to the CUDA include directory])], [
@@ -44,6 +35,31 @@ AC_ARG_WITH([cuda-lib], [AC_HELP_STRING([--with-cuda-lib=PATH],
 ])
 LDFLAGS="$LDFLAGS $CUDA_LIB_FLAGS"
 AC_SUBST(CUDA_LIB_FLAGS)
+
+AC_ARG_WITH([gvirtus-include], [AC_HELP_STRING([--with-gvirtus-include=PATH],
+    [set PATH to the GVirtuS include directory])], [
+    GVIRTUS_INCLUDE="$withval"
+    GVIRTUS_FLAGS="-I$GVIRTUS_INCLUDE"
+], [
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I${prefix}/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/usr/local/gvirtus/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/opt/gvirtus/include/gvirtus"
+])
+CPPFLAGS="$CPPFLAGS $GVIRTUS_FLAGS"
+
+AC_ARG_WITH([gvirtus-lib], [AC_HELP_STRING([--with-gvirtus-lib=PATH],
+    [set PATH to the GVirtuS library directory])],
+    [
+    GVIRTUS_LIB_DIR=$withval
+    GVIRTUS_LIB_FLAGS="-L$withval"
+], [
+    GVIRTUS_LIB_FLAGS="-L${prefix}/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/usr/local/gvirtus/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/opt/gvirtus/lib"
+])
+LDFLAGS="$LDFLAGS $GVIRTUS_LIB_FLAGS"
+AC_SUBST(GVIRTUS_LIB_FLAGS)
+
 
 # Checks for libraries.
 AC_CHECK_LIB([cudart], [__cudaRegisterFatBinary], , AC_MSG_ERROR([Could not find the cuda library.]))
@@ -71,26 +87,11 @@ AC_CHECK_HEADER([cuda.h], [], [
             AC_MSG_ERROR([Could not find the cuda header.])
         ])])
 
-CPPFLAGS="$CPPFLAGS -I`pwd`/util -I`pwd`/frontend -I`pwd`/backend -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.properties\\\""
 CXXFLAGS="$CXXFLAGS -pedantic -Werror"
 
 AC_CONFIG_FILES([Makefile
                  backend/Makefile
-                 conf/Makefile
                  frontend/Makefile
                  test/Makefile
-                 util/Makefile
-		 cuda/Makefile
-		 cuda/backend/Makefile
-		 cuda/frontend/Makefile
-		 cudadr/Makefile
-		 cudadr/backend/Makefile
-		 cudadr/frontend/Makefile
-		 opencl/Makefile
-		 opencl/backend/Makefile
-		 opencl/frontend/Makefile
-		 opengl/Makefile
-		 opengl/backend/Makefile
-		 opengl/frontend/Makefile
 		])
 AC_OUTPUT

@@ -27,8 +27,8 @@
 #define	CUDARTFRONTEND_H
 
 #include <cuda_runtime_api.h>
-#include "CudaUtil.h"
-#include "Frontend.h"
+#include <CudaUtil.h>
+#include <Frontend.h>
 
 class CudaRtFrontend {
 public:
