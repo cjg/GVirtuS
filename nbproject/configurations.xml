@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="69">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <df name="backend" root="backend">
+      <in>Makefile</in>
+      <in>Makefile.am</in>
+      <in>Makefile.in</in>
+    </df>
+    <df name="frontend" root="frontend">
+      <in>Makefile</in>
+      <in>Makefile.am</in>
+      <in>Makefile.in</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-gvirtus-cudart.mk</itemPath>
+      <itemPath>configure</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>backend</Elem>
+    <Elem>frontend</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile-gvirtus-cudart.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>$(MAKE) -f Makefile</buildCommand>
+          <cleanCommand>$(MAKE) -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>/opt/gvirtus/include/gvirtus</pElem>
+              <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+              <pElem>/usr/local/cuda/include</pElem>
+              <pElem>/opt/cuda/include</pElem>
+              <pElem>frontend/NONE/include/gvirtus</pElem>
+              <pElem>frontend</pElem>
+              <pElem>.</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>HAVE_CONFIG_H</Elem>
+            </preprocessorList>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+    </conf>
+  </confs>
+</configurationDescriptor>
