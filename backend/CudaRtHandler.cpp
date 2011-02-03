@@ -41,9 +41,23 @@
 
 #include "CudaUtil.h"
 
+#include <dlfcn.h>
+
 using namespace std;
 
 map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;
+
+extern "C" int HandlerInit() {
+    if(dlopen("libcudart.so", RTLD_NOW | RTLD_GLOBAL) == NULL) {
+        cerr << "Error loading 'libcudart.so'." << endl;
+        return -1;
+    }
+    return 0;
+}
+
+extern "C" Handler *GetHandler() {
+    return new CudaRtHandler(); 
+}
 
 CudaRtHandler::CudaRtHandler() {
     mpFatBinary = new map<string, void **>();
@@ -55,6 +69,14 @@ CudaRtHandler::CudaRtHandler() {
 
 CudaRtHandler::~CudaRtHandler() {
 
+}
+
+bool CudaRtHandler::CanExecute(std::string routine) {
+    map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;
+    it = mspHandlers->find(routine);
+    if (it == mspHandlers->end())
+        return false;
+    return true;
 }
 
 Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {

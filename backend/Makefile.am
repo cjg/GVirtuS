@@ -1,10 +1,17 @@
-noinst_LIBRARIES = libbackend.a
-libbackend_a_SOURCES = \
-Backend.cpp\
-Backend.h\
-Handler.cpp\
-Handler.h\
-Process.cpp\
-Process.h
-libbackend_a_CXXFLAGS = -fPIC
-libbackend_a_LIBADD = ../util/libutil.a
+lib_LTLIBRARIES = libcudart-backend.la
+libcudart_backend_la_SOURCES = \
+CudaRtHandler.cpp\
+CudaRtHandler.h\
+CudaRtHandler_device.cpp\
+CudaRtHandler_error.cpp\
+CudaRtHandler_event.cpp\
+CudaRtHandler_execution.cpp\
+CudaRtHandler_internal.cpp\
+CudaRtHandler_memory.cpp\
+CudaRtHandler_stream.cpp\
+CudaRtHandler_texture.cpp\
+CudaRtHandler_thread.cpp\
+CudaRtHandler_version.cpp
+libcudart_backend_la_AMCXXFLAGS = -fPIC
+libcudart_backend_la_LIBADD = ../../util/libutil.a $(CUDA_LIB_FLAGS) -lrt 
+

@@ -61,6 +61,7 @@ class CudaRtHandler : public Handler {
 public:
     CudaRtHandler();
     virtual ~CudaRtHandler();
+    bool CanExecute(std::string routine);
     Result * Execute(std::string routine, Buffer * input_buffer);
 
     void RegisterFatBinary(std::string & handler, void **fatCubinHandle);
