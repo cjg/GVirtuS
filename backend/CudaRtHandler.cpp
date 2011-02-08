@@ -48,10 +48,6 @@ using namespace std;
 map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;
 
 extern "C" int HandlerInit() {
-    if(dlopen("libcudart.so", RTLD_NOW | RTLD_GLOBAL) == NULL) {
-        cerr << "Error loading 'libcudart.so'." << endl;
-        return -1;
-    }
     return 0;
 }
 
@@ -291,7 +287,15 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToSymbol));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memset));
-
+    
+    /* CudaRtHandler_opengl */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GLSetGLDevice));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsGLRegisterBuffer));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsMapResources));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsResourceGetMappedPointer));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsUnmapResources));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsUnregisterResource));
+    
     /* CudaRtHandler_stream */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreate));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamDestroy));

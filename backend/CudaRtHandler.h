@@ -160,6 +160,14 @@ CUDA_ROUTINE_HANDLER(MemcpyToArray);
 CUDA_ROUTINE_HANDLER(MemcpyToSymbol);
 CUDA_ROUTINE_HANDLER(Memset);
 
+/* CudaRtHandler_opengl */
+CUDA_ROUTINE_HANDLER(GLSetGLDevice);
+CUDA_ROUTINE_HANDLER(GraphicsGLRegisterBuffer);
+CUDA_ROUTINE_HANDLER(GraphicsMapResources);
+CUDA_ROUTINE_HANDLER(GraphicsResourceGetMappedPointer);
+CUDA_ROUTINE_HANDLER(GraphicsUnmapResources);
+CUDA_ROUTINE_HANDLER(GraphicsUnregisterResource);
+
 /* CudaRtHandler_stream */
 CUDA_ROUTINE_HANDLER(StreamCreate);
 CUDA_ROUTINE_HANDLER(StreamDestroy);

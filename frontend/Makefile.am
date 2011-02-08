@@ -1,4 +1,5 @@
-lib_LTLIBRARIES = libcudart.la
+frontendlibdir = $(libdir)/frontend
+frontendlib_LTLIBRARIES = libcudart.la
 libcudart_la_SOURCES = \
 CudaRt.cpp\
 CudaRt.h\

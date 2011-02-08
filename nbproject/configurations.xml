@@ -18,6 +18,7 @@
       <itemPath>Makefile</itemPath>
       <itemPath>Makefile-gvirtus-cudart.mk</itemPath>
       <itemPath>configure</itemPath>
+      <itemPath>configure.in</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
