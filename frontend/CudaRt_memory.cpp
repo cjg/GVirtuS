@@ -155,18 +155,18 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMallocHost(void **ptr, size_t size
     return cudaSuccess;
 }
 
-extern "C" __host__ cudaError_t CUDARTAPI cudaMallocPitch(void **devPtr, size_t *pitch, size_t width,
-        size_t height) {
+extern "C" __host__ cudaError_t CUDARTAPI cudaMallocPitch(void **devPtr, 
+        size_t *pitch, size_t width, size_t height) {
     CudaRtFrontend::Prepare();
 
-    CudaRtFrontend::AddHostPointerForArguments(pitch);
+    CudaRtFrontend::AddVariableForArguments(*pitch);
     CudaRtFrontend::AddVariableForArguments(width);
     CudaRtFrontend::AddVariableForArguments(height);
     CudaRtFrontend::Execute("cudaMallocPitch");
 
     if (CudaRtFrontend::Success()) {
         *devPtr = CudaRtFrontend::GetOutputDevicePointer();
-        *pitch = *(CudaRtFrontend::GetOutputHostPointer<size_t > ());
+        *pitch = CudaRtFrontend::GetOutputVariable<size_t>();
     }
     return CudaRtFrontend::GetExitCode();
 }

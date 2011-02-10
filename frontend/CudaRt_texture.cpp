@@ -68,8 +68,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTextureToArray(const textureRe
         const cudaArray *array, const cudaChannelFormatDesc *desc) {
     CudaRtFrontend::Prepare();
     // Achtung: passing the address and the content of the textureReference
-    CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
-    CudaRtFrontend::AddHostPointerForArguments(texref);
+    CudaRtFrontend::AddVariableForArguments((uint64_t) texref);
     CudaRtFrontend::AddDevicePointerForArguments((void *) array);
     CudaRtFrontend::AddHostPointerForArguments(desc);
     CudaRtFrontend::Execute("cudaBindTextureToArray");

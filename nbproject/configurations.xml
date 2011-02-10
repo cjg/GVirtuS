@@ -2,14 +2,39 @@
 <configurationDescriptor version="69">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <df name="backend" root="backend">
-      <in>Makefile</in>
-      <in>Makefile.am</in>
-      <in>Makefile.in</in>
+      <in>CudaRtBackend.cpp</in>
+      <in>CudaRtBackend.h</in>
+      <in>CudaRtHandler.cpp</in>
+      <in>CudaRtHandler.h</in>
+      <in>CudaRtHandler_device.cpp</in>
+      <in>CudaRtHandler_error.cpp</in>
+      <in>CudaRtHandler_event.cpp</in>
+      <in>CudaRtHandler_execution.cpp</in>
+      <in>CudaRtHandler_internal.cpp</in>
+      <in>CudaRtHandler_memory.cpp</in>
+      <in>CudaRtHandler_opengl.cpp</in>
+      <in>CudaRtHandler_stream.cpp</in>
+      <in>CudaRtHandler_texture.cpp</in>
+      <in>CudaRtHandler_thread.cpp</in>
+      <in>CudaRtHandler_version.cpp</in>
+      <in>main.cpp</in>
     </df>
     <df name="frontend" root="frontend">
-      <in>Makefile</in>
-      <in>Makefile.am</in>
-      <in>Makefile.in</in>
+      <in>CudaRt.cpp</in>
+      <in>CudaRt.h</in>
+      <in>CudaRtFrontend.cpp</in>
+      <in>CudaRtFrontend.h</in>
+      <in>CudaRt_device.cpp</in>
+      <in>CudaRt_error.cpp</in>
+      <in>CudaRt_event.cpp</in>
+      <in>CudaRt_execution.cpp</in>
+      <in>CudaRt_internal.cpp</in>
+      <in>CudaRt_memory.cpp</in>
+      <in>CudaRt_opengl.cpp</in>
+      <in>CudaRt_stream.cpp</in>
+      <in>CudaRt_texture.cpp</in>
+      <in>CudaRt_thread.cpp</in>
+      <in>CudaRt_version.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -45,9 +70,7 @@
               <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
               <pElem>/usr/local/cuda/include</pElem>
               <pElem>/opt/cuda/include</pElem>
-              <pElem>frontend/NONE/include/gvirtus</pElem>
-              <pElem>frontend</pElem>
-              <pElem>.</pElem>
+              <pElem>/home/cjg/gvirtus/include/gvirtus</pElem>
             </incDir>
             <preprocessorList>
               <Elem>HAVE_CONFIG_H</Elem>

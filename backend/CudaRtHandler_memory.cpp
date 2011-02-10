@@ -27,6 +27,10 @@
 
 #include "CudaUtil.h"
 
+#include <iostream>
+
+using namespace std;
+
 CUDA_ROUTINE_HANDLER(Free) {
     void *devPtr = input_buffer->GetFromMarshal<void *>();
 
@@ -99,14 +103,14 @@ CUDA_ROUTINE_HANDLER(MallocArray) {
 
 CUDA_ROUTINE_HANDLER(MallocPitch) {
     void *devPtr = NULL;
-    size_t *pitch = input_buffer->Assign<size_t > ();
+    size_t pitch = input_buffer->Get<size_t > ();
     size_t width = input_buffer->Get<size_t > ();
     size_t height = input_buffer->Get<size_t > ();
 
-    cudaError_t exit_code = cudaMallocPitch(&devPtr, pitch, width, height);
+    cudaError_t exit_code = cudaMallocPitch(&devPtr, &pitch, width, height);
 
-    std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << width * height
-            << std::endl;
+    std::cout << "Allocated DevicePointer " << devPtr << " with a size of " 
+            << width * height << std::endl;
 
     Buffer *out = new Buffer();
     out->AddMarshal(devPtr);

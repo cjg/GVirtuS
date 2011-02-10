@@ -72,7 +72,7 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
 #endif
 
     Buffer *out = new Buffer();
-    out->Add(prop);
+    out->Add(prop, 1);
 
     return new Result(exit_code, out);
 }

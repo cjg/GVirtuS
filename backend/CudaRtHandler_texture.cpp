@@ -25,6 +25,8 @@
 
 #include "CudaRtHandler.h"
 
+extern const textureReference *getTexture(const textureReference *handler);
+
 CUDA_ROUTINE_HANDLER(BindTexture) {
     Buffer *out = new Buffer();
     size_t *offset = out->Delegate<size_t>();
@@ -68,13 +70,9 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
 #endif
 
 CUDA_ROUTINE_HANDLER(BindTextureToArray) {
-    char * texrefHandler = input_buffer->AssignString();
-    textureReference *guestTexref = input_buffer->Assign<textureReference>();
+    const textureReference *texref = getTexture((const textureReference *) input_buffer->Get<uint64_t>());
     cudaArray *array = input_buffer->GetFromMarshal<cudaArray *>();
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
-
-    textureReference *texref = pThis->GetTexture(texrefHandler);
-    memmove(texref, guestTexref, sizeof(textureReference));
 
     cudaError_t exit_code = cudaBindTextureToArray(texref, array, desc);
 

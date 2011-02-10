@@ -52,6 +52,87 @@ extern "C" {
             int dim, int norm, int ext);
 }
 
+static bool initialized = false;
+static char **constStrings;
+static size_t constStrings_size = 0;
+static size_t constStrings_length = 0;
+static void ** fatCubinHandlers[2048];
+static void * fatCubins[2048];
+static const textureReference * texrefHandlers[2048];
+static const textureReference * texref[2048];
+
+static void init() {
+    constStrings_size = 2048;
+    constStrings = (char **) malloc(sizeof (char *) * constStrings_size);
+    for (int i = 0; i < 2048; i++) {
+        constStrings[i] = NULL;
+        fatCubinHandlers[i] = NULL;
+        fatCubins[i] = NULL;
+    }
+    initialized = true;
+}
+
+const char *get_const_string(const char *s) {
+    if (!initialized)
+        init();
+    size_t i;
+    for (i = 0; i < constStrings_length; i++)
+        if (!strcmp(s, constStrings[i]))
+            return constStrings[i];
+    if (i >= constStrings_size) {
+        constStrings_size += 2048;
+        constStrings = (char **) realloc(constStrings, sizeof (char *) * constStrings_size);
+    }
+    constStrings[constStrings_length] = strdup(s);
+    return constStrings[constStrings_length++];
+}
+
+void addFatBinary(void **handler, void *bin) {
+    if (!initialized)
+        init();
+    int i;
+    for (i = 0; fatCubinHandlers[i] != NULL && i < 2048; i++);
+    if (i >= 2048)
+        throw "Ahi ahi ahi";
+    fatCubinHandlers[i] = handler;
+    fatCubins[i] = bin;
+}
+
+void removeFatBinary(void **handler) {
+    int i;
+    for (i = 0; i < 2048; i++) {
+        if (fatCubinHandlers[i] == handler) {
+            free(fatCubins[i]);
+            fatCubinHandlers[i] = NULL;
+            return;
+        }
+    }
+
+}
+
+void addTexture(struct textureReference *handler,
+        struct textureReference *ref) {
+    if (!initialized)
+        init();
+    int i;
+    for (i = 0; texrefHandlers[i] != NULL && i < 2048; i++);
+    if (i >= 2048)
+        throw "Ahi ahi ahi";
+    texrefHandlers[i] = handler;
+    texref[i] = ref;
+}
+
+const textureReference *getTexture(const textureReference *handler) {
+    int i;
+    for (i = 0; i < 2048; i++) {
+        if (texrefHandlers[i] == handler) {
+            return texref[i];
+        }
+    }
+    throw "Texture not found!";
+    return NULL;
+}
+
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
     char * handler = input_buffer->AssignString();
     __cudaFatCudaBinary * fatBin =
@@ -150,6 +231,24 @@ CUDA_ROUTINE_HANDLER(RegisterShared) {
 CUDA_ROUTINE_HANDLER(RegisterTexture) {
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
+
+    textureReference * texture = new textureReference;
+    memmove(texture, input_buffer->Assign<textureReference>(),
+        sizeof (textureReference));
+
+    void *hostVarPtr = (void *) input_buffer->Get<uint64_t>();
+    addTexture((textureReference *) hostVarPtr, texture);
+
+    const char *deviceAddress = get_const_string(input_buffer->AssignString());
+    const char *deviceName = get_const_string(input_buffer->AssignString());
+
+    int dim = input_buffer->Get<int>();
+    int norm = input_buffer->Get<int>();
+    int ext = input_buffer->Get<int>();
+    
+    __cudaRegisterTexture(fatCubinHandle, texture, (void **) deviceAddress,
+           (char *) deviceName, dim, norm, ext);
+#if 0
     handler = input_buffer->AssignString();
     textureReference *hostVar = new textureReference;
     memmove(hostVar, input_buffer->Assign<textureReference > (),
@@ -164,7 +263,7 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
             dim, norm, ext);
 
     pThis->RegisterTexture(handler, hostVar);
-
+#endif
     return new Result(cudaSuccess);
 }
 
