@@ -110,21 +110,21 @@ extern "C" cudaError_t cudaGLSetGLDevice(int device) {
 extern "C" cudaError_t cudaGraphicsGLRegisterBuffer(struct cudaGraphicsResource
         **resource, GLuint buffer, unsigned int flags) {
     FlushRoutines();
-    
+
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddVariableForArguments(buffer);
     CudaRtFrontend::AddVariableForArguments(flags);
     CudaRtFrontend::Execute("cudaGraphicsGLRegisterBuffer");
-    if(CudaRtFrontend::Success())
+    if (CudaRtFrontend::Success())
         *resource = (struct cudaGraphicsResource *) CudaRtFrontend::GetOutputDevicePointer();
     return CudaRtFrontend::GetExitCode();
 }
 
-extern "C" cudaError_t cudaGraphicsMapResources(int count, 
-    cudaGraphicsResource_t *resources, cudaStream_t stream) {
+extern "C" cudaError_t cudaGraphicsMapResources(int count,
+        cudaGraphicsResource_t *resources, cudaStream_t stream) {
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddVariableForArguments(count);
-    for(int i = 0; i < count; i++)
+    for (int i = 0; i < count; i++)
         CudaRtFrontend::AddDevicePointerForArguments(resources[i]);
     CudaRtFrontend::AddDevicePointerForArguments(stream);
     CudaRtFrontend::Execute("cudaGraphicsMapResources");
@@ -136,28 +136,38 @@ extern "C" cudaError_t cudaGraphicsResourceGetMappedPointer(void **devPtr,
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddDevicePointerForArguments(resource);
     CudaRtFrontend::Execute("cudaGraphicsResourceGetMappedPointer");
-    if(CudaRtFrontend::Success()) {
+    if (CudaRtFrontend::Success()) {
         *devPtr = CudaRtFrontend::GetOutputDevicePointer();
-        *size = CudaRtFrontend::GetOutputVariable<size_t>();
+        *size = CudaRtFrontend::GetOutputVariable<size_t > ();
     }
     return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" cudaError_t cudaGraphicsUnmapResources(int count,
-    cudaGraphicsResource_t *resources, cudaStream_t stream) {
+        cudaGraphicsResource_t *resources, cudaStream_t stream) {
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddVariableForArguments(count);
-    for(int i = 0; i < count; i++)
+    for (int i = 0; i < count; i++)
         CudaRtFrontend::AddDevicePointerForArguments(resources[i]);
     CudaRtFrontend::AddDevicePointerForArguments(stream);
     CudaRtFrontend::Execute("cudaGraphicsUnmapResources");
     return CudaRtFrontend::GetExitCode();
 }
 
-extern "C" cudaError_t cudaGraphicsUnregisterResource(cudaGraphicsResource_t  resource) {
+extern "C" cudaError_t cudaGraphicsUnregisterResource(cudaGraphicsResource_t resource) {
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddDevicePointerForArguments(resource);
     CudaRtFrontend::Execute("cudaGraphicsUnregisterResource");
     return CudaRtFrontend::GetExitCode();
 }
+
+extern "C" cudaError_t cudaGraphicsResourceSetMapFlags(struct cudaGraphicsResource *resource,
+        unsigned int flags) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddDevicePointerForArguments(resource);
+    CudaRtFrontend::AddVariableForArguments(flags);
+    CudaRtFrontend::Execute("cudaGraphicsResourceSetMapFlags");
+    return CudaRtFrontend::GetExitCode();
+}
+
 #endif

@@ -98,3 +98,9 @@ CUDA_ROUTINE_HANDLER(GraphicsUnregisterResource) {
     cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<uint64_t>();
     return new Result(cudaGraphicsUnregisterResource(resource));
 }
+
+CUDA_ROUTINE_HANDLER(GraphicsResourceSetMapFlags) {
+    cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<uint64_t>();
+    unsigned int flags = input_buffer->Get<unsigned int>();
+    return new Result(cudaGraphicsResourceSetMapFlags(resource, flags));
+}

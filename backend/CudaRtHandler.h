@@ -167,6 +167,7 @@ CUDA_ROUTINE_HANDLER(GraphicsMapResources);
 CUDA_ROUTINE_HANDLER(GraphicsResourceGetMappedPointer);
 CUDA_ROUTINE_HANDLER(GraphicsUnmapResources);
 CUDA_ROUTINE_HANDLER(GraphicsUnregisterResource);
+CUDA_ROUTINE_HANDLER(GraphicsResourceSetMapFlags);
 
 /* CudaRtHandler_stream */
 CUDA_ROUTINE_HANDLER(StreamCreate);
