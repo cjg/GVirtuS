@@ -1,0 +1,14 @@
+12/11/2010 - second beta release
+From this release (01-beta2) we support cudatoolkit >= 3.1. The legacy 
+compatibility for cudatoolkit versions older than 3.1 is not guaranteed.
+In this release there are also some minor changes and bugfixes.
+The frontend now is named "libcudart.so.3", so it is not needed anymore to 
+rename it or to preload it.
+The AfUnix communicator now has a new (optional) option, "mode" for
+setting the permission on the socket file (0660 for default).
+
+05/03/2010 - first beta release
+We are proud to announce the first beta release of gVirtuS. The software, 
+developed for research applications, is provided as it is. 
+We encourage using and testing it in order to collect useful feedbacks and 
+suggestions.
