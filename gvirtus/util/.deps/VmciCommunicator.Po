@@ -1,0 +1,3 @@
+VmciCommunicator.o: VmciCommunicator.cpp ../config.h
+
+../config.h:
