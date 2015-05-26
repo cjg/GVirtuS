@@ -49,7 +49,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaConfigureCall(dim3 gridDim, dim3 b
     launch->Add(blockDim);
     launch->Add(sharedMem);
 #if CUDART_VERSION >= 3010
-    launch->Add((uint64_t) stream);
+    launch->Add((pointer_t) stream);
 #else
     launch->Add(stream);
 #endif
@@ -85,7 +85,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaLaunch(const void *entry) {
     // LAUN
     launch->Add<int>(0x4c41554e);
     //launch->AddString(CudaUtil::MarshalHostPointer((char*)entry));
-    launch->Add<uint64_t>((uint64_t)entry);
+    launch->Add<pointer_t>((pointer_t)entry);
     cerr << "entry: " << CudaUtil::MarshalHostPointer((char*)entry) << endl;
     CudaRtFrontend::Execute("cudaLaunch", launch);
     return CudaRtFrontend::GetExitCode();

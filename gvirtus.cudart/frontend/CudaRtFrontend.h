@@ -89,7 +89,7 @@ public:
      * @param ptr the pointer to add as a parameter.
      */
     static inline void AddDevicePointerForArguments(const void *ptr) {
-        Frontend::GetFrontend()->GetInputBuffer()->Add((uint64_t) ptr);
+        Frontend::GetFrontend()->GetInputBuffer()->Add((pointer_t) ptr);
     }
 
     /**
@@ -136,7 +136,7 @@ public:
      * @return the pointer to the device memory.
      */
     static inline void * GetOutputDevicePointer() {
-        return (void *) Frontend::GetFrontend()->GetOutputBuffer()->Get<uint64_t>();
+        return (void *) Frontend::GetFrontend()->GetOutputBuffer()->Get<pointer_t>();
     }
 
     /**

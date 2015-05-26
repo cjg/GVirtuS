@@ -94,7 +94,7 @@ extern "C" __host__ void __cudaRegisterFunction(void **fatCubinHandle, const cha
     
     //CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(hostFun));
     //CudaRtFrontend::AddHostPointerForArguments(hostFun);
-    CudaRtFrontend::AddVariableForArguments((uint64_t)hostFun);
+    CudaRtFrontend::AddVariableForArguments((pointer_t)hostFun);
     //CudaRtFrontend::AddVariableForArguments((size_t)hostFun);
     //CudaRtFrontend::AddStringForArguments(deviceFun);
     CudaRtFrontend::AddStringForArguments(deviceFun);
@@ -160,7 +160,7 @@ extern "C" __host__ void __cudaRegisterTexture(void **fatCubinHandle,
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     // Achtung: passing the address and the content of the textureReference
     CudaRtFrontend::AddHostPointerForArguments(hostVar);
-    CudaRtFrontend::AddVariableForArguments((uint64_t) hostVar);
+    CudaRtFrontend::AddVariableForArguments((pointer_t) hostVar);
     CudaRtFrontend::AddStringForArguments((char *) deviceAddress);
     CudaRtFrontend::AddStringForArguments(deviceName);
     CudaRtFrontend::AddVariableForArguments(dim);
