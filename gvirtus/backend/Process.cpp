@@ -56,7 +56,7 @@ static GetHandler_t LoadModule(const char *name) {
         return NULL;
     }
 
-    HandlerInit_t init = (HandlerInit_t) ((uint64_t) dlsym(lib, "HandlerInit"));
+    HandlerInit_t init = (HandlerInit_t) ((pointer_t) dlsym(lib, "HandlerInit"));
     if(init == NULL) {
         dlclose(lib);
         cerr << "Error loading " << name << ": HandlerInit function not found."
@@ -71,7 +71,7 @@ static GetHandler_t LoadModule(const char *name) {
         return NULL;
     }
 
-    GetHandler_t sym = (GetHandler_t) ((uint64_t) dlsym(lib, "GetHandler"));
+    GetHandler_t sym = (GetHandler_t) ((pointer_t) dlsym(lib, "GetHandler"));
     if(sym == NULL) {
         dlclose(lib);
         cerr << "Error loading " << name << ": " << dlerror() << endl;

@@ -15673,7 +15673,7 @@ done
 
 
 CPPFLAGS="$CPPFLAGS -I`pwd`/util -I`pwd`/frontend -I`pwd`/backend -D_PLUGINS_DIR=\\\"$libdir/backend\\\" -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.properties\\\""
-CXXFLAGS="$CXXFLAGS -Wall -pedantic -Werror"
+CXXFLAGS="$CXXFLAGS -Wall -pedantic"
 
 ac_config_files="$ac_config_files Makefile backend/Makefile conf/Makefile frontend/Makefile test/Makefile util/Makefile"
 
