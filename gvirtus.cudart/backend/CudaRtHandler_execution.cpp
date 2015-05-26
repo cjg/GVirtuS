@@ -103,7 +103,7 @@ CUDA_ROUTINE_HANDLER(Launch) {
     //fprintf(stderr,"entry:%s\n",entry);
     // //sscanf(entry,"%p",&pointer);
     // //const unsigned long long int* data = (const unsigned long long int*)entry;
-    std::cerr << "cudaConfigureCall executed: " << entry << std::endl;
+    //std::cerr << "cudaConfigureCall executed: " << entry << std::endl;
     // exit_code = cudaLaunch(entry);
     //sscanf(handler,"%p",&pointer);
     //char *__f = ((char *)((void ( *)(const float *, const float *, float *, int))pointer));

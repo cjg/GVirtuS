@@ -25,6 +25,11 @@
 
 #include "CudaRtHandler.h"
 
+#if defined(__arm__)
+#include <GL/gl.h>
+#endif
+
+
 #include <cuda_gl_interop.h>
 
 #include <iostream>
