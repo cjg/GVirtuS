@@ -1,5 +1,6 @@
 noinst_LIBRARIES = libutil.a
 libutil_a_SOURCES = \
+gvirtus-type.h\
 AfUnixCommunicator.cpp\
 AfUnixCommunicator.h\
 Buffer.cpp\
@@ -37,6 +38,7 @@ VmciCommunicator.h
 
 libutil_includedir=$(includedir)/gvirtus
 libutil_include_HEADERS= \
+gvirtus-type.h\
 AfUnixCommunicator.h\
 Buffer.h\
 Communicator.h\

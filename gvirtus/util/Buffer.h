@@ -44,6 +44,7 @@
 #include <cstring>
 
 #include "Communicator.h"
+#include "gvirtus-type.h"
 
 #define BLOCK_SIZE  4096
 
@@ -96,7 +97,7 @@ public:
     }
 
     template <class T> void AddMarshal(T item) {
-        Add((uint64_t) item);
+        Add((pointer_t) item);
     }
 
 
@@ -199,7 +200,7 @@ public:
     }
 
     template <class T>T GetFromMarshal() {
-        return (T) Get<uint64_t>();
+        return (T) Get<pointer_t>();
     }
 
     inline bool Empty() {

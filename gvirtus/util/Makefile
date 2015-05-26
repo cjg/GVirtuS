@@ -33,8 +33,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = i686-pc-linux-gnu
-host_triplet = i686-pc-linux-gnu
+build_triplet = x86_64-unknown-linux-gnu
+host_triplet = x86_64-unknown-linux-gnu
 subdir = util
 DIST_COMMON = $(libutil_include_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -123,13 +123,13 @@ AUTOMAKE = ${SHELL} /home/rapid/GVirtuS/gvirtus-devel/gvirtus/missing --run auto
 AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -m32 -g  -fno-stack-protector
+CFLAGS = -g -O2
 CPP = gcc -E
 CPPFLAGS =   -I/home/rapid/GVirtuS/gvirtus-devel/gvirtus/util -I/home/rapid/GVirtuS/gvirtus-devel/gvirtus/frontend -I/home/rapid/GVirtuS/gvirtus-devel/gvirtus/backend -D_PLUGINS_DIR=\"${exec_prefix}/lib/backend\" -D_CONFIG_FILE=\"${prefix}/etc/gvirtus.properties\"
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -m32 -g -fno-stack-protector -Wall -pedantic
+CXXFLAGS = -g -O2 -Wall -pedantic
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -148,8 +148,8 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-LD = /usr/bin/ld
-LDFLAGS = -m32
+LD = /usr/bin/ld -m elf_x86_64
+LDFLAGS = 
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -193,22 +193,22 @@ am__quote =
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 bindir = ${exec_prefix}/bin
-build = i686-pc-linux-gnu
-build_alias = i686-pc-linux-gnu
-build_cpu = i686
+build = x86_64-unknown-linux-gnu
+build_alias = 
+build_cpu = x86_64
 build_os = linux-gnu
-build_vendor = pc
+build_vendor = unknown
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = i686-pc-linux-gnu
+host = x86_64-unknown-linux-gnu
 host_alias = 
-host_cpu = i686
+host_cpu = x86_64
 host_os = linux-gnu
-host_vendor = pc
+host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
@@ -221,7 +221,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/rapid/opt32
+prefix = /home/rapid/opt
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -234,6 +234,7 @@ top_builddir = ..
 top_srcdir = ..
 noinst_LIBRARIES = libutil.a
 libutil_a_SOURCES = \
+gvirtus-type.h\
 AfUnixCommunicator.cpp\
 AfUnixCommunicator.h\
 Buffer.cpp\
@@ -271,6 +272,7 @@ VmciCommunicator.h
 
 libutil_includedir = $(includedir)/gvirtus
 libutil_include_HEADERS = \
+gvirtus-type.h\
 AfUnixCommunicator.h\
 Buffer.h\
 Communicator.h\

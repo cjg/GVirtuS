@@ -41,6 +41,8 @@
 
 
 #include "Buffer.h"
+#include "gvirtus-type.h"
+
 
 /**
  *Util contains facility functions used by gVirtuS. These functions
@@ -61,8 +63,8 @@ public:
     static inline void * UnmarshalPointer(const char *marshal) {
         return (void *) strtoul(marshal, NULL, 16);
     }
-    template <class T> static inline uint64_t MarshalPointer(const T ptr) {
-        return static_cast<uint64_t>(ptr);
+    template <class T> static inline pointer_t MarshalPointer(const T ptr) {
+        return static_cast<pointer_t>(ptr);
     }
 
 private:
