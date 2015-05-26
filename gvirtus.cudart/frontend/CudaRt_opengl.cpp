@@ -95,6 +95,10 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaGLUnregisterBufferObject(GLuint bu
 }
 #else
 
+#if defined(__arm__)
+#include <GL/gl.h>
+#endif
+
 #include <cuda_gl_interop.h>
 
 extern "C" void FlushRoutines();
