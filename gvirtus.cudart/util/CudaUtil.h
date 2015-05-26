@@ -71,8 +71,8 @@ public:
     static inline void * UnmarshalPointer(const char *marshal) {
         return (void *) strtoul(marshal, NULL, 16);
     }
-    template <class T> static inline uint64_t MarshalPointer(const T ptr) {
-        return static_cast<uint64_t>(ptr);
+    template <class T> static inline pointer_t MarshalPointer(const T ptr) {
+        return static_cast<pointer_t>(ptr);
     }
     static Buffer * MarshalFatCudaBinary(__cudaFatCudaBinary * bin, Buffer * marshal = NULL);
     static Buffer * MarshalFatCudaBinary(__fatBinC_Wrapper_t * bin, Buffer * marshal = NULL);

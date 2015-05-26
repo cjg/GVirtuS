@@ -15806,7 +15806,7 @@ fi
 
 
 CPPFLAGS="-I`pwd`/util $CPPFLAGS"
-CXXFLAGS="$CXXFLAGS -Wall -pedantic -Werror"
+CXXFLAGS="$CXXFLAGS -Wall -pedantic"
 
 ac_config_files="$ac_config_files Makefile util/Makefile backend/Makefile frontend/Makefile test/Makefile"
 

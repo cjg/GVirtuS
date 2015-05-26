@@ -62,7 +62,7 @@ CUDA_LIB_FLAGS = -L/usr/local/cuda/lib -L/usr/local/cuda/lib64 -L/opt/cuda/lib -
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -Wall -pedantic -Werror
+CXXFLAGS = -g -O2 -Wall -pedantic
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
