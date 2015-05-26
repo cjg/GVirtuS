@@ -302,7 +302,7 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
     }   
  
     //const char *hostfun = strdup(input_buffer->AssignString());
-    const char* hostfun = (const char*)(input_buffer->Get<uint64_t> ());
+    const char* hostfun = (const char*)(input_buffer->Get<pointer_t> ());
     //const char *hostfun = (const char*)input_buffer->Assign<size_t>();
     //const char * entry = (char*)malloc(CudaUtil::MarshaledHostPointerSize);
     //char * entry;
@@ -394,7 +394,7 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
     memmove(texture, input_buffer->Assign<textureReference>(),
         sizeof (textureReference));
 
-    void *hostVarPtr = (void *) input_buffer->Get<uint64_t>();
+    void *hostVarPtr = (void *) input_buffer->Get<pointer_t>();
     addTexture((textureReference *) hostVarPtr, texture);
 
     const char *deviceAddress = get_const_string(input_buffer->AssignString());

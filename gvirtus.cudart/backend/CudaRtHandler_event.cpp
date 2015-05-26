@@ -34,7 +34,7 @@ CUDA_ROUTINE_HANDLER(EventCreate) {
 #if CUDART_VERSION >= 3010
     cudaEvent_t event;
     cudaError_t exit_code = cudaEventCreate(&event);
-    out->Add((uint64_t) event);
+    out->Add((pointer_t) event);
 #else
     cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
     cudaError_t exit_code = cudaEventCreate(event);
@@ -50,7 +50,7 @@ CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
     cudaEvent_t event;
     int flags = input_buffer->Get<int>();
     cudaError_t exit_code = cudaEventCreateWithFlags(&event, flags);
-    out->Add((uint64_t) event);
+    out->Add((pointer_t) event);
 #else
     cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
     int flags = input_buffer->Get<int>();

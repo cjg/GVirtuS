@@ -99,7 +99,7 @@ CUDA_ROUTINE_HANDLER(Launch) {
     //char *handler = input_buffer->AssignString();
     //fprintf(stderr,"handler:%s\n",handler); 
     //const char *entry = pThis->GetDeviceFunction(handler);
-    const char *entry = (const char *)(input_buffer->Get<uint64_t> ());
+    const char *entry = (const char *)(input_buffer->Get<pointer_t> ());
     //fprintf(stderr,"entry:%s\n",entry);
     // //sscanf(entry,"%p",&pointer);
     // //const unsigned long long int* data = (const unsigned long long int*)entry;

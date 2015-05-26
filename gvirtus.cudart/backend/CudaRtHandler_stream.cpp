@@ -34,7 +34,7 @@ CUDA_ROUTINE_HANDLER(StreamCreate) {
 #if CUDART_VERSION >= 3010
     cudaStream_t pStream; // = input_buffer->Assign<cudaStream_t>();
     cudaError_t exit_code = cudaStreamCreate(&pStream);
-    out->Add((uint64_t) pStream);
+    out->Add((pointer_t) pStream);
 #else
     cudaStream_t *pStream = input_buffer->Assign<cudaStream_t>();
     cudaError_t exit_code = cudaStreamCreate(pStream);

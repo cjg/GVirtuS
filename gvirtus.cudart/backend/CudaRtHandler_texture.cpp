@@ -70,7 +70,7 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
 #endif
 
 CUDA_ROUTINE_HANDLER(BindTextureToArray) {
-    const textureReference *texref = getTexture((const textureReference *) input_buffer->Get<uint64_t>());
+    const textureReference *texref = getTexture((const textureReference *) input_buffer->Get<pointer_t>());
     cudaArray *array = input_buffer->GetFromMarshal<cudaArray *>();
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
 
