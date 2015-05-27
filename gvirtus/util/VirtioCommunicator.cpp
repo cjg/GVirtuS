@@ -35,6 +35,8 @@
 #include <sys/fcntl.h>
 #include <sys/ioctl.h>
 
+#include <unistd.h>
+
 #include <cstring>
 
 #include "VirtioCommunicator.h"
