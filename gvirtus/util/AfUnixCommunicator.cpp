@@ -46,6 +46,8 @@
 #include <stdio.h>
 #include <stddef.h>
 
+#include <unistd.h>
+
 using namespace std;
 
 AfUnixCommunicator::AfUnixCommunicator(const std::string& communicator) {
