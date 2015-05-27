@@ -48,6 +48,8 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 
+#include <unistd.h>
+
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
