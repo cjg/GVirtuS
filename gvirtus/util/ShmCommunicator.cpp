@@ -47,6 +47,8 @@
 #include <arpa/inet.h>
 #include <errno.h>
 
+#include <unistd.h>
+
 #include <cstring>
 #include <cstdio>
 
