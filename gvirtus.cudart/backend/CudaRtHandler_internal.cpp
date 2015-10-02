@@ -292,7 +292,7 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
             _ptx = 0;
         }
 
-        fprintf(stderr,"Filename: %s\n",_name);
+        //fprintf(stderr,"Filename: %s\n",_name);
 /*
         if(entry->flags & COMPRESSED_PTX) {
             _decompressedPTX.resize(entry->uncompressedBinarySize + 1);

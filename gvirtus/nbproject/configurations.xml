@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="69">
-  <logicalFolder name="root" displayName="root" projectFiles="true">
-    <df name="backend" root="backend">
-      <df name=".libs">
-      </df>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="backend" name="0">
       <in>Backend.cpp</in>
       <in>Backend.h</in>
       <in>Handler.cpp</in>
@@ -12,13 +10,11 @@
       <in>Process.h</in>
       <in>main.cpp</in>
     </df>
-    <df name="frontend" root="frontend">
-      <df name=".libs">
-      </df>
+    <df root="frontend" name="1">
       <in>Frontend.cpp</in>
       <in>Frontend.h</in>
     </df>
-    <df name="util" root="util">
+    <df root="util" name="2">
       <in>AfUnixCommunicator.cpp</in>
       <in>AfUnixCommunicator.h</in>
       <in>Buffer.cpp</in>
@@ -77,15 +73,17 @@
   <confs>
     <conf name="Default" type="0">
       <toolsSet>
-        <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
-        <platform>2</platform>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
       <makefileType>
         <makeTool>
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
-          <buildCommand>$(MAKE) -f Makefile</buildCommand>
-          <cleanCommand>$(MAKE) -f Makefile clean</cleanCommand>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath></executablePath>
           <ccTool>
             <incDir>
@@ -96,6 +94,96 @@
           </ccTool>
         </makeTool>
       </makefileType>
+      <item path="backend/Backend.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/Backend.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="backend/Handler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/Handler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="backend/Process.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/Process.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="backend/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Frontend.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Frontend.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/AfUnixCommunicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/AfUnixCommunicator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Buffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Buffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Communicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Communicator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/ConfigFile.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/ConfigFile.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/CudaUtil.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/CudaUtil.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Mutex.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Observable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Observable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Observer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Observer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Result.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Result.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/ShmCommunicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/ShmCommunicator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Subprocess.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Subprocess.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/TcpCommunicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/TcpCommunicator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/Util.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/Util.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/VMShmCommunicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/VMShmCommunicator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/VMSocketCommunicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/VMSocketCommunicator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/VirtioCommunicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/VirtioCommunicator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/VmciCommunicator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/VmciCommunicator.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

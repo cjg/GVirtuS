@@ -143,7 +143,7 @@ void CudaRtHandler::RegisterDeviceFunction(const char * handler, const char * fu
 const char *CudaRtHandler::GetDeviceFunction(std::string & handler) {
     map<string, string>::iterator it = mpDeviceFunction->find(handler);
     if (it == mpDeviceFunction->end())
-        throw "Device Function '" + handler + "' not fount";
+        throw "Device Function '" + handler + "' not found";
     return it->second.c_str();
 }
 
@@ -284,6 +284,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetSymbolSize));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocArray));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocManaged));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocPitch));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyAsync));
@@ -325,6 +326,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadSynchronize));
 
+
     /* CudaRtHandler_version */
 #ifndef CUDART_VERSION
 #error CUDART_VERSION not defined
@@ -332,5 +334,6 @@ void CudaRtHandler::Initialize() {
 #if CUDART_VERSION >= 2030
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DriverGetVersion));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RuntimeGetVersion));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(FuncSetCacheConfig));
 #endif
 }

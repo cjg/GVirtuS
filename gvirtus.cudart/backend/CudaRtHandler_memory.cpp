@@ -86,6 +86,25 @@ CUDA_ROUTINE_HANDLER(Malloc) {
     return new Result(exit_code, out);
 }
 
+CUDA_ROUTINE_HANDLER(MallocManaged) {
+    
+    void *devPtr = NULL;
+    devPtr = input_buffer->Get<void* > ();
+    size_t size = input_buffer->Get<size_t > ();
+    unsigned flags = input_buffer->Get<unsigned > ();
+    
+
+    cudaError_t exit_code = cudaMallocManaged(&devPtr, size, flags);
+
+    std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << size
+            << std::endl;
+
+    Buffer *out = new Buffer();
+    out->AddMarshal(devPtr);
+
+    return new Result(exit_code, out);
+}
+
 CUDA_ROUTINE_HANDLER(MallocArray) {
     cudaArray *arrayPtr = NULL;
     cudaChannelFormatDesc *desc =

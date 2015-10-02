@@ -185,8 +185,29 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMallocPitch(void **devPtr,
     return CudaRtFrontend::GetExitCode();
 }
 
-extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst, const void *src, size_t count,
-        cudaMemcpyKind kind) {
+extern "C"  __host__ CUDARTAPI cudaError_t cudaMallocManaged(void ** devPtr,
+        size_t size, unsigned flags)
+{
+    printf("Requesting cudaMallocManaged\n");
+    *devPtr = malloc(size);
+    CudaRtFrontend::Prepare();
+
+    CudaRtFrontend::AddDevicePointerForArguments(*devPtr);
+    CudaRtFrontend::AddVariableForArguments(size);
+    CudaRtFrontend::AddVariableForArguments(flags);
+    CudaRtFrontend::Execute("cudaMallocManaged");
+
+    //if (CudaRtFrontend::Success()) {
+    //    *devPtr = CudaRtFrontend::GetOutputDevicePointer();
+    //}
+    
+    
+    
+    return CudaRtFrontend::GetExitCode();
+}
+
+extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst,
+        const void *src, size_t count, cudaMemcpyKind kind) {
     printf("Requesting cudaMemcpy\n");
     CudaRtFrontend::Prepare();
     switch (kind) {

@@ -48,17 +48,28 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
     cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
-    char *handler = input_buffer->AssignString();
-    const char *entry = pThis->GetDeviceFunction(handler);
+    const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
     Buffer * out = new Buffer();
     cudaFuncAttributes *attr = out->Delegate<cudaFuncAttributes>();
     memmove(attr, guestAttr, sizeof(cudaFuncAttributes));
     
-    cudaError_t exit_code = cudaFuncGetAttributes(attr, entry);
+    cudaError_t exit_code = cudaFuncGetAttributes(attr, handler);
 
     return new Result(exit_code, out);
 }
 #endif
+
+CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
+    //(const char*)(input_buffer->Get<pointer_t> ())
+    const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
+    //const char *entry = pThis->GetDeviceFunction(handler);
+    cudaFuncCache cacheConfig = input_buffer->Get<cudaFuncCache>();
+    Buffer * out = new Buffer();
+    
+    cudaError_t exit_code = cudaFuncSetCacheConfig(handler, cacheConfig);
+
+    return new Result(exit_code, out);
+}
 
 CUDA_ROUTINE_HANDLER(Launch) {
     int ctrl;
@@ -111,9 +122,9 @@ CUDA_ROUTINE_HANDLER(Launch) {
     //fprintf(stderr,"__f:%x\n",__f);
 
     //entry=(const char *)0x40137b;
-    fprintf(stderr,"Before cuda launch entry_addr:%p\n",entry);
+    //fprintf(stderr,"Before cuda launch entry_addr:%p\n",entry);
     exit_code = cudaLaunch(entry);
-    fprintf(stderr,"After cuda launch exit code:%d\n", exit_code);
+    //fprintf(stderr,"After cuda launch exit code:%d\n", exit_code);
     return new Result(exit_code);
 }
 

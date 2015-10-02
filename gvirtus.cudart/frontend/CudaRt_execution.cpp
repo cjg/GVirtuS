@@ -65,7 +65,8 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaFuncGetAttributes(struct cudaFuncA
     cerr << "Requesting cudaFuncGetAttributes" << endl;
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddHostPointerForArguments(attr);
-    CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer((char*)func));
+    CudaRtFrontend::AddVariableForArguments((pointer_t)func);
+    //CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer((char*)func));
     CudaRtFrontend::Execute("cudaFuncGetAttributes");
     if(CudaRtFrontend::Success())
         memmove(attr, CudaRtFrontend::GetOutputHostPointer<cudaFuncAttributes>(),
@@ -73,6 +74,18 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaFuncGetAttributes(struct cudaFuncA
     return CudaRtFrontend::GetExitCode();
 }
 #endif
+
+extern "C" __host__ cudaError_t CUDARTAPI cudaFuncSetCacheConfig(const void *func,
+        cudaFuncCache cacheConfig) {
+    cerr << "Requesting cudaFuncSetCacheConfig" << endl;
+    CudaRtFrontend::Prepare();
+    //CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer((char*)func));
+    CudaRtFrontend::AddVariableForArguments((pointer_t)func);
+    CudaRtFrontend::AddVariableForArguments(cacheConfig);
+    CudaRtFrontend::Execute("cudaFuncSetCacheConfig");
+    
+    return CudaRtFrontend::GetExitCode();
+}
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaLaunch(const void *entry) {
 #if 0
