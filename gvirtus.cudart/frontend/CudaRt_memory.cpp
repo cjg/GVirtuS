@@ -251,6 +251,8 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst,
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2D(void *dst, size_t dpitch, const void *src,
         size_t spitch, size_t width, size_t height, cudaMemcpyKind kind) {
+    
+    
     printf("Requesting cudaMemcpy2D\n");
 //    CudaRtFrontend::Prepare();
 //    switch (kind) {
