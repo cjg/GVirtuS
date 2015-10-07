@@ -251,9 +251,45 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst,
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2D(void *dst, size_t dpitch, const void *src,
         size_t spitch, size_t width, size_t height, cudaMemcpyKind kind) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemcpy2D() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    printf("Requesting cudaMemcpy2D\n");
+    CudaRtFrontend::Prepare();
+    switch (kind) {
+	case cudaMemcpyDefault:
+        case cudaMemcpyHostToHost:
+            /* NOTE: no communication is performed, because it's just overhead
+             * here */
+            if (memmove(dst, src, count) == NULL)
+                return cudaErrorInvalidValue;
+            return cudaSuccess;
+            break;
+        case cudaMemcpyHostToDevice:
+            CudaRtFrontend::AddDevicePointerForArguments(dst);
+            CudaRtFrontend::AddHostPointerForArguments<char>(static_cast<char *>
+                    (const_cast<void *> (src)), count);
+            CudaRtFrontend::AddVariableForArguments(count);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpy");
+            break;
+        case cudaMemcpyDeviceToHost:
+            /* NOTE: adding a fake host pointer */
+            CudaRtFrontend::AddHostPointerForArguments("");
+            CudaRtFrontend::AddDevicePointerForArguments(src);
+            CudaRtFrontend::AddVariableForArguments(count);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpy");
+            if (CudaRtFrontend::Success())
+                memmove(dst, CudaRtFrontend::GetOutputHostPointer<char>(count), count);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            CudaRtFrontend::AddDevicePointerForArguments(dst);
+            CudaRtFrontend::AddDevicePointerForArguments(src);
+            CudaRtFrontend::AddVariableForArguments(count);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpy");
+            break;
+    }
+
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2DArrayToArray(cudaArray *dst, size_t wOffsetDst,
@@ -566,10 +602,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemset(void *devPtr, int c, size_t
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemset2D(void *devPtr, size_t pitch, int value, size_t width,
         size_t height) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemset2D() not yet implemented!" << endl;
-    return cudaErrorUnknown;
-    
     printf("Requesting cudaMemset2D\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddDevicePointerForArguments(devPtr);
