@@ -252,42 +252,42 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst,
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2D(void *dst, size_t dpitch, const void *src,
         size_t spitch, size_t width, size_t height, cudaMemcpyKind kind) {
     printf("Requesting cudaMemcpy2D\n");
-    CudaRtFrontend::Prepare();
-    switch (kind) {
-	case cudaMemcpyDefault:
-        case cudaMemcpyHostToHost:
-            /* NOTE: no communication is performed, because it's just overhead
-             * here */
-            if (memmove(dst, src, count) == NULL)
-                return cudaErrorInvalidValue;
-            return cudaSuccess;
-            break;
-        case cudaMemcpyHostToDevice:
-            CudaRtFrontend::AddDevicePointerForArguments(dst);
-            CudaRtFrontend::AddHostPointerForArguments<char>(static_cast<char *>
-                    (const_cast<void *> (src)), count);
-            CudaRtFrontend::AddVariableForArguments(count);
-            CudaRtFrontend::AddVariableForArguments(kind);
-            CudaRtFrontend::Execute("cudaMemcpy");
-            break;
-        case cudaMemcpyDeviceToHost:
-            /* NOTE: adding a fake host pointer */
-            CudaRtFrontend::AddHostPointerForArguments("");
-            CudaRtFrontend::AddDevicePointerForArguments(src);
-            CudaRtFrontend::AddVariableForArguments(count);
-            CudaRtFrontend::AddVariableForArguments(kind);
-            CudaRtFrontend::Execute("cudaMemcpy");
-            if (CudaRtFrontend::Success())
-                memmove(dst, CudaRtFrontend::GetOutputHostPointer<char>(count), count);
-            break;
-        case cudaMemcpyDeviceToDevice:
-            CudaRtFrontend::AddDevicePointerForArguments(dst);
-            CudaRtFrontend::AddDevicePointerForArguments(src);
-            CudaRtFrontend::AddVariableForArguments(count);
-            CudaRtFrontend::AddVariableForArguments(kind);
-            CudaRtFrontend::Execute("cudaMemcpy");
-            break;
-    }
+//    CudaRtFrontend::Prepare();
+//    switch (kind) {
+//	case cudaMemcpyDefault:
+//        case cudaMemcpyHostToHost:
+//            /* NOTE: no communication is performed, because it's just overhead
+//             * here */
+//            if (memmove(dst, src, count) == NULL)
+//                return cudaErrorInvalidValue;
+//            return cudaSuccess;
+//            break;
+//        case cudaMemcpyHostToDevice:
+//            CudaRtFrontend::AddDevicePointerForArguments(dst);
+//            CudaRtFrontend::AddHostPointerForArguments<char>(static_cast<char *>
+//                    (const_cast<void *> (src)), count);
+//            CudaRtFrontend::AddVariableForArguments(count);
+//            CudaRtFrontend::AddVariableForArguments(kind);
+//            CudaRtFrontend::Execute("cudaMemcpy2D");
+//            break;
+//        case cudaMemcpyDeviceToHost:
+//            /* NOTE: adding a fake host pointer */
+//            CudaRtFrontend::AddHostPointerForArguments("");
+//            CudaRtFrontend::AddDevicePointerForArguments(src);
+//            CudaRtFrontend::AddVariableForArguments(count);
+//            CudaRtFrontend::AddVariableForArguments(kind);
+//            CudaRtFrontend::Execute("cudaMemcpy2D");
+//            if (CudaRtFrontend::Success())
+//                memmove(dst, CudaRtFrontend::GetOutputHostPointer<char>(count), count);
+//            break;
+//        case cudaMemcpyDeviceToDevice:
+//            CudaRtFrontend::AddDevicePointerForArguments(dst);
+//            CudaRtFrontend::AddDevicePointerForArguments(src);
+//            CudaRtFrontend::AddVariableForArguments(count);
+//            CudaRtFrontend::AddVariableForArguments(kind);
+//            CudaRtFrontend::Execute("cudaMemcpy2D");
+//            break;
+//    }
 
     return CudaRtFrontend::GetExitCode();
 }
