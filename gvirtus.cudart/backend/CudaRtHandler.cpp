@@ -292,6 +292,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToSymbol));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memset));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memset2D));
     
     /* CudaRtHandler_opengl */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GLSetGLDevice));

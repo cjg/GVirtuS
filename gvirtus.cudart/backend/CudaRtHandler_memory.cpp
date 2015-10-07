@@ -365,3 +365,15 @@ CUDA_ROUTINE_HANDLER(Memset) {
 
     return new Result(exit_code);
 }
+
+CUDA_ROUTINE_HANDLER(Memset2D) {
+    void *devPtr = input_buffer->GetFromMarshal<void *>();
+    size_t pitch = input_buffer->Get<size_t > ();
+    int value = input_buffer->Get<int> ();
+    size_t width = input_buffer->Get<size_t > ();
+    size_t height = input_buffer->Get<size_t > ();
+
+    cudaError_t exit_code = cudaMemset2D(devPtr, pitch, value, width, height);
+
+    return new Result(exit_code);
+}

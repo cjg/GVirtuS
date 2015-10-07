@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="89">
+<configurationDescriptor version="95">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <df root="backend" name="backend">
-      <df name="NONE">
-      </df>
+    <df root="backend" name="0">
       <in>OpenclBackend.cpp</in>
       <in>OpenclBackend.h</in>
       <in>OpenclHandler.cpp</in>
@@ -20,9 +18,7 @@
       <in>OpenclHandler_Queue.cpp</in>
       <in>main.cpp</in>
     </df>
-    <df root="frontend" name="frontend">
-      <df name="NONE">
-      </df>
+    <df root="frontend" name="1">
       <in>OpenclFrontend.cpp</in>
       <in>OpenclFrontend.h</in>
       <in>Opencl_Context.cpp</in>
@@ -41,7 +37,7 @@
       <in>hellocl_platf.c</in>
       <in>newhellocl.c</in>
     </df>
-    <df root="util" name="util">
+    <df root="util" name="2">
       <in>OpenclUtil.cpp</in>
       <in>OpenclUtil.h</in>
     </df>

@@ -564,11 +564,21 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemset(void *devPtr, int c, size_t
     return CudaRtFrontend::GetExitCode();
 }
 
-extern "C" __host__ cudaError_t CUDARTAPI cudaMemset2D(void *mem, size_t pitch, int c, size_t width,
+extern "C" __host__ cudaError_t CUDARTAPI cudaMemset2D(void *devPtr, size_t pitch, int value, size_t width,
         size_t height) {
     // FIXME: implement
     cerr << "*** Error: cudaMemset2D() not yet implemented!" << endl;
     return cudaErrorUnknown;
+    
+    printf("Requesting cudaMemset2D\n");
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddDevicePointerForArguments(devPtr);
+    CudaRtFrontend::AddVariableForArguments(pitch);
+    CudaRtFrontend::AddVariableForArguments(value);
+    CudaRtFrontend::AddVariableForArguments(width);
+    CudaRtFrontend::AddVariableForArguments(height);
+    CudaRtFrontend::Execute("cudaMemset2D");
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemset3D(cudaPitchedPtr pitchDevPtr, int value,
