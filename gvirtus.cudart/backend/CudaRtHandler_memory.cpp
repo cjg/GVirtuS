@@ -185,6 +185,78 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
     return result;
 }
 
+CUDA_ROUTINE_HANDLER(Memcpy2D) {
+    /*cudaError_t cudaMemcpy2D 	( 	void *  	dst,
+		size_t  	dpitch,
+		const void *  	src,
+		size_t  	spitch,
+		size_t  	width,
+		size_t  	height,
+		enum cudaMemcpyKind  	kind	 
+	) 	*/
+    void *dst = NULL;
+    void *src = NULL;
+    size_t dpitch;
+    size_t spitch;
+    size_t height;
+    size_t width;
+
+
+    cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
+    
+    cudaError_t exit_code;
+    Result * result = NULL;
+    Buffer *out;
+
+    switch (kind) {
+        case cudaMemcpyDefault:
+        case cudaMemcpyHostToHost:
+            // This should never happen
+            result = NULL;
+            break;
+        case cudaMemcpyHostToDevice:
+            dst = input_buffer->GetFromMarshal<void *>();
+            src = input_buffer->AssignAll<char>();
+            dpitch = input_buffer->Get<size_t>();
+            spitch = input_buffer->Get<size_t>();
+            width = input_buffer->Get<size_t>();
+            height = input_buffer->Get<size_t>();
+            exit_code = cudaMemcpy2D(dst, dpitch, src, spitch, width, height, 
+                    kind);
+            result = new Result(exit_code);
+            break;
+        case cudaMemcpyDeviceToHost:
+            // FIXME: use buffer delegate
+            /* skipping a char for fake host pointer */
+            input_buffer->Assign<char>();
+            src = input_buffer->GetFromMarshal<void *>();
+            dpitch = input_buffer->Get<size_t>();
+            spitch = input_buffer->Get<size_t>();
+            width = input_buffer->Get<size_t>();
+            height = input_buffer->Get<size_t>();
+            dst = new char[dpitch * height];
+            exit_code = cudaMemcpy2D(dst, dpitch, src, spitch, width, height, 
+                    kind);
+            out = new Buffer();
+            out->Add<char>((char *) dst, dpitch * height);
+            delete[] (char *) dst;
+            result = new Result(exit_code, out);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            dst = input_buffer->GetFromMarshal<void *>();
+            src = input_buffer->GetFromMarshal<void *>();
+            dpitch = input_buffer->Get<size_t>();
+            spitch = input_buffer->Get<size_t>();
+            width = input_buffer->Get<size_t>();
+            height = input_buffer->Get<size_t>();
+            exit_code = cudaMemcpy2D(dst, dpitch, src, spitch, width, height, 
+                    kind);
+            result = new Result(exit_code);
+            break;
+    }
+    return result;
+}
+
 CUDA_ROUTINE_HANDLER(MemcpyAsync) {
     void *dst = NULL;
     void *src = NULL;

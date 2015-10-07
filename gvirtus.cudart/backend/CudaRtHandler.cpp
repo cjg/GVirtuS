@@ -287,6 +287,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocManaged));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocPitch));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy2D));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyAsync));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyFromSymbol));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToArray));

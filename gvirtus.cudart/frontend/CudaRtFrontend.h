@@ -116,9 +116,9 @@ public:
     }
 
     /**
-     * Retrives an host pointer from the output parameters of the last execution
+     * Retrieves an host pointer from the output parameters of the last execution
      * request.
-     * The optional parameter n is usefull when retriving an array: with n is
+     * The optional parameter n is useful when retrieving an array: with n is
      * possible to specify the length of the array in terms of elements.
      *
      * @param n the length of the array.
