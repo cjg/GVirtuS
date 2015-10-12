@@ -228,7 +228,7 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
           _ptx = 0;
         }
 
-        fprintf(stderr,"Filename: %s \n",_name);
+//        fprintf(stderr,"Filename: %s \n",_name);
 /*
     if(entry->flags & COMPRESSED_PTX)
     {
@@ -241,9 +241,6 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
 
     //fprintf(stderr, "fatCubinHandler: %p\n", *fatCubinHandler);
     pThis->RegisterFatBinary(handler, bin);
-    //for( int i=0; i< 2048;i++)
-    //    fprintf(stderr,"%x ",(((char*)(*fatCubinHandler))+i));
-    //fprintf(stderr,"\n");
     return new Result(cudaSuccess);
 }
 
@@ -271,48 +268,10 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
     fprintf(stderr, "Handling RegisterFunction\n"); 
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
-    if(*((int*)(*fatCubinHandle)) == cudaFatMAGIC2) {
-        __cudaFatCudaBinary2* binary = (__cudaFatCudaBinary2*) *fatCubinHandle;
-        //fprintf(stderr,"magic: %x\n",binary->magic);
-        //fprintf(stderr,"version: %x\n",binary->version);
-        __cudaFatCudaBinary2Header* header = (__cudaFatCudaBinary2Header*)binary->fatbinData;
-        //fprintf(stderr,"Size: %d bytes\n",header->length);
-        char* base = (char*)(header + 1);
-        long long unsigned int offset = 0;
-        __cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
-        while (!(entry->type & FATBIN_2_PTX) && offset < header->length) {
-           entry = (__cudaFatCudaBinary2EntryRec*)(base + offset);
-           offset += entry->binary + entry->binarySize;
-        }
-        _name = (char*)entry + entry->name;
-
-        if (entry->type & FATBIN_2_PTX) {
-            _ptx  = (char*)entry + entry->binary;
-        } else {
-            _ptx = 0;
-        }
-
-        //fprintf(stderr,"Filename: %s\n",_name);
-/*
-        if(entry->flags & COMPRESSED_PTX) {
-            _decompressedPTX.resize(entry->uncompressedBinarySize + 1);
-            _decompressPTX(entry->binarySize);
-        }
-*/
-    }   
+  
  
-    //const char *hostfun = strdup(input_buffer->AssignString());
     const char* hostfun = (const char*)(input_buffer->Get<pointer_t> ());
-    //const char *hostfun = (const char*)input_buffer->Assign<size_t>();
-    //const char * entry = (char*)malloc(CudaUtil::MarshaledHostPointerSize);
-    //char * entry;
-    //sscanf(hostfun, "%p", &entry);
-    
     char *deviceFun = strdup(input_buffer->AssignString());
-
-
-    //fprintf(stderr, "Handler: %s\n", handler);
-    //fprintf(stderr,"*****hostfun string: %p\n",hostfun);
     const char *deviceName = strdup(input_buffer->AssignString());
     int thread_limit = input_buffer->Get<int>();
     uint3 *tid = input_buffer->Assign<uint3 > ();
@@ -320,16 +279,10 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
     dim3 *bDim = input_buffer->Assign<dim3 > ();
     dim3 *gDim = input_buffer->Assign<dim3 > ();
     int *wSize = input_buffer->Assign<int>();
-    //sprintf(entry,"%zu",hostfun);
-    //fprintf(stderr, "handler: %s hostFun: %s fatCubinHandle: %p deviceName: %s deviceFun: %s\n", handler, hostfun, fatCubinHandle, deviceName, deviceFun);
-    //fprintf(stderr,"*****entry pointer: %p\n",hostfun);
     
     __cudaRegisterFunction(fatCubinHandle, hostfun, deviceFun, deviceName,
             thread_limit, tid, bid, bDim, gDim, wSize);
 
-    //fprintf(stderr,"*****after __cudaRegisterFunction\n");
-    //pThis->RegisterDeviceFunction(hostfun, deviceFun);
-    //fprintf(stderr,"*****after RegisterDeviceFunction\n");
     Buffer * output_buffer = new Buffer();
     output_buffer->AddString(deviceFun);
     output_buffer->Add(tid);
@@ -389,13 +342,15 @@ CUDA_ROUTINE_HANDLER(RegisterShared) {
 CUDA_ROUTINE_HANDLER(RegisterTexture) {
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
-
+    
+    char *hostVarPtr = input_buffer->AssignString();
     textureReference * texture = new textureReference;
     memmove(texture, input_buffer->Assign<textureReference>(),
         sizeof (textureReference));
 
-    void *hostVarPtr = (void *) input_buffer->Get<pointer_t>();
-    addTexture((textureReference *) hostVarPtr, texture);
+    
+//    addTexture((textureReference *) hostVarPtr, texture);
+    pThis->RegisterTexture(hostVarPtr, texture);
 
     const char *deviceAddress = get_const_string(input_buffer->AssignString());
     const char *deviceName = get_const_string(input_buffer->AssignString());

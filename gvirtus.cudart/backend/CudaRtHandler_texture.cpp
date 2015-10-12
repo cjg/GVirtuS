@@ -51,12 +51,17 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
 CUDA_ROUTINE_HANDLER(BindTexture2D) {
     Buffer *out = new Buffer();
     size_t *offset = out->Delegate<size_t>();
+//    printf("first\n");
     *offset = *(input_buffer->Assign<size_t>());
+    
     char * texrefHandler = input_buffer->AssignString();
     textureReference *guestTexref = input_buffer->Assign<textureReference>();
+    printf("third %s\n", texrefHandler);
     textureReference *texref = pThis->GetTexture(texrefHandler);
+    printf("fourth\n");
     memmove(texref, guestTexref, sizeof(textureReference));
-    void *devPtr = input_buffer->GetFromMarshal<void *>();
+    void *devPtr = (void *)input_buffer->Get<pointer_t>();
+//    void *devPtr = input_buffer->GetFromMarshal<void *>();
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
     size_t width = input_buffer->Get<size_t>();
     size_t height = input_buffer->Get<size_t>();
@@ -64,6 +69,7 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
 
     cudaError_t exit_code = cudaBindTexture2D(offset, texref, devPtr, desc, width,
             height, pitch);
+    printf("exit code: %d %d\n", exit_code, *offset);
 
     return new Result(exit_code, out);
 }

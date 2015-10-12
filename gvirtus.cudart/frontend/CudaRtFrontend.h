@@ -72,7 +72,7 @@ public:
     /**
      * Adds, marshalling it, an host pointer as an input parameter for the next
      * execution request.
-     * The optional parameter n is usefull when adding an array: with n is
+     * The optional parameter n is useful when adding an array: with n is
      * possible to specify the length of the array in terms of elements.
      *
      * @param ptr the pointer to add as a parameter.

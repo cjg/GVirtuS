@@ -78,6 +78,8 @@ bool CudaRtHandler::CanExecute(std::string routine) {
 Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
     map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
+    cerr << "Requested: " << routine << endl;
+    
     if (it == mspHandlers->end())
         throw "No handler for '" + routine + "' found!";
     return it->second(this, input_buffer);

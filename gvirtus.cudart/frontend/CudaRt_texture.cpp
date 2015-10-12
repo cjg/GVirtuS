@@ -51,7 +51,9 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddHostPointerForArguments(offset);
     // Achtung: passing the address and the content of the textureReference
+    cerr << "offset: " << hex << offset << endl;
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
+//    CudaRtFrontend::AddDevicePointerForArguments(texref);
     CudaRtFrontend::AddHostPointerForArguments(texref);
     CudaRtFrontend::AddDevicePointerForArguments(devPtr);
     CudaRtFrontend::AddHostPointerForArguments(desc);
@@ -59,8 +61,12 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
     CudaRtFrontend::AddVariableForArguments(height);
     CudaRtFrontend::AddVariableForArguments(pitch);
     CudaRtFrontend::Execute("cudaBindTexture2D");
-    if (CudaRtFrontend::Success())
-        *offset = *(CudaRtFrontend::GetOutputHostPointer<size_t > ());
+    size_t tempOffset;
+    if (CudaRtFrontend::Success() )
+        tempOffset = *(CudaRtFrontend::GetOutputHostPointer<size_t > ());
+    if (offset != NULL)
+        *offset = tempOffset;
+    cerr << "offset: " << *offset << endl;
     return CudaRtFrontend::GetExitCode();
 }
 
