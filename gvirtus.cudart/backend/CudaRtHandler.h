@@ -47,6 +47,7 @@
 
 #include <cuda_runtime_api.h>
 
+#include "gvirtus-type.h"
 #include "Handler.h"
 #include "Result.h"
 
@@ -83,8 +84,10 @@ public:
     const char *GetVar(const char *handler);
 
     void RegisterTexture(std::string & handler, textureReference *texref);
+    void RegisterTexture(pointer_t handler, textureReference *texref);
     void RegisterTexture(const char *handler, textureReference *texref);
     textureReference *GetTexture(std::string & handler);
+    textureReference *GetTexture(pointer_t handler);
     textureReference *GetTexture(const char *handler);
     const char *GetTextureHandler(textureReference *texref);
 

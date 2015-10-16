@@ -97,8 +97,8 @@ static bool initialized = false;
 static char **constStrings;
 static size_t constStrings_size = 0;
 static size_t constStrings_length = 0;
-static void ** fatCubinHandlers[2048];
-static void * fatCubins[2048];
+//static void ** fatCubinHandlers[2048];
+//static void * fatCubins[2048];
 static const textureReference * texrefHandlers[2048];
 static const textureReference * texref[2048];
 
@@ -107,8 +107,8 @@ static void init() {
     constStrings = (char **) malloc(sizeof (char *) * constStrings_size);
     for (int i = 0; i < 2048; i++) {
         constStrings[i] = NULL;
-        fatCubinHandlers[i] = NULL;
-        fatCubins[i] = NULL;
+//        fatCubinHandlers[i] = NULL;
+//        fatCubins[i] = NULL;
     }
     initialized = true;
 }
@@ -127,7 +127,7 @@ const char *get_const_string(const char *s) {
     constStrings[constStrings_length] = strdup(s);
     return constStrings[constStrings_length++];
 }
-
+#if 0 
 void addFatBinary(void **handler, void *bin) {
     if (!initialized)
         init();
@@ -161,7 +161,8 @@ void addTexture(struct textureReference *handler,
         throw "Ahi ahi ahi";
     texrefHandlers[i] = handler;
     texref[i] = ref;
-}
+} 
+#endif
 
 const textureReference *getTexture(const textureReference *handler) {
     int i;
@@ -183,69 +184,39 @@ const textureReference *getTexture(const textureReference *handler) {
     return new Result(cudaSuccess);
 }*/
 
-/*
-typedef struct {
-  int magic;
-  int version;
-  const unsigned long long* data;
-  void *filename_or_fatbins;
-
-} __fatBinC_Wrapper_t;
-*/
-
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
-    long int cudaFatMAGIC =0x1ee55a01;
-    long int cudaFatMAGIC2=0x466243b1;
-    long int cudaFatMAGIC3=0xba55ed50;
-    long int cudaFatVERSION=0x00000004;
+//    long int cudaFatMAGIC =0x1ee55a01;
+//    long int cudaFatMAGIC2=0x466243b1;
+//    long int cudaFatMAGIC3=0xba55ed50;
+//    long int cudaFatVERSION=0x00000004;
     char * handler = input_buffer->AssignString();
-    const char* _name;
-    const char* _ptx;  
+//    const char* _name;
+//    const char* _ptx;  
     __fatBinC_Wrapper_t * fatBin = CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer);
-    //cout << "UnmarshalFatCudaBinaryV2 called" << endl;
-    //cout << "data: " << fatBin->data[0] << endl;
-    //fprintf(stderr,"data= %p\n",fatBin->data);
+   
     void **bin = __cudaRegisterFatBinary((void *) fatBin);
     
-    if(*((int*)(*bin)) == cudaFatMAGIC2) {
-        __cudaFatCudaBinary2* binary = (__cudaFatCudaBinary2*) *bin;
-        //fprintf(stderr,"magic: %x\n",binary->magic);
-        //fprintf(stderr,"version: %x\n",binary->version);
-        __cudaFatCudaBinary2Header* header = (__cudaFatCudaBinary2Header*)binary->fatbinData;
-        //fprintf(stderr,"Size: %d bytes\n",header->length);
-        char* base = (char*)(header + 1);
-        long long unsigned int offset = 0;
-        __cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
-        while (!(entry->type & FATBIN_2_PTX) && offset < header->length) {
-           entry = (__cudaFatCudaBinary2EntryRec*)(base + offset);
-           offset += entry->binary + entry->binarySize;
-        }
-        _name = (char*)entry + entry->name;
-
-        if (entry->type & FATBIN_2_PTX) {
-            _ptx  = (char*)entry + entry->binary;
-        } else {
-          _ptx = 0;
-        }
-
-//        fprintf(stderr,"Filename: %s \n",_name);
-/*
-    if(entry->flags & COMPRESSED_PTX)
-    {
-      _decompressedPTX.resize(entry->uncompressedBinarySize + 1);
-      _decompressPTX(entry->binarySize);
-    }
-*/
-    }
-    
-
-    //fprintf(stderr, "fatCubinHandler: %p\n", *fatCubinHandler);
+//    if(*((int*)(*bin)) == cudaFatMAGIC2) {
+//        __cudaFatCudaBinary2* binary = (__cudaFatCudaBinary2*) *bin;
+//        __cudaFatCudaBinary2Header* header = (__cudaFatCudaBinary2Header*)binary->fatbinData;
+//        char* base = (char*)(header + 1);
+//        long long unsigned int offset = 0;
+//        __cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
+//        while (!(entry->type & FATBIN_2_PTX) && offset < header->length) {
+//           entry = (__cudaFatCudaBinary2EntryRec*)(base + offset);
+//           offset += entry->binary + entry->binarySize;
+//        }
+//        _name = (char*)entry + entry->name;
+//
+//        if (entry->type & FATBIN_2_PTX) {
+//            _ptx  = (char*)entry + entry->binary;
+//        } else {
+//          _ptx = 0;
+//        }
+//    }
     pThis->RegisterFatBinary(handler, bin);
     return new Result(cudaSuccess);
 }
-
-
-
 
 CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
     char * handler = input_buffer->AssignString();
@@ -259,13 +230,6 @@ CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
 }
 
 CUDA_ROUTINE_HANDLER(RegisterFunction) {
-    long int cudaFatMAGIC =0x1ee55a01;
-    long int cudaFatMAGIC2=0x466243b1;
-    long int cudaFatMAGIC3=0xba55ed50;
-    long int cudaFatVERSION=0x00000004;
-    const char* _name;
-    const char* _ptx;  
-    fprintf(stderr, "Handling RegisterFunction\n"); 
     char * handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
   
@@ -308,10 +272,7 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
 
     __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
             size, constant, global);
-
-    //cout << "Registered Var " << deviceAddress << " with handler "
-    //        << (void *) hostVar << endl;
-
+  
     return new Result(cudaSuccess);
 }
 
@@ -348,8 +309,6 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
     memmove(texture, input_buffer->Assign<textureReference>(),
         sizeof (textureReference));
 
-    
-//    addTexture((textureReference *) hostVarPtr, texture);
     pThis->RegisterTexture(hostVarPtr, texture);
 
     const char *deviceAddress = get_const_string(input_buffer->AssignString());

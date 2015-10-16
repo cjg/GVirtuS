@@ -45,7 +45,8 @@
 
 using namespace std;
 
-map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;
+map<string, CudaRtHandler::CudaRoutineHandler>
+        *CudaRtHandler::mspHandlers = NULL;
 
 extern "C" int HandlerInit() {
     return 0;
@@ -79,7 +80,7 @@ Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
     map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
     cerr << "Requested: " << routine << endl;
-    
+       
     if (it == mspHandlers->end())
         throw "No handler for '" + routine + "' found!";
     return it->second(this, input_buffer);
@@ -183,7 +184,7 @@ void CudaRtHandler::RegisterTexture(string& handler, textureReference* texref) {
             << endl;
 }
 
-void CudaRtHandler::RegisterTexture(const char* handler,
+ void CudaRtHandler::RegisterTexture(const char* handler,
         textureReference* texref) {
     string tmp(handler);
     RegisterTexture(tmp, texref);
@@ -314,11 +315,9 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_texture */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
 #ifndef CUDART_VERSION
 #error CUDART_VERSION not defined
-#endif
-#if CUDART_VERSION >= 2030
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
 #endif
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTextureToArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetChannelDesc));
@@ -329,7 +328,6 @@ void CudaRtHandler::Initialize() {
     /* CudaRtHandler_thread */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadSynchronize));
-
 
     /* CudaRtHandler_version */
 #ifndef CUDART_VERSION

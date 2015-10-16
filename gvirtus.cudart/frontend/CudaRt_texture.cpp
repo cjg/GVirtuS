@@ -48,6 +48,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
         const textureReference *texref, const void *devPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height,
         size_t pitch) {
+    cerr << "Requesting cudaBindTexture2D" << endl;    
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddHostPointerForArguments(offset);
     // Achtung: passing the address and the content of the textureReference
@@ -61,20 +62,30 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
     CudaRtFrontend::AddVariableForArguments(height);
     CudaRtFrontend::AddVariableForArguments(pitch);
     CudaRtFrontend::Execute("cudaBindTexture2D");
+          
+    cerr << "return" << endl;
+    
     size_t tempOffset;
+    
     if (CudaRtFrontend::Success() )
         tempOffset = *(CudaRtFrontend::GetOutputHostPointer<size_t > ());
-    if (offset != NULL)
+       
+    if (offset != NULL) {
         *offset = tempOffset;
-    cerr << "offset: " << *offset << endl;
+        cerr << "offset: " << *offset << endl;
+    }
+    
     return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaBindTextureToArray(const textureReference *texref,
         const cudaArray *array, const cudaChannelFormatDesc *desc) {
+    cerr << "Requesting cudaBindTextureToArray" << endl;    
     CudaRtFrontend::Prepare();
     // Achtung: passing the address and the content of the textureReference
-    CudaRtFrontend::AddVariableForArguments((pointer_t) texref);
+//    CudaRtFrontend::AddVariableForArguments((pointer_t) texref);
+    CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
+    CudaRtFrontend::AddHostPointerForArguments(texref);
     CudaRtFrontend::AddDevicePointerForArguments((void *) array);
     CudaRtFrontend::AddHostPointerForArguments(desc);
     CudaRtFrontend::Execute("cudaBindTextureToArray");
