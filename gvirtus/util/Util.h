@@ -64,6 +64,7 @@ public:
         return (void *) strtoul(marshal, NULL, 16);
     }
     template <class T> static inline pointer_t MarshalPointer(const T ptr) {
+        /*Verify the correctness*/
         return static_cast<pointer_t>(ptr);
     }
 

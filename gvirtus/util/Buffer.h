@@ -165,10 +165,12 @@ public:
     }
 
     template <class T>T * Assign(size_t n = 1) {
-        if(Get<size_t>() == 0)
+        if(Get<size_t>() == 0) 
             return NULL;
-        if (mOffset + sizeof (T) * n > mLength)
+        
+        if (mOffset + sizeof (T) * n > mLength) {
             throw "Can't read  " + std::string(typeid (T).name()) + ".";
+        }
         T * result = (T *) (mpBuffer + mOffset);
         mOffset += sizeof (T) * n;
         return result;
