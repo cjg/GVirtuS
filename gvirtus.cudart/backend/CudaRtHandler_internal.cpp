@@ -92,6 +92,9 @@ extern "C" {
     extern void __cudaRegisterTexture(void **fatCubinHandle,
             const textureReference *hostVar, void **deviceAddress, char *deviceName,
             int dim, int norm, int ext);
+    extern void __cudaRegisterSurface(void **fatCubinHandle,
+            const surfaceReference *hostVar, void **deviceAddress, char *deviceName,
+            int dim, int ext);
 }
 
 static bool initialized = false;
@@ -100,8 +103,8 @@ static size_t constStrings_size = 0;
 static size_t constStrings_length = 0;
 //static void ** fatCubinHandlers[2048];
 //static void * fatCubins[2048];
-static const textureReference * texrefHandlers[2048];
-static const textureReference * texref[2048];
+//static const textureReference * texrefHandlers[2048];
+//static const textureReference * texref[2048];
 
 static void init() {
     constStrings_size = 2048;
@@ -177,13 +180,13 @@ const textureReference *getTexture(const textureReference *handler) {
 }
 
 #endif
+
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
 
     char * handler = input_buffer->AssignString();
     __fatBinC_Wrapper_t * fatBin = CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer);
    
     void **bin = __cudaRegisterFatBinary((void *) fatBin);
-    
 
     pThis->RegisterFatBinary(handler, bin);
     return new Result(cudaSuccess);
@@ -307,6 +310,29 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
 
     pThis->RegisterTexture(handler, hostVar);
 #endif
+    return new Result(cudaSuccess);
+}
+
+CUDA_ROUTINE_HANDLER(RegisterSurface) {
+    char * handler = input_buffer->AssignString();
+    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    
+    char *hostVarPtr = input_buffer->AssignString();
+    surfaceReference * surface = new surfaceReference;
+    memmove(surface, input_buffer->Assign<surfaceReference>(),
+        sizeof (surfaceReference));
+
+    pThis->RegisterSurface(hostVarPtr, surface);
+
+    const char *deviceAddress = get_const_string(input_buffer->AssignString());
+    const char *deviceName = get_const_string(input_buffer->AssignString());
+
+    int dim = input_buffer->Get<int>();
+    int ext = input_buffer->Get<int>();
+    
+    __cudaRegisterSurface(fatCubinHandle, surface, (void **) deviceAddress,
+           (char *) deviceName, dim, ext);
+
     return new Result(cudaSuccess);
 }
 

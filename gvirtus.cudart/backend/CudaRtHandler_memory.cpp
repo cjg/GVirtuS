@@ -28,6 +28,7 @@
 #include "CudaUtil.h"
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -276,7 +277,7 @@ CUDA_ROUTINE_HANDLER(MemcpyAsync) {
         case cudaMemcpyHostToDevice:
             try {
                 dst = input_buffer->GetFromMarshal<void *>();
-            } catch (String e) {
+            } catch (string e) {
                 cerr << e << endl;
                 return new Result(cudaErrorMemoryAllocation);
             }

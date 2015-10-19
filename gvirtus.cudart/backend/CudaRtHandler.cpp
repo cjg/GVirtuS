@@ -61,6 +61,7 @@ CudaRtHandler::CudaRtHandler() {
     mpDeviceFunction = new map<string, string > ();
     mpVar = new map<string, string > ();
     mpTexture = new map<string, textureReference *>();
+    mpSurface = new map<string, surfaceReference *>();
     Initialize();
 }
 
@@ -190,6 +191,18 @@ void CudaRtHandler::RegisterTexture(string& handler, textureReference* texref) {
     RegisterTexture(tmp, texref);
 }
 
+void CudaRtHandler::RegisterSurface(string& handler, surfaceReference* surref) {
+    mpSurface->insert(make_pair(handler, surref));
+    cout << "Registered Surface " << surref << " with handler " << handler
+            << endl;
+}
+
+ void CudaRtHandler::RegisterSurface(const char* handler,
+        surfaceReference* surref) {
+    string tmp(handler);
+    RegisterSurface(tmp, surref);
+}
+
 textureReference *CudaRtHandler::GetTexture(string & handler) {
     map<string, textureReference *>::iterator it = mpTexture->find(handler);
     if (it == mpTexture->end())
@@ -279,6 +292,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterSharedVar));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterShared));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterTexture));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterSurface));
 
     /* CudaRtHandler_memory */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Free));

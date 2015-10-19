@@ -84,8 +84,9 @@ public:
     const char *GetVar(const char *handler);
 
     void RegisterTexture(std::string & handler, textureReference *texref);
-    void RegisterTexture(pointer_t handler, textureReference *texref);
     void RegisterTexture(const char *handler, textureReference *texref);
+    void RegisterSurface(std::string & handler, surfaceReference *surref);
+    void RegisterSurface(const char *handler, surfaceReference *surref);
     textureReference *GetTexture(std::string & handler);
     textureReference *GetTexture(pointer_t handler);
     textureReference *GetTexture(const char *handler);
@@ -101,6 +102,7 @@ private:
     std::map<std::string, std::string> * mpDeviceFunction;
     std::map<std::string, std::string> * mpVar;
     std::map<std::string, textureReference *> * mpTexture;
+    std::map<std::string, surfaceReference *> * mpSurface;
     void *mpShm;
     int mShmFd;
 };
@@ -149,6 +151,7 @@ CUDA_ROUTINE_HANDLER(RegisterVar);
 CUDA_ROUTINE_HANDLER(RegisterSharedVar);
 CUDA_ROUTINE_HANDLER(RegisterShared);
 CUDA_ROUTINE_HANDLER(RegisterTexture);
+CUDA_ROUTINE_HANDLER(RegisterSurface);
 CUDA_ROUTINE_HANDLER(RegisterSharedMemory);
 CUDA_ROUTINE_HANDLER(RequestSharedMemory);
 
