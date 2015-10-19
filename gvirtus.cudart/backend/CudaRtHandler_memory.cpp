@@ -274,7 +274,13 @@ CUDA_ROUTINE_HANDLER(MemcpyAsync) {
             result = new Result(cudaSuccess);
             break;
         case cudaMemcpyHostToDevice:
-            dst = input_buffer->GetFromMarshal<void *>();
+            try {
+                dst = input_buffer->GetFromMarshal<void *>();
+            } catch (String e) {
+                cerr << e << endl;
+                return new Result(cudaErrorMemoryAllocation);
+            }
+            
             src = input_buffer->AssignAll<char>();
             exit_code = cudaMemcpy(dst, src, count, kind);
             result = new Result(exit_code);

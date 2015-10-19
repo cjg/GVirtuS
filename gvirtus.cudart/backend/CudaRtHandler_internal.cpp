@@ -21,6 +21,7 @@
  *
  * Written by: Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>,
  *             Department of Applied Science
+ * 
  */
 
 #include "CudaRtHandler.h"
@@ -162,7 +163,7 @@ void addTexture(struct textureReference *handler,
     texrefHandlers[i] = handler;
     texref[i] = ref;
 } 
-#endif
+
 
 const textureReference *getTexture(const textureReference *handler) {
     int i;
@@ -175,45 +176,15 @@ const textureReference *getTexture(const textureReference *handler) {
     return NULL;
 }
 
-/*CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
-    char * handler = input_buffer->AssignString();
-    __cudaFatCudaBinary * fatBin =
-            CudaUtil::UnmarshalFatCudaBinary(input_buffer);
-    void **fatCubinHandler = __cudaRegisterFatBinary((void *) fatBin);
-    pThis->RegisterFatBinary(handler, fatCubinHandler);
-    return new Result(cudaSuccess);
-}*/
-
+#endif
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
-//    long int cudaFatMAGIC =0x1ee55a01;
-//    long int cudaFatMAGIC2=0x466243b1;
-//    long int cudaFatMAGIC3=0xba55ed50;
-//    long int cudaFatVERSION=0x00000004;
+
     char * handler = input_buffer->AssignString();
-//    const char* _name;
-//    const char* _ptx;  
     __fatBinC_Wrapper_t * fatBin = CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer);
    
     void **bin = __cudaRegisterFatBinary((void *) fatBin);
     
-//    if(*((int*)(*bin)) == cudaFatMAGIC2) {
-//        __cudaFatCudaBinary2* binary = (__cudaFatCudaBinary2*) *bin;
-//        __cudaFatCudaBinary2Header* header = (__cudaFatCudaBinary2Header*)binary->fatbinData;
-//        char* base = (char*)(header + 1);
-//        long long unsigned int offset = 0;
-//        __cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
-//        while (!(entry->type & FATBIN_2_PTX) && offset < header->length) {
-//           entry = (__cudaFatCudaBinary2EntryRec*)(base + offset);
-//           offset += entry->binary + entry->binarySize;
-//        }
-//        _name = (char*)entry + entry->name;
-//
-//        if (entry->type & FATBIN_2_PTX) {
-//            _ptx  = (char*)entry + entry->binary;
-//        } else {
-//          _ptx = 0;
-//        }
-//    }
+
     pThis->RegisterFatBinary(handler, bin);
     return new Result(cudaSuccess);
 }
