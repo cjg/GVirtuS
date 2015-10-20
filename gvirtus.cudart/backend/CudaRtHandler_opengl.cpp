@@ -37,75 +37,108 @@
 using namespace std;
 
 CUDA_ROUTINE_HANDLER(GLSetGLDevice) {
-    int device = input_buffer->Get<int>();
+    try {
+        int device = input_buffer->Get<int>();
+        cudaError_t exit_code = cudaGLSetGLDevice(device);
+        return new Result(exit_code);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    cudaError_t exit_code = cudaGLSetGLDevice(device);
 
-    return new Result(exit_code);
 }
 
 CUDA_ROUTINE_HANDLER(GraphicsGLRegisterBuffer) {
     struct cudaGraphicsResource *resource = NULL;
-    GLuint buffer = input_buffer->Get<GLuint>();
-    unsigned int flags = input_buffer->Get<unsigned int>();
-    cudaError_t exit_code = cudaGraphicsGLRegisterBuffer(&resource, buffer,
-            flags);
+    try {
+        GLuint buffer = input_buffer->Get<GLuint>();
+        unsigned int flags = input_buffer->Get<unsigned int>();
+        cudaError_t exit_code = cudaGraphicsGLRegisterBuffer(&resource, buffer,flags);
+        Buffer *out = new Buffer();
+        out->Add((pointer_t) resource);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
 
-    Buffer *out = new Buffer();
-    out->Add((pointer_t) resource);
-
-    return new Result(exit_code, out);
 }
 
 CUDA_ROUTINE_HANDLER(GraphicsMapResources) {
-    int count = input_buffer->Get<int>();
-    cudaGraphicsResource_t *resources = new cudaGraphicsResource_t[count];
-    for(int i = 0; i < count; i++)
-        resources[i] = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
-    cudaStream_t stream = (cudaStream_t) input_buffer->Get<pointer_t>();
-
-    cudaError_t exit_code = cudaGraphicsMapResources(count, resources, stream);
-
+    try {
+        int count = input_buffer->Get<int>();
+        cudaGraphicsResource_t *resources = new cudaGraphicsResource_t[count];
+        for(int i = 0; i < count; i++)
+            resources[i] = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
+        cudaStream_t stream = (cudaStream_t) input_buffer->Get<pointer_t>();
+        cudaError_t exit_code = cudaGraphicsMapResources(count, resources, stream);
     return new Result(exit_code);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
 }
 
 CUDA_ROUTINE_HANDLER(GraphicsResourceGetMappedPointer) {
     void *devPtr;
     size_t size;
-    cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
+    try {
+        cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
+        cudaError_t exit_code = cudaGraphicsResourceGetMappedPointer(&devPtr, &size,resource);
 
-    cudaError_t exit_code = cudaGraphicsResourceGetMappedPointer(&devPtr, &size,
-     resource);
+        if(exit_code == cudaSuccess) {
+                Buffer *out = new Buffer();
+                out->Add((pointer_t) devPtr);
+                out->Add(size);
+                return new Result(exit_code, out);
+        }
 
-    if(exit_code == cudaSuccess) {
-        Buffer *out = new Buffer();
-        out->Add((pointer_t) devPtr);
-        out->Add(size);
-        return new Result(exit_code, out);
+        return new Result(exit_code);
+     } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
     }
-
-    return new Result(exit_code);
 }
 
 CUDA_ROUTINE_HANDLER(GraphicsUnmapResources) {
-    int count = input_buffer->Get<int>();
-    cudaGraphicsResource_t *resources = new cudaGraphicsResource_t[count];
-    for(int i = 0; i < count; i++)
-        resources[i] = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
-    cudaStream_t stream = (cudaStream_t) input_buffer->Get<pointer_t>();
+    try {
+        int count = input_buffer->Get<int>();
+        cudaGraphicsResource_t *resources = new cudaGraphicsResource_t[count];
+        for(int i = 0; i < count; i++)
+            resources[i] = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
+        cudaStream_t stream = (cudaStream_t) input_buffer->Get<pointer_t>();
+        cudaError_t exit_code = cudaGraphicsUnmapResources(count, resources, stream);
+        return new Result(exit_code);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    cudaError_t exit_code = cudaGraphicsUnmapResources(count, resources, stream);
-
-    return new Result(exit_code);
+    
 }
 
 CUDA_ROUTINE_HANDLER(GraphicsUnregisterResource) {
-    cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
-    return new Result(cudaGraphicsUnregisterResource(resource));
+    try {
+        cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
+        return new Result(cudaGraphicsUnregisterResource(resource));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
 }
 
 CUDA_ROUTINE_HANDLER(GraphicsResourceSetMapFlags) {
-    cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
-    unsigned int flags = input_buffer->Get<unsigned int>();
-    return new Result(cudaGraphicsResourceSetMapFlags(resource, flags));
+    try {
+        cudaGraphicsResource_t resource = (cudaGraphicsResource_t) input_buffer->Get<pointer_t>();
+        unsigned int flags = input_buffer->Get<unsigned int>();
+        return new Result(cudaGraphicsResourceSetMapFlags(resource, flags));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
 }

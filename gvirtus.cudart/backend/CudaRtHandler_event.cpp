@@ -30,72 +30,123 @@
 #endif
 
 CUDA_ROUTINE_HANDLER(EventCreate) {
-    Buffer *out = new Buffer();
-#if CUDART_VERSION >= 3010
-    cudaEvent_t event;
-    cudaError_t exit_code = cudaEventCreate(&event);
-    out->Add((pointer_t) event);
+    try {
+        Buffer *out = new Buffer();
+    
+    #if CUDART_VERSION >= 3010
+        cudaEvent_t event;
+        cudaError_t exit_code = cudaEventCreate(&event);
+        out->Add((pointer_t) event);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 #else
-    cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
-    cudaError_t exit_code = cudaEventCreate(event);
-    out->Add(event);
+    
+    try {
+        cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
+        cudaError_t exit_code = cudaEventCreate(event);
+        out->Add(event);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 #endif
-    return new Result(exit_code, out);
+    
 }
 
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(EventCreateWithFlags) {
-    Buffer *out = new Buffer();
-#if CUDART_VERSION >= 3010
-    cudaEvent_t event;
-    int flags = input_buffer->Get<int>();
-    cudaError_t exit_code = cudaEventCreateWithFlags(&event, flags);
-    out->Add((pointer_t) event);
+    try {
+        Buffer *out = new Buffer();
+   
+    #if CUDART_VERSION >= 3010
+        cudaEvent_t event;
+        int flags = input_buffer->Get<int>();
+        cudaError_t exit_code = cudaEventCreateWithFlags(&event, flags);
+        out->Add((pointer_t) event);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 #else
-    cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
-    int flags = input_buffer->Get<int>();
-    cudaError_t exit_code = cudaEventCreateWithFlags(event, flags);
-    out->Add(event);
+    try {
+        cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
+        int flags = input_buffer->Get<int>();
+        cudaError_t exit_code = cudaEventCreateWithFlags(event, flags);
+        out->Add(event);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 #endif
-    return new Result(exit_code, out);
+   
 }
 #endif
 
 CUDA_ROUTINE_HANDLER(EventDestroy) {
-    cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
-
-    return new Result(cudaEventDestroy(event));
+    try {
+        cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
+        return new Result(cudaEventDestroy(event));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
 }
 
 CUDA_ROUTINE_HANDLER(EventElapsedTime) {
-    float *ms = input_buffer->Assign<float>();
-    cudaEvent_t start = input_buffer->Get<cudaEvent_t>();
-    cudaEvent_t end = input_buffer->Get<cudaEvent_t>();
+    try {
+        float *ms = input_buffer->Assign<float>();
+        cudaEvent_t start = input_buffer->Get<cudaEvent_t>();
+        cudaEvent_t end = input_buffer->Get<cudaEvent_t>();
+        cudaError_t exit_code = cudaEventElapsedTime(ms, start, end);
+        Buffer *out = new Buffer();
+        out->Add(ms);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    cudaError_t exit_code = cudaEventElapsedTime(ms, start, end);
-
-    Buffer *out = new Buffer();
-    out->Add(ms);
-
-    return new Result(exit_code, out);
+    
 }
 
 CUDA_ROUTINE_HANDLER(EventQuery) {
-    cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
-
-    return new Result(cudaEventQuery(event));
+    try {
+        cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
+        return new Result(cudaEventQuery(event));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+        
+    
 }
 
 CUDA_ROUTINE_HANDLER(EventRecord) {
-    cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
-    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-
-    return new Result(cudaEventRecord(event, stream));
+    try {
+        cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+        return new Result(cudaEventRecord(event, stream));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
 }
 
 CUDA_ROUTINE_HANDLER(EventSynchronize) {
-    cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
+    try {
+        cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
+        return new Result(cudaEventSynchronize(event));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    return new Result(cudaEventSynchronize(event));
+    
 }
 

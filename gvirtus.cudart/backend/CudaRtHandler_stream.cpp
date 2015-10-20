@@ -30,33 +30,69 @@
 #endif
 
 CUDA_ROUTINE_HANDLER(StreamCreate) {
-    Buffer *out = new Buffer();
-#if CUDART_VERSION >= 3010
-    cudaStream_t pStream; // = input_buffer->Assign<cudaStream_t>();
-    cudaError_t exit_code = cudaStreamCreate(&pStream);
-    out->Add((pointer_t) pStream);
+    try {
+        Buffer *out = new Buffer();
+  
+    #if CUDART_VERSION >= 3010
+        cudaStream_t pStream; // = input_buffer->Assign<cudaStream_t>();
+        cudaError_t exit_code = cudaStreamCreate(&pStream);
+
+        out->Add((pointer_t) pStream);
+           return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 #else
-    cudaStream_t *pStream = input_buffer->Assign<cudaStream_t>();
+    try {
+        cudaStream_t *pStream = input_buffer->Assign<cudaStream_t>();
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
     cudaError_t exit_code = cudaStreamCreate(pStream);
-    out->Add(pStream);
+    try {
+        out->Add(pStream);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 #endif
-    return new Result(exit_code, out);
+ 
 }
 
 CUDA_ROUTINE_HANDLER(StreamDestroy) {
-    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+    try {
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+        return new Result(cudaStreamDestroy(stream));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    return new Result(cudaStreamDestroy(stream));
+    
 }
 
 CUDA_ROUTINE_HANDLER(StreamQuery) {
-    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+    try {
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+        return new Result(cudaStreamQuery(stream));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    return new Result(cudaStreamQuery(stream));
+    
 }
 
 CUDA_ROUTINE_HANDLER(StreamSynchronize) {
-    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+    try {
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+        return new Result(cudaStreamSynchronize(stream));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    return new Result(cudaStreamSynchronize(stream));
+    
 }

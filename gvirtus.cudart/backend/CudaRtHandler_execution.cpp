@@ -29,17 +29,21 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
     /* cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
      * size_t sharedMem, cudaStream_t stream) */
     fprintf(stderr, "cudaConfigureCall\n\n");
-    dim3 gridDim = input_buffer->Get<dim3>();
-    dim3 blockDim = input_buffer->Get<dim3>();
-    size_t sharedMem = input_buffer->Get<size_t>();
-    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+    try {
+        dim3 gridDim = input_buffer->Get<dim3>();
+        dim3 blockDim = input_buffer->Get<dim3>();
+        size_t sharedMem = input_buffer->Get<size_t>();
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+        cudaError_t exit_code = cudaConfigureCall(gridDim, blockDim, sharedMem,stream);
+        return new Result(exit_code);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    //std::cerr << "gridDim: " << gridDim.x << " " << gridDim.y << " " << gridDim.z << " " << std::endl; 
+    //std::cerr << "gridDim: " << gridDim.x << " " << gridDim.y << " " << gridDim.z << " " << std::endl;
 
-    cudaError_t exit_code = cudaConfigureCall(gridDim, blockDim, sharedMem,
-            stream);
-
-    return new Result(exit_code);
+    
 }
 
 #ifndef CUDART_VERSION
@@ -47,28 +51,38 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
 #endif
 #if CUDART_VERSION >= 2030
 CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
-    cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
-    const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
-    Buffer * out = new Buffer();
-    cudaFuncAttributes *attr = out->Delegate<cudaFuncAttributes>();
-    memmove(attr, guestAttr, sizeof(cudaFuncAttributes));
+    try {
+        cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
+        const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
+        Buffer * out = new Buffer();
+        cudaFuncAttributes *attr = out->Delegate<cudaFuncAttributes>();
+        memmove(attr, guestAttr, sizeof(cudaFuncAttributes));
+        cudaError_t exit_code = cudaFuncGetAttributes(attr, handler);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
     
-    cudaError_t exit_code = cudaFuncGetAttributes(attr, handler);
 
-    return new Result(exit_code, out);
 }
 #endif
 
 CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
-    //(const char*)(input_buffer->Get<pointer_t> ())
-    const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
-    //const char *entry = pThis->GetDeviceFunction(handler);
-    cudaFuncCache cacheConfig = input_buffer->Get<cudaFuncCache>();
-    Buffer * out = new Buffer();
+    try {
+        //(const char*)(input_buffer->Get<pointer_t> ())
+        const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
+        //const char *entry = pThis->GetDeviceFunction(handler);
+        cudaFuncCache cacheConfig = input_buffer->Get<cudaFuncCache>();
+        Buffer * out = new Buffer();
+        cudaError_t exit_code = cudaFuncSetCacheConfig(handler, cacheConfig);
+        return new Result(exit_code, out);
+} catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
     
-    cudaError_t exit_code = cudaFuncSetCacheConfig(handler, cacheConfig);
-
-    return new Result(exit_code, out);
+  
 }
 
 CUDA_ROUTINE_HANDLER(Launch) {
@@ -83,16 +97,15 @@ CUDA_ROUTINE_HANDLER(Launch) {
     dim3 blockDim = input_buffer->Get<dim3>();
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-
+   
     cudaError_t exit_code = cudaConfigureCall(gridDim, blockDim, sharedMem,
             stream);
-
-
 
     if(exit_code != cudaSuccess)
         return new Result(exit_code);
 
     // cudaSetupArgument
+    
     while((ctrl = input_buffer->Get<int>()) == 0x53544147) {
         void *arg = input_buffer->AssignAll<char>();
         size_t size = input_buffer->Get<size_t>();
@@ -102,15 +115,19 @@ CUDA_ROUTINE_HANDLER(Launch) {
         if(exit_code != cudaSuccess)
             return new Result(exit_code);
     }
+   
 
     // cudaLaunch
     if(ctrl != 0x4c41554e)
         throw "Expecting cudaLaunch";
 
+    
     //char *handler = input_buffer->AssignString();
     //fprintf(stderr,"handler:%s\n",handler); 
     //const char *entry = pThis->GetDeviceFunction(handler);
+    
     const char *entry = (const char *)(input_buffer->Get<pointer_t> ());
+   
     //fprintf(stderr,"entry:%s\n",entry);
     // //sscanf(entry,"%p",&pointer);
     // //const unsigned long long int* data = (const unsigned long long int*)entry;
@@ -129,34 +146,47 @@ CUDA_ROUTINE_HANDLER(Launch) {
 }
 
 CUDA_ROUTINE_HANDLER(SetDoubleForDevice) {
-    double *guestD = input_buffer->Assign<double>();
-    Buffer *out = new Buffer();
-    double *d = out->Delegate<double>();
-    memmove(d, guestD, sizeof(double));
+    try {
+        double *guestD = input_buffer->Assign<double>();
+        Buffer *out = new Buffer();
+        double *d = out->Delegate<double>();
+        memmove(d, guestD, sizeof(double));
+        cudaError_t exit_code = cudaSetDoubleForDevice(d);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    cudaError_t exit_code = cudaSetDoubleForDevice(d);
-
-    return new Result(exit_code, out);
 }
 
 CUDA_ROUTINE_HANDLER(SetDoubleForHost) {
-    double *guestD = input_buffer->Assign<double>();
-    Buffer *out = new Buffer();
-    double *d = out->Delegate<double>();
-    memmove(d, guestD, sizeof(double));
+    try {
+        double *guestD = input_buffer->Assign<double>();
+        Buffer *out = new Buffer();
+        double *d = out->Delegate<double>();
+        memmove(d, guestD, sizeof(double));
+        cudaError_t exit_code = cudaSetDoubleForHost(d);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    cudaError_t exit_code = cudaSetDoubleForHost(d);
-
-    return new Result(exit_code, out);
 }
 
 CUDA_ROUTINE_HANDLER(SetupArgument) {
     /* cudaError_t cudaSetupArgument(const void *arg, size_t size, size_t offset) */
-    size_t offset = input_buffer->BackGet<size_t>();
-    size_t size = input_buffer->BackGet<size_t>();
-    void *arg = input_buffer->Assign<char>(size);
+    try {
+        size_t offset = input_buffer->BackGet<size_t>();
+        size_t size = input_buffer->BackGet<size_t>();
+        void *arg = input_buffer->Assign<char>(size);
+        cudaError_t exit_code = cudaSetupArgument(arg, size, offset);
+        return new Result(exit_code);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    cudaError_t exit_code = cudaSetupArgument(arg, size, offset);
 
-    return new Result(exit_code);
 }

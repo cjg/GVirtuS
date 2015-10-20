@@ -58,6 +58,7 @@
  * named CUDA Runtime routine unmarshalling the input parameters from the
  * provided Buffer.
  */
+using namespace std;
 
 class CudaRtHandler : public Handler {
 public:

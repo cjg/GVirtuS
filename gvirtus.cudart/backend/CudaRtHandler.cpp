@@ -45,8 +45,7 @@
 
 using namespace std;
 
-map<string, CudaRtHandler::CudaRoutineHandler>
-        *CudaRtHandler::mspHandlers = NULL;
+map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;
 
 extern "C" int HandlerInit() {
     return 0;

@@ -27,11 +27,18 @@
 
 CUDA_ROUTINE_HANDLER(GetErrorString) {
     /* const char* cudaGetErrorString(cudaError_t error) */
-    cudaError_t error = input_buffer->Get<cudaError_t>();
-    const char *error_string = cudaGetErrorString(error);
-    Buffer * output_buffer = new Buffer();
-    output_buffer->AddString(error_string);
-    return new Result(cudaSuccess, output_buffer);
+    
+    try {
+        cudaError_t error = input_buffer->Get<cudaError_t>();
+        const char *error_string = cudaGetErrorString(error);
+        Buffer * output_buffer = new Buffer();
+        output_buffer->AddString(error_string);
+        return new Result(cudaSuccess, output_buffer);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
 }
 
 CUDA_ROUTINE_HANDLER(GetLastError) {

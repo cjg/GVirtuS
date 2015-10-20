@@ -183,127 +183,151 @@ const textureReference *getTexture(const textureReference *handler) {
 
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
 
+    try {
     char * handler = input_buffer->AssignString();
     __fatBinC_Wrapper_t * fatBin = CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer);
-   
     void **bin = __cudaRegisterFatBinary((void *) fatBin);
-
     pThis->RegisterFatBinary(handler, bin);
     return new Result(cudaSuccess);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+  
 }
 
 CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    try {
+        char * handler = input_buffer->AssignString();
+        void **fatCubinHandle = pThis->GetFatBinary(handler);
+        __cudaUnregisterFatBinary(fatCubinHandle);
+        pThis->UnregisterFatBinary(handler);
+        return new Result(cudaSuccess);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
-    __cudaUnregisterFatBinary(fatCubinHandle);
-
-    pThis->UnregisterFatBinary(handler);
-
-    return new Result(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterFunction) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
-  
- 
-    const char* hostfun = (const char*)(input_buffer->Get<pointer_t> ());
-    char *deviceFun = strdup(input_buffer->AssignString());
-    const char *deviceName = strdup(input_buffer->AssignString());
-    int thread_limit = input_buffer->Get<int>();
-    uint3 *tid = input_buffer->Assign<uint3 > ();
-    uint3 *bid = input_buffer->Assign<uint3 > ();
-    dim3 *bDim = input_buffer->Assign<dim3 > ();
-    dim3 *gDim = input_buffer->Assign<dim3 > ();
-    int *wSize = input_buffer->Assign<int>();
+    try {
+        char * handler = input_buffer->AssignString();
+        void **fatCubinHandle = pThis->GetFatBinary(handler);
+        const char* hostfun = (const char*)(input_buffer->Get<pointer_t> ());
+        char *deviceFun = strdup(input_buffer->AssignString());
+        const char *deviceName = strdup(input_buffer->AssignString());
+        int thread_limit = input_buffer->Get<int>();
+        uint3 *tid = input_buffer->Assign<uint3 > ();
+        uint3 *bid = input_buffer->Assign<uint3 > ();
+        dim3 *bDim = input_buffer->Assign<dim3 > ();
+        dim3 *gDim = input_buffer->Assign<dim3 > ();
+        int *wSize = input_buffer->Assign<int>();
+        __cudaRegisterFunction(fatCubinHandle, hostfun, deviceFun, deviceName,thread_limit, tid, bid, bDim, gDim, wSize);
+        Buffer * output_buffer = new Buffer();
+        output_buffer->AddString(deviceFun);
+        output_buffer->Add(tid);
+        output_buffer->Add(bid);
+        output_buffer->Add(bDim);
+        output_buffer->Add(gDim);
+        output_buffer->Add(wSize);
+        return new Result(cudaSuccess, output_buffer);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+
     
-    __cudaRegisterFunction(fatCubinHandle, hostfun, deviceFun, deviceName,
-            thread_limit, tid, bid, bDim, gDim, wSize);
-
-    Buffer * output_buffer = new Buffer();
-    output_buffer->AddString(deviceFun);
-    output_buffer->Add(tid);
-    output_buffer->Add(bid);
-    output_buffer->Add(bDim);
-    output_buffer->Add(gDim);
-    output_buffer->Add(wSize);
-
-    return new Result(cudaSuccess, output_buffer);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterVar) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
-    char *hostVar = (char *)
-        CudaUtil::UnmarshalPointer(input_buffer->AssignString());
-    char *deviceAddress = strdup(input_buffer->AssignString());
-    const char *deviceName = strdup(input_buffer->AssignString());
-    int ext = input_buffer->Get<int>();
-    int size = input_buffer->Get<int>();
-    int constant = input_buffer->Get<int>();
-    int global = input_buffer->Get<int>();
-
-    __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
-            size, constant, global);
+    try {
+        char * handler = input_buffer->AssignString();
+        void **fatCubinHandle = pThis->GetFatBinary(handler);
+        char *hostVar = (char *)CudaUtil::UnmarshalPointer(input_buffer->AssignString());
+        char *deviceAddress = strdup(input_buffer->AssignString());
+        const char *deviceName = strdup(input_buffer->AssignString());
+        int ext = input_buffer->Get<int>();
+        int size = input_buffer->Get<int>();
+        int constant = input_buffer->Get<int>();
+        int global = input_buffer->Get<int>();
+        __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,size, constant, global);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
   
     return new Result(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterSharedVar) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
-    void **devicePtr = (void **) input_buffer->AssignString();
-    size_t size = input_buffer->Get<size_t>();
-    size_t alignment = input_buffer->Get<size_t>();
-    int storage = input_buffer->Get<int>();
-
-    __cudaRegisterSharedVar(fatCubinHandle, devicePtr, size, alignment, storage);
-
-    cout << "Registered SharedVar " << (char *) devicePtr << endl;
+    try {
+        char * handler = input_buffer->AssignString();
+        void **fatCubinHandle = pThis->GetFatBinary(handler);
+        void **devicePtr = (void **) input_buffer->AssignString();
+        size_t size = input_buffer->Get<size_t>();
+        size_t alignment = input_buffer->Get<size_t>();
+        int storage = input_buffer->Get<int>();
+        __cudaRegisterSharedVar(fatCubinHandle, devicePtr, size, alignment, storage);
+        cout << "Registered SharedVar " << (char *) devicePtr << endl;
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
     return new Result(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterShared) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
-    char *devPtr = strdup(input_buffer->AssignString());
-    __cudaRegisterShared(fatCubinHandle, (void **) devPtr);
-    cout << "Registerd Shared " << (char *) devPtr << " for " << fatCubinHandle << endl;
+    try {
+        char * handler = input_buffer->AssignString();
+        void **fatCubinHandle = pThis->GetFatBinary(handler);
+        char *devPtr = strdup(input_buffer->AssignString());
+        __cudaRegisterShared(fatCubinHandle, (void **) devPtr);
+        cout << "Registerd Shared " << (char *) devPtr << " for " << fatCubinHandle << endl;
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    
     return new Result(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterTexture) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    try {
+        char * handler = input_buffer->AssignString();
+        void **fatCubinHandle = pThis->GetFatBinary(handler);
+        char *hostVarPtr = input_buffer->AssignString();
+        textureReference * texture = new textureReference;
+        memmove(texture, input_buffer->Assign<textureReference>(), sizeof (textureReference));
+        pThis->RegisterTexture(hostVarPtr, texture);
+        const char *deviceAddress = get_const_string(input_buffer->AssignString());
+        const char *deviceName = get_const_string(input_buffer->AssignString());
+
+        int dim = input_buffer->Get<int>();
+        int norm = input_buffer->Get<int>();
+        int ext = input_buffer->Get<int>();
+        __cudaRegisterTexture(fatCubinHandle, texture, (void **) deviceAddress,(char *) deviceName, dim, norm, ext);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
     
-    char *hostVarPtr = input_buffer->AssignString();
-    textureReference * texture = new textureReference;
-    memmove(texture, input_buffer->Assign<textureReference>(),
-        sizeof (textureReference));
-
-    pThis->RegisterTexture(hostVarPtr, texture);
-
-    const char *deviceAddress = get_const_string(input_buffer->AssignString());
-    const char *deviceName = get_const_string(input_buffer->AssignString());
-
-    int dim = input_buffer->Get<int>();
-    int norm = input_buffer->Get<int>();
-    int ext = input_buffer->Get<int>();
     
-    __cudaRegisterTexture(fatCubinHandle, texture, (void **) deviceAddress,
-           (char *) deviceName, dim, norm, ext);
 #if 0
-    handler = input_buffer->AssignString();
-    textureReference *hostVar = new textureReference;
-    memmove(hostVar, input_buffer->Assign<textureReference > (),
-            sizeof (textureReference));
-    void **deviceAddress = (void **) input_buffer->AssignAll<char>();
-    char *deviceName = strdup(input_buffer->AssignString());
-    int dim = input_buffer->Get<int>();
-    int norm = input_buffer->Get<int>();
-    int ext = input_buffer->Get<int>();
+    try {
+        handler = input_buffer->AssignString();
+        textureReference *hostVar = new textureReference;
+        memmove(hostVar, input_buffer->Assign<textureReference > (),sizeof (textureReference));
+        void **deviceAddress = (void **) input_buffer->AssignAll<char>();
+        char *deviceName = strdup(input_buffer->AssignString());
+        int dim = input_buffer->Get<int>();
+        int norm = input_buffer->Get<int>();
+        int ext = input_buffer->Get<int>();
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 
     __cudaRegisterTexture(fatCubinHandle, hostVar, deviceAddress, deviceName,
             dim, norm, ext);
@@ -314,25 +338,22 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
 }
 
 CUDA_ROUTINE_HANDLER(RegisterSurface) {
-    char * handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
-    
-    char *hostVarPtr = input_buffer->AssignString();
-    surfaceReference * surface = new surfaceReference;
-    memmove(surface, input_buffer->Assign<surfaceReference>(),
-        sizeof (surfaceReference));
-
-    pThis->RegisterSurface(hostVarPtr, surface);
-
-    const char *deviceAddress = get_const_string(input_buffer->AssignString());
-    const char *deviceName = get_const_string(input_buffer->AssignString());
-
-    int dim = input_buffer->Get<int>();
-    int ext = input_buffer->Get<int>();
-    
-    __cudaRegisterSurface(fatCubinHandle, surface, (void **) deviceAddress,
-           (char *) deviceName, dim, ext);
-
+    try {
+        char * handler = input_buffer->AssignString();
+        void **fatCubinHandle = pThis->GetFatBinary(handler);
+        char *hostVarPtr = input_buffer->AssignString();
+        surfaceReference * surface = new surfaceReference;
+        memmove(surface, input_buffer->Assign<surfaceReference>(),sizeof (surfaceReference));
+        pThis->RegisterSurface(hostVarPtr, surface);
+        const char *deviceAddress = get_const_string(input_buffer->AssignString());
+        const char *deviceName = get_const_string(input_buffer->AssignString());
+        int dim = input_buffer->Get<int>();
+        int ext = input_buffer->Get<int>();
+        __cudaRegisterSurface(fatCubinHandle, surface, (void **) deviceAddress,(char *) deviceName, dim, ext);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
     return new Result(cudaSuccess);
 }
 
