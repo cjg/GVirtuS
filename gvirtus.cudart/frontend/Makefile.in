@@ -122,8 +122,8 @@ libcudart_la_DEPENDENCIES =
 am_libcudart_la_OBJECTS = CudaRt.lo CudaRtFrontend.lo CudaRt_device.lo \
 	CudaRt_error.lo CudaRt_event.lo CudaRt_execution.lo \
 	CudaRt_internal.lo CudaRt_memory.lo CudaRt_opengl.lo \
-	CudaRt_stream.lo CudaRt_texture.lo CudaRt_thread.lo \
-	CudaRt_version.lo
+	CudaRt_stream.lo CudaRt_surface.lo CudaRt_texture.lo \
+	CudaRt_thread.lo CudaRt_version.lo
 libcudart_la_OBJECTS = $(am_libcudart_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -347,6 +347,7 @@ CudaRt_internal.cpp\
 CudaRt_memory.cpp\
 CudaRt_opengl.cpp\
 CudaRt_stream.cpp\
+CudaRt_surface.cpp\
 CudaRt_texture.cpp\
 CudaRt_thread.cpp\
 CudaRt_version.cpp
@@ -442,6 +443,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CudaRt_memory.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CudaRt_opengl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CudaRt_stream.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CudaRt_surface.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CudaRt_texture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CudaRt_thread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CudaRt_version.Plo@am__quote@

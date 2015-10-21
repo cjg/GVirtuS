@@ -92,6 +92,10 @@ public:
     textureReference *GetTexture(pointer_t handler);
     textureReference *GetTexture(const char *handler);
     const char *GetTextureHandler(textureReference *texref);
+    surfaceReference *GetSurface(std::string & handler);
+    surfaceReference *GetSurface(pointer_t handler);
+    surfaceReference *GetSurface(const char *handler);
+    const char *GetSurfaceHandler(surfaceReference *texref);
 
     const char *GetSymbol(Buffer * in);
 
@@ -197,6 +201,11 @@ CUDA_ROUTINE_HANDLER(GetChannelDesc);
 CUDA_ROUTINE_HANDLER(GetTextureAlignmentOffset);
 CUDA_ROUTINE_HANDLER(GetTextureReference);
 CUDA_ROUTINE_HANDLER(UnbindTexture);
+
+/* CudaRtHandler_surface */
+CUDA_ROUTINE_HANDLER(BindSurfaceToArray);
+//CUDA_ROUTINE_HANDLER(GetTextureReference);
+
 
 /* CudaRtHandler_thread */
 CUDA_ROUTINE_HANDLER(ThreadExit);

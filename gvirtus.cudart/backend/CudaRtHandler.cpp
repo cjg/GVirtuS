@@ -190,16 +190,16 @@ void CudaRtHandler::RegisterTexture(string& handler, textureReference* texref) {
     RegisterTexture(tmp, texref);
 }
 
-void CudaRtHandler::RegisterSurface(string& handler, surfaceReference* surref) {
-    mpSurface->insert(make_pair(handler, surref));
-    cout << "Registered Surface " << surref << " with handler " << handler
+void CudaRtHandler::RegisterSurface(string& handler, surfaceReference* surfref) {
+    mpSurface->insert(make_pair(handler, surfref));
+    cout << "Registered Surface " << surfref << " with handler " << handler
             << endl;
 }
 
  void CudaRtHandler::RegisterSurface(const char* handler,
-        surfaceReference* surref) {
+        surfaceReference* surfref) {
     string tmp(handler);
-    RegisterSurface(tmp, surref);
+    RegisterSurface(tmp, surfref);
 }
 
 textureReference *CudaRtHandler::GetTexture(string & handler) {
@@ -218,6 +218,26 @@ const char *CudaRtHandler::GetTextureHandler(textureReference* texref) {
     for (map<string, textureReference *>::iterator it = mpTexture->begin();
             it != mpTexture->end(); it++)
         if (it->second == texref)
+            return it->first.c_str();
+    return NULL;
+}
+
+surfaceReference *CudaRtHandler::GetSurface(string & handler) {
+    map<string, surfaceReference *>::iterator it = mpSurface->find(handler);
+    if (it == mpSurface->end())
+        return NULL;
+    return it->second;
+}
+
+surfaceReference * CudaRtHandler::GetSurface(const char* handler) {
+    string tmp(handler);
+    return GetSurface(tmp);
+}
+
+const char *CudaRtHandler::GetSurfaceHandler(surfaceReference* surfref) {
+    for (map<string, surfaceReference *>::iterator it = mpSurface->begin();
+            it != mpSurface->end(); it++)
+        if (it->second == surfref)
             return it->first.c_str();
     return NULL;
 }
@@ -326,6 +346,9 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamQuery));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
 
+    /* CudaRtHandler_surface */
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindSurfaceToArray));
+    
     /* CudaRtHandler_texture */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
@@ -337,6 +360,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureAlignmentOffset));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureReference));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnbindTexture));
+    
 
     /* CudaRtHandler_thread */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));

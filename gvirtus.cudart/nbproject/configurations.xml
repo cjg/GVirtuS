@@ -12,6 +12,7 @@
       <in>CudaRtHandler_memory.cpp</in>
       <in>CudaRtHandler_opengl.cpp</in>
       <in>CudaRtHandler_stream.cpp</in>
+      <in>CudaRtHandler_surface.cpp</in>
       <in>CudaRtHandler_texture.cpp</in>
       <in>CudaRtHandler_thread.cpp</in>
       <in>CudaRtHandler_version.cpp</in>
@@ -28,6 +29,7 @@
       <in>CudaRt_memory.cpp</in>
       <in>CudaRt_opengl.cpp</in>
       <in>CudaRt_stream.cpp</in>
+      <in>CudaRt_surface.cpp</in>
       <in>CudaRt_texture.cpp</in>
       <in>CudaRt_thread.cpp</in>
       <in>CudaRt_version.cpp</in>
@@ -95,6 +97,8 @@
       <item path="backend/CudaRtHandler_opengl.cpp" ex="false" tool="1" flavor2="4">
       </item>
       <item path="backend/CudaRtHandler_stream.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_surface.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="backend/CudaRtHandler_texture.cpp" ex="false" tool="1" flavor2="4">
       </item>
@@ -229,6 +233,8 @@
             <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
           </incDir>
         </ccTool>
+      </item>
+      <item path="frontend/CudaRt_surface.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="frontend/CudaRt_texture.cpp" ex="false" tool="1" flavor2="4">
         <ccTool>

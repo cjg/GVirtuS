@@ -25,7 +25,7 @@
 
 #include "CudaRtHandler.h"
 
-extern const textureReference *getTexture(const textureReference *handler);
+//extern const textureReference *getTexture(const textureReference *handler);
 
 CUDA_ROUTINE_HANDLER(BindTexture) {
     try {
@@ -45,9 +45,7 @@ CUDA_ROUTINE_HANDLER(BindTexture) {
     } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
-    }
-
-   
+    }   
 }
 
 #ifndef CUDART_VERSION
@@ -79,8 +77,6 @@ CUDA_ROUTINE_HANDLER(BindTexture2D) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-
-
 }
 #endif
 
@@ -115,7 +111,6 @@ CUDA_ROUTINE_HANDLER(GetChannelDesc) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-
 }
 
 CUDA_ROUTINE_HANDLER(GetTextureAlignmentOffset) {
@@ -157,7 +152,6 @@ CUDA_ROUTINE_HANDLER(GetTextureReference) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-
     
 }
 

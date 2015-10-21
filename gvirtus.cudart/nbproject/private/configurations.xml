@@ -14,6 +14,7 @@
       <in>CudaRtHandler_memory.cpp</in>
       <in>CudaRtHandler_opengl.cpp</in>
       <in>CudaRtHandler_stream.cpp</in>
+      <in>CudaRtHandler_surface.cpp</in>
       <in>CudaRtHandler_texture.cpp</in>
       <in>CudaRtHandler_thread.cpp</in>
       <in>CudaRtHandler_version.cpp</in>
@@ -32,6 +33,7 @@
       <in>CudaRt_memory.cpp</in>
       <in>CudaRt_opengl.cpp</in>
       <in>CudaRt_stream.cpp</in>
+      <in>CudaRt_surface.cpp</in>
       <in>CudaRt_texture.cpp</in>
       <in>CudaRt_thread.cpp</in>
       <in>CudaRt_version.cpp</in>

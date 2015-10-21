@@ -13,6 +13,7 @@ CudaRt_internal.cpp\
 CudaRt_memory.cpp\
 CudaRt_opengl.cpp\
 CudaRt_stream.cpp\
+CudaRt_surface.cpp\
 CudaRt_texture.cpp\
 CudaRt_thread.cpp\
 CudaRt_version.cpp

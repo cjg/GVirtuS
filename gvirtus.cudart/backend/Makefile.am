@@ -11,6 +11,7 @@ CudaRtHandler_internal.cpp\
 CudaRtHandler_memory.cpp\
 CudaRtHandler_opengl.cpp\
 CudaRtHandler_stream.cpp\
+CudaRtHandler_surface.cpp\
 CudaRtHandler_texture.cpp\
 CudaRtHandler_thread.cpp\
 CudaRtHandler_version.cpp

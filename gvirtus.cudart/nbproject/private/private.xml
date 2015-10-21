@@ -8,14 +8,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler_memory.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler.h</file>
             <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler_texture.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler_internal.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRt_internal.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRt_memory.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRtFrontend.h</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRt_texture.cpp</file>
+            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler_surface.cpp</file>
+            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRt_surface.cpp</file>
         </group>
     </open-files>
 </project-private>

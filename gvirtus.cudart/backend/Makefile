@@ -125,8 +125,8 @@ am_libcudart_backend_la_OBJECTS = CudaRtHandler.lo \
 	CudaRtHandler_event.lo CudaRtHandler_execution.lo \
 	CudaRtHandler_internal.lo CudaRtHandler_memory.lo \
 	CudaRtHandler_opengl.lo CudaRtHandler_stream.lo \
-	CudaRtHandler_texture.lo CudaRtHandler_thread.lo \
-	CudaRtHandler_version.lo
+	CudaRtHandler_surface.lo CudaRtHandler_texture.lo \
+	CudaRtHandler_thread.lo CudaRtHandler_version.lo
 libcudart_backend_la_OBJECTS = $(am_libcudart_backend_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -349,6 +349,7 @@ CudaRtHandler_internal.cpp\
 CudaRtHandler_memory.cpp\
 CudaRtHandler_opengl.cpp\
 CudaRtHandler_stream.cpp\
+CudaRtHandler_surface.cpp\
 CudaRtHandler_texture.cpp\
 CudaRtHandler_thread.cpp\
 CudaRtHandler_version.cpp
@@ -444,6 +445,7 @@ include ./$(DEPDIR)/CudaRtHandler_internal.Plo
 include ./$(DEPDIR)/CudaRtHandler_memory.Plo
 include ./$(DEPDIR)/CudaRtHandler_opengl.Plo
 include ./$(DEPDIR)/CudaRtHandler_stream.Plo
+include ./$(DEPDIR)/CudaRtHandler_surface.Plo
 include ./$(DEPDIR)/CudaRtHandler_texture.Plo
 include ./$(DEPDIR)/CudaRtHandler_thread.Plo
 include ./$(DEPDIR)/CudaRtHandler_version.Plo
