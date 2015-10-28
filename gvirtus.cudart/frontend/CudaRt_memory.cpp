@@ -374,14 +374,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy3DAsync(const cudaMemcpy3DPa
     return cudaErrorUnknown;
 }
 
-extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyArrayToArray(cudaArray *dst, size_t wOffsetDst,
-        size_t hOffsetDst, const cudaArray *src, size_t wOffsetSrc,
-        size_t hOffsetSrc, size_t count,
-        cudaMemcpyKind kind) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemcpyArrayToArray() not yet implemented!" << endl;
-    return cudaErrorUnknown;
-}
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyAsync(void *dst, const void *src, size_t count,
         cudaMemcpyKind kind, cudaStream_t stream) {
@@ -450,10 +442,84 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyAsync(void *dst, const void 
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyFromArray(void *dst, const cudaArray *src,
-        size_t wOffset, size_t hOffset, size_t count, cudaMemcpyKind kind) {
+           size_t wOffset, size_t hOffset, size_t count, cudaMemcpyKind kind) {
     // FIXME: implement
-    cerr << "*** Error: cudaMemcpyFromArray() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+   // cerr << "*** Error: cudaMemcpyFromArray() not yet implemented!" << endl;
+    //return cudaErrorUnknown;
+    
+    printf("Requesting cudaMemcpyFromArray\n");
+    CudaRtFrontend::Prepare();
+ 
+   switch (kind) {
+	case cudaMemcpyDefault:
+        case cudaMemcpyHostToHost:
+            /* This should never happen. cudaArray is only on device */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        case cudaMemcpyHostToDevice:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        
+       case cudaMemcpyDeviceToHost:
+            //pass contenuto source 
+            CudaRtFrontend::AddHostPointerForArguments("");
+            CudaRtFrontend::AddDevicePointerForArguments(src);
+            CudaRtFrontend::AddVariableForArguments(wOffset);
+            CudaRtFrontend::AddVariableForArguments(hOffset);
+            CudaRtFrontend::AddVariableForArguments(count);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpyFromArray");
+            if (CudaRtFrontend::Success())
+                memmove(dst, CudaRtFrontend::GetOutputHostPointer<char>(count), count);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            CudaRtFrontend::AddDevicePointerForArguments(dst);
+            CudaRtFrontend::AddDevicePointerForArguments(src);
+            CudaRtFrontend::AddVariableForArguments(wOffset);
+            CudaRtFrontend::AddVariableForArguments(hOffset);
+            CudaRtFrontend::AddVariableForArguments(count);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpyFromArray");
+            break;
+    }
+
+    return CudaRtFrontend::GetExitCode();
+}
+
+extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyArrayToArray(cudaArray *dst, size_t wOffsetDst, size_t hOffsetDst, const cudaArray *src,
+           size_t wOffsetSrc, size_t hOffsetSrc, size_t count, cudaMemcpyKind kind) {
+    // FIXME: implement
+    //return cudaErrorUnknown;
+    
+    printf("Requesting cudaMemcpyArrayToArray\n");
+    CudaRtFrontend::Prepare();
+ 
+   switch (kind) {
+	case cudaMemcpyDefault:
+        case cudaMemcpyHostToHost: 
+        case cudaMemcpyDeviceToHost:
+        case cudaMemcpyHostToDevice:
+
+            /* This should never happen. cudaArray is only on device */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+          
+        
+        case cudaMemcpyDeviceToDevice:
+            CudaRtFrontend::AddDevicePointerForArguments(dst);
+            CudaRtFrontend::AddVariableForArguments(wOffsetDst);
+            CudaRtFrontend::AddVariableForArguments(hOffsetDst);
+            CudaRtFrontend::AddDevicePointerForArguments(src);
+            CudaRtFrontend::AddVariableForArguments(wOffsetSrc);
+            CudaRtFrontend::AddVariableForArguments(hOffsetSrc);
+            CudaRtFrontend::AddVariableForArguments(count);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpyArrayToArray");
+            break;
+    }
+
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyFromArrayAsync(void *dst, const cudaArray *src,

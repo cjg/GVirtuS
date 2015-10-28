@@ -489,6 +489,104 @@ CUDA_ROUTINE_HANDLER(MemcpyToArray) {
         return new Result(cudaErrorMemoryAllocation);
     }
 }
+CUDA_ROUTINE_HANDLER(MemcpyFromArray) {
+    /* cudaMemcpyFromArray(void *dst, const cudaArray *src,
+        size_t wOffset, size_t hOffset, size_t count, cudaMemcpyKind kind) */
+    
+    void *dst = NULL;
+    cudaArray *src = NULL;   
+    cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
+    size_t count = input_buffer->BackGet<size_t > ();
+    size_t hOffset = input_buffer->BackGet<size_t > ();
+    size_t wOffset = input_buffer->BackGet<size_t > ();
+    
+   // std::cout << "wOffset " << wOffset << " hOffset " << hOffset << std::endl;
+
+    cudaError_t exit_code;
+    Result * result = NULL;
+    Buffer *out;
+
+    switch (kind) {
+        case cudaMemcpyDefault:
+        case cudaMemcpyHostToHost:
+        case cudaMemcpyHostToDevice:
+            // This should never happen
+            result = new Result(cudaErrorInvalidMemcpyDirection);
+            break;
+        
+        case cudaMemcpyDeviceToHost:
+            // FIXME: use buffer delegate
+            dst = new char[count];
+            /* skipping a char for fake host pointer */
+            input_buffer->Assign<char>(); //???
+            src = (cudaArray *)input_buffer->GetFromMarshal<void *>();
+            
+            exit_code = cudaMemcpyFromArray(dst, src, wOffset, hOffset, count, kind);
+            out = new Buffer();
+            out->Add<char>((char *) dst, count);
+            delete[] (char *) dst;
+            result = new Result(exit_code, out);
+            break;
+       
+        case cudaMemcpyDeviceToDevice:
+            dst = input_buffer->GetFromMarshal<void *>();
+            src = (cudaArray *)input_buffer->GetFromMarshal<void *>();
+           // src = input_buffer->GetFromMarshal<void *>();
+            exit_code = cudaMemcpyFromArray(dst, src, wOffset, hOffset, count, kind);
+            result = new Result(exit_code);
+            break;
+    }
+    return result;
+}
+
+CUDA_ROUTINE_HANDLER(MemcpyArrayToArray) {
+    /* 	(struct cudaArray * dst, size_t 	wOffsetDst,
+size_t 	hOffsetDst,
+const struct cudaArray * 	src,
+size_t 	wOffsetSrc,
+size_t 	hOffsetSrc,
+size_t 	count,
+enum cudaMemcpyKind 	kind = cudaMemcpyDeviceToDevice	 
+)	 */
+    cudaArray *src = NULL;   
+    cudaArray *dst = NULL;
+    cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
+    size_t count;
+    size_t hOffsetDst, hOffsetSrc;
+    size_t wOffsetDst, wOffsetSrc;
+    
+    
+    //std::cout << "wOffset " << wOffsetDst << " hOffset " << hOffsetDst << std::endl;
+
+    cudaError_t exit_code;
+    Result * result = NULL;
+    Buffer *out;
+
+    switch (kind) {
+        case cudaMemcpyDefault:
+        case cudaMemcpyHostToHost:
+        case cudaMemcpyHostToDevice:
+        case cudaMemcpyDeviceToHost:
+            // This should never happen
+            result = new Result(cudaErrorInvalidMemcpyDirection);
+            break;
+       
+        case cudaMemcpyDeviceToDevice:
+            dst = (cudaArray *)input_buffer->GetFromMarshal<void *>();
+            wOffsetDst = input_buffer->Get<size_t>();            
+            hOffsetDst = input_buffer->Get<size_t>();
+            src = (cudaArray *)input_buffer->GetFromMarshal<void *>();
+           // src = input_buffer->GetFromMarshal<void *>();
+            wOffsetSrc = input_buffer->Get<size_t>();            
+            hOffsetSrc = input_buffer->Get<size_t>();
+            count = input_buffer->Get<size_t>();
+            exit_code = cudaMemcpyArrayToArray(dst, wOffsetDst, hOffsetDst, src, wOffsetSrc, hOffsetSrc, count, kind);
+            result = new Result(exit_code);
+            break;
+    }
+    return result;
+}
+
 
 CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
     void *src = NULL;
