@@ -333,7 +333,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2DFromArray(void *dst, size_
         const cudaArray *src, size_t wOffset, size_t hOffset, size_t width,
         size_t height, cudaMemcpyKind kind) {
     
-  printf("Requesting cudaMemcpy2DFromArray\n");
     CudaRtFrontend::Prepare();
  
    switch (kind) {
@@ -482,14 +481,9 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyAsync(void *dst, const void 
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyFromArray(void *dst, const cudaArray *src,
            size_t wOffset, size_t hOffset, size_t count, cudaMemcpyKind kind) {
-    // FIXME: implement
-   // cerr << "*** Error: cudaMemcpyFromArray() not yet implemented!" << endl;
-    //return cudaErrorUnknown;
-    
-    printf("Requesting cudaMemcpyFromArray\n");
     CudaRtFrontend::Prepare();
  
-   switch (kind) {
+    switch (kind) {
 	case cudaMemcpyDefault:
         case cudaMemcpyHostToHost:
             /* This should never happen. cudaArray is only on device */
@@ -528,13 +522,9 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyFromArray(void *dst, const c
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyArrayToArray(cudaArray *dst, size_t wOffsetDst, size_t hOffsetDst, const cudaArray *src,
            size_t wOffsetSrc, size_t hOffsetSrc, size_t count, cudaMemcpyKind kind) {
-    // FIXME: implement
-    //return cudaErrorUnknown;
-    
-    printf("Requesting cudaMemcpyArrayToArray\n");
     CudaRtFrontend::Prepare();
  
-   switch (kind) {
+    switch (kind) {
 	case cudaMemcpyDefault:
         case cudaMemcpyHostToHost: 
         case cudaMemcpyDeviceToHost:
