@@ -32,10 +32,11 @@ using namespace std;
 
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaBindSurfaceToArray(const surfaceReference *surfref,
-        const cudaArray *array, const cudaChannelFormatDesc *desc) {
-    cerr << "Requesting cudaBindSurfaceToArray" << endl;    
+        const cudaArray *array, const cudaChannelFormatDesc *desc) {    
     CudaRtFrontend::Prepare();
+#ifdef DEBUG
     cerr << CudaUtil::MarshalHostPointer(surfref) << " " << hex << array << endl;
+#endif 
     // Achtung: passing the address and the content of the textureReference
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(surfref));
     CudaRtFrontend::AddHostPointerForArguments(surfref);

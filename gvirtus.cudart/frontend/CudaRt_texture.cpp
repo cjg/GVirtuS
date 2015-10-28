@@ -47,8 +47,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture(size_t *offset,
 extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
         const textureReference *texref, const void *devPtr,
         const cudaChannelFormatDesc *desc, size_t width, size_t height,
-        size_t pitch) {
-    cerr << "Requesting cudaBindTexture2D" << endl;    
+        size_t pitch) { 
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddHostPointerForArguments(offset);
     // Achtung: passing the address and the content of the textureReference
@@ -80,7 +79,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaBindTextureToArray(const textureReference *texref,
         const cudaArray *array, const cudaChannelFormatDesc *desc) {
-    cerr << "Requesting cudaBindTextureToArray" << endl;    
     CudaRtFrontend::Prepare();
     // Achtung: passing the address and the content of the textureReference
 //    CudaRtFrontend::AddVariableForArguments((pointer_t) texref);

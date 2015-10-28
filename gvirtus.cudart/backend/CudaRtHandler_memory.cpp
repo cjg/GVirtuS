@@ -120,13 +120,12 @@ CUDA_ROUTINE_HANDLER(MallocArray) {
         cudaError_t exit_code = cudaMallocArray(&arrayPtr, desc, width, height);
         Buffer *out = new Buffer();
         out->AddMarshal(arrayPtr);
+        cout << hex << arrayPtr << endl;
         return new Result(exit_code, out);
     } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
-    }
-
- 
+    } 
 }
 
 CUDA_ROUTINE_HANDLER(MallocPitch) {

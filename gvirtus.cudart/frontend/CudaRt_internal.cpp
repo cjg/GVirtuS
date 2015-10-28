@@ -36,7 +36,6 @@
 
 extern "C" __host__ void** __cudaRegisterFatBinary(void *fatCubin) {
     /* Fake host pointer */
-    printf("Requesting __cudaRegisterFatBinary\n");
     __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
     char* data =(char*) bin->data;
 //    printf("data: %p\n", data);
@@ -65,8 +64,8 @@ extern "C" __host__ void** __cudaRegisterFatBinary(void *fatCubin) {
 
     Buffer * input_buffer = new Buffer();
     input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
-    std::cerr << "fatCubin: " << CudaUtil::MarshalHostPointer((void **) bin)
-            << std::endl;
+//    std::cerr << "fatCubin: " << CudaUtil::MarshalHostPointer((void **) bin)
+//            << std::endl;
     input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
 
     CudaRtFrontend::Prepare();
@@ -77,7 +76,6 @@ extern "C" __host__ void** __cudaRegisterFatBinary(void *fatCubin) {
 }
 
 extern "C" __host__ void __cudaUnregisterFatBinary(void **fatCubinHandle) {
-    printf("Requesting __cudaUnregisterFatBinary\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     CudaRtFrontend::Execute("cudaUnregisterFatBinary");
@@ -86,7 +84,6 @@ extern "C" __host__ void __cudaUnregisterFatBinary(void **fatCubinHandle) {
 extern "C" __host__ void __cudaRegisterFunction(void **fatCubinHandle, const char *hostFun,
         char *deviceFun, const char *deviceName, int thread_limit, uint3 *tid,
         uint3 *bid, dim3 *bDim, dim3 *gDim, int *wSize) {
-    printf("Requesting __cudaRegisterFunction\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     
@@ -113,7 +110,6 @@ extern "C" __host__ void __cudaRegisterFunction(void **fatCubinHandle, const cha
 extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
         char *deviceAddress, const char *deviceName, int ext, int size,
         int constant, int global) {
-    printf("Requesting __cudaRegisterVar\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(hostVar));
@@ -127,7 +123,6 @@ extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
 }
 
 extern "C" __host__ void __cudaRegisterShared(void **fatCubinHandle, void **devicePtr) {
-    printf("Requesting __cudaRegisterShared\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     CudaRtFrontend::AddStringForArguments((char *) devicePtr);
@@ -136,7 +131,6 @@ extern "C" __host__ void __cudaRegisterShared(void **fatCubinHandle, void **devi
 
 extern "C" __host__ void __cudaRegisterSharedVar(void **fatCubinHandle, void **devicePtr,
         size_t size, size_t alignment, int storage) {
-    printf("Requesting __cudaRegisterSharedVar\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     CudaRtFrontend::AddStringForArguments((char *) devicePtr);
@@ -149,7 +143,6 @@ extern "C" __host__ void __cudaRegisterSharedVar(void **fatCubinHandle, void **d
 extern "C" __host__ void __cudaRegisterTexture(void **fatCubinHandle,
         const textureReference *hostVar, void **deviceAddress, char *deviceName,
         int dim, int norm, int ext) {
-    printf("Requesting __cudaRegisterTexture\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(fatCubinHandle));
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(hostVar));
@@ -167,7 +160,6 @@ extern "C" __host__ void __cudaRegisterTexture(void **fatCubinHandle,
 extern "C" __host__ void __cudaRegisterSurface(void **fatCubinHandle,
         const surfaceReference *hostVar, void **deviceAddress, char *deviceName,
         int dim, int ext) {
-    printf("Requesting __cudaRegisterSurface\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(
         fatCubinHandle));
