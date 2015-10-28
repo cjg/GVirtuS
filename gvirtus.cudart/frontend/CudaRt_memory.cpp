@@ -332,10 +332,49 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2DAsync(void *dst, size_t dp
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2DFromArray(void *dst, size_t dpitch,
         const cudaArray *src, size_t wOffset, size_t hOffset, size_t width,
         size_t height, cudaMemcpyKind kind) {
-    // FIXME: implement
-    cerr << "*** Error: cudaMemcpy2DFromArray() not yet implemented!" << endl;
-    return cudaErrorUnknown;
+    
+  printf("Requesting cudaMemcpy2DFromArray\n");
+    CudaRtFrontend::Prepare();
+ 
+   switch (kind) {
+	case cudaMemcpyDefault:
+        case cudaMemcpyHostToHost:
+        case cudaMemcpyHostToDevice:
+            /* This should never happen. */
+            return cudaErrorInvalidMemcpyDirection;
+            break;
+        
+       case cudaMemcpyDeviceToHost:
+            //pass contenuto source 
+            CudaRtFrontend::AddHostPointerForArguments("");
+            CudaRtFrontend::AddVariableForArguments(dpitch);
+            CudaRtFrontend::AddDevicePointerForArguments(src);
+            CudaRtFrontend::AddVariableForArguments(wOffset);
+            CudaRtFrontend::AddVariableForArguments(hOffset);
+            CudaRtFrontend::AddVariableForArguments(width);
+            CudaRtFrontend::AddVariableForArguments(height);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpy2DFromArray");
+            if (CudaRtFrontend::Success())
+                memmove(dst, CudaRtFrontend::GetOutputHostPointer<char>(dpitch * height),
+                        dpitch * height);
+            break;
+        case cudaMemcpyDeviceToDevice:
+            CudaRtFrontend::AddDevicePointerForArguments(dst);
+            CudaRtFrontend::AddVariableForArguments(dpitch);
+            CudaRtFrontend::AddDevicePointerForArguments(src);
+            CudaRtFrontend::AddVariableForArguments(wOffset);
+            CudaRtFrontend::AddVariableForArguments(hOffset);
+            CudaRtFrontend::AddVariableForArguments(width);
+            CudaRtFrontend::AddVariableForArguments(height);
+            CudaRtFrontend::AddVariableForArguments(kind);
+            CudaRtFrontend::Execute("cudaMemcpy2DFromArray");
+            break;
+    }
+
+    return CudaRtFrontend::GetExitCode();
 }
+
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy2DFromArrayAsync(void *dst, size_t dpitch,
         const cudaArray *src, size_t wOffset, size_t hOffset, size_t width,

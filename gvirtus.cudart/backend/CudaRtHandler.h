@@ -179,6 +179,7 @@ CUDA_ROUTINE_HANDLER(Memset);
 CUDA_ROUTINE_HANDLER(Memset2D);
 CUDA_ROUTINE_HANDLER(MemcpyFromArray);
 CUDA_ROUTINE_HANDLER(MemcpyArrayToArray);
+CUDA_ROUTINE_HANDLER(Memcpy2DFromArray);
 
 
 /* CudaRtHandler_opengl */

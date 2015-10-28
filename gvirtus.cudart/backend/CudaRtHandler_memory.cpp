@@ -219,6 +219,88 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
                     return new Result(cudaErrorMemoryAllocation);
                 }
 }
+CUDA_ROUTINE_HANDLER(Memcpy2DFromArray) {
+    /*(	void * 	dst,
+size_t 	dpitch,
+const struct cudaArray * 	src,
+size_t 	wOffset,
+size_t 	hOffset,
+size_t 	width,
+size_t 	height,
+enum cudaMemcpyKind 	kind	 
+)	*/
+    void *dst = NULL;
+    cudaArray *src = NULL;
+    size_t dpitch;
+    size_t height;
+    size_t width;
+    size_t wOffset, hOffset;
+
+    try {
+        cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
+   
+        
+        cudaError_t exit_code;
+        Result * result = NULL;
+        Buffer *out;
+
+        switch (kind) {
+            case cudaMemcpyDefault:
+            case cudaMemcpyHostToHost:
+            case cudaMemcpyHostToDevice:
+                // This should never happen
+                result = NULL;
+                break;
+            case cudaMemcpyDeviceToHost:
+                // FIXME: use buffer delegate
+                /* skipping a char for fake host pointer */
+                try {
+                    input_buffer->Assign<char>(); // fittizio
+                    src = (cudaArray *) input_buffer->GetFromMarshal<void *>();
+                    dpitch = input_buffer->Get<size_t>();
+                    wOffset = input_buffer->Get<size_t>();
+                    hOffset = input_buffer->Get<size_t>();
+                    width = input_buffer->Get<size_t>();
+                    height = input_buffer->Get<size_t>();
+                } catch (string e) {
+                    cerr << e << endl;
+                    return new Result(cudaErrorMemoryAllocation);
+                }
+                dst = new char[dpitch * height];
+                exit_code = cudaMemcpy2DFromArray(dst, dpitch, src, wOffset, hOffset, width, height, kind);
+                try {
+                    out = new Buffer();
+                    out->Add<char>((char *) dst, dpitch * height);
+                } catch (string e) {
+                    cerr << e << endl;
+                    return new Result(cudaErrorMemoryAllocation);
+                }
+                delete[] (char *) dst;
+                result = new Result(exit_code, out);
+                break;
+            case cudaMemcpyDeviceToDevice:
+                try {
+                    dst = input_buffer->GetFromMarshal<void *>();
+                    src = (cudaArray *) input_buffer->GetFromMarshal<void *>();
+                    dpitch = input_buffer->Get<size_t>();
+                    wOffset = input_buffer->Get<size_t>();
+                    hOffset = input_buffer->Get<size_t>();
+                    width = input_buffer->Get<size_t>();
+                    height = input_buffer->Get<size_t>();
+                } catch (string e) {
+                    cerr << e << endl;
+                    return new Result(cudaErrorMemoryAllocation);
+                }
+                exit_code = cudaMemcpy2DFromArray(dst, dpitch, src, wOffset, hOffset, width, height,  kind);
+                result = new Result(exit_code);
+                break;
+        }
+        return result;
+         } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+}
 
 CUDA_ROUTINE_HANDLER(Memcpy2D) {
     /*cudaError_t cudaMemcpy2D 	( 	void *  	dst,
