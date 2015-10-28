@@ -51,19 +51,14 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddHostPointerForArguments(offset);
     // Achtung: passing the address and the content of the textureReference
-    cerr << "offset: " << hex << offset << endl;
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
-//    CudaRtFrontend::AddDevicePointerForArguments(texref);
     CudaRtFrontend::AddHostPointerForArguments(texref);
     CudaRtFrontend::AddDevicePointerForArguments(devPtr);
     CudaRtFrontend::AddHostPointerForArguments(desc);
     CudaRtFrontend::AddVariableForArguments(width);
     CudaRtFrontend::AddVariableForArguments(height);
     CudaRtFrontend::AddVariableForArguments(pitch);
-    CudaRtFrontend::Execute("cudaBindTexture2D");
-          
-    cerr << "return" << endl;
-    
+    CudaRtFrontend::Execute("cudaBindTexture2D");    
     size_t tempOffset;
     
     if (CudaRtFrontend::Success() )
@@ -71,7 +66,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTexture2D(size_t *offset,
        
     if (offset != NULL) {
         *offset = tempOffset;
-        cerr << "offset: " << *offset << endl;
     }
     
     return CudaRtFrontend::GetExitCode();
@@ -81,7 +75,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaBindTextureToArray(const textureRe
         const cudaArray *array, const cudaChannelFormatDesc *desc) {
     CudaRtFrontend::Prepare();
     // Achtung: passing the address and the content of the textureReference
-//    CudaRtFrontend::AddVariableForArguments((pointer_t) texref);
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
     CudaRtFrontend::AddHostPointerForArguments(texref);
     CudaRtFrontend::AddDevicePointerForArguments((void *) array);
@@ -144,4 +137,16 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaUnbindTexture(const textureReferen
     CudaRtFrontend::AddStringForArguments(CudaUtil::MarshalHostPointer(texref));
     CudaRtFrontend::Execute("cudaUnbindTexture");
     return CudaRtFrontend::GetExitCode();
+}
+
+extern "C" __host__ cudaError_t CUDARTAPI cudaCreateTextureObject (cudaTextureObject_t *pTexObject,
+        const struct cudaResourceDesc *pResDesc, const struct cudaTextureDesc *pTexDesc,
+        const struct cudaResourceViewDesc *pResViewDesc) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments<cudaTextureObject_t>(pTexObject);
+    CudaRtFrontend::AddHostPointerForArguments<cudaResourceDesc>(pResDesc);
+    CudaRtFrontend::AddHostPointerForArguments<cudaTextureDesc>(pTexDesc);
+    CudaRtFrontend::AddHostPointerForArguments<cudaResourceViewDesc>(pResViewDesc);
+    CudaRtFrontend::Execute("cudaUnbindTexture");
+    return CudaRtFrontend::GetExitCode();    
 }

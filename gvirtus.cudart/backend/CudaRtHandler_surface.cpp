@@ -36,16 +36,14 @@ CUDA_ROUTINE_HANDLER(BindSurfaceToArray) {
     
     surfaceReference *guestSurfref = input_buffer->Assign<surfaceReference>();
     
-    surfaceReference *surfref = pThis->GetSurface(surfrefHandler);
-    
-    
-    
+    surfaceReference *surfref = pThis->GetSurface(surfrefHandler);   
+    cudaChannelFormatDesc* a = &(surfref->channelDesc);
     memmove(surfref, guestSurfref, sizeof(surfaceReference));
     cudaArray *array = (cudaArray *)input_buffer->Get<pointer_t>();
-    cerr << surfrefHandler << " " << std::hex << array << endl;
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc>();
+        
     cudaError_t exit_code = cudaBindSurfaceToArray(surfref, array, desc);
-
+    
     return new Result(exit_code);
 }
 
