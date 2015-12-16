@@ -1,4 +1,4 @@
-# How To install GvirtuS and gvirtus-cudart plugin#
+# How To install GVirtuS and gvirtus-cudart plugin#
 ## Prerequisites: ##
 GCC, G++
 
