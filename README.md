@@ -11,7 +11,7 @@ CUDA Toolkit: Version 6.5
 
     hg clone https://bitbucket.org/montella/gvirtus-devel
 
-In the folder “gvirtus-devel” there are two folders named “gvirtus” and “gvirtus.cudart”.
+In the directory “gvirtus-devel” there are two directories named “gvirtus” and “gvirtus.cudart”.
 
 “gvirtus” contains the framework.
 
