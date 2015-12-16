@@ -2,7 +2,7 @@
 ## Prerequisites: ##
 GCC, G++
 
-OS: Ubuntu 10.04 (tested) / 12.04 (tested) / 14.04.3 (tested) 
+OS: Ubuntu 10.04 (tested) / 12.04 (tested) / 14.04 (tested) 
 
 CUDA Toolkit: Version 6.5
 
