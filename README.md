@@ -29,7 +29,7 @@ The follow steps are required in both the folders.
 
 This default installation will place GvirtuS in the /usr/local directory, if you wish to change the path you should use  
 
-    ./autogen.sh --prefix=”YOUR_PATH”
+    ./autogen.sh --prefix=”GVIRTUS_PATH”
      make && make install 
 
 To check your installation please check the following directories (default path without --prefix):
@@ -38,7 +38,7 @@ To check your installation please check the following directories (default path 
 
 /usr/local/lib for libraries
 
-Check /usr/local/lib or YOUR_PATH/lib for frontend and backend directories
+Check /usr/local/lib or GVIRTUS_PATH/lib for frontend and backend directories
 
 
 ## EXAMPLE cuda application ##
@@ -49,7 +49,7 @@ On the remote machine where the cuda executables will be executed
 
 Modify the Gvirtus configuration file backend:
 
-/usr/local/etc/gvirtus.properties or YOUR_PATH/etc/gvirtus.properties
+/usr/local/etc/gvirtus.properties or GVIRTUS_PATH/etc/gvirtus.properties
 
     #
     # gVirtuS config file
@@ -81,7 +81,7 @@ Execute application server gvirtus-backend with follow command:
 
 or
 
-    YOUR_PATH/bin/gvirtus-backend
+    GVIRTUS_PATH/bin/gvirtus-backend
 
 ### Frontend machine (No GPU or Cuda required) ###
 
@@ -91,7 +91,7 @@ Modify the Gvirtus configuration file frontend:
 
 or
 
-YOUR_PATH/etc/gvirtus.properties
+GVIRTUS_PATH/etc/gvirtus.properties
 
 
 
@@ -117,11 +117,11 @@ YOUR_PATH/etc/gvirtus.properties
 
 Create a soft link manually in this alpha-version with the follow command:
 
-    ln -s YOUR_PATH/lib/frontend/libcudart.so.6.5.14
+    ln -s GVIRTUS_PATH/lib/frontend/libcudart.so.6.5.14
 
 Export the dynamic GVirtuS library:
 
-    export  LD_LIBRARY_PATH=YOUR_PATH/gvirtus/lib/frontend
+    export  LD_LIBRARY_PATH=GVIRTUS_PATH/gvirtus/lib/frontend
 
 execute the cuda application compiled with cuda dynamic library (with -lcuda -lcudart)
 
