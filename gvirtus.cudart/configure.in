@@ -1,0 +1,99 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.63])
+AC_INIT(gvirtus-cudart, 01-beta2, http://osl.uniparthenope.it/mailman/listinfo/gvirtus-devel)
+AM_INIT_AUTOMAKE
+AC_CONFIG_SRCDIR([backend/CudaRtHandler.cpp])
+AC_CONFIG_HEADERS([config.h])
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_LIBTOOL
+
+AC_ARG_WITH([cuda-include], [AC_HELP_STRING([--with-cuda-include=PATH],
+    [set PATH to the CUDA include directory])], [
+    CUDA_INCLUDE="$withval"
+    CUDA_FLAGS="-isystem $CUDA_INCLUDE"
+], [
+    CUDA_FLAGS="$CUDA_FLAGS -isystem /usr/local/cuda/include"
+    CUDA_FLAGS="$CUDA_FLAGS -isystem /opt/cuda/include"
+])
+CPPFLAGS="$CPPFLAGS $CUDA_FLAGS"
+
+AC_ARG_WITH([cuda-lib], [AC_HELP_STRING([--with-cuda-lib=PATH],
+    [set PATH to the CUDA library directory])],
+    [
+    CUDA_LIB_DIR=$withval
+    CUDA_LIB_FLAGS="-L$withval"
+], [
+    CUDA_LIB_FLAGS="-L/usr/local/cuda/lib"
+    CUDA_LIB_FLAGS="$CUDA_LIB_FLAGS -L/usr/local/cuda/lib64"
+    CUDA_LIB_FLAGS="$CUDA_LIB_FLAGS -L/opt/cuda/lib"
+    CUDA_LIB_FLAGS="$CUDA_LIB_FLAGS -L/opt/cuda/lib64"
+])
+LDFLAGS="$LDFLAGS $CUDA_LIB_FLAGS"
+AC_SUBST(CUDA_LIB_FLAGS)
+
+AC_ARG_WITH([gvirtus-include], [AC_HELP_STRING([--with-gvirtus-include=PATH],
+    [set PATH to the GVirtuS include directory])], [
+    GVIRTUS_INCLUDE="$withval"
+    GVIRTUS_FLAGS="-I$GVIRTUS_INCLUDE"
+], [
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I${prefix}/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/usr/local/gvirtus/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/opt/gvirtus/include/gvirtus"
+])
+CPPFLAGS="$CPPFLAGS $GVIRTUS_FLAGS"
+
+AC_ARG_WITH([gvirtus-lib], [AC_HELP_STRING([--with-gvirtus-lib=PATH],
+    [set PATH to the GVirtuS library directory])],
+    [
+    GVIRTUS_LIB_DIR=$withval
+    GVIRTUS_LIB_FLAGS="-L$withval"
+], [
+    GVIRTUS_LIB_FLAGS="-L${prefix}/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/usr/local/gvirtus/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/opt/gvirtus/lib"
+])
+LDFLAGS="$LDFLAGS $GVIRTUS_LIB_FLAGS"
+AC_SUBST(GVIRTUS_LIB_FLAGS)
+
+
+# Checks for libraries.
+AC_CHECK_LIB([cudart], [__cudaRegisterFatBinary], , AC_MSG_ERROR([Could not find the cuda library.]))
+LIBS=""
+
+# Checks for header files.
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h netdb.h netinet/in.h stdint.h stdlib.h sys/socket.h unistd.h vmci/vmci_sockets.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_INLINE
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_TYPE_UINT64_T
+
+# Checks for library functions.
+AC_FUNC_FORK
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([gethostbyname memmove memset socket strcasecmp strdup strtoul])
+
+AC_CHECK_HEADER([cuda.h], [], [
+    AC_CHECK_HEADER([cuda.h], ,
+        [
+            AC_MSG_ERROR([Could not find the cuda header.])
+        ])])
+
+CPPFLAGS="-I`pwd`/util $CPPFLAGS"
+CXXFLAGS="$CXXFLAGS -Wall -pedantic"
+
+AC_CONFIG_FILES([Makefile 
+                 util/Makefile
+                 backend/Makefile
+                 frontend/Makefile
+                 test/Makefile
+		])
+AC_OUTPUT
