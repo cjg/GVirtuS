@@ -29,7 +29,7 @@ The follow steps are required in both the folders.
 
 This default installation will place GvirtuS in the /usr/local directory, if you wish to change the path you should use  
 
-    ./autogen.sh prefix=”YOUR_PATH”
+    ./autogen.sh --prefix=”YOUR_PATH”
      make && make install 
 
 To check your installation please check the following directories (default path without --prefix):
