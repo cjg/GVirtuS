@@ -7,7 +7,7 @@ OS: Ubuntu 10.04 (tested) / 12.04 (tested) / 14.04 (tested)
 CUDA Toolkit: Version 6.5
 
 ## Installation: ##
-1) Clone the GvirtuS main repository
+1) Clone the GVirtuS main repository
 
     hg clone https://bitbucket.org/montella/gvirtus-devel
 
