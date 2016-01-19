@@ -117,7 +117,7 @@ GVIRTUS_PATH/etc/gvirtus.properties
 
 Create a soft link manually in this alpha-version with the follow command:
 
-    ln -s GVIRTUS_PATH/lib/frontend/libcudart.so.6.5.14 GVIRTUS_PATH/lib/frontend/libcudart.so
+    ln -s GVIRTUS_PATH/lib/frontend/libcudart.so GVIRTUS_PATH/lib/frontend/libcudart.so.6.5.14
 
 Export the dynamic GVirtuS library:
 
