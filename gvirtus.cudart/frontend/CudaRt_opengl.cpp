@@ -101,10 +101,10 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaGLUnregisterBufferObject(GLuint bu
 
 #include <cuda_gl_interop.h>
 
-extern "C" void FlushRoutines();
+//extern "C" void FlushRoutines();
 
 extern "C" cudaError_t cudaGLSetGLDevice(int device) {
-    FlushRoutines();
+    //FlushRoutines();
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddVariableForArguments(device);
     CudaRtFrontend::Execute("cudaGLSetGLDevice");
@@ -113,8 +113,7 @@ extern "C" cudaError_t cudaGLSetGLDevice(int device) {
 
 extern "C" cudaError_t cudaGraphicsGLRegisterBuffer(struct cudaGraphicsResource
         **resource, GLuint buffer, unsigned int flags) {
-    FlushRoutines();
-
+    //FlushRoutines();
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddVariableForArguments(buffer);
     CudaRtFrontend::AddVariableForArguments(flags);

@@ -37,9 +37,14 @@
 #define	_FRONTEND_H
 
 #include <vector>
+#include <map>
+#include <string>
+#include <pthread.h>
 
 #include "Communicator.h"
 #include "Buffer.h"
+
+using namespace std;
 
 /**
  * Frontend is the object used by every cuda routine wrapper for requesting the
@@ -50,15 +55,15 @@
  *
  * For requesting the execution of a cuda routine to the backend the wrapper has
  * to:
- * -# retrive the Frontend instance.
+ * -# retrieve the Frontend instance.
  * -# prepare the execution using the Prepare() method.
  * -# add the input parameters in the correct order with the Add...() methods.
  * -# requests the execution of a named routine with Execute() method.
  * -# check if the execution has been executed successfully with Success().
- * -# retrive the output parameters with the Get...() methods.
+ * -# retrieve the output parameters with the Get...() methods.
  *
  * Note that every pointer is assumed to be an output parameter. Every output
- * parameter must be retrived otherwise the Frontend will be left in a dirty
+ * parameter must be retrieved otherwise the Frontend will be left in a dirty
  * status.
  */
 class Frontend {
@@ -66,7 +71,7 @@ public:
     virtual ~Frontend();
 
     /** 
-     * Retrives the single instance of the Frontend class.
+     * Retrieves the single instance of the Frontend class.
      * 
      * @param register_var 
      * 
@@ -108,6 +113,8 @@ public:
     int GetExitCode() {
         return mExitCode;
     }
+    
+    inline bool initialized() { return mpInitialized; }
 
     /**
      * Checks if the latest execution had been completed successfully.
@@ -227,6 +234,8 @@ private:
     Buffer * mpInputBuffer;
     Buffer * mpOutputBuffer;
     int mExitCode;
+    static map<pthread_t, Frontend*> *mpFrontends;
+    bool mpInitialized = false;
 };
 
 #endif	/* _FRONTEND_H */
