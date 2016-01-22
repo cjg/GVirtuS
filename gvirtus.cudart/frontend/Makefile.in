@@ -121,7 +121,7 @@ LTLIBRARIES = $(frontendlib_LTLIBRARIES)
 libcudart_la_DEPENDENCIES =
 am_libcudart_la_OBJECTS = CudaRt.lo CudaRtFrontend.lo CudaRt_device.lo \
 	CudaRt_error.lo CudaRt_event.lo CudaRt_execution.lo \
-	CudaRt_internal.lo CudaRt_memory.lo CudaRt_opengl.lo \
+	CudaRt_opengl.lo CudaRt_internal.lo CudaRt_memory.lo \
 	CudaRt_stream.lo CudaRt_surface.lo CudaRt_texture.lo \
 	CudaRt_thread.lo CudaRt_version.lo
 libcudart_la_OBJECTS = $(am_libcudart_la_OBJECTS)
@@ -343,9 +343,9 @@ CudaRt_device.cpp\
 CudaRt_error.cpp\
 CudaRt_event.cpp\
 CudaRt_execution.cpp\
+CudaRt_opengl.cpp\
 CudaRt_internal.cpp\
 CudaRt_memory.cpp\
-CudaRt_opengl.cpp\
 CudaRt_stream.cpp\
 CudaRt_surface.cpp\
 CudaRt_texture.cpp\

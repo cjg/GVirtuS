@@ -39,18 +39,11 @@
 #include <iostream>
 #include <cstdlib>
 
+#include <fatBinaryCtl.h>
+#include <fatbinary.h>
 #include "__cudaFatFormat.h"
 
 #include "Buffer.h"
-
-typedef struct {
-  int magic;
-  int version;
-  const unsigned long long* data;
-  void *filename_or_fatbins;
-
-} __fatBinC_Wrapper_t;
-
 
 /**
  * CudaUtil contains facility functions used by gVirtuS. These functions

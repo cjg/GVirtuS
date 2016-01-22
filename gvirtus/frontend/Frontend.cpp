@@ -36,13 +36,17 @@
 #include "Frontend.h"
 
 #include <iostream>
-#include <string>
+#include <unistd.h>
+#include <pthread.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
 
 #include "ConfigFile.h"
 
 using namespace std;
 
 static Frontend msFrontend;
+map<pthread_t, Frontend*> *Frontend::mpFrontends = NULL;
 static bool initialized = false;
 
 /**
@@ -65,7 +69,7 @@ void Frontend::Init(Communicator *c) {
         communicator = string(tmp);
     else
 #endif
-        communicator = cf->Get("communicator");
+    communicator = cf->Get("communicator");
     mpCommunicator = Communicator::Get(communicator);
 #else
     mpCommunicator = c;
@@ -75,23 +79,43 @@ void Frontend::Init(Communicator *c) {
     mpInputBuffer = new Buffer();
     mpOutputBuffer = new Buffer();
     mExitCode = -1;
+    mpInitialized = true;
 }
 
 Frontend::~Frontend() {
-    mpCommunicator->Close();
-    delete mpCommunicator;
+//    if (mpFrontends != NULL) {
+//        map<pthread_t, Frontend*>::iterator it;
+//        for(it = mpFrontends->begin(); it != mpFrontends->end(); it++) {
+//            delete it->second;
+//        }
+//    }
+//    else {
+//        mpCommunicator->Close();
+//        delete mpCommunicator;
+//    }
 }
 
 Frontend * Frontend::GetFrontend(Communicator *c) {
-    if (!initialized) {
-        try {
-            msFrontend.Init(c);
-            initialized = true;
-        } catch (const char *e) {
-            cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
+    if (mpFrontends == NULL)
+        mpFrontends = new map<pthread_t, Frontend*>();
+    
+    
+    pid_t tid = syscall(SYS_gettid);;
+    if (mpFrontends->find(tid) != mpFrontends->end())
+           return mpFrontends->find(tid)->second;
+    
+    else {
+        Frontend* f = new Frontend();
+        if (!f->initialized()) {
+            try {
+                f->Init(c);
+                  mpFrontends->insert(make_pair(tid, f));
+            } catch (const char *e) {
+                cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
+            }
         }
-    }
-    return &msFrontend;
+        return f;
+    }    
 }
 
 void Frontend::Execute(const char* routine, const Buffer* input_buffer) {

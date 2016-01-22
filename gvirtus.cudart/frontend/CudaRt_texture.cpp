@@ -147,6 +147,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaCreateTextureObject (cudaTextureOb
     CudaRtFrontend::AddHostPointerForArguments(pResDesc);
     CudaRtFrontend::AddHostPointerForArguments(pTexDesc);
     CudaRtFrontend::AddHostPointerForArguments(pResViewDesc);
-    CudaRtFrontend::Execute("cudaUnbindTexture");
+    CudaRtFrontend::Execute("cudaCreateTextureObject");
     return CudaRtFrontend::GetExitCode();    
 }

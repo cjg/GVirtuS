@@ -9,9 +9,9 @@ CudaRt_device.cpp\
 CudaRt_error.cpp\
 CudaRt_event.cpp\
 CudaRt_execution.cpp\
+CudaRt_opengl.cpp\
 CudaRt_internal.cpp\
 CudaRt_memory.cpp\
-CudaRt_opengl.cpp\
 CudaRt_stream.cpp\
 CudaRt_surface.cpp\
 CudaRt_texture.cpp\

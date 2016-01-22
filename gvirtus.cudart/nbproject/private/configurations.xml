@@ -38,6 +38,8 @@
       <in>CudaRt_thread.cpp</in>
       <in>CudaRt_version.cpp</in>
     </df>
+    <itemPath>util/CudaUtil.cpp</itemPath>
+    <itemPath>util/CudaUtil.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile-gvirtus-cudart.mk</projectmakefile>
   <confs>

@@ -201,15 +201,21 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
 Buffer * CudaUtil::MarshalFatCudaBinary(__fatBinC_Wrapper_t* bin, Buffer * marshal) {
     if(marshal == NULL)
         marshal = new Buffer();
-    size_t size = (unsigned long long*)&(bin->magic) - bin->data;
+    //size_t size = (unsigned long long*)&(bin->magic) - bin->data;
      
     
     marshal->Add(bin->magic);
     marshal->Add(bin->version);
-    marshal->Add(size);
-    marshal->Add(bin->data, size);
+    
+//    marshal->Add(size);
+//    marshal->Add(bin->data, size);
     //marshal->Add(bin->filename_or_fatbins, 0);
 
+    struct fatBinaryHeader* header = (fatBinaryHeader*) bin->data;
+    size_t size = header->fatSize;
+    marshal->Add(size);
+    marshal->Add((char *)bin->data, size);
+    
     return marshal;
 }
 
@@ -221,7 +227,7 @@ __fatBinC_Wrapper_t * CudaUtil::UnmarshalFatCudaBinaryV2(Buffer* marshal) {
     bin->magic = marshal->Get<int>();
     bin->version = marshal->Get<int>();
     size = marshal->Get<size_t>();
-    bin->data = marshal->Get<unsigned long long int>(size);
+    bin->data = (unsigned long long*)marshal->Get<char>(size);
     //bin->data= NULL;
     /*
     cerr << "size: " << size << endl;

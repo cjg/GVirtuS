@@ -34,6 +34,8 @@
       <in>CudaRt_thread.cpp</in>
       <in>CudaRt_version.cpp</in>
     </df>
+    <logicalFolder name="f1" displayName="util" projectFiles="true" kind="ROOT">
+    </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
@@ -43,6 +45,8 @@
       <itemPath>configure</itemPath>
       <itemPath>configure.in</itemPath>
     </logicalFolder>
+    <itemPath>util/CudaUtil.cpp</itemPath>
+    <itemPath>util/CudaUtil.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>backend</Elem>
@@ -268,6 +272,10 @@
             <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
           </incDir>
         </ccTool>
+      </item>
+      <item path="util/CudaUtil.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/CudaUtil.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

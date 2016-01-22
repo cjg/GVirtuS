@@ -139,7 +139,7 @@ void Process::Execute(void * arg) {
         } else
             result = h->Execute(routine, input_buffer);
         result->Dump(mpCommunicator);
-        if (result->GetExitCode() != 0) {
+        if (result->GetExitCode() != 0 && routine.compare("cudaLaunch")) {
             cout << "[Process " << GetPid() << "]: Requested '" << routine
                     << "' routine." << endl;
             cout << "[Process " << GetPid() << "]: Exit Code '"
