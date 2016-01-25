@@ -365,7 +365,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamQuery));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreateWithFlags));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamAddCallback));
+   // mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamAddCallback));
 
 
     /* CudaRtHandler_surface */

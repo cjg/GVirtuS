@@ -212,7 +212,7 @@ CUDA_ROUTINE_HANDLER(StreamDestroy);
 CUDA_ROUTINE_HANDLER(StreamQuery);
 CUDA_ROUTINE_HANDLER(StreamSynchronize);
 CUDA_ROUTINE_HANDLER(StreamCreateWithFlags);
-CUDA_ROUTINE_HANDLER(StreamAddCallback);
+//CUDA_ROUTINE_HANDLER(StreamAddCallback);
 
 
 
