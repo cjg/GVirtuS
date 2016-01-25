@@ -111,7 +111,7 @@ public:
         AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
         AddStringForArguments(symbol);
     }
-
+    
     static inline cudaError_t GetExitCode() {
         return (cudaError_t) Frontend::GetFrontend()->GetExitCode();
     }

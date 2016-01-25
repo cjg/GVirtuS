@@ -38,34 +38,11 @@ extern "C" __host__ void** __cudaRegisterFatBinary(void *fatCubin) {
     /* Fake host pointer */
     __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
     char* data =(char*) bin->data;
-//    printf("data: %p\n", data);
     size_t size = ((unsigned long long*)&(bin->magic) - (unsigned long long*)data);
-//    printf("strlen data: %d\n", size);
-//    printf("data: %s\n", (char*)data);
-//    std::cerr << "size: " << size << std::endl;
-//    std::cerr << "**************FINE DATA********************" << std::endl;
-//    for (int i = 0; i < (size * sizeof(unsigned long long int)); i++) {
-//        fprintf(stderr, "%x ", *(data + i));
-//
-//    }
-//    std::cerr << "**************FINE DATA********************" << std::endl; 
-//    printf("\nfine data: %llx\n", *(data + 1490));
-//    printf("\nfine data: %p\n", data + size);
-//    printf("\nmagic: %llx\n", *(data + 1493));
-//    printf("\nmagic: %llx\n", bin->magic);
-//    printf("\nmagic: %p\n", &(bin->magic));
-//    printf("\nversion: %p\n", &(bin->version));
-//    printf("\nfilename: %p\n", &(bin->filename_or_fatbins));
-//    printf("\nfatCubin: %p\n", fatCubin);
-//    
-//    printf("magic: %x\n", bin->magic);
-//    printf("version: %d\n", bin->version);
-//    printf("f_or_fb: %p\n", bin->filename_or_fatbins);
+
 
     Buffer * input_buffer = new Buffer();
     input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
-//    std::cerr << "fatCubin: " << CudaUtil::MarshalHostPointer((void **) bin)
-//            << std::endl;
     input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
 
     CudaRtFrontend::Prepare();

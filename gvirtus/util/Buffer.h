@@ -62,7 +62,7 @@ public:
     Buffer(char * buffer, size_t buffer_size, size_t block_size = BLOCK_SIZE);
     virtual ~Buffer();
 
-    template <class T> void Add(T item) {
+    template <class T> void Add(const T item) {
         if ((mLength + (sizeof (T))) >= mSize) {
             mSize = ((mLength + (sizeof (T))) / mBlockSize + 1) * mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
@@ -72,8 +72,8 @@ public:
         mLength += sizeof (T);
         mBackOffset = mLength;
     }
-
-    template <class T> void Add(T *item, size_t n = 1) {
+            
+    template <class T> void Add(const T *item, size_t n = 1) {
         if(item == NULL) {
             Add((size_t) 0);
             return;

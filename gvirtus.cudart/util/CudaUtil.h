@@ -41,6 +41,7 @@
 
 #include <fatBinaryCtl.h>
 #include <fatbinary.h>
+#include <texture_types.h>
 #include "__cudaFatFormat.h"
 
 #include "Buffer.h"
@@ -72,6 +73,9 @@ public:
     static __cudaFatCudaBinary * UnmarshalFatCudaBinary(Buffer * marshal);
     static __fatBinC_Wrapper_t * UnmarshalFatCudaBinaryV2(Buffer * marshal);
     static void DumpFatCudaBinary(__cudaFatCudaBinary * bin, std::ostream & out);
+    static Buffer * MarshalTextureDescForArguments(const cudaTextureDesc* tex,
+      Buffer * marshal);
+    static cudaTextureDesc * UnmarshalTextureDesc(Buffer * marshal);
 
     /**
      * CudaVar is a data structure used for storing information about shared

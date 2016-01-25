@@ -50,6 +50,7 @@
 #include "gvirtus-type.h"
 #include "Handler.h"
 #include "Result.h"
+#include "CudaUtil.h"
 
 /**						
  * CudaRtHandler is used by Backend's Process(es) for storing and retrieving
@@ -201,6 +202,7 @@ CUDA_ROUTINE_HANDLER(StreamSynchronize);
 CUDA_ROUTINE_HANDLER(BindTexture);
 CUDA_ROUTINE_HANDLER(BindTexture2D);
 CUDA_ROUTINE_HANDLER(BindTextureToArray);
+CUDA_ROUTINE_HANDLER(CreateTextureObject);
 CUDA_ROUTINE_HANDLER(GetChannelDesc);
 CUDA_ROUTINE_HANDLER(GetTextureAlignmentOffset);
 CUDA_ROUTINE_HANDLER(GetTextureReference);

@@ -142,11 +142,14 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaUnbindTexture(const textureReferen
 extern "C" __host__ cudaError_t CUDARTAPI cudaCreateTextureObject (cudaTextureObject_t *pTexObject,
         const struct cudaResourceDesc *pResDesc, const struct cudaTextureDesc *pTexDesc,
         const struct cudaResourceViewDesc *pResViewDesc) {
+    Buffer * input_buffer = new Buffer();
+    
+    input_buffer->Add(pResDesc);
+    CudaUtil::MarshalTextureDescForArguments(pTexDesc, input_buffer);
+    input_buffer->Add(pResDesc);
     CudaRtFrontend::Prepare();
-    CudaRtFrontend::AddHostPointerForArguments(pTexObject);
-    CudaRtFrontend::AddHostPointerForArguments(pResDesc);
-    CudaRtFrontend::AddHostPointerForArguments(pTexDesc);
-    CudaRtFrontend::AddHostPointerForArguments(pResViewDesc);
-    CudaRtFrontend::Execute("cudaCreateTextureObject");
+    CudaRtFrontend::Execute("cudaCreateTextureObject", input_buffer);
+    if (CudaRtFrontend::Success())
+        (*pTexObject) = CudaRtFrontend::GetOutputVariable<cudaTextureObject_t>();
     return CudaRtFrontend::GetExitCode();    
 }

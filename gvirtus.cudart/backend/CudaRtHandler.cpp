@@ -361,6 +361,7 @@ void CudaRtHandler::Initialize() {
 #error CUDART_VERSION not defined
 #endif
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTextureToArray));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(CreateTextureObject));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetChannelDesc));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureAlignmentOffset));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureReference));
