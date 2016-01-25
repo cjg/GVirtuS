@@ -126,6 +126,20 @@ CUDA_ROUTINE_HANDLER(SetDeviceFlags);
 CUDA_ROUTINE_HANDLER(SetValidDevices);
 CUDA_ROUTINE_HANDLER(DeviceReset);
 CUDA_ROUTINE_HANDLER(DeviceSynchronize);
+CUDA_ROUTINE_HANDLER(DeviceSetCacheConfig);
+CUDA_ROUTINE_HANDLER(DeviceSetLimit);
+CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer); 
+CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess); 
+CUDA_ROUTINE_HANDLER(IpcGetMemHandle);
+CUDA_ROUTINE_HANDLER(IpcGetEventHandle);
+CUDA_ROUTINE_HANDLER(IpcOpenEventHandle);
+CUDA_ROUTINE_HANDLER(IpcOpenMemHandle );
+
+
+
+
+
+
 
 /* CudaRtHandler_error */
 CUDA_ROUTINE_HANDLER(GetErrorString);
@@ -197,6 +211,10 @@ CUDA_ROUTINE_HANDLER(StreamCreate);
 CUDA_ROUTINE_HANDLER(StreamDestroy);
 CUDA_ROUTINE_HANDLER(StreamQuery);
 CUDA_ROUTINE_HANDLER(StreamSynchronize);
+CUDA_ROUTINE_HANDLER(StreamCreateWithFlags);
+CUDA_ROUTINE_HANDLER(StreamAddCallback);
+
+
 
 /* CudaRtHandler_texture */
 CUDA_ROUTINE_HANDLER(BindTexture);

@@ -42,6 +42,30 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaStreamCreate(cudaStream_t *pStream
     return CudaRtFrontend::GetExitCode();
 }
 
+/*
+extern "C" __host__ cudaError_t CUDARTAPI cudaStreamAddCallback ( cudaStream_t stream, cudaStreamCallback_t callback, void* userData, unsigned int  flags )
+{
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::Execute("cudaStreamCreate");
+    return CudaRtFrontend::GetExitCode();
+}*/
+
+
+
+
+extern "C" __host__ cudaError_t CUDARTAPI cudaStreamCreateWithFlags(cudaStream_t *pStream, unsigned int flags) {
+    CudaRtFrontend::Prepare();
+#if CUDART_VERSION >= 3010
+    CudaRtFrontend::AddVariableForArguments(flags);
+    CudaRtFrontend::Execute("cudaStreamCreateWithFlags");
+    if(CudaRtFrontend::Success())
+        *pStream = (cudaStream_t) CudaRtFrontend::GetOutputDevicePointer();
+#else
+    
+#endif
+    return CudaRtFrontend::GetExitCode();
+}
+
 extern "C" __host__ cudaError_t CUDARTAPI cudaStreamDestroy(cudaStream_t stream) {
     CudaRtFrontend::Prepare();
 #if CUDART_VERSION >= 3010

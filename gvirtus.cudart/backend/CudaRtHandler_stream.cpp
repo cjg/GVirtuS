@@ -61,6 +61,39 @@ CUDA_ROUTINE_HANDLER(StreamCreate) {
  
 }
 
+
+CUDA_ROUTINE_HANDLER(StreamCreateWithFlags) {
+    try {
+        Buffer *out = new Buffer();
+  
+    #if CUDART_VERSION >= 3010
+        cudaStream_t pStream; // = input_buffer->Assign<cudaStream_t>();
+        unsigned int flags = input_buffer->Get<unsigned int>();
+        cudaError_t exit_code =  cudaStreamCreateWithFlags(&pStream, flags);
+        out->Add((pointer_t) pStream);
+           return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation); //???
+    }
+#else
+    try {
+        cudaStream_t *pStream = input_buffer->Assign<cudaStream_t>();
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cudaError_t exit_code = cudaStreamCreate(pStream);
+    try {
+        out->Add(pStream);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+#endif
+ 
+}
+
 CUDA_ROUTINE_HANDLER(StreamDestroy) {
     try {
         cudaStream_t stream = input_buffer->Get<cudaStream_t>();

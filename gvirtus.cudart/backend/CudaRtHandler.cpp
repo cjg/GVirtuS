@@ -265,6 +265,20 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDevice));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceReset));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceSynchronize));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceSetCacheConfig));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceSetLimit));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceCanAccessPeer));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceEnablePeerAccess ));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcGetMemHandle));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcGetEventHandle));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcOpenEventHandle ));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcOpenMemHandle));
+
+
+
+
+
+
 #ifndef CUDART_VERSION
 #error CUDART_VERSION not defined
 #endif
@@ -350,6 +364,9 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamDestroy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamQuery));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreateWithFlags));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamAddCallback));
+
 
     /* CudaRtHandler_surface */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindSurfaceToArray));
