@@ -38,8 +38,6 @@ extern "C" __host__ void** __cudaRegisterFatBinary(void *fatCubin) {
     /* Fake host pointer */
     __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
     char* data =(char*) bin->data;
-    size_t size = ((unsigned long long*)&(bin->magic) - (unsigned long long*)data);
-
 
     Buffer * input_buffer = new Buffer();
     input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));

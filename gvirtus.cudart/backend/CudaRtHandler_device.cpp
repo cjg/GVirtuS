@@ -30,7 +30,7 @@ CUDA_ROUTINE_HANDLER(DeviceSetCacheConfig) {
         cudaFuncCache cacheConfig = input_buffer->Get<cudaFuncCache>();
         cudaError_t exit_code = cudaDeviceSetCacheConfig(cacheConfig);
         return new Result(exit_code);
-} catch (string e) {
+    } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation); //???
     }
@@ -42,7 +42,7 @@ CUDA_ROUTINE_HANDLER(DeviceSetLimit) {
         size_t value = input_buffer->Get<size_t>();
         cudaError_t exit_code = cudaDeviceSetLimit(limit, value);
         return new Result(exit_code);
-} catch (string e) {
+    } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation); //???
     }
@@ -53,7 +53,7 @@ CUDA_ROUTINE_HANDLER(IpcOpenMemHandle) {
     try {
         cudaIpcMemHandle_t handle = input_buffer->Get<cudaIpcMemHandle_t>();
         unsigned int flags = input_buffer->Get<unsigned int>();
-        cudaError_t exit_code = cudaIpcOpenMemHandle (&devPtr, handle, flags);
+        cudaError_t exit_code = cudaIpcOpenMemHandle(&devPtr, handle, flags);
         Buffer *out = new Buffer();
         out->AddMarshal(devPtr);
         return new Result(exit_code, out);
@@ -64,19 +64,19 @@ CUDA_ROUTINE_HANDLER(IpcOpenMemHandle) {
 
 }
 // test vpelliccia
-CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess ) {
+
+CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess) {
     int peerDevice = input_buffer->Get<int>();
-    unsigned int flags = input_buffer->Get<unsigned int>();    
-    cudaError_t exit_code = cudaDeviceEnablePeerAccess (peerDevice, flags);
+    unsigned int flags = input_buffer->Get<unsigned int>();
+    cudaError_t exit_code = cudaDeviceEnablePeerAccess(peerDevice, flags);
     return new Result(exit_code);
 }
-
 
 CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
     int *canAccessPeer = input_buffer->Assign<int>();
     int device = input_buffer->Get<int>();
     int peerDevice = input_buffer->Get<int>();
-    
+
     cudaError_t exit_code = cudaDeviceCanAccessPeer(canAccessPeer, device, peerDevice);
 
     Buffer *out = new Buffer();
@@ -90,8 +90,8 @@ CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
     return new Result(exit_code, out);
 }
 
-CUDA_ROUTINE_HANDLER(IpcGetMemHandle ) {
-    
+CUDA_ROUTINE_HANDLER(IpcGetMemHandle) {
+
     cudaIpcMemHandle_t *handle = input_buffer->Assign<cudaIpcMemHandle_t>();
     void *devPtr = input_buffer->GetFromMarshal<void *>();
 
@@ -109,7 +109,7 @@ CUDA_ROUTINE_HANDLER(IpcGetMemHandle ) {
 }
 
 CUDA_ROUTINE_HANDLER(IpcGetEventHandle) {
-    
+
     cudaIpcEventHandle_t *handle = input_buffer->Assign<cudaIpcEventHandle_t>();
     cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
 
@@ -125,8 +125,6 @@ CUDA_ROUTINE_HANDLER(IpcGetEventHandle) {
 
     return new Result(exit_code, out);
 }
-
-
 
 CUDA_ROUTINE_HANDLER(ChooseDevice) {
     int *device = input_buffer->Assign<int>();
@@ -146,19 +144,18 @@ CUDA_ROUTINE_HANDLER(ChooseDevice) {
 }
 
 CUDA_ROUTINE_HANDLER(GetDevice) {
-    try{
+    try {
         int *device = input_buffer->Assign<int>();
-	cudaError_t exit_code = cudaGetDevice(device);
-   	 Buffer *out = new Buffer();
-   	 out->Add(device);
-    	return new Result(exit_code, out);
+        cudaError_t exit_code = cudaGetDevice(device);
+        Buffer *out = new Buffer();
+        out->Add(device);
+        return new Result(exit_code, out);
     } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-    
-}
 
+}
 
 CUDA_ROUTINE_HANDLER(DeviceReset) {
 
@@ -178,9 +175,8 @@ CUDA_ROUTINE_HANDLER(DeviceSynchronize) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-    
-}
 
+}
 
 CUDA_ROUTINE_HANDLER(GetDeviceCount) {
     try {
@@ -193,7 +189,7 @@ CUDA_ROUTINE_HANDLER(GetDeviceCount) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-    
+
 }
 
 CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
@@ -201,12 +197,12 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
         struct cudaDeviceProp *prop = input_buffer->Assign<struct cudaDeviceProp>();
         int device = input_buffer->Get<int>();
         cudaError_t exit_code = cudaGetDeviceProperties(prop, device);
-    #ifndef CUDART_VERSION
-    #error CUDART_VERSION not defined
-    #endif
-    #if CUDART_VERSION >= 2030
+#ifndef CUDART_VERSION
+#error CUDART_VERSION not defined
+#endif
+#if CUDART_VERSION >= 2030
         prop->canMapHostMemory = 0;
-    #endif
+#endif
         Buffer *out = new Buffer();
         out->Add(prop, 1);
         return new Result(exit_code, out);
@@ -214,11 +210,11 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-        
-    
 
-    
-    
+
+
+
+
 }
 
 CUDA_ROUTINE_HANDLER(SetDevice) {
@@ -230,16 +226,17 @@ CUDA_ROUTINE_HANDLER(SetDevice) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-        
-    
 
-    
+
+
+
 }
 
 #ifndef CUDART_VERSION
 #error CUDART_VERSION not defined
 #endif
 #if CUDART_VERSION >= 2030
+
 CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
     try {
         int flags = input_buffer->Get<int>();
@@ -249,17 +246,17 @@ CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-    
-    
 
-   
+
+
+
 }
 
 CUDA_ROUTINE_HANDLER(IpcOpenEventHandle) {
-            Buffer *out = new Buffer();
-try {
+    Buffer *out = new Buffer();
+    try {
         cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
-         cudaIpcEventHandle_t handle = input_buffer->Get<cudaIpcEventHandle_t>();
+        cudaIpcEventHandle_t handle = input_buffer->Get<cudaIpcEventHandle_t>();
         cudaError_t exit_code = cudaIpcOpenEventHandle(event, handle);
         out->Add(event);
     } catch (string e) {
@@ -268,21 +265,20 @@ try {
     }
 }
 
-
 CUDA_ROUTINE_HANDLER(SetValidDevices) {
     try {
         int len = input_buffer->BackGet<int>();
         int *device_arr = input_buffer->Assign<int>(len);
-         cudaError_t exit_code = cudaSetValidDevices(device_arr, len);
+        cudaError_t exit_code = cudaSetValidDevices(device_arr, len);
         Buffer *out = new Buffer();
         out->Add(device_arr, len);
         return new Result(exit_code, out);
-        
+
     } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-    
+
 }
 #endif
 

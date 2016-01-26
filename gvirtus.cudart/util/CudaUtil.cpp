@@ -182,21 +182,21 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__fatBinC_Wrapper_t* bin, Buffer * marsh
     //marshal->Add(bin->filename_or_fatbins, 0);
 
     struct fatBinaryHeader* header = (fatBinaryHeader*) bin->data;
-    size_t size = header->fatSize;
+    size_t size = header->fatSize / sizeof(unsigned long long);
     marshal->Add(size);
-    marshal->Add((char *) bin->data, size);
+    marshal->Add(bin->data, size);
 
     return marshal;
 }
 
 __fatBinC_Wrapper_t * CudaUtil::UnmarshalFatCudaBinaryV2(Buffer* marshal) {
-    __fatBinC_Wrapper_t * bin = new __fatBinC_Wrapper_t;
-    size_t size;
+    __fatBinC_Wrapper_t * bin = new __fatBinC_Wrapper_t __attribute__ ((aligned (8)));
+    size_t size;    
 
     bin->magic = marshal->Get<int>();
     bin->version = marshal->Get<int>();
     size = marshal->Get<size_t>();
-    bin->data = (unsigned long long*) marshal->Get<char>(size);
+    bin->data = marshal->Get<unsigned long long>(size);
     //bin->data= NULL;
     /*
     cerr << "size: " << size << endl;
@@ -364,22 +364,22 @@ Buffer * CudaUtil::MarshalTextureDescForArguments(const cudaTextureDesc* tex,
     if (marshal == NULL)
         marshal = new Buffer();
     if (tex->addressMode != NULL) {
-        marshal->Add<int>(1);
-        marshal->Add<cudaTextureAddressMode>(tex->addressMode[0]);
-        marshal->Add<cudaTextureAddressMode>(tex->addressMode[1]);
-        marshal->Add<cudaTextureAddressMode>(tex->addressMode[2]);
-        marshal->Add<cudaTextureFilterMode>(tex->filterMode);
-        marshal->Add<cudaTextureReadMode>(tex->readMode);
-        marshal->Add<int>(tex->sRGB);
-        marshal->Add<int>(tex->normalizedCoords);
-        marshal->Add<unsigned int>(tex->maxAnisotropy);
-        marshal->Add<cudaTextureFilterMode>(tex->mipmapFilterMode);
-        marshal->Add<float>(tex->mipmapLevelBias);
-        marshal->Add<float>(tex->minMipmapLevelClamp);
-        marshal->Add<float>(tex->maxMipmapLevelClamp);
+        marshal->AddConst<int>(1);
+        marshal->AddConst<cudaTextureAddressMode>(tex->addressMode[0]);
+        marshal->AddConst<cudaTextureAddressMode>(tex->addressMode[1]);
+        marshal->AddConst<cudaTextureAddressMode>(tex->addressMode[2]);
+        marshal->AddConst<cudaTextureFilterMode>(tex->filterMode);
+        marshal->AddConst<cudaTextureReadMode>(tex->readMode);
+        marshal->AddConst<int>(tex->sRGB);
+        marshal->AddConst<int>(tex->normalizedCoords);
+        marshal->AddConst<unsigned int>(tex->maxAnisotropy);
+        marshal->AddConst<cudaTextureFilterMode>(tex->mipmapFilterMode);
+        marshal->AddConst<float>(tex->mipmapLevelBias);
+        marshal->AddConst<float>(tex->minMipmapLevelClamp);
+        marshal->AddConst<float>(tex->maxMipmapLevelClamp);
     } else {
-        marshal->Add<int>(0);
-        marshal->Add<cudaTextureDesc>(tex);
+        marshal->AddConst<int>(0);
+        marshal->AddConst<cudaTextureDesc>(tex);
     }
     
     return marshal;

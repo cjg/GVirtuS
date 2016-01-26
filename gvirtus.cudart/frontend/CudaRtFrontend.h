@@ -26,7 +26,7 @@
 #ifndef CUDARTFRONTEND_H
 #define	CUDARTFRONTEND_H
 
-
+#define DEBUG
 
 #include <cuda_runtime_api.h>
 #include <CudaUtil.h>
@@ -39,7 +39,7 @@ class CudaRtFrontend {
 public:
     static inline void Execute(const char *routine, const Buffer *input_buffer = NULL) {
 #ifdef DEBUG
-        if (String(routine) != "cudaLaunch")
+        if (string(routine) != "cudaLaunch")
             cerr << "Requesting " << routine << endl;
 #endif
         Frontend::GetFrontend()->Execute(routine, input_buffer);

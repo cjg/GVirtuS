@@ -100,7 +100,7 @@ Frontend * Frontend::GetFrontend(Communicator *c) {
         mpFrontends = new map<pthread_t, Frontend*>();
     
     
-    pid_t tid = syscall(SYS_gettid);;
+    pid_t tid = syscall(SYS_gettid);
     if (mpFrontends->find(tid) != mpFrontends->end())
            return mpFrontends->find(tid)->second;
     
@@ -109,7 +109,7 @@ Frontend * Frontend::GetFrontend(Communicator *c) {
         if (!f->initialized()) {
             try {
                 f->Init(c);
-                  mpFrontends->insert(make_pair(tid, f));
+                mpFrontends->insert(make_pair(tid, f));
             } catch (const char *e) {
                 cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
             }

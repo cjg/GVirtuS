@@ -90,7 +90,6 @@ CUDA_ROUTINE_HANDLER(Malloc) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
-
 }
 
 CUDA_ROUTINE_HANDLER(MallocManaged) {
@@ -636,13 +635,8 @@ enum cudaMemcpyKind 	kind = cudaMemcpyDeviceToDevice
     size_t count;
     size_t hOffsetDst, hOffsetSrc;
     size_t wOffsetDst, wOffsetSrc;
-    
-    
-    //std::cout << "wOffset " << wOffsetDst << " hOffset " << hOffsetDst << std::endl;
-
     cudaError_t exit_code;
     Result * result = NULL;
-    Buffer *out;
 
     switch (kind) {
         case cudaMemcpyDefault:
