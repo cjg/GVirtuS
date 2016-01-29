@@ -25,8 +25,8 @@
  */
 
 #include <cstdio>
-#include "CudaRt.h"
 
+#include "CudaRt.h"
 /*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE

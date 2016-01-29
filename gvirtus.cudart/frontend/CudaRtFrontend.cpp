@@ -29,8 +29,20 @@ using namespace std;
 
 CudaRtFrontend msInstance __attribute_used__;
 
+ map<const void*, mappedPointer>* CudaRtFrontend::mappedPointers = NULL;
+ set<const void*>* CudaRtFrontend::devicePointers = NULL;
+
+
 CudaRtFrontend::CudaRtFrontend() {
+    if (devicePointers == NULL)
+        devicePointers = new set<const void*>();
+    if (mappedPointers == NULL)
+        mappedPointers = new map<const void*, mappedPointer>();
     Frontend::GetFrontend();
 }
+
+//static CudaRtFrontend* CudaRtFrontend::GetFrontend(){
+//    return (CudaRtFrontend*) Frontend::GetFrontend();
+//}
 
 

@@ -28,9 +28,13 @@
 
 #define DEBUG
 
+#include <map>
+#include <set>
+
 #include <cuda_runtime_api.h>
 #include <CudaUtil.h>
 #include <Frontend.h>
+#include "CudaRt.h"
 
 
 using namespace std;
@@ -157,7 +161,30 @@ public:
     static inline char * GetOutputString() {
         return Frontend::GetFrontend()->GetOutputBuffer()->AssignString();
     }
+    
+    static inline void addMappedPointer(void* device, mappedPointer host) {
+        mappedPointers->insert(make_pair(device, host)); 
+        
+    };
+    
+    static inline bool isMappedMemory(const void* p) {
+        return (mappedPointers->find(p)== mappedPointers->end()?false:true);
+    }
+    
+    static inline void addDevicePointer(void* device) {
+        cerr << endl << "Added device pointer: " << hex << device << endl;
+        devicePointers->insert(device);
+    };
+    
+    static inline bool isDevicePointer(const void* p) {
+        cerr << endl << "Looking for device pointer: " << hex << p << endl;
+        return (devicePointers->find(p)== devicePointers->end()?false:true);
+    }
+    
     CudaRtFrontend();
+private :
+    static map<const void*, mappedPointer>* mappedPointers;
+    static set<const void*>* devicePointers;
 };
 
 #endif	/* CUDARTFRONTEND_H */

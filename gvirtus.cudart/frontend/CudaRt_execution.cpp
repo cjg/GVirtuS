@@ -121,8 +121,12 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg, siz
     CudaRtFrontend::Execute("cudaSetupArgument");
     return CudaRtFrontend::GetExitCode();
 #endif
+    cerr << "Requested cudaSetupArgument" << endl;
     Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
     // STAG
+    if (CudaRtFrontend::isDevicePointer(*(void**)arg)) {
+        cerr << "Device pointer detected" << endl;
+    }
     launch->Add<int>(0x53544147);
     launch->Add<char>(static_cast<char *>(const_cast<void *>(arg)), size);
     launch->Add(size);

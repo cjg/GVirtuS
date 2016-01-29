@@ -198,4 +198,12 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaDeviceCanAccessPeer(int *canAccess
     return CudaRtFrontend::GetExitCode();
 }
 
+extern "C" __host__ cudaError_t CUDARTAPI cudaDeviceDisablePeerAccess(int peerDevice) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddVariableForArguments(peerDevice);    
+    
+    CudaRtFrontend::Execute("cudaDeviceDisablePeerAccess");
+    return CudaRtFrontend::GetExitCode();
+}
+
 

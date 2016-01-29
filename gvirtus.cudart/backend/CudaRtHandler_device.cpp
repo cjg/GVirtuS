@@ -63,12 +63,17 @@ CUDA_ROUTINE_HANDLER(IpcOpenMemHandle) {
     }
 
 }
-// test vpelliccia
 
 CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess) {
     int peerDevice = input_buffer->Get<int>();
     unsigned int flags = input_buffer->Get<unsigned int>();
     cudaError_t exit_code = cudaDeviceEnablePeerAccess(peerDevice, flags);
+    return new Result(exit_code);
+}
+
+CUDA_ROUTINE_HANDLER(DeviceDisablePeerAccess) {
+    int peerDevice = input_buffer->Get<int>();
+    cudaError_t exit_code = cudaDeviceDisablePeerAccess(peerDevice);
     return new Result(exit_code);
 }
 

@@ -5,3 +5,9 @@
 #else
   typedef uint32_t pointer_t; 
 #endif
+
+  typedef struct __mappedPointer {
+      void* pointer;
+      size_t size;
+  } mappedPointer;
+  

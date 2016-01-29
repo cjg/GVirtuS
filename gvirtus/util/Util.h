@@ -41,7 +41,6 @@
 
 
 #include "Buffer.h"
-#include "gvirtus-type.h"
 
 
 /**

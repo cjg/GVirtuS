@@ -35,6 +35,8 @@
       <in>CudaRt_version.cpp</in>
     </df>
     <logicalFolder name="f1" displayName="util" projectFiles="true" kind="ROOT">
+      <itemPath>util/CudaUtil.cpp</itemPath>
+      <itemPath>util/CudaUtil.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -45,8 +47,6 @@
       <itemPath>configure</itemPath>
       <itemPath>configure.in</itemPath>
     </logicalFolder>
-    <itemPath>util/CudaUtil.cpp</itemPath>
-    <itemPath>util/CudaUtil.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>backend</Elem>

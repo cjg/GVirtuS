@@ -270,6 +270,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceSetCacheConfig));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceSetLimit));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceCanAccessPeer));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceDisablePeerAccess));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceEnablePeerAccess ));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcGetMemHandle));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcGetEventHandle));

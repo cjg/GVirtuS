@@ -47,7 +47,6 @@
 
 #include <cuda_runtime_api.h>
 
-#include "gvirtus-type.h"
 #include "Handler.h"
 #include "Result.h"
 #include "CudaUtil.h"
@@ -130,6 +129,7 @@ CUDA_ROUTINE_HANDLER(DeviceSetCacheConfig);
 CUDA_ROUTINE_HANDLER(DeviceSetLimit);
 CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer); 
 CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess); 
+CUDA_ROUTINE_HANDLER(DeviceDisablePeerAccess); 
 CUDA_ROUTINE_HANDLER(IpcGetMemHandle);
 CUDA_ROUTINE_HANDLER(IpcGetEventHandle);
 CUDA_ROUTINE_HANDLER(IpcOpenEventHandle);
