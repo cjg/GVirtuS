@@ -81,6 +81,35 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaGetDeviceProperties(cudaDeviceProp
     return CudaRtFrontend::GetExitCode();
 }
 
+//testing vpelliccia
+extern "C" __host__ cudaError_t cudaOccupancyMaxActiveBlocksPerMultiprocessor ( int* numBlocks, const void* func, int  blockSize, size_t dynamicSMemSize )
+ {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(numBlocks);
+    CudaRtFrontend::AddVariableForArguments((pointer_t)func);
+    CudaRtFrontend::AddVariableForArguments(blockSize);
+    CudaRtFrontend::AddVariableForArguments(dynamicSMemSize);
+    CudaRtFrontend::Execute("cudaOccupancyMaxActiveBlocksPerMultiprocessor");
+    
+if(CudaRtFrontend::Success())
+        *numBlocks = *(CudaRtFrontend::GetOutputHostPointer<int>());
+    return CudaRtFrontend::GetExitCode();
+}
+
+extern "C" __host__ cudaError_t cudaDeviceGetAttribute ( int* value, cudaDeviceAttr attr, int  device )
+{
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(value);
+    CudaRtFrontend::AddVariableForArguments(attr);
+    CudaRtFrontend::AddVariableForArguments(device);
+    
+    CudaRtFrontend::Execute("cudaDeviceGetAttribute");
+    if(CudaRtFrontend::Success())
+        *value = *(CudaRtFrontend::GetOutputHostPointer<int>());
+    return CudaRtFrontend::GetExitCode();
+
+}
+
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetDevice(int device) {
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddVariableForArguments(device);

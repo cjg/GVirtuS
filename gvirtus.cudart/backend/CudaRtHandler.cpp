@@ -43,7 +43,7 @@
 
 #include <dlfcn.h>
 
-#define DEBUG
+//#define DEBUG
 
 using namespace std;
 
@@ -276,6 +276,9 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcGetEventHandle));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcOpenEventHandle ));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcOpenMemHandle));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(OccupancyMaxActiveBlocksPerMultiprocessor ));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceGetAttribute  ));
+    
 
 
 
@@ -342,6 +345,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MallocPitch));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy2D));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy3D));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyAsync));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyFromSymbol));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyToArray));
@@ -351,6 +355,9 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyFromArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyArrayToArray));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Memcpy2DFromArray));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(Malloc3DArray ));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyPeerAsync));
+
 
     
     /* CudaRtHandler_opengl */
@@ -368,7 +375,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamQuery));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreateWithFlags));
-   // mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamAddCallback));
+    //mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamAddCallback));
 
 
     /* CudaRtHandler_surface */

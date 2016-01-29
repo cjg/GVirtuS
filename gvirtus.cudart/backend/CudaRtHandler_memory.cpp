@@ -77,12 +77,37 @@ CUDA_ROUTINE_HANDLER(GetSymbolSize) {
 
 }
 
-CUDA_ROUTINE_HANDLER(Malloc) {
+//testing vpelliccia
+CUDA_ROUTINE_HANDLER(MemcpyPeerAsync) {
+        void *dst = NULL;
+        void *src = NULL;
+    try {
+    
+        dst = input_buffer->GetFromMarshal<void *>();
+        int dstDevice = input_buffer->Get<int>();
+        src = input_buffer->GetFromMarshal<void *>();
+        int srcDevice = input_buffer->Get<int>();
+        size_t count = input_buffer->Get<size_t>();
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+        
+        
+        cudaError_t exit_code = cudaMemcpyPeerAsync(dst, dstDevice, src, srcDevice, count, stream);
+        return new Result(exit_code);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+}
+
+CUDA_ROUTINE_HANDLER(MallocManaged) {
+
     void *devPtr = NULL;
     try {
+        devPtr = input_buffer->Get<void* > ();
         size_t size = input_buffer->Get<size_t > ();
-        cudaError_t exit_code = cudaMalloc(&devPtr, size);
-        std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << size<< std::endl;
+        unsigned flags = input_buffer->Get<unsigned > ();
+        cudaError_t exit_code = cudaMallocManaged(&devPtr, size, flags);
+        std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << size << std::endl;
         Buffer *out = new Buffer();
         out->AddMarshal(devPtr);
         return new Result(exit_code, out);
@@ -92,18 +117,45 @@ CUDA_ROUTINE_HANDLER(Malloc) {
     }
 }
 
-CUDA_ROUTINE_HANDLER(MallocManaged) {
-    
-    void *devPtr = NULL;
-    void *hPtr = NULL;
+CUDA_ROUTINE_HANDLER(Malloc3DArray) {
+
+    cudaArray *array = NULL;
+
+    cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc >();
+    cudaExtent extent = input_buffer->Get<cudaExtent>();
+    unsigned int flags = input_buffer->Get<unsigned int>();
+    printf("x %d\n", desc->x);
+    printf("y %d\n", desc->y);
+    printf("z %d\n", desc->z);
+    printf("w %d\n", desc->w);
+    printf("f %d\n", desc->f);
+
+    printf("width %d\n", extent.width);
+    printf("height %d\n", extent.height);
+    printf("depth %d\n", extent.depth);
+
+    printf("flags %d\n", flags);
+    printf("array %x\n", array);
+    cudaError_t exit_code = cudaMalloc3DArray(&array, desc, extent, flags);
+    printf("array %x\n", array);
+    Buffer *out = new Buffer();
     try {
-        devPtr = input_buffer->Get<void* > ();
+        out->Add(&array);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+
+    return new Result(exit_code, out);
+
+}
+
+CUDA_ROUTINE_HANDLER(Malloc) {
+    void *devPtr = NULL;
+    try {
         size_t size = input_buffer->Get<size_t > ();
-        unsigned flags = input_buffer->Get<unsigned > ();
-        cudaError_t exit_code = cudaMallocManaged(&devPtr, size, flags);
-        std::cout << "Allocated HostPointer " << devPtr << " with a size of " << size << std::endl;
-        cudaHostGetDevicePointer(&hPtr, devPtr, 0);
-        std::cout << "Allocated DevicePointer " << hPtr << " with a size of " << size << std::endl;
+        cudaError_t exit_code = cudaMalloc(&devPtr, size);
+        std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << size<< std::endl;
         Buffer *out = new Buffer();
         out->AddMarshal(devPtr);
         return new Result(exit_code, out);
@@ -127,7 +179,7 @@ CUDA_ROUTINE_HANDLER(MallocArray) {
     } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
-    } 
+    }
 }
 
 CUDA_ROUTINE_HANDLER(MallocPitch) {
@@ -147,7 +199,7 @@ CUDA_ROUTINE_HANDLER(MallocPitch) {
         return new Result(cudaErrorMemoryAllocation);
     }
 
-    
+
 }
 
 CUDA_ROUTINE_HANDLER(Memcpy) {
@@ -159,7 +211,7 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
     try {
         cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
         size_t count = input_buffer->BackGet<size_t > ();
- 
+
         cudaError_t exit_code;
         Result * result = NULL;
         Buffer *out;
@@ -216,11 +268,13 @@ CUDA_ROUTINE_HANDLER(Memcpy) {
                 break;
         }
         return result;
-         } catch (string e) {
-                    cerr << e << endl;
-                    return new Result(cudaErrorMemoryAllocation);
-                }
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
 }
+//
+
 CUDA_ROUTINE_HANDLER(Memcpy2DFromArray) {
     /*(	void * 	dst,
 size_t 	dpitch,
@@ -240,8 +294,8 @@ enum cudaMemcpyKind 	kind
 
     try {
         cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
-   
-        
+
+
         cudaError_t exit_code;
         Result * result = NULL;
         Buffer *out;
@@ -293,26 +347,79 @@ enum cudaMemcpyKind 	kind
                     cerr << e << endl;
                     return new Result(cudaErrorMemoryAllocation);
                 }
-                exit_code = cudaMemcpy2DFromArray(dst, dpitch, src, wOffset, hOffset, width, height,  kind);
+                exit_code = cudaMemcpy2DFromArray(dst, dpitch, src, wOffset, hOffset, width, height, kind);
                 result = new Result(exit_code);
                 break;
         }
         return result;
-         } catch (string e) {
+    } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
 }
+CUDA_ROUTINE_HANDLER(Memcpy3D){
+
+    void *src = NULL;
+
+    try {
+        cudaMemcpy3DParms *p = input_buffer->Assign<cudaMemcpy3DParms>();
+        src = input_buffer->AssignAll<char>();
+        unsigned int width = p->extent.width;
+        p->srcPtr.ptr = src;
+           
+    printf("PARAMETRI BACKEND\n");
+    printf("dstArray %x\n\n", p->dstArray);
+    
+    printf("dstPos x %d\n", p->dstPos.x);
+    printf("dstPos y %d\n", p->dstPos.y);
+    printf("dstPos z %d\n\n", p->dstPos.z);
+
+    printf("dstPtr pitch %d\n",p->dstPtr.pitch);
+    printf("dstPtr ptr %x\n",p->dstPtr.ptr);
+    printf("dstPtr x %d\n",p->dstPtr.xsize);
+    printf("dstPtr y %d\n\n",p->dstPtr.ysize);
+    
+
+    printf("extent depth %d\n", p->extent.depth);
+    printf("extent height %d\n", p->extent.height);
+    printf("extent width %d\n\n", p->extent.width);     
+    
+    printf("kind %d\n\n", p->kind);
+   
+    printf("srcArray %x\n\n", p->srcArray);
+
+    printf("srcPos x %d\n",p->srcPos.x);
+    printf("srcPos y %d\n",p->srcPos.y);
+    printf("srcPos z %d\n\n",p->srcPos.z);
+
+    printf("srcPtr pitch %d\n",p->srcPtr.pitch);
+    printf("srcPtr ptr %x\n",p->srcPtr.ptr);
+    printf("srcPtr x %d\n",p->srcPtr.xsize);
+    printf("srcPtr y  %d\n",p->srcPtr.ysize);
+        
+        
+        
+    cudaError_t exit_code = cudaMemcpy3D(p);
+        printf("fine routine eseguita\n");
+        Buffer *out = new Buffer();
+        out->Add(p,1);
+        return new Result(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+   
+}
 
 CUDA_ROUTINE_HANDLER(Memcpy2D) {
     /*cudaError_t cudaMemcpy2D 	( 	void *  	dst,
-		size_t  	dpitch,
-		const void *  	src,
-		size_t  	spitch,
-		size_t  	width,
-		size_t  	height,
-		enum cudaMemcpyKind  	kind	 
-	) 	*/
+                size_t  	dpitch,
+                const void *  	src,
+                size_t  	spitch,
+                size_t  	width,
+                size_t  	height,
+                enum cudaMemcpyKind  	kind	 
+        ) 	*/
     void *dst = NULL;
     void *src = NULL;
     size_t dpitch;
@@ -322,8 +429,8 @@ CUDA_ROUTINE_HANDLER(Memcpy2D) {
 
     try {
         cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
-   
-        
+
+
         cudaError_t exit_code;
         Result * result = NULL;
         Buffer *out;
@@ -346,7 +453,7 @@ CUDA_ROUTINE_HANDLER(Memcpy2D) {
                     cerr << e << endl;
                     return new Result(cudaErrorMemoryAllocation);
                 }
-                exit_code = cudaMemcpy2D(dst, dpitch, src, spitch, width, height, 
+                exit_code = cudaMemcpy2D(dst, dpitch, src, spitch, width, height,
                         kind);
                 result = new Result(exit_code);
                 break;
@@ -388,12 +495,12 @@ CUDA_ROUTINE_HANDLER(Memcpy2D) {
                     cerr << e << endl;
                     return new Result(cudaErrorMemoryAllocation);
                 }
-                exit_code = cudaMemcpy2D(dst, dpitch, src, spitch, width, height,  kind);
+                exit_code = cudaMemcpy2D(dst, dpitch, src, spitch, width, height, kind);
                 result = new Result(exit_code);
                 break;
         }
         return result;
-         } catch (string e) {
+    } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
@@ -407,7 +514,7 @@ CUDA_ROUTINE_HANDLER(MemcpyAsync) {
         cudaStream_t stream = input_buffer->BackGet<cudaStream_t > ();
         cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
         size_t count = input_buffer->BackGet<size_t > ();
-  
+
         cudaError_t exit_code;
         Buffer * out;
         Result * result = NULL;
@@ -463,7 +570,7 @@ CUDA_ROUTINE_HANDLER(MemcpyAsync) {
                 break;
         }
         return result;
-          } catch (string e) {
+    } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
@@ -478,10 +585,10 @@ CUDA_ROUTINE_HANDLER(MemcpyFromSymbol) {
         size_t count = input_buffer->Get<size_t > ();
         size_t offset = input_buffer->Get<size_t > ();
         cudaMemcpyKind kind = input_buffer->Get<cudaMemcpyKind > ();
-   
+
         size_t size;
 
-        if(cudaGetSymbolSize(&size, symbol) != cudaSuccess) {
+        if (cudaGetSymbolSize(&size, symbol) != cudaSuccess) {
             symbol = handler;
             cudaGetLastError();
         }
@@ -532,7 +639,7 @@ CUDA_ROUTINE_HANDLER(MemcpyToArray) {
         size_t hOffset = input_buffer->Get<size_t > ();
         cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
         size_t count = input_buffer->BackGet<size_t > ();
-    
+
         cudaError_t exit_code;
         Result * result = NULL;
 
@@ -553,7 +660,7 @@ CUDA_ROUTINE_HANDLER(MemcpyToArray) {
                     cerr << e << endl;
                     return new Result(cudaErrorMemoryAllocation);
                 }
-                exit_code = cudaMemcpyToArray(dst, wOffset, hOffset, src, count,kind);
+                exit_code = cudaMemcpyToArray(dst, wOffset, hOffset, src, count, kind);
                 result = new Result(exit_code);
                 break;
             case cudaMemcpyDeviceToHost:
@@ -573,18 +680,19 @@ CUDA_ROUTINE_HANDLER(MemcpyToArray) {
         return new Result(cudaErrorMemoryAllocation);
     }
 }
+
 CUDA_ROUTINE_HANDLER(MemcpyFromArray) {
     /* cudaMemcpyFromArray(void *dst, const cudaArray *src,
         size_t wOffset, size_t hOffset, size_t count, cudaMemcpyKind kind) */
-    
+
     void *dst = NULL;
-    cudaArray *src = NULL;   
+    cudaArray *src = NULL;
     cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
     size_t count = input_buffer->BackGet<size_t > ();
     size_t hOffset = input_buffer->BackGet<size_t > ();
     size_t wOffset = input_buffer->BackGet<size_t > ();
-    
-   // std::cout << "wOffset " << wOffset << " hOffset " << hOffset << std::endl;
+
+    // std::cout << "wOffset " << wOffset << " hOffset " << hOffset << std::endl;
 
     cudaError_t exit_code;
     Result * result = NULL;
@@ -597,25 +705,25 @@ CUDA_ROUTINE_HANDLER(MemcpyFromArray) {
             // This should never happen
             result = new Result(cudaErrorInvalidMemcpyDirection);
             break;
-        
+
         case cudaMemcpyDeviceToHost:
             // FIXME: use buffer delegate
             dst = new char[count];
             /* skipping a char for fake host pointer */
             input_buffer->Assign<char>(); //???
-            src = (cudaArray *)input_buffer->GetFromMarshal<void *>();
-            
+            src = (cudaArray *) input_buffer->GetFromMarshal<void *>();
+
             exit_code = cudaMemcpyFromArray(dst, src, wOffset, hOffset, count, kind);
             out = new Buffer();
             out->Add<char>((char *) dst, count);
             delete[] (char *) dst;
             result = new Result(exit_code, out);
             break;
-       
+
         case cudaMemcpyDeviceToDevice:
             dst = input_buffer->GetFromMarshal<void *>();
-            src = (cudaArray *)input_buffer->GetFromMarshal<void *>();
-           // src = input_buffer->GetFromMarshal<void *>();
+            src = (cudaArray *) input_buffer->GetFromMarshal<void *>();
+            // src = input_buffer->GetFromMarshal<void *>();
             exit_code = cudaMemcpyFromArray(dst, src, wOffset, hOffset, count, kind);
             result = new Result(exit_code);
             break;
@@ -632,7 +740,7 @@ size_t 	hOffsetSrc,
 size_t 	count,
 enum cudaMemcpyKind 	kind = cudaMemcpyDeviceToDevice	 
 )	 */
-    cudaArray *src = NULL;   
+    cudaArray *src = NULL;
     cudaArray *dst = NULL;
     cudaMemcpyKind kind = input_buffer->BackGet<cudaMemcpyKind > ();
     size_t count;
@@ -649,14 +757,14 @@ enum cudaMemcpyKind 	kind = cudaMemcpyDeviceToDevice
             // This should never happen
             result = new Result(cudaErrorInvalidMemcpyDirection);
             break;
-       
+
         case cudaMemcpyDeviceToDevice:
-            dst = (cudaArray *)input_buffer->GetFromMarshal<void *>();
-            wOffsetDst = input_buffer->Get<size_t>();            
+            dst = (cudaArray *) input_buffer->GetFromMarshal<void *>();
+            wOffsetDst = input_buffer->Get<size_t>();
             hOffsetDst = input_buffer->Get<size_t>();
-            src = (cudaArray *)input_buffer->GetFromMarshal<void *>();
-           // src = input_buffer->GetFromMarshal<void *>();
-            wOffsetSrc = input_buffer->Get<size_t>();            
+            src = (cudaArray *) input_buffer->GetFromMarshal<void *>();
+            // src = input_buffer->GetFromMarshal<void *>();
+            wOffsetSrc = input_buffer->Get<size_t>();
             hOffsetSrc = input_buffer->Get<size_t>();
             count = input_buffer->Get<size_t>();
             exit_code = cudaMemcpyArrayToArray(dst, wOffsetDst, hOffsetDst, src, wOffsetSrc, hOffsetSrc, count, kind);
@@ -665,7 +773,6 @@ enum cudaMemcpyKind 	kind = cudaMemcpyDeviceToDevice
     }
     return result;
 }
-
 
 CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
     void *src = NULL;
@@ -676,11 +783,11 @@ CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
         size_t count = input_buffer->BackGet<size_t > ();
         char *handler = input_buffer->AssignString();
         char *symbol = input_buffer->AssignString();
-   
+
         handler = (char *) CudaUtil::UnmarshalPointer(handler);
         size_t size;
 
-        if(cudaGetSymbolSize(&size, symbol) != cudaSuccess) {
+        if (cudaGetSymbolSize(&size, symbol) != cudaSuccess) {
             symbol = handler;
             cudaGetLastError();
         }
@@ -715,7 +822,7 @@ CUDA_ROUTINE_HANDLER(MemcpyToSymbol) {
                 break;
         }
         return result;
-     } catch (string e) {
+    } catch (string e) {
         cerr << e << endl;
         return new Result(cudaErrorMemoryAllocation);
     }
@@ -733,7 +840,7 @@ CUDA_ROUTINE_HANDLER(Memset) {
         return new Result(cudaErrorMemoryAllocation);
     }
 
-    
+
 }
 
 CUDA_ROUTINE_HANDLER(Memset2D) {
@@ -750,5 +857,5 @@ CUDA_ROUTINE_HANDLER(Memset2D) {
         return new Result(cudaErrorMemoryAllocation);
     }
 
-   
+
 }

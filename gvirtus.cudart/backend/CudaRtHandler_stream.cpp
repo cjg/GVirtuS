@@ -118,6 +118,22 @@ CUDA_ROUTINE_HANDLER(StreamQuery) {
     
 }
 
+
+/*
+CUDA_ROUTINE_HANDLER(StreamAddCallback ) {
+    try {
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+        cudaStreamCallback_t callback = input_buffer->Get<cudaStreamCallback_t>();
+        ////
+        void *userData = input_buffer->GetFromMarshal<void *>();
+        unsigned int flags = input_buffer->Get<unsigned int>();
+        return new Result(cudaStreamAddCallback(stream,callback,userData,flags));
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+}*/
+
 CUDA_ROUTINE_HANDLER(StreamSynchronize) {
     try {
         cudaStream_t stream = input_buffer->Get<cudaStream_t>();
