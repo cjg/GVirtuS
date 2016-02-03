@@ -83,6 +83,21 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaStreamDestroy(cudaStream_t stream)
     return CudaRtFrontend::GetExitCode();
 }
 
+/*cudaError_t cudaStreamWaitEvent	(	cudaStream_t 	stream,
+cudaEvent_t 	event,
+unsigned int 	flags	 
+)	*/
+extern "C" __host__ cudaError_t CUDARTAPI cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddDevicePointerForArguments(stream);
+    CudaRtFrontend::AddDevicePointerForArguments(event); 
+    CudaRtFrontend::AddVariableForArguments(flags);
+    CudaRtFrontend::Execute("cudaStreamWaitEvent");
+    return CudaRtFrontend::GetExitCode();
+}
+
+
+
 extern "C" __host__ cudaError_t CUDARTAPI cudaStreamQuery(cudaStream_t stream) {
     CudaRtFrontend::Prepare();
 #if CUDART_VERSION >= 3010
@@ -93,6 +108,17 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaStreamQuery(cudaStream_t stream) {
     CudaRtFrontend::Execute("cudaStreamQuery");
     return CudaRtFrontend::GetExitCode();
 }
+
+extern "C" __host__ cudaError_t CUDARTAPI cudaStreamCreateWithPriority ( cudaStream_t* pStream, unsigned int  flags, int  priority ) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddVariableForArguments(flags);
+    CudaRtFrontend::AddVariableForArguments(priority);
+    CudaRtFrontend::Execute("cudaStreamCreateWithPriority");
+    if(CudaRtFrontend::Success())
+        *pStream = (cudaStream_t) CudaRtFrontend::GetOutputDevicePointer();
+    return CudaRtFrontend::GetExitCode();
+}
+
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaStreamSynchronize(cudaStream_t stream) {
     CudaRtFrontend::Prepare();

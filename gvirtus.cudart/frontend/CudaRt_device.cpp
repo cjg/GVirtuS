@@ -227,6 +227,19 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaDeviceCanAccessPeer(int *canAccess
     return CudaRtFrontend::GetExitCode();
 }
 
+extern "C" __host__ cudaError_t CUDARTAPI cudaDeviceGetStreamPriorityRange ( int* leastPriority, int* greatestPriority ) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddHostPointerForArguments(leastPriority);
+    CudaRtFrontend::AddHostPointerForArguments(greatestPriority);    
+    CudaRtFrontend::Execute("cudaDeviceGetStreamPriorityRange");
+    if(CudaRtFrontend::Success())
+        *leastPriority = *(CudaRtFrontend::GetOutputHostPointer<int>());
+        *greatestPriority = *(CudaRtFrontend::GetOutputHostPointer<int>());
+    return CudaRtFrontend::GetExitCode();
+}
+
+
+
 extern "C" __host__ cudaError_t CUDARTAPI cudaDeviceDisablePeerAccess(int peerDevice) {
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddVariableForArguments(peerDevice);    

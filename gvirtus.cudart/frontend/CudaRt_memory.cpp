@@ -174,7 +174,18 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMallocArray(cudaArray **arrayPtr,
     CudaRtFrontend::Prepare();
 
     CudaRtFrontend::AddHostPointerForArguments(desc);
+    CudaRtFrontend::AddVariableForArguments(width);
     CudaRtFrontend::AddVariableForArguments(height);
+    
+    printf("x %d\n", desc->x);
+    printf("y %d\n", desc->y);
+    printf("z %d\n", desc->z);
+    printf("w %d\n", desc->w);
+    printf("f %d\n", desc->f);
+
+    printf("width %d\n", width);
+    printf("height %d\n",height);
+    
     CudaRtFrontend::Execute("cudaMallocArray");
     if (CudaRtFrontend::Success())
         *arrayPtr = (cudaArray *) CudaRtFrontend::GetOutputDevicePointer();

@@ -43,7 +43,7 @@
 
 #include <dlfcn.h>
 
-//#define DEBUG
+#define DEBUG
 
 using namespace std;
 
@@ -276,8 +276,10 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcGetEventHandle));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcOpenEventHandle ));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(IpcOpenMemHandle));
+    //sposta in  nuovo modulo Occupancy
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(OccupancyMaxActiveBlocksPerMultiprocessor ));
-    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceGetAttribute  ));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceGetAttribute));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceGetStreamPriorityRange));
     
 
 
@@ -296,6 +298,7 @@ void CudaRtHandler::Initialize() {
     /* CudaRtHandler_error */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetErrorString));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetLastError));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(PeekAtLastError));
 
     /* CudaRtHandler_event */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(EventCreate));
@@ -375,7 +378,8 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamQuery));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamSynchronize));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreateWithFlags));
-    //mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamAddCallback));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamWaitEvent));
+    mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreateWithPriority));
 
 
     /* CudaRtHandler_surface */

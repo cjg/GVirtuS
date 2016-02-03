@@ -26,7 +26,7 @@
 #ifndef CUDARTFRONTEND_H
 #define	CUDARTFRONTEND_H
 
-//#define DEBUG
+#define DEBUG
 
 #include <map>
 #include <set>

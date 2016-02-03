@@ -40,6 +40,10 @@ CUDA_ROUTINE_HANDLER(GetErrorString) {
     }
     
 }
+CUDA_ROUTINE_HANDLER(PeekAtLastError) {
+    /* cudaError_t  cudaPeekAtLastError(void) */
+    return new Result(cudaPeekAtLastError());
+}
 
 CUDA_ROUTINE_HANDLER(GetLastError) {
     /* cudaError_t cudaGetLastError(void) */

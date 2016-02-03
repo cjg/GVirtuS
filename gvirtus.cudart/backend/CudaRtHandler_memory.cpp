@@ -171,6 +171,16 @@ CUDA_ROUTINE_HANDLER(MallocArray) {
         cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc > ();
         size_t width = input_buffer->Get<size_t > ();
         size_t height = input_buffer->Get<size_t > ();
+    
+    printf("x %d\n", desc->x);
+    printf("y %d\n", desc->y);
+    printf("z %d\n", desc->z);
+    printf("w %d\n", desc->w);
+    printf("f %d\n", desc->f);
+
+    printf("width %d\n", width);
+    printf("height %d\n",height);
+        
         cudaError_t exit_code = cudaMallocArray(&arrayPtr, desc, width, height);
         Buffer *out = new Buffer();
         out->AddMarshal(arrayPtr);

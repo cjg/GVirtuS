@@ -38,6 +38,11 @@ extern "C" __host__ const char* CUDARTAPI cudaGetErrorString(cudaError_t error) 
 #endif
     return error_string;
 }
+extern "C" __host__ cudaError_t CUDARTAPI cudaPeekAtLastError(void) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::Execute("cudaPeekAtLastError");
+    return CudaRtFrontend::GetExitCode();
+}
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaGetLastError(void) {
     CudaRtFrontend::Prepare();

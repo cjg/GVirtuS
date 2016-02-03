@@ -137,7 +137,7 @@ CUDA_ROUTINE_HANDLER(IpcOpenMemHandle );
 //Testing
 CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor); 
 CUDA_ROUTINE_HANDLER(DeviceGetAttribute );
-
+CUDA_ROUTINE_HANDLER(DeviceGetStreamPriorityRange);
 
 
 
@@ -148,6 +148,8 @@ CUDA_ROUTINE_HANDLER(DeviceGetAttribute );
 /* CudaRtHandler_error */
 CUDA_ROUTINE_HANDLER(GetErrorString);
 CUDA_ROUTINE_HANDLER(GetLastError);
+CUDA_ROUTINE_HANDLER(PeekAtLastError);
+
 
 /* CudaRtHandler_event */
 CUDA_ROUTINE_HANDLER(EventCreate);
@@ -219,7 +221,8 @@ CUDA_ROUTINE_HANDLER(StreamDestroy);
 CUDA_ROUTINE_HANDLER(StreamQuery);
 CUDA_ROUTINE_HANDLER(StreamSynchronize);
 CUDA_ROUTINE_HANDLER(StreamCreateWithFlags);
-//CUDA_ROUTINE_HANDLER(StreamAddCallback);
+CUDA_ROUTINE_HANDLER(StreamWaitEvent);
+CUDA_ROUTINE_HANDLER(StreamCreateWithPriority);
 
 
 

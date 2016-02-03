@@ -95,6 +95,25 @@ CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
     return new Result(exit_code, out);
 }
 
+CUDA_ROUTINE_HANDLER(DeviceGetStreamPriorityRange) {
+    int *leastPriority = input_buffer->Assign<int>();
+    int *greatestPriority = input_buffer->Assign<int>();   
+    
+    cudaError_t exit_code = cudaDeviceGetStreamPriorityRange(leastPriority, greatestPriority);
+
+    Buffer *out = new Buffer();
+    try {
+        out->Add(leastPriority);
+        out->Add(greatestPriority);
+    } catch (string e) {
+        cerr << e << endl;
+        return new Result(cudaErrorMemoryAllocation);
+    }
+
+    return new Result(exit_code, out);
+}
+
+
 CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor ) {
     int *numBlocks = input_buffer->Assign<int>();
     const char *func = (const char*)(input_buffer->Get<pointer_t> ());
