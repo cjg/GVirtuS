@@ -18,7 +18,7 @@
       <in>CudaRtHandler_version.cpp</in>
       <in>main.cpp</in>
     </df>
-    <df root="frontend" name="1">
+    <df root="frontend" name="2">
       <in>CudaRt.cpp</in>
       <in>CudaRtFrontend.cpp</in>
       <in>CudaRt_device.cpp</in>
@@ -34,7 +34,7 @@
       <in>CudaRt_thread.cpp</in>
       <in>CudaRt_version.cpp</in>
     </df>
-    <logicalFolder name="f1" displayName="util" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f1" displayName="util" projectFiles="true" root="util">
       <itemPath>util/CudaUtil.cpp</itemPath>
       <itemPath>util/CudaUtil.h</itemPath>
     </logicalFolder>
@@ -47,8 +47,20 @@
       <itemPath>configure</itemPath>
       <itemPath>configure.in</itemPath>
     </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-gvirtus-cudart.mk</itemPath>
+      <itemPath>configure</itemPath>
+      <itemPath>configure.in</itemPath>
+    </logicalFolder>
   </logicalFolder>
   <sourceRootList>
+    <Elem>backend</Elem>
+    <Elem>frontend</Elem>
+    <Elem>util</Elem>
     <Elem>backend</Elem>
     <Elem>frontend</Elem>
     <Elem>util</Elem>

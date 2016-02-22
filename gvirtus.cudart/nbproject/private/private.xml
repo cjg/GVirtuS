@@ -7,10 +7,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler.h</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/backend/CudaRtHandler_device.cpp</file>
-            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRt_device.cpp</file>
+            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRtFrontend.cpp</file>
+            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRt_execution.cpp</file>
+            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRtFrontend.h</file>
+            <file>file:/home/cpalmieri/gvirtus-devel/gvirtus.cudart/frontend/CudaRt_memory.cpp</file>
         </group>
     </open-files>
 </project-private>

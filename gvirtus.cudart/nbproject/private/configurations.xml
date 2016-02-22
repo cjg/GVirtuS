@@ -20,7 +20,9 @@
       <in>CudaRtHandler_version.cpp</in>
       <in>main.cpp</in>
     </df>
-    <df root="frontend" name="1">
+    <df root="backend" name="1">
+    </df>
+    <df root="frontend" name="2">
       <in>CudaRt.cpp</in>
       <in>CudaRt.h</in>
       <in>CudaRtFrontend.cpp</in>
@@ -37,6 +39,8 @@
       <in>CudaRt_texture.cpp</in>
       <in>CudaRt_thread.cpp</in>
       <in>CudaRt_version.cpp</in>
+    </df>
+    <df root="frontend" name="3">
     </df>
   </logicalFolder>
   <projectmakefile>Makefile-gvirtus-cudart.mk</projectmakefile>
