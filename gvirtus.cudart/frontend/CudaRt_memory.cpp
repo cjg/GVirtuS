@@ -35,8 +35,19 @@
 using namespace std;
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaFree(void *devPtr) {
+    void* p = devPtr;
+    
+    if (CudaRtFrontend::isMappedMemory(devPtr)) {
+#ifdef DEBUG
+        cerr << "Mapped pointer detected" << endl;
+#endif
+        mappedPointer a = CudaRtFrontend::getMappedPointer(devPtr);
+        p = a.pointer;
+        free(devPtr);        
+    }
+    
     CudaRtFrontend::Prepare();
-    CudaRtFrontend::AddDevicePointerForArguments(devPtr);
+    CudaRtFrontend::AddDevicePointerForArguments(p);
     CudaRtFrontend::Execute("cudaFree");
     return CudaRtFrontend::GetExitCode();
 }
@@ -242,20 +253,24 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpyPeerAsync(void *dst, int dst
 extern "C"  __host__ CUDARTAPI cudaError_t cudaMallocManaged(void ** devPtr,
         size_t size, unsigned flags)
 {
+    void* hp = NULL;
     *devPtr = malloc(size);
     CudaRtFrontend::Prepare();
 
-    CudaRtFrontend::AddDevicePointerForArguments(*devPtr);
     CudaRtFrontend::AddVariableForArguments(size);
-    CudaRtFrontend::AddVariableForArguments(flags);
-    CudaRtFrontend::Execute("cudaMallocManaged");
-
-    //if (CudaRtFrontend::Success()) {
-    //    *devPtr = CudaRtFrontend::GetOutputDevicePointer();
-    //}
+    CudaRtFrontend::Execute("cudaMalloc");
     
+    if (CudaRtFrontend::Success()) {
+        hp = CudaRtFrontend::GetOutputDevicePointer();
+    }
     
+    mappedPointer host;
+    host.pointer = hp;
+    host.size = size;   
     
+    cerr << "device: " << std::hex << hp << " host: " << *devPtr << endl;
+    
+    CudaRtFrontend::addMappedPointer(*devPtr, host);
     return CudaRtFrontend::GetExitCode();
 }
 
@@ -265,37 +280,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy3D( const cudaMemcpy3DParms*
        // size_t spitch, size_t width, size_t height, cudaMemcpyKind kind)    
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddHostPointerForArguments(p);
-       
-    printf("PARAMETRI FRONTEND\n");
-    printf("dstArray %x\n\n", p->dstArray);
-    
-    printf("dstPos x %d\n", p->dstPos.x);
-    printf("dstPos y %d\n", p->dstPos.y);
-    printf("dstPos z %d\n\n", p->dstPos.z);
-
-    printf("dstPtr pitch %d\n",p->dstPtr.pitch);
-    printf("dstPtr ptr %x\n",p->dstPtr.ptr);
-    printf("dstPtr x %d\n",p->dstPtr.xsize);
-    printf("dstPtr y %d\n\n",p->dstPtr.ysize);
-    
-
-    printf("extent depth %d\n", p->extent.depth);
-    printf("extent height %d\n", p->extent.height);
-    printf("extent width %d\n\n", p->extent.width);     
-    
-    printf("kind %d\n\n", p->kind);
-   
-    printf("srcArray %x\n\n", p->srcArray);
-
-    printf("srcPos x %d\n",p->srcPos.x);
-    printf("srcPos y %d\n",p->srcPos.y);
-    printf("srcPos z %d\n\n",p->srcPos.z);
-
-    printf("srcPtr pitch %d\n",p->srcPtr.pitch);
-    printf("srcPtr ptr %x\n",p->srcPtr.ptr);
-    printf("srcPtr x %d\n",p->srcPtr.xsize);
-    printf("srcPtr y  %d\n",p->srcPtr.ysize);
-
+        
     unsigned int width = p->extent.width;
     unsigned int num_faces = p->extent.depth;
     unsigned int num_layers = 1;
@@ -324,6 +309,16 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst,
     CudaRtFrontend::Prepare();
     switch (kind) {
 	case cudaMemcpyDefault:
+            cerr << "MemCpyDefault" << endl;
+            if (CudaRtFrontend::isDevicePointer(dst) && CudaRtFrontend::isDevicePointer(src)) {
+                cerr << "Device2Device" << endl;
+                return cudaMemcpy(dst, src, count, cudaMemcpyDeviceToDevice);
+            } else if (!CudaRtFrontend::isDevicePointer(dst) && !CudaRtFrontend::isDevicePointer(src))
+                return cudaMemcpy(dst, src, count, cudaMemcpyHostToHost);
+            else if (!CudaRtFrontend::isDevicePointer(dst) && CudaRtFrontend::isDevicePointer(src))
+                return cudaMemcpy(dst, src, count, cudaMemcpyDeviceToHost);
+            else if (CudaRtFrontend::isDevicePointer(dst) && !CudaRtFrontend::isDevicePointer(src))
+                return cudaMemcpy(dst, src, count, cudaMemcpyHostToDevice);
         case cudaMemcpyHostToHost:
             /* NOTE: no communication is performed, because it's just overhead
              * here */

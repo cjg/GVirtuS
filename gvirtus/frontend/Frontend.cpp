@@ -78,6 +78,7 @@ void Frontend::Init(Communicator *c) {
     mpCommunicator->Connect();
     mpInputBuffer = new Buffer();
     mpOutputBuffer = new Buffer();
+    mpLaunchBuffer = new Buffer();
     mExitCode = -1;
     mpInitialized = true;
 }

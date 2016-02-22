@@ -91,7 +91,15 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaLaunch(const void *entry) {
     launch->Add<int>(0x4c41554e);
     launch->Add<pointer_t>((pointer_t)entry);
     CudaRtFrontend::Execute("cudaLaunch", launch);
-    return CudaRtFrontend::GetExitCode();
+    cudaError_t error = CudaRtFrontend::GetExitCode();
+#ifdef DEBUG
+    cerr << "Managing" << endl;
+#endif
+    CudaRtFrontend::manage();
+#ifdef DEBUG
+    cerr << "Managed" << endl;
+#endif
+    return error;
 }
 
 extern "C" __host__ cudaError_t CUDARTAPI cudaSetDoubleForDevice(double *d) {
@@ -121,14 +129,22 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg, siz
     CudaRtFrontend::Execute("cudaSetupArgument");
     return CudaRtFrontend::GetExitCode();
 #endif
-    cerr << "Requested cudaSetupArgument" << endl;
+    const void* pointer = *(const void**)arg;
+
     Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
     // STAG
-    if (CudaRtFrontend::isDevicePointer(*(void**)arg)) {
-        cerr << "Device pointer detected" << endl;
+    if (CudaRtFrontend::isMappedMemory(*(void**)arg)) {
+        mappedPointer p = CudaRtFrontend::getMappedPointer(*(void**)arg);
+        pointer = (const void*) p.pointer;
+        CudaRtFrontend::addtoManage(*(void**)arg);
+        cerr << "Async device: " << p.pointer << " host: " << *(void**)arg << endl;
+        cudaMemcpyAsync(p.pointer, *(void**)arg, p.size,
+                cudaMemcpyHostToDevice, NULL);
     }
+
     launch->Add<int>(0x53544147);
-    launch->Add<char>(static_cast<char *>(const_cast<void *>(arg)), size);
+    launch->Add<char>(static_cast<char *>(const_cast<void *>((void *)&pointer)),
+            size);
     launch->Add(size);
     launch->Add(offset);
     return cudaSuccess;

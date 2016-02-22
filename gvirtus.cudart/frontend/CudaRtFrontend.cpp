@@ -31,18 +31,18 @@ CudaRtFrontend msInstance __attribute_used__;
 
  map<const void*, mappedPointer>* CudaRtFrontend::mappedPointers = NULL;
  set<const void*>* CudaRtFrontend::devicePointers = NULL;
-
+ map <pthread_t, stack<void*> *>* CudaRtFrontend::toManage = NULL;
 
 CudaRtFrontend::CudaRtFrontend() {
     if (devicePointers == NULL)
         devicePointers = new set<const void*>();
     if (mappedPointers == NULL)
         mappedPointers = new map<const void*, mappedPointer>();
+    if (toManage == NULL)
+        toManage = new map <pthread_t, stack<void*> *>();
     Frontend::GetFrontend();
 }
 
 //static CudaRtFrontend* CudaRtFrontend::GetFrontend(){
 //    return (CudaRtFrontend*) Frontend::GetFrontend();
 //}
-
-

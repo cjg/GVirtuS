@@ -40,6 +40,9 @@
 #include <map>
 #include <string>
 #include <pthread.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
 
 #include "Communicator.h"
 #include "Buffer.h"
@@ -103,6 +106,10 @@ public:
 
     inline Buffer *GetOutputBuffer() {
         return mpOutputBuffer;
+    }
+    
+    inline Buffer *GetLaunchBuffer() {
+        return mpLaunchBuffer;
     }
 
     /**
@@ -233,6 +240,7 @@ private:
     Communicator *mpCommunicator;
     Buffer * mpInputBuffer;
     Buffer * mpOutputBuffer;
+    Buffer * mpLaunchBuffer;
     int mExitCode;
     static map<pthread_t, Frontend*> *mpFrontends;
     bool mpInitialized = false;

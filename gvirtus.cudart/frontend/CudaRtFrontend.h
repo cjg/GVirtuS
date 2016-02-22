@@ -30,10 +30,12 @@
 
 #include <map>
 #include <set>
+#include <stack>
 
 #include <cuda_runtime_api.h>
 #include <CudaUtil.h>
 #include <Frontend.h>
+
 #include "CudaRt.h"
 
 
@@ -59,7 +61,7 @@ public:
     }
 
     static inline Buffer *GetLaunchBuffer() {
-        return Frontend::GetFrontend()->GetInputBuffer();
+        return Frontend::GetFrontend()->GetLaunchBuffer();
     }
 
     /**
@@ -167,25 +169,73 @@ public:
         
     };
     
-    static inline bool isMappedMemory(const void* p) {
-        return (mappedPointers->find(p)== mappedPointers->end()?false:true);
+    static void addtoManage(void* manage) {
+        pid_t tid = syscall(SYS_gettid);
+        stack<void*> * toHandle;
+        if (toManage->find(tid) != toManage->end())
+            toHandle = toManage->find(tid)->second;
+        else {
+            toHandle = new stack<void*>();
+            toManage->insert(make_pair(tid, toHandle));
+        }
+        toHandle->push(manage);
+#ifdef DEBUG
+        cerr << "Added: " << std::hex << manage << endl;
+#endif
+    };
+
+    static void manage() {
+        pid_t tid = syscall(SYS_gettid);
+        stack<void*> * toHandle;
+        if (toManage->find(tid) != toManage->end()) {
+            toHandle = toManage->find(tid)->second;
+            while (!toHandle->empty()) {
+                void* p = toHandle->top();
+                toHandle->pop();
+                mappedPointer mP = getMappedPointer(p);
+#ifdef DEBUG
+                cerr << "copying " << mP.size << ": " << std::hex << mP.pointer << " to "
+                        << std::hex << p << endl;
+#endif
+                cudaMemcpy(p, mP.pointer, mP.size, cudaMemcpyDeviceToHost);
+            }
+        }
     }
     
+    static inline bool isMappedMemory(const void* p) {
+        return (mappedPointers->find(p) == mappedPointers->end() ? false : true);
+    }
+
     static inline void addDevicePointer(void* device) {
+#ifdef DEBUG
         cerr << endl << "Added device pointer: " << hex << device << endl;
+#endif
         devicePointers->insert(device);
     };
     
+    static inline void removeDevicePointer(void* device) {        
+        devicePointers->erase(device);
+    };
+
     static inline bool isDevicePointer(const void* p) {
         cerr << endl << "Looking for device pointer: " << hex << p << endl;
-        return (devicePointers->find(p)== devicePointers->end()?false:true);
+        return (devicePointers->find(p) == devicePointers->end() ? false : true);
     }
+
+    static inline mappedPointer getMappedPointer(void* device) {
+        return mappedPointers->find(device)->second;
+    };
+    
+    static inline void removeMappedPointer(void* device) {
+        mappedPointers->erase(device);
+    };
     
     CudaRtFrontend();
 private :
     static map<const void*, mappedPointer>* mappedPointers;
     static set<const void*>* devicePointers;
+    static map <pthread_t, stack<void*> *>* toManage;
+    Buffer * mpInputBuffer = NULL;
 };
 
 #endif	/* CUDARTFRONTEND_H */
-
