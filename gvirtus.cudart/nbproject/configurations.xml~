@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="backend" name="0">
+      <in>CudaRtBackend.cpp</in>
+      <in>CudaRtHandler.cpp</in>
+      <in>CudaRtHandler_device.cpp</in>
+      <in>CudaRtHandler_error.cpp</in>
+      <in>CudaRtHandler_event.cpp</in>
+      <in>CudaRtHandler_execution.cpp</in>
+      <in>CudaRtHandler_internal.cpp</in>
+      <in>CudaRtHandler_memory.cpp</in>
+      <in>CudaRtHandler_opengl.cpp</in>
+      <in>CudaRtHandler_stream.cpp</in>
+      <in>CudaRtHandler_surface.cpp</in>
+      <in>CudaRtHandler_texture.cpp</in>
+      <in>CudaRtHandler_thread.cpp</in>
+      <in>CudaRtHandler_version.cpp</in>
+      <in>main.cpp</in>
+    </df>
+    <df root="backend" name="1">
+    </df>
+    <df root="frontend" name="2">
+      <in>CudaRt.cpp</in>
+      <in>CudaRtFrontend.cpp</in>
+      <in>CudaRt_device.cpp</in>
+      <in>CudaRt_error.cpp</in>
+      <in>CudaRt_event.cpp</in>
+      <in>CudaRt_execution.cpp</in>
+      <in>CudaRt_internal.cpp</in>
+      <in>CudaRt_memory.cpp</in>
+      <in>CudaRt_opengl.cpp</in>
+      <in>CudaRt_stream.cpp</in>
+      <in>CudaRt_surface.cpp</in>
+      <in>CudaRt_texture.cpp</in>
+      <in>CudaRt_thread.cpp</in>
+      <in>CudaRt_version.cpp</in>
+    </df>
+    <df root="frontend" name="3">
+    </df>
+    <logicalFolder name="f1" displayName="util" projectFiles="true" root="util">
+      <itemPath>util/CudaUtil.cpp</itemPath>
+      <itemPath>util/CudaUtil.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-gvirtus-cudart.mk</itemPath>
+      <itemPath>configure</itemPath>
+      <itemPath>configure.in</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-gvirtus-cudart.mk</itemPath>
+      <itemPath>configure</itemPath>
+      <itemPath>configure.in</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>backend</Elem>
+    <Elem>frontend</Elem>
+    <Elem>util</Elem>
+    <Elem>backend</Elem>
+    <Elem>frontend</Elem>
+    <Elem>util</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile-gvirtus-cudart.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-O2 -fPIC"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <ccTool>
+            <preprocessorList>
+              <Elem>HAVE_CONFIG_H</Elem>
+            </preprocessorList>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="backend/CudaRtBackend.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_device.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_error.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_event.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_execution.cpp"
+            ex="false"
+            tool="1"
+            flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_internal.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_memory.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_opengl.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_stream.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_surface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/CudaRtHandler_texture.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_thread.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/CudaRtHandler_version.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/main.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <folder path="0">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="frontend/CudaRt.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRtFrontend.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_device.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_error.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_event.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_execution.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_internal.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_memory.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>frontend</pElem>
+            <pElem>.</pElem>
+            <pElem>util</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../opt/include/gvirtus</pElem>
+            <pElem>../gvirtus</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>PIC</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_opengl.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_stream.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_surface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/CudaRt_texture.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_thread.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="frontend/CudaRt_version.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>../../../../cjg/gvirtus/include/gvirtus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="util/CudaUtil.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/CudaUtil.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
