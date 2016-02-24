@@ -836,6 +836,16 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemset(void *devPtr, int c, size_t
     return CudaRtFrontend::GetExitCode();
 }
 
+extern "C" __host__ cudaError_t CUDARTAPI cudaMemsetAsync(void *devPtr, int c,
+        size_t count, cudaStream_t stream) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddDevicePointerForArguments(devPtr);
+    CudaRtFrontend::AddVariableForArguments(c);
+    CudaRtFrontend::AddVariableForArguments(count);
+    CudaRtFrontend::Execute("cudaMemset");
+    return CudaRtFrontend::GetExitCode();
+}
+
 extern "C" __host__ cudaError_t CUDARTAPI cudaMemset2D(void *devPtr, size_t pitch, int value, size_t width,
         size_t height) {
     CudaRtFrontend::Prepare();
