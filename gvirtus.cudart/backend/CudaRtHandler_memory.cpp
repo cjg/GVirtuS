@@ -124,6 +124,7 @@ CUDA_ROUTINE_HANDLER(Malloc3DArray) {
     cudaChannelFormatDesc *desc = input_buffer->Assign<cudaChannelFormatDesc >();
     cudaExtent extent = input_buffer->Get<cudaExtent>();
     unsigned int flags = input_buffer->Get<unsigned int>();
+#ifdef DEBUG
     printf("x %d\n", desc->x);
     printf("y %d\n", desc->y);
     printf("z %d\n", desc->z);
@@ -136,6 +137,7 @@ CUDA_ROUTINE_HANDLER(Malloc3DArray) {
 
     printf("flags %d\n", flags);
     printf("array %x\n", array);
+#endif
     cudaError_t exit_code = cudaMalloc3DArray(&array, desc, extent, flags);
     printf("array %x\n", array);
     Buffer *out = new Buffer();

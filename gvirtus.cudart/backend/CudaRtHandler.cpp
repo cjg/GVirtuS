@@ -43,8 +43,6 @@
 
 #include <dlfcn.h>
 
-#define DEBUG
-
 using namespace std;
 
 map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;

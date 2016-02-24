@@ -92,13 +92,13 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaLaunch(const void *entry) {
     launch->Add<pointer_t>((pointer_t)entry);
     CudaRtFrontend::Execute("cudaLaunch", launch);
     cudaError_t error = CudaRtFrontend::GetExitCode();
-#ifdef DEBUG
-    cerr << "Managing" << endl;
-#endif
-    CudaRtFrontend::manage();
-#ifdef DEBUG
-    cerr << "Managed" << endl;
-#endif
+//#ifdef DEBUG
+//    cerr << "Managing" << endl;
+//#endif
+//    CudaRtFrontend::manage();
+//#ifdef DEBUG
+//    cerr << "Managed" << endl;
+//#endif
     return error;
 }
 

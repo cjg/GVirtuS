@@ -204,7 +204,7 @@ CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -E
-CPPFLAGS =   -I/home/vpelliccia/Downloads/gvirtus-devel/gvirtus/util -I/home/vpelliccia/Downloads/gvirtus-devel/gvirtus/frontend -I/home/vpelliccia/Downloads/gvirtus-devel/gvirtus/backend -D_PLUGINS_DIR=\"${exec_prefix}/lib/backend\" -D_CONFIG_FILE=\"${prefix}/etc/gvirtus.properties\"
+CPPFLAGS =   -I/home/cpalmieri/gvirtus-devel/gvirtus/util -I/home/cpalmieri/gvirtus-devel/gvirtus/frontend -I/home/cpalmieri/gvirtus-devel/gvirtus/backend -D_PLUGINS_DIR=\"${exec_prefix}/lib/backend\" -D_CONFIG_FILE=\"${prefix}/etc/gvirtus.properties\"
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
@@ -258,10 +258,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = strip
 VERSION = 01-beta2
-abs_builddir = /home/vpelliccia/Downloads/gvirtus-devel/gvirtus
-abs_srcdir = /home/vpelliccia/Downloads/gvirtus-devel/gvirtus
-abs_top_builddir = /home/vpelliccia/Downloads/gvirtus-devel/gvirtus
-abs_top_srcdir = /home/vpelliccia/Downloads/gvirtus-devel/gvirtus
+abs_builddir = /home/cpalmieri/gvirtus-devel/gvirtus
+abs_srcdir = /home/cpalmieri/gvirtus-devel/gvirtus
+abs_top_builddir = /home/cpalmieri/gvirtus-devel/gvirtus
+abs_top_srcdir = /home/cpalmieri/gvirtus-devel/gvirtus
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -291,7 +291,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/vpelliccia/Downloads/gvirtus-devel/gvirtus/install-sh
+install_sh = ${SHELL} /home/cpalmieri/gvirtus-devel/gvirtus/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -300,7 +300,7 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/vpelliccia/opt
+prefix = /home/cpalmieri/opt
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin

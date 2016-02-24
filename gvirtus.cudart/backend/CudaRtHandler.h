@@ -53,6 +53,8 @@
 #include "Result.h"
 #include "CudaUtil.h"
 
+//#define DEBUG
+
 /**						
  * CudaRtHandler is used by Backend's Process(es) for storing and retrieving
  * device related data and functions. 

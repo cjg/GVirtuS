@@ -15,7 +15,6 @@
       <in>Buffer.cpp</in>
       <in>Communicator.cpp</in>
       <in>ConfigFile.cpp</in>
-      <in>CudaUtil.cpp</in>
       <in>Mutex.cpp</in>
       <in>Observable.cpp</in>
       <in>Observer.cpp</in>
@@ -155,15 +154,6 @@
             <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
             <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
           </preprocessorList>
-        </ccTool>
-      </item>
-      <item path="util/CudaUtil.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool>
-          <incDir>
-            <pElem>/opt/cuda/include</pElem>
-            <pElem>util</pElem>
-            <pElem>frontend</pElem>
-          </incDir>
         </ccTool>
       </item>
       <item path="util/Mutex.cpp" ex="false" tool="1" flavor2="0">
