@@ -855,6 +855,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemset2D(void *devPtr, size_t pitc
     CudaRtFrontend::AddVariableForArguments(width);
     CudaRtFrontend::AddVariableForArguments(height);
     CudaRtFrontend::Execute("cudaMemset2D");
+    //TO-DO si deve fare sul serio solo la parte di backend ovviamente
     return CudaRtFrontend::GetExitCode();
 }
 

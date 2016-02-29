@@ -31,6 +31,7 @@
 #include <map>
 #include <set>
 #include <stack>
+#include <list>
 
 #include <cuda_runtime_api.h>
 #include <CudaUtil.h>
@@ -40,6 +41,11 @@
 
 
 using namespace std;
+
+typedef struct __configureFunction{
+      funcs __f;
+      Buffer* buffer;
+  } configureFunction;
 
 class CudaRtFrontend {
 public:
@@ -232,10 +238,11 @@ public:
     
     CudaRtFrontend();
 private :
-    static map<const void*, mappedPointer>* mappedPointers;
-    static set<const void*>* devicePointers;
+    static map <const void*, mappedPointer>* mappedPointers;
+    static set <const void*>* devicePointers;
     static map <pthread_t, stack<void*> *>* toManage;
-    Buffer * mpInputBuffer = NULL;
+    static list <configureFunction>* setup;
+    Buffer * mpInputBuffer = NULL;    
 };
 
 #endif	/* CUDARTFRONTEND_H */

@@ -107,6 +107,24 @@ libgvirtus_frontend_la-Frontend.lo: Frontend.cpp \
  /usr/include/string.h \
  /home/cpalmieri/gvirtus-devel/gvirtus/util/Communicator.h \
  /home/cpalmieri/gvirtus-devel/gvirtus/util/gvirtus-type.h \
+ /home/cpalmieri/gvirtus-devel/gvirtus/util/AfUnixCommunicator.h \
+ /usr/include/i386-linux-gnu/sys/mman.h \
+ /usr/include/i386-linux-gnu/bits/mman.h \
+ /usr/include/i386-linux-gnu/bits/mman-linux.h \
+ /usr/include/i386-linux-gnu/sys/stat.h \
+ /usr/include/i386-linux-gnu/bits/stat.h /usr/include/fcntl.h \
+ /usr/include/i386-linux-gnu/bits/fcntl.h \
+ /usr/include/i386-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/i386-linux-gnu/bits/uio.h \
+ /usr/include/c++/4.8/ext/stdio_filebuf.h /usr/include/c++/4.8/fstream \
+ /usr/include/c++/4.8/bits/codecvt.h /usr/include/c++/4.8/cstdio \
+ /usr/include/libio.h /usr/include/_G_config.h \
+ /usr/include/i386-linux-gnu/bits/stdio_lim.h \
+ /usr/include/i386-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/32/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/32/bits/c++io.h \
+ /usr/include/c++/4.8/bits/fstream.tcc \
+ /home/cpalmieri/gvirtus-devel/gvirtus/util/Buffer.h \
  /home/cpalmieri/gvirtus-devel/gvirtus/util/ConfigFile.h
 
 /usr/include/stdc-predef.h:
@@ -378,5 +396,49 @@ Frontend.h:
 /home/cpalmieri/gvirtus-devel/gvirtus/util/Communicator.h:
 
 /home/cpalmieri/gvirtus-devel/gvirtus/util/gvirtus-type.h:
+
+/home/cpalmieri/gvirtus-devel/gvirtus/util/AfUnixCommunicator.h:
+
+/usr/include/i386-linux-gnu/sys/mman.h:
+
+/usr/include/i386-linux-gnu/bits/mman.h:
+
+/usr/include/i386-linux-gnu/bits/mman-linux.h:
+
+/usr/include/i386-linux-gnu/sys/stat.h:
+
+/usr/include/i386-linux-gnu/bits/stat.h:
+
+/usr/include/fcntl.h:
+
+/usr/include/i386-linux-gnu/bits/fcntl.h:
+
+/usr/include/i386-linux-gnu/bits/fcntl-linux.h:
+
+/usr/include/i386-linux-gnu/bits/uio.h:
+
+/usr/include/c++/4.8/ext/stdio_filebuf.h:
+
+/usr/include/c++/4.8/fstream:
+
+/usr/include/c++/4.8/bits/codecvt.h:
+
+/usr/include/c++/4.8/cstdio:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/i386-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/i386-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/basic_file.h:
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/c++io.h:
+
+/usr/include/c++/4.8/bits/fstream.tcc:
+
+/home/cpalmieri/gvirtus-devel/gvirtus/util/Buffer.h:
 
 /home/cpalmieri/gvirtus-devel/gvirtus/util/ConfigFile.h:

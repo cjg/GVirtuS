@@ -18,7 +18,7 @@
       <in>CudaRtHandler_version.cpp</in>
       <in>main.cpp</in>
     </df>
-    <df root="frontend" name="2">
+    <df root="frontend" name="1">
       <in>CudaRt.cpp</in>
       <in>CudaRtFrontend.cpp</in>
       <in>CudaRt_device.cpp</in>
