@@ -243,7 +243,7 @@ extern "C" void matrixMultiply(float* a, float* b, float* c,
     }
 
     // Execute the kernel
-    int nIter = 300;
+    int nIter = 10;
 
     for (int j = 0; j < nIter; j++)
     {

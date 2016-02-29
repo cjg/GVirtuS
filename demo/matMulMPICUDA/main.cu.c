@@ -11,9 +11,9 @@
 
 #include <cuda_runtime.h>
 
-#define NRA 640                 /* number of rows in matrix A */
-#define NCA 640                 /* number of columns in matrix A */
-#define NCB 640                  /* number of columns in matrix B */
+#define NRA 800                 /* number of rows in matrix A */
+#define NCA 800               /* number of columns in matrix A */
+#define NCB 800                 /* number of columns in matrix B */
 #define MASTER 0               /* taskid of first task */
 #define FROM_MASTER 1          /* setting a message type */
 #define FROM_WORKER 2          /* setting a message type */
