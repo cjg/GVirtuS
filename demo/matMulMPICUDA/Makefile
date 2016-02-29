@@ -7,7 +7,7 @@ NVCC=/usr/local/cuda/bin/nvcc
 CFLAGS=-g -I/usr/local/cuda/include -I../common/inc
 LIBS=-lcudart -lpthread
 INCLUDE_DIR=-I/usr/local/cuda/include -I../common/inc
-LIB_DIR=-L/usr/local/cuda/lib64
+LIB_DIR=-L/usr/local/cuda/lib
 OBJ=main.cu.o matrixmul.o
 
 
