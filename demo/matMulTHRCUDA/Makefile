@@ -4,10 +4,10 @@ CP=cp
 CCADMIN=CCadmin
 CC=/usr/bin/g++
 NVCC=/usr/local/cuda/bin/nvcc
-CFLAGS=-g -I/usr/local/cuda/include -I/home/cpalmieri/NVIDIA_CUDA-6.5_Samples/common/inc
+CFLAGS=-g -I/usr/local/cuda/include -I../common/inc
 LIBS=-lcudart -lpthread
-INCLUDE_DIR=-I/usr/local/cuda/include -I/home/cpalmieri/NVIDIA_CUDA-6.5_Samples/common/inc
-LIB_DIR=-L/usr/local/cuda/lib64
+INCLUDE_DIR=-I/usr/local/cuda/include -I../common/inc
+LIB_DIR=-L/usr/local/cuda/lib
 OBJ=main.cu.o matrixmul.o
 
 
