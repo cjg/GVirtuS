@@ -11,12 +11,14 @@
 
 #include <cuda_runtime.h>
 
-#define NRA 800                 /* number of rows in matrix A */
-#define NCA 800               /* number of columns in matrix A */
-#define NCB 800                 /* number of columns in matrix B */
+#define NRA 640                 /* number of rows in matrix A */
+#define NCA 640                 /* number of columns in matrix A */
+#define NCB 640                  /* number of columns in matrix B */
 #define MASTER 0               /* taskid of first task */
 #define FROM_MASTER 1          /* setting a message type */
 #define FROM_WORKER 2          /* setting a message type */
+
+//#define DEBUG
 
 extern "C" {
     void matrixMultiply(float* a, float* b, float* c, int block_size, dim3 dimsA, dim3 dimsB);
@@ -32,40 +34,60 @@ int main(int argc, char *argv[]) {
             rows, /* rows of matrix A sent to each worker */
             averow, extra, offset, /* used to determine rows sent to each worker */
             i, j, k, rc; /* misc */
+    int nra, nca, ncb;
     float *a, //a[NRA][NCA],           /* matrix A to be multiplied */
             *b, //b[NCA][NCB],           /* matrix B to be multiplied */
             *c; //c[NRA][NCB];           /* result matrix C */
     MPI_Status status;
+    
+
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
     MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
+
+    if (taskid == 0)
+      printf("You can choose the size of matrixes calling %s rows_A cols_A rows_B\n\n", argv[0]);
+
     if (numtasks < 2) {
         printf("Need at least two MPI tasks. Quitting...\n");
         MPI_Abort(MPI_COMM_WORLD, rc);
         exit(1);
     }
+
+
+    if (argc == 4) {
+        sscanf(argv[1], "%d", &nra);
+        sscanf(argv[2], "%d", &nca);
+        sscanf(argv[3], "%d", &ncb);
+    } else {
+        nra = NRA;
+        nca = NCA;
+        ncb = NCB;
+    }
+
+#ifdef DEBUG
+    printf("arg: %d, nra: %d,  nca: %d, ncb: %d\n", argc, nra, nca, ncb);
+#endif 
     numworkers = numtasks - 1;
 
-    a = (float*) malloc(NRA * NCA * sizeof (float));
-    b = (float*) malloc(NCB * NCA * sizeof (float));
-    c = (float*) malloc(NRA * NCB * sizeof (float));
-
-    //printf("%d: a: %x b: %x c: %x\n", taskid, a, b, c);
+    a = (float*) malloc(nra * nca * sizeof (float));
+    b = (float*) malloc(ncb * nca * sizeof (float));
+    c = (float*) malloc(nra * ncb * sizeof (float));
 
     /**************************** master task ************************************/
     if (taskid == MASTER) {
         printf("mpi_mm has started with %d tasks.\n", numtasks);
         printf("Initializing arrays...\n");
-        for (i = 0; i < NRA; i++)
-            for (j = 0; j < NCA; j++)
-                a[i * NCA + j] = rand() / RAND_MAX;
-        for (i = 0; i < NCA; i++)
-            b[i * NCB + i] = 1;
+        for (i = 0; i < nra; i++)
+            for (j = 0; j < nca; j++)
+                a[i * nca + j] = rand() / RAND_MAX;
+        for (i = 0; i < nca; i++)
+            b[i * ncb + i] = 1;
 
         /* Send matrix data to the worker tasks */
-        averow = NRA / numworkers;
-        extra = NRA % numworkers;
+        averow = nra / numworkers;
+        extra = nra % numworkers;
         offset = 0;
         mtype = FROM_MASTER;
         for (dest = 1; dest <= numworkers; dest++) {
@@ -75,9 +97,9 @@ int main(int argc, char *argv[]) {
 #endif
             MPI_Send(&offset, 1, MPI_INT, dest, mtype, MPI_COMM_WORLD);
             MPI_Send(&rows, 1, MPI_INT, dest, mtype, MPI_COMM_WORLD);
-            MPI_Send(a + (offset * NCA), rows * NCA, MPI_FLOAT, dest, mtype,
+            MPI_Send(a + (offset * nca), rows * nca, MPI_FLOAT, dest, mtype,
                     MPI_COMM_WORLD);
-            MPI_Send(b, NCA * NCB, MPI_FLOAT, dest, mtype, MPI_COMM_WORLD);
+            MPI_Send(b, nca * ncb, MPI_FLOAT, dest, mtype, MPI_COMM_WORLD);
             offset = offset + rows;
         }
 
@@ -87,7 +109,7 @@ int main(int argc, char *argv[]) {
             source = i;
             MPI_Recv(&offset, 1, MPI_INT, source, mtype, MPI_COMM_WORLD, &status);
             MPI_Recv(&rows, 1, MPI_INT, source, mtype, MPI_COMM_WORLD, &status);
-            MPI_Recv(c + (offset * NCB), rows * NCB, MPI_FLOAT, source, mtype,
+            MPI_Recv(c + (offset * ncb), rows * ncb, MPI_FLOAT, source, mtype,
                     MPI_COMM_WORLD, &status);
 #ifdef DEBUG
             printf("Received results from task %d\n", source);
@@ -96,7 +118,7 @@ int main(int argc, char *argv[]) {
         
         bool correct = true;
 
-        for (int i = 0; i < (int) (NRA * NCB); i++) {
+        for (int i = 0; i < (int) (nra * ncb); i++) {
             if (a[i] != c[i]) {
                 correct = false;
             }
@@ -117,11 +139,11 @@ int main(int argc, char *argv[]) {
 #ifdef DEBUG
         printf("%d: received rows: %d\n", taskid, rows);
 #endif
-        MPI_Recv(a, rows * NCA, MPI_FLOAT, MASTER, mtype, MPI_COMM_WORLD, &status);
+        MPI_Recv(a, rows * nca, MPI_FLOAT, MASTER, mtype, MPI_COMM_WORLD, &status);
 #ifdef DEBUG
         printf("%d: received a\n", taskid);
 #endif
-        MPI_Recv(b, NCA * NCB, MPI_FLOAT, MASTER, mtype, MPI_COMM_WORLD, &status);
+        MPI_Recv(b, nca * ncb, MPI_FLOAT, MASTER, mtype, MPI_COMM_WORLD, &status);
 #ifdef DEBUG
         printf("%d: b received\n", taskid);
 #endif
@@ -129,12 +151,12 @@ int main(int argc, char *argv[]) {
         int block_size = 32;
 
         dim3 dimsA;
-        dimsA.x = rows; //5*2*block_size;
-        dimsA.y = NCA;
+        dimsA.x = rows; 
+        dimsA.y = nca;
         dimsA.z = 1;
         dim3 dimsB;
-        dimsB.x = NCA; //5*4*block_size;
-        dimsB.y = NCB; //5*2*block_size;
+        dimsB.x = nca; 
+        dimsB.y = ncb; 
         dimsB.z = 1;
 
         matrixMultiply(a, b, c, block_size, dimsA, dimsB);
@@ -143,8 +165,9 @@ int main(int argc, char *argv[]) {
         mtype = FROM_WORKER;
         MPI_Send(&offset, 1, MPI_INT, MASTER, mtype, MPI_COMM_WORLD);
         MPI_Send(&rows, 1, MPI_INT, MASTER, mtype, MPI_COMM_WORLD);
-        MPI_Send(c, rows * NCB, MPI_FLOAT, MASTER, mtype, MPI_COMM_WORLD);
+        MPI_Send(c, rows * ncb, MPI_FLOAT, MASTER, mtype, MPI_COMM_WORLD);
     }
     
     MPI_Finalize();
 }
+
