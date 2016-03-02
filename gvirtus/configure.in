@@ -1,0 +1,51 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.63])
+AC_INIT(gvirtus, 01-beta2, http://osl.uniparthenope.it/mailman/listinfo/gvirtus-devel)
+AM_INIT_AUTOMAKE
+AC_CONFIG_SRCDIR([backend/Backend.cpp])
+AC_CONFIG_HEADERS([config.h])
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_LIBTOOL
+
+AC_ARG_WITH([vmware-include], [AC_HELP_STRING([--with-vmware-include=PATH],
+    [set PATH to the VMware include directory])], [
+    VMWARE_INCLUDE="$withval"
+    VMWARE_FLAGS="-isystem $VMWARE_INCLUDE"
+], [
+    VMWARE_FLAGS=""
+])
+CPPFLAGS="$CPPFLAGS $VMWARE_FLAGS"
+
+# Checks for header files.
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h netdb.h netinet/in.h stdint.h stdlib.h sys/socket.h unistd.h vmci/vmci_sockets.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_INLINE
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_TYPE_UINT64_T
+
+# Checks for library functions.
+AC_FUNC_FORK
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([gethostbyname memmove memset socket strcasecmp strdup strtoul])
+
+
+CPPFLAGS="$CPPFLAGS -I`pwd`/util -I`pwd`/frontend -I`pwd`/backend -D_PLUGINS_DIR=\\\"$libdir/backend\\\" -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.properties\\\""
+CXXFLAGS="$CXXFLAGS -Wall -pedantic -lpthread"
+
+AC_CONFIG_FILES([Makefile
+                 backend/Makefile
+                 conf/Makefile
+                 frontend/Makefile
+                 test/Makefile
+                 util/Makefile
+		])
+AC_OUTPUT

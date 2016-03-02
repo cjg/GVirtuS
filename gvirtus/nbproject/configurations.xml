@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="backend" name="0">
+      <in>Backend.cpp</in>
+      <in>Handler.cpp</in>
+      <in>Process.cpp</in>
+      <in>main.cpp</in>
+    </df>
+    <df root="frontend" name="1">
+      <in>Frontend.cpp</in>
+    </df>
+    <df root="util" name="2">
+      <in>AfUnixCommunicator.cpp</in>
+      <in>Buffer.cpp</in>
+      <in>Communicator.cpp</in>
+      <in>ConfigFile.cpp</in>
+      <in>Mutex.cpp</in>
+      <in>Observable.cpp</in>
+      <in>Observer.cpp</in>
+      <in>Result.cpp</in>
+      <in>ShmCommunicator.cpp</in>
+      <in>Subprocess.cpp</in>
+      <in>TcpCommunicator.cpp</in>
+      <in>Thread.cpp</in>
+      <in>Util.cpp</in>
+      <in>VMShmCommunicator.cpp</in>
+      <in>VMSocketCommunicator.cpp</in>
+      <in>VirtioCommunicator.cpp</in>
+      <in>VmciCommunicator.cpp</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   root=".">
+      <itemPath>AUTHORS</itemPath>
+      <itemPath>ChangeLog</itemPath>
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-gvirtus.mk</itemPath>
+      <itemPath>Makefile.am</itemPath>
+      <itemPath>NEWS</itemPath>
+      <itemPath>README</itemPath>
+      <itemPath>autogen.sh</itemPath>
+      <itemPath>configure.in</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile-gvirtus.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-fPIC -m32"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+      </makefileType>
+      <item path="backend/Backend.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/Handler.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/Process.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="backend/main.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <folder path="0">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+            <pElem>frontend</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="1">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+            <pElem>frontend</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="frontend/Frontend.cpp" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="util/AfUnixCommunicator.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Buffer.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Communicator.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/ConfigFile.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Mutex.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Observable.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Observer.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Result.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/ShmCommunicator.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Subprocess.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/TcpCommunicator.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Thread.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/Util.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>util</pElem>
+            <pElem>.</pElem>
+            <pElem>frontend</pElem>
+            <pElem>backend</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>HAVE_CONFIG_H</Elem>
+            <Elem>_CONFIG_FILE="/home/cpalmieri/opt32/etc/gvirtus.properties"</Elem>
+            <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="util/VMShmCommunicator.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+            <pElem>frontend</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="util/VMSocketCommunicator.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+            <pElem>frontend</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="util/VirtioCommunicator.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+            <pElem>frontend</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="util/VmciCommunicator.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool>
+          <incDir>
+            <pElem>/opt/cuda/include</pElem>
+            <pElem>util</pElem>
+            <pElem>frontend</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

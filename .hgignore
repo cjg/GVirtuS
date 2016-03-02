@@ -1,0 +1,12 @@
+# use glob syntax.
+syntax: glob
+
+*.o
+*.0
+*.1
+*.l*
+*.so*
+*.P*
+*.a
+*~
+
