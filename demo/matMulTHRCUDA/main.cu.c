@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
             "calling %s num_threads rows_A cols_A rows_B\n\n", argv[0]);
     
     cudaGetDeviceCount(&nDevices);
-    
+   
     if (argc != 5) {
         numworkers = 2;
         nra = NRA;                
@@ -63,7 +63,8 @@ int main(int argc, char *argv[]) {
         sscanf(argv[3], "%d", &nca);
         sscanf(argv[4], "%d", &ncb);
     }
-        
+
+    printf("\nRunning on %d threads size %dx%dx%d\n", numworkers, nra, nca, ncb);
     
     arguments = (args*)malloc(numworkers * sizeof(args));
     tid = (pthread_t*)malloc(numworkers * sizeof(pthread_t));

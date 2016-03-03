@@ -208,6 +208,24 @@ public:
         }
     }
     
+    static void configure() {
+        pid_t tid = syscall(SYS_gettid);
+        stack<void*> * toHandle;
+        if (toManage->find(tid) != toManage->end()) {
+            toHandle = toManage->find(tid)->second;
+            while (!toHandle->empty()) {
+                void* p = toHandle->top();
+                toHandle->pop();
+                mappedPointer mP = getMappedPointer(p);
+#ifdef DEBUG
+                cerr << "copying " << mP.size << ": " << std::hex << mP.pointer << " to "
+                        << std::hex << p << endl;
+#endif
+                cudaMemcpy(p, mP.pointer, mP.size, cudaMemcpyDeviceToHost);
+            }
+        }
+    }
+    
     static inline bool isMappedMemory(const void* p) {
         return (mappedPointers->find(p) == mappedPointers->end() ? false : true);
     }
@@ -236,13 +254,21 @@ public:
         mappedPointers->erase(device);
     };
     
+    static inline void addConfigureElement() {
+        
+    }
+    
+    
+    
     CudaRtFrontend();
 private :
     static map <const void*, mappedPointer>* mappedPointers;
     static set <const void*>* devicePointers;
     static map <pthread_t, stack<void*> *>* toManage;
     static list <configureFunction>* setup;
-    Buffer * mpInputBuffer = NULL;    
+    Buffer * mpInputBuffer = NULL;
+    bool configured = false;
+    
 };
 
 #endif	/* CUDARTFRONTEND_H */

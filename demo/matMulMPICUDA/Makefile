@@ -21,6 +21,7 @@ main.cu.o: main.cu.c
 
 matMulMPI: matrixmul.o main.cu.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(INCLUDE_DIR) $(LIB_DIR)
+	./copy.sh
 
 clean: 
 	rm -f *.o matMulMPI

@@ -46,7 +46,7 @@
 using namespace std;
 
 static Frontend msFrontend;
-map<pthread_t, Frontend*> *Frontend::mpFrontends = NULL;
+//map<pthread_t, Frontend*> *Frontend::mpFrontends = NULL;
 static bool initialized = false;
 
 /**
@@ -94,29 +94,39 @@ Frontend::~Frontend() {
 //        mpCommunicator->Close();
 //        delete mpCommunicator;
 //    }
+    mpCommunicator->Close();
+    delete mpCommunicator;        
 }
 
 Frontend * Frontend::GetFrontend(Communicator *c) {
-    if (mpFrontends == NULL)
-        mpFrontends = new map<pthread_t, Frontend*>();
-    
-    
-    pid_t tid = syscall(SYS_gettid);
-    if (mpFrontends->find(tid) != mpFrontends->end())
-           return mpFrontends->find(tid)->second;
-    
-    else {
-        Frontend* f = new Frontend();
-        if (!f->initialized()) {
-            try {
-                f->Init(c);
-                mpFrontends->insert(make_pair(tid, f));
-            } catch (const char *e) {
-                cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
-            }
+//    if (mpFrontends == NULL)
+//        mpFrontends = new map<pthread_t, Frontend*>();    
+//    
+//    pid_t tid = syscall(SYS_gettid);
+//    if (mpFrontends->find(tid) != mpFrontends->end())
+//           return mpFrontends->find(tid)->second;
+//    
+//    else {
+//        Frontend* f = new Frontend();
+//        if (!f->initialized()) {
+//            try {
+//                f->Init(c);
+//                mpFrontends->insert(make_pair(tid, f));
+//            } catch (const char *e) {
+//                cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
+//            }
+//        }
+//        return f;
+//    }    
+    if (!initialized) {
+        try {
+            msFrontend.Init(c);
+            initialized = true;
+        } catch (const char *e) {
+            cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
         }
-        return f;
-    }    
+    }
+    return &msFrontend;        
 }
 
 void Frontend::Execute(const char* routine, const Buffer* input_buffer) {

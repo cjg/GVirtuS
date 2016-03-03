@@ -126,8 +126,11 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size)
     CudaRtFrontend::AddVariableForArguments(size);
     CudaRtFrontend::Execute("cudaMalloc");
 
-    if (CudaRtFrontend::Success())
+    if (CudaRtFrontend::Success()) {
         *devPtr = CudaRtFrontend::GetOutputDevicePointer();
+        CudaRtFrontend::addDevicePointer(devPtr);
+    }
+    
 
     return CudaRtFrontend::GetExitCode();
 }
@@ -313,14 +316,18 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaMemcpy(void *dst,
     switch (kind) {
         case cudaMemcpyDefault:
             cerr << "MemCpyDefault" << endl;
-            if (CudaRtFrontend::isDevicePointer(dst) && CudaRtFrontend::isDevicePointer(src)) {
+            if (CudaRtFrontend::isDevicePointer(dst) &&
+                    CudaRtFrontend::isDevicePointer(src)) {
                 cerr << "Device2Device" << endl;
                 return cudaMemcpy(dst, src, count, cudaMemcpyDeviceToDevice);
-            } else if (!CudaRtFrontend::isDevicePointer(dst) && !CudaRtFrontend::isDevicePointer(src))
+            } else if (!CudaRtFrontend::isDevicePointer(dst) &&
+                    !CudaRtFrontend::isDevicePointer(src))
                 return cudaMemcpy(dst, src, count, cudaMemcpyHostToHost);
-            else if (!CudaRtFrontend::isDevicePointer(dst) && CudaRtFrontend::isDevicePointer(src))
+            else if (!CudaRtFrontend::isDevicePointer(dst) &&
+                    CudaRtFrontend::isDevicePointer(src))
                 return cudaMemcpy(dst, src, count, cudaMemcpyDeviceToHost);
-            else if (CudaRtFrontend::isDevicePointer(dst) && !CudaRtFrontend::isDevicePointer(src))
+            else if (CudaRtFrontend::isDevicePointer(dst) &&
+                    !CudaRtFrontend::isDevicePointer(src))
                 return cudaMemcpy(dst, src, count, cudaMemcpyHostToDevice);
         case cudaMemcpyHostToHost:
             /* NOTE: no communication is performed, because it's just overhead
