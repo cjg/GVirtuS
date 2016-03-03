@@ -80,7 +80,7 @@ void Frontend::Init(Communicator *c) {
     mpOutputBuffer = new Buffer();
     mpLaunchBuffer = new Buffer();
     mExitCode = -1;
-    mpInitialized = true;
+    initialized = true;
 }
 
 Frontend::~Frontend() {
@@ -121,7 +121,6 @@ Frontend * Frontend::GetFrontend(Communicator *c) {
     if (!initialized) {
         try {
             msFrontend.Init(c);
-            initialized = true;
         } catch (const char *e) {
             cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
         }

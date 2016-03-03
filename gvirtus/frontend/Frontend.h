@@ -121,7 +121,7 @@ public:
         return mExitCode;
     }
     
-    inline bool initialized() { return mpInitialized; }
+//    inline bool initialized() { return mpInitialized; }
 
     /**
      * Checks if the latest execution had been completed successfully.
