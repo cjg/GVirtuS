@@ -46,7 +46,7 @@
 
 #include "Buffer.h"
 
-//#define DEBUG
+#define DEBUG
 
 /**
  * CudaUtil contains facility functions used by gVirtuS. These functions

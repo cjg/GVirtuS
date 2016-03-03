@@ -242,7 +242,9 @@ public:
     };
 
     static inline bool isDevicePointer(const void* p) {
+#ifdef DEBUG
         cerr << endl << "Looking for device pointer: " << hex << p << endl;
+#endif
         return (devicePointers->find(p) == devicePointers->end() ? false : true);
     }
 
