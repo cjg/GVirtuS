@@ -99,7 +99,8 @@ am__v_AR_1 =
 libutil_a_AR = $(AR) $(ARFLAGS)
 libutil_a_LIBADD =
 am_libutil_a_OBJECTS = AfUnixCommunicator.$(OBJEXT) Buffer.$(OBJEXT) \
-	Communicator.$(OBJEXT) ConfigFile.$(OBJEXT) Mutex.$(OBJEXT) \
+	Communicator.$(OBJEXT) ConfigFile.$(OBJEXT) \
+	MessageDispatcher.$(OBJEXT) Mutex.$(OBJEXT) \
 	Observable.$(OBJEXT) Observer.$(OBJEXT) Result.$(OBJEXT) \
 	ShmCommunicator.$(OBJEXT) Subprocess.$(OBJEXT) \
 	TcpCommunicator.$(OBJEXT) Thread.$(OBJEXT) Util.$(OBJEXT) \
@@ -348,6 +349,8 @@ Communicator.cpp\
 Communicator.h\
 ConfigFile.cpp\
 ConfigFile.h\
+MessageDispatcher.cpp\
+MessageDispatcher.h\
 Mutex.cpp\
 Mutex.h\
 Observable.cpp\
@@ -382,6 +385,7 @@ AfUnixCommunicator.h\
 Buffer.h\
 Communicator.h\
 ConfigFile.h\
+MessageDispatcher.h\
 Mutex.h\
 Observable.h\
 Observer.h\
@@ -448,6 +452,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Buffer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Communicator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ConfigFile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MessageDispatcher.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Mutex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Observable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Observer.Po@am__quote@

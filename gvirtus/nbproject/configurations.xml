@@ -15,6 +15,8 @@
       <in>Buffer.cpp</in>
       <in>Communicator.cpp</in>
       <in>ConfigFile.cpp</in>
+      <in>MessageDispatcher.cpp</in>
+      <in>MessageDispatcher.h</in>
       <in>Mutex.cpp</in>
       <in>Observable.cpp</in>
       <in>Observer.cpp</in>
@@ -155,6 +157,10 @@
             <Elem>_PLUGINS_DIR="/home/cpalmieri/opt32/lib/backend"</Elem>
           </preprocessorList>
         </ccTool>
+      </item>
+      <item path="util/MessageDispatcher.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/MessageDispatcher.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="util/Mutex.cpp" ex="false" tool="1" flavor2="0">
         <ccTool flags="0">

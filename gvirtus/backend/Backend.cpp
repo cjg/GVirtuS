@@ -54,9 +54,11 @@ Backend::Backend(vector<string> &plugins) {
 
 void Backend::Start(Communicator * communicator) {
     communicator->Serve();
+    //aux communicator
     while (true) {
         Communicator *client =
                 const_cast<Communicator *> (communicator->Accept());
+                
         Process *process = new Process(client, mPlugins);
         process->Start(NULL);
     }

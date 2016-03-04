@@ -99,7 +99,8 @@ am__v_AR_1 =
 libutil_a_AR = $(AR) $(ARFLAGS)
 libutil_a_LIBADD =
 am_libutil_a_OBJECTS = AfUnixCommunicator.$(OBJEXT) Buffer.$(OBJEXT) \
-	Communicator.$(OBJEXT) ConfigFile.$(OBJEXT) Mutex.$(OBJEXT) \
+	Communicator.$(OBJEXT) ConfigFile.$(OBJEXT) \
+	MessageDispatcher.$(OBJEXT) Mutex.$(OBJEXT) \
 	Observable.$(OBJEXT) Observer.$(OBJEXT) Result.$(OBJEXT) \
 	ShmCommunicator.$(OBJEXT) Subprocess.$(OBJEXT) \
 	TcpCommunicator.$(OBJEXT) Thread.$(OBJEXT) Util.$(OBJEXT) \
@@ -326,7 +327,7 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/cpalmieri/opt
+prefix = /home/cpamieri/opt
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -348,6 +349,8 @@ Communicator.cpp\
 Communicator.h\
 ConfigFile.cpp\
 ConfigFile.h\
+MessageDispatcher.cpp\
+MessageDispatcher.h\
 Mutex.cpp\
 Mutex.h\
 Observable.cpp\
@@ -382,6 +385,7 @@ AfUnixCommunicator.h\
 Buffer.h\
 Communicator.h\
 ConfigFile.h\
+MessageDispatcher.h\
 Mutex.h\
 Observable.h\
 Observer.h\
@@ -448,6 +452,7 @@ include ./$(DEPDIR)/AfUnixCommunicator.Po
 include ./$(DEPDIR)/Buffer.Po
 include ./$(DEPDIR)/Communicator.Po
 include ./$(DEPDIR)/ConfigFile.Po
+include ./$(DEPDIR)/MessageDispatcher.Po
 include ./$(DEPDIR)/Mutex.Po
 include ./$(DEPDIR)/Observable.Po
 include ./$(DEPDIR)/Observer.Po

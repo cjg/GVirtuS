@@ -133,6 +133,8 @@ libgvirtus_frontend_la-Frontend.lo: Frontend.cpp \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
  /usr/include/c++/4.8/bits/fstream.tcc \
  /home/cpalmieri/gvirtus-devel/gvirtus/util/Buffer.h \
+ /home/cpalmieri/gvirtus-devel/gvirtus/util/Observable.h \
+ /home/cpalmieri/gvirtus-devel/gvirtus/util/Observer.h \
  /home/cpalmieri/gvirtus-devel/gvirtus/util/ConfigFile.h
 
 /usr/include/stdc-predef.h:
@@ -466,5 +468,9 @@ Frontend.h:
 /usr/include/c++/4.8/bits/fstream.tcc:
 
 /home/cpalmieri/gvirtus-devel/gvirtus/util/Buffer.h:
+
+/home/cpalmieri/gvirtus-devel/gvirtus/util/Observable.h:
+
+/home/cpalmieri/gvirtus-devel/gvirtus/util/Observer.h:
 
 /home/cpalmieri/gvirtus-devel/gvirtus/util/ConfigFile.h:

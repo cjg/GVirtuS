@@ -45,6 +45,7 @@
 
 #include "Communicator.h"
 #include "gvirtus-type.h"
+#include "Observable.h"
 
 #define BLOCK_SIZE  4096
 
@@ -54,7 +55,7 @@
  * be created starting from an input stream and to be sent over an output
  * stream.
  */
-class Buffer {
+class Buffer: public Observable {
 public:
     Buffer(size_t initial_size = 0, size_t block_size = BLOCK_SIZE);
     Buffer(const Buffer& orig);
@@ -242,6 +243,7 @@ public:
     const char * const GetBuffer() const;
     size_t GetBufferSize() const;
     void Dump(Communicator * c) const;
+    
 private:
     size_t mBlockSize;
     size_t mSize;

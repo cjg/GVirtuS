@@ -9,6 +9,8 @@ Communicator.cpp\
 Communicator.h\
 ConfigFile.cpp\
 ConfigFile.h\
+MessageDispatcher.cpp\
+MessageDispatcher.h\
 Mutex.cpp\
 Mutex.h\
 Observable.cpp\
@@ -43,6 +45,7 @@ AfUnixCommunicator.h\
 Buffer.h\
 Communicator.h\
 ConfigFile.h\
+MessageDispatcher.h\
 Mutex.h\
 Observable.h\
 Observer.h\

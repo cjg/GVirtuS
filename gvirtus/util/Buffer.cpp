@@ -120,8 +120,19 @@ size_t Buffer::GetBufferSize() const {
 }
 
 void Buffer::Dump(Communicator * c) const {
+    /**
+     *  TO-DO scrivi al message dispatcher che stai per scrivere
+     *  acquisisci il lock
+     *  scrivi
+     *  md->write(communicator out, tid, mpBuffer, mLenght);
+     */
     c->Write((char *) & mLength, sizeof (size_t));
     c->Write(mpBuffer, mLength);
     c->Sync();
+    /**
+     * TO-DO rilascia il lock
+     * notifica 
+     * 
+     */
 }
 
