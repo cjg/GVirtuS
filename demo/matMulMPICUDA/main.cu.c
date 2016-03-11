@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
         extra = nra % numworkers;
         offset = 0;
         mtype = FROM_MASTER;
-        for (dest = 1; dest <= numworkers; dest++) {
+        for (dest = 2; dest <= numworkers; dest++) {
             rows = (dest <= extra) ? averow + 1 : averow;
 #ifdef DEBUG
             printf("Sending %d rows to task %d offset=%d\n", rows, dest, offset);
@@ -103,9 +103,24 @@ int main(int argc, char *argv[]) {
             offset = offset + rows;
         }
 
+	int block_size = 32;
+
+        dim3 dimsA;
+        dimsA.x = averow;
+        dimsA.y = nca;
+        dimsA.z = 1;
+        dim3 dimsB;
+        dimsB.x = nca;
+        dimsB.y = ncb;
+        dimsB.z = 1;
+
+        matrixMultiply(a, b, c, block_size, dimsA, dimsB);
+
+	
+
         /* Receive results from worker tasks */
         mtype = FROM_WORKER;
-        for (i = 1; i <= numworkers; i++) {
+        for (i = 2; i <= numworkers; i++) {
             source = i;
             MPI_Recv(&offset, 1, MPI_INT, source, mtype, MPI_COMM_WORLD, &status);
             MPI_Recv(&rows, 1, MPI_INT, source, mtype, MPI_COMM_WORLD, &status);
