@@ -49,12 +49,12 @@ int main(int argc, char *argv[]) {
     if (taskid == 0)
       printf("You can choose the size of matrixes calling %s rows_A cols_A rows_B\n\n", argv[0]);
 
-    if (numtasks < 2) {
+/*    if (numtasks < 2) {
         printf("Need at least two MPI tasks. Quitting...\n");
         MPI_Abort(MPI_COMM_WORLD, rc);
         exit(1);
     }
-
+*/
 
     if (argc == 4) {
         sscanf(argv[1], "%d", &nra);
