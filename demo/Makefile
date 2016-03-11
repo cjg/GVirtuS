@@ -1,9 +1,16 @@
 # Environment 
-all:
-	$(MAKE) -C matMulMPICUDA all
-	$(MAKE) -C matMulTHRCUDA all
+
+SUBDIRS = matMulMPICUDA matMulTHRCUDA
+
+
+subdirs: $(SUBDIRS)
+
+$(SUBDIRS):
+	$(MAKE) -C $@ 
 
 clean:
-	$(MAKE) -C matMulMPICUDA clean
-	$(MAKE) -C matMulTHRCUDA clean
+	for dir in $(SUBDIRS); do \
+          $(MAKE) -C $$dir clean; \
+	done 
 
+.PHONY: clean subdirs $(SUBDIRS)
