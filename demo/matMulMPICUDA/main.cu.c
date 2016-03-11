@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
             b[i * ncb + i] = 1;
 
         /* Send matrix data to the worker tasks */
-        averow = nra / numworkers;
+        averow = (numworkers > 0)?nra / numworkers:nra;
         extra = nra % numworkers;
         offset = 0;
         mtype = FROM_MASTER;
