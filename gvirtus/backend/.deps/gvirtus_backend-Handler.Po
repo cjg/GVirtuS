@@ -1,0 +1,3 @@
+gvirtus_backend-Handler.o: Handler.cpp /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:

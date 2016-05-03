@@ -101,6 +101,7 @@ void Buffer::Reset() {
 
 void Buffer::Reset(Communicator *c) {
     c->Read((char *) & mLength, sizeof (size_t));
+    std::cout<<"readed size of buffer "<<mLength<<std::endl;
     mOffset = 0;
     mBackOffset = mLength;
     if (mLength >= mSize) {

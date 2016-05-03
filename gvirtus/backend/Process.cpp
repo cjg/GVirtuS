@@ -122,6 +122,7 @@ void Process::Execute(void * arg) {
     string routine;
     Buffer * input_buffer = new Buffer();
     while (getstring(mpCommunicator, routine)) {
+        cout<< "Received routine "<<routine<<endl;
         input_buffer->Reset(mpCommunicator);
         Handler *h = NULL;
         for(vector<Handler *>::iterator i = mHandlers.begin();
