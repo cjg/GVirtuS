@@ -18,7 +18,7 @@ In the directory “GVirtuS” there are three directories named “gvirtus”, 
 “gvirtus.cudart” and "gvirtus.cudadr" contains the cuda runtime plugin and the cuda driver plugin.
 
 
-2) Generate config files and check dependencies
+2) Launch the installer script indicating the destination folder of the installation (es. "/home/rapid/opt"):
 
     ./gvirtus-installer "GVIRTUS_PATH"
 
