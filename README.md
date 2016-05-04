@@ -6,6 +6,15 @@ OS: Ubuntu 10.04 (tested) / 12.04 (tested) / 14.04 (tested)
 
 CUDA Toolkit: Version 6.5
 
+This package are required:
+    build-essential
+    gcc-4.4
+    autotools-dev
+    automake
+    libtool
+    mesa-common-dev
+    git
+
 ## Installation: ##
 1) Clone the GVirtuS main repository
 
