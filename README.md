@@ -85,7 +85,7 @@ GVIRTUS_PATH/etc/gvirtus.properties
     #   VMShm: vmshm://hostname:port
     
     communicator : tcp://localhost:9991 #change localhost with the host of backend machine if necessary
-    plugins : cudart
+    plugins : cudart, cudadr
     
     #
     # End Of File
