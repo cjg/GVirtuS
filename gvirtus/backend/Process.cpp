@@ -32,7 +32,7 @@
  *
  *
  */
-
+//#define DEBUG
 #include "Process.h"
 
 #include <iostream>
@@ -122,7 +122,9 @@ void Process::Execute(void * arg) {
     string routine;
     Buffer * input_buffer = new Buffer();
     while (getstring(mpCommunicator, routine)) {
+#ifdef DEBUG
         cout<< "Received routine "<<routine<<endl;
+#endif
         input_buffer->Reset(mpCommunicator);
         Handler *h = NULL;
         for(vector<Handler *>::iterator i = mHandlers.begin();

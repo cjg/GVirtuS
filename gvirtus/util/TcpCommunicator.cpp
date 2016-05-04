@@ -32,6 +32,7 @@
  *
  *
  */
+//#define DEBUG
 
 #include "TcpCommunicator.h"
 
@@ -165,7 +166,9 @@ void TcpCommunicator::Close() {
 
 size_t TcpCommunicator::Read(char* buffer, size_t size) {
     mpInput->read(buffer, size);
-    for (unsigned int i =0 ; i< size;i++) printf("%d LETTO %02X\n", i,buffer[i]);
+#ifdef DEBUG
+       for (unsigned int i =0 ; i< size;i++) printf("%d LETTO %02X\n", i,buffer[i]);
+#endif
     if (mpInput->bad() || mpInput->eof())
         return 0;
     return size;
@@ -173,7 +176,9 @@ size_t TcpCommunicator::Read(char* buffer, size_t size) {
 
 size_t TcpCommunicator::Write(const char* buffer, size_t size) {
     mpOutput->write(buffer, size);
-    for (unsigned int i =0 ; i< size;i++) printf("%d SCRITTO %02X \n",i,buffer[i]);
+#ifdef DEBUG
+      for (unsigned int i =0 ; i< size;i++) printf("%d SCRITTO %02X \n",i,buffer[i]);
+#endif
     return size;
 }
 

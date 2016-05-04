@@ -41,7 +41,6 @@ extern CUresult cuCtxCreate(CUcontext *pctx, unsigned int flags, CUdevice dev) {
     CudaDrFrontend::Execute("cuCtxCreate");
     if (CudaDrFrontend::Success()){
         *pctx = (CUcontext) (CudaDrFrontend::GetOutputDevicePointer());
-        std::cout<<"CtxCreate CuContext "<<pctx<<std::endl;
 
     }
     return (CUresult) (CudaDrFrontend::GetExitCode());

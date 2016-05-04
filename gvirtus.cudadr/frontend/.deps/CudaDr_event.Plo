@@ -26,7 +26,7 @@ CudaDr_event.lo: CudaDr_event.cpp /usr/include/stdc-predef.h \
  /usr/local/cuda/include/texture_types.h \
  /usr/local/cuda/include/vector_types.h \
  /usr/local/cuda/include/cuda_device_runtime_api.h \
- /home/cferraro/gvirtus-develDR/gvirtus.cudadr/util/CudaUtil.h \
+ /home/cferraro/Github/GVirtuS/gvirtus.cudadr/util/CudaUtil.h \
  /usr/include/c++/4.8/iostream /usr/include/c++/4.8/ostream \
  /usr/include/c++/4.8/ios /usr/include/c++/4.8/iosfwd \
  /usr/include/c++/4.8/bits/stringfwd.h \
@@ -106,11 +106,11 @@ CudaDr_event.lo: CudaDr_event.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/local/cuda/include/__cudaFatFormat.h \
- /home/cferraro/optDR/include/gvirtus/Buffer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/c++/4.8/typeinfo \
- /home/cferraro/optDR/include/gvirtus/Communicator.h \
- /home/cferraro/optDR/include/gvirtus/ConfigFile.h \
+ /home/cferraro/Github/opt/include/gvirtus/Communicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/ConfigFile.h \
  /usr/include/c++/4.8/vector /usr/include/c++/4.8/bits/stl_construct.h \
  /usr/include/c++/4.8/ext/alloc_traits.h \
  /usr/include/c++/4.8/bits/stl_uninitialized.h \
@@ -119,8 +119,8 @@ CudaDr_event.lo: CudaDr_event.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/4.8/bits/vector.tcc /usr/include/c++/4.8/map \
  /usr/include/c++/4.8/bits/stl_tree.h /usr/include/c++/4.8/bits/stl_map.h \
  /usr/include/c++/4.8/bits/stl_multimap.h \
- /home/cferraro/optDR/include/gvirtus/gvirtus-type.h \
- /home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h \
+ /home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h \
  /usr/include/x86_64-linux-gnu/sys/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
@@ -139,11 +139,11 @@ CudaDr_event.lo: CudaDr_event.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
  /usr/include/c++/4.8/bits/fstream.tcc \
- /home/cferraro/optDR/include/gvirtus/Buffer.h \
- /home/cferraro/optDR/include/gvirtus/Observable.h \
- /home/cferraro/optDR/include/gvirtus/Observer.h \
- /home/cferraro/optDR/include/gvirtus/Frontend.h /usr/include/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observable.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Frontend.h \
+ /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
  /usr/include/x86_64-linux-gnu/bits/unistd.h \
@@ -223,7 +223,7 @@ CudaDrFrontend.h:
 
 /usr/local/cuda/include/cuda_device_runtime_api.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus.cudadr/util/CudaUtil.h:
+/home/cferraro/Github/GVirtuS/gvirtus.cudadr/util/CudaUtil.h:
 
 /usr/include/c++/4.8/iostream:
 
@@ -421,7 +421,7 @@ CudaDrFrontend.h:
 
 /usr/local/cuda/include/__cudaFatFormat.h:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
@@ -429,9 +429,9 @@ CudaDrFrontend.h:
 
 /usr/include/c++/4.8/typeinfo:
 
-/home/cferraro/optDR/include/gvirtus/Communicator.h:
+/home/cferraro/Github/opt/include/gvirtus/Communicator.h:
 
-/home/cferraro/optDR/include/gvirtus/ConfigFile.h:
+/home/cferraro/Github/opt/include/gvirtus/ConfigFile.h:
 
 /usr/include/c++/4.8/vector:
 
@@ -455,9 +455,9 @@ CudaDrFrontend.h:
 
 /usr/include/c++/4.8/bits/stl_multimap.h:
 
-/home/cferraro/optDR/include/gvirtus/gvirtus-type.h:
+/home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h:
 
-/home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h:
+/home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h:
 
 /usr/include/x86_64-linux-gnu/sys/mman.h:
 
@@ -503,13 +503,13 @@ CudaDrFrontend.h:
 
 /usr/include/c++/4.8/bits/fstream.tcc:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:
 
-/home/cferraro/optDR/include/gvirtus/Observable.h:
+/home/cferraro/Github/opt/include/gvirtus/Observable.h:
 
-/home/cferraro/optDR/include/gvirtus/Observer.h:
+/home/cferraro/Github/opt/include/gvirtus/Observer.h:
 
-/home/cferraro/optDR/include/gvirtus/Frontend.h:
+/home/cferraro/Github/opt/include/gvirtus/Frontend.h:
 
 /usr/include/unistd.h:
 

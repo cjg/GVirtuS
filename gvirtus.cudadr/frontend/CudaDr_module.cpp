@@ -98,8 +98,6 @@ extern CUresult cuModuleLoadDataEx(CUmodule *module, const void *image, unsigned
         *module = (CUmodule) (CudaDrFrontend::GetOutputDevicePointer());
         int len_str;
         for (unsigned int i = 0; i < numOptions-1; i++) {
-
-                    std::cout<<"cuModuleLoadDataex Success "<<options[i]<<"  "<<i<<"   "<<numOptions<<"CU_JIT_ERROR_LOG_BUFFER->"<<CU_JIT_ERROR_LOG_BUFFER<< "   CU_JIT_INFO_LOG_BUFFER ->"<<CU_JIT_INFO_LOG_BUFFER<<std::endl;
             switch (options[i]) {
                 case CU_JIT_INFO_LOG_BUFFER:
                     len_str = CudaDrFrontend::GetOutputVariable<int>();

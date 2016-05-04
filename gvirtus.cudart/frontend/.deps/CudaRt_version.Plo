@@ -40,7 +40,7 @@ CudaRt_version.lo: CudaRt_version.cpp /usr/include/stdc-predef.h CudaRt.h \
  /usr/local/cuda/include/texture_types.h \
  /usr/local/cuda/include/vector_types.h \
  /usr/local/cuda/include/cuda_device_runtime_api.h \
- /home/cferraro/gvirtus-develDR/gvirtus.cudart/util/CudaUtil.h \
+ /home/cferraro/Github/GVirtuS/gvirtus.cudart/util/CudaUtil.h \
  /usr/include/c++/4.8/iostream \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
@@ -108,12 +108,12 @@ CudaRt_version.lo: CudaRt_version.cpp /usr/include/stdc-predef.h CudaRt.h \
  /usr/local/cuda/include/fatbinary.h /usr/local/cuda/include/fatbinary.h \
  /usr/local/cuda/include/texture_types.h \
  /usr/local/cuda/include/__cudaFatFormat.h \
- /home/cferraro/optDR/include/gvirtus/Buffer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/c++/4.8/typeinfo /usr/include/c++/4.8/cstring \
  /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
- /home/cferraro/optDR/include/gvirtus/Communicator.h \
- /home/cferraro/optDR/include/gvirtus/ConfigFile.h \
+ /home/cferraro/Github/opt/include/gvirtus/Communicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/ConfigFile.h \
  /usr/include/c++/4.8/vector /usr/include/c++/4.8/bits/stl_construct.h \
  /usr/include/c++/4.8/ext/alloc_traits.h \
  /usr/include/c++/4.8/bits/stl_uninitialized.h \
@@ -122,8 +122,8 @@ CudaRt_version.lo: CudaRt_version.cpp /usr/include/stdc-predef.h CudaRt.h \
  /usr/include/c++/4.8/bits/vector.tcc /usr/include/c++/4.8/map \
  /usr/include/c++/4.8/bits/stl_tree.h /usr/include/c++/4.8/bits/stl_map.h \
  /usr/include/c++/4.8/bits/stl_multimap.h \
- /home/cferraro/optDR/include/gvirtus/gvirtus-type.h \
- /home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h \
+ /home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h \
  /usr/include/x86_64-linux-gnu/sys/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
@@ -142,17 +142,17 @@ CudaRt_version.lo: CudaRt_version.cpp /usr/include/stdc-predef.h CudaRt.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
  /usr/include/c++/4.8/bits/fstream.tcc \
- /home/cferraro/optDR/include/gvirtus/Buffer.h \
- /home/cferraro/optDR/include/gvirtus/Observable.h \
- /home/cferraro/optDR/include/gvirtus/Observer.h CudaRtFrontend.h \
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observable.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observer.h CudaRtFrontend.h \
  /usr/include/c++/4.8/set /usr/include/c++/4.8/bits/stl_set.h \
  /usr/include/c++/4.8/bits/stl_multiset.h /usr/include/c++/4.8/stack \
  /usr/include/c++/4.8/deque /usr/include/c++/4.8/bits/stl_deque.h \
  /usr/include/c++/4.8/bits/deque.tcc \
  /usr/include/c++/4.8/bits/stl_stack.h /usr/include/c++/4.8/list \
  /usr/include/c++/4.8/bits/stl_list.h /usr/include/c++/4.8/bits/list.tcc \
- /home/cferraro/optDR/include/gvirtus/Frontend.h /usr/include/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /home/cferraro/Github/opt/include/gvirtus/Frontend.h \
+ /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
  /usr/include/x86_64-linux-gnu/bits/unistd.h \
@@ -261,7 +261,7 @@ CudaRt.h:
 
 /usr/local/cuda/include/cuda_device_runtime_api.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus.cudart/util/CudaUtil.h:
+/home/cferraro/Github/GVirtuS/gvirtus.cudart/util/CudaUtil.h:
 
 /usr/include/c++/4.8/iostream:
 
@@ -429,7 +429,7 @@ CudaRt.h:
 
 /usr/local/cuda/include/__cudaFatFormat.h:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
@@ -443,9 +443,9 @@ CudaRt.h:
 
 /usr/include/x86_64-linux-gnu/bits/string3.h:
 
-/home/cferraro/optDR/include/gvirtus/Communicator.h:
+/home/cferraro/Github/opt/include/gvirtus/Communicator.h:
 
-/home/cferraro/optDR/include/gvirtus/ConfigFile.h:
+/home/cferraro/Github/opt/include/gvirtus/ConfigFile.h:
 
 /usr/include/c++/4.8/vector:
 
@@ -469,9 +469,9 @@ CudaRt.h:
 
 /usr/include/c++/4.8/bits/stl_multimap.h:
 
-/home/cferraro/optDR/include/gvirtus/gvirtus-type.h:
+/home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h:
 
-/home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h:
+/home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h:
 
 /usr/include/x86_64-linux-gnu/sys/mman.h:
 
@@ -517,11 +517,11 @@ CudaRt.h:
 
 /usr/include/c++/4.8/bits/fstream.tcc:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:
 
-/home/cferraro/optDR/include/gvirtus/Observable.h:
+/home/cferraro/Github/opt/include/gvirtus/Observable.h:
 
-/home/cferraro/optDR/include/gvirtus/Observer.h:
+/home/cferraro/Github/opt/include/gvirtus/Observer.h:
 
 CudaRtFrontend.h:
 
@@ -547,7 +547,7 @@ CudaRtFrontend.h:
 
 /usr/include/c++/4.8/bits/list.tcc:
 
-/home/cferraro/optDR/include/gvirtus/Frontend.h:
+/home/cferraro/Github/opt/include/gvirtus/Frontend.h:
 
 /usr/include/unistd.h:
 

@@ -32,7 +32,7 @@
  *
  *
  */
-
+//#define DEBUG
 #include "CudaRtHandler.h"
 
 #include <cstring>
@@ -93,7 +93,9 @@ void CudaRtHandler::RegisterFatBinary(std::string& handler, void ** fatCubinHand
         mpFatBinary->erase(it);
     }
     mpFatBinary->insert(make_pair(handler, fatCubinHandle));
+#ifdef DEBUG
     cout << "Registered FatBinary " << fatCubinHandle << " with handler " << handler << endl;
+#endif
 }
 
 void CudaRtHandler::RegisterFatBinary(const char* handler, void ** fatCubinHandle) {
@@ -118,8 +120,9 @@ void CudaRtHandler::UnregisterFatBinary(std::string& handler) {
     if (it == mpFatBinary->end())
         return;
     /* FIXME: think about freeing memory */
-    cout << "Unregistered FatBinary " << it->second << " with handler "
-            << handler << endl;
+#ifdef DEBUG
+    cout << "Unregistered FatBinary " << it->second << " with handler "<< handler << endl;
+#endif
     mpFatBinary->erase(it);
 }
 
@@ -133,7 +136,9 @@ void CudaRtHandler::RegisterDeviceFunction(std::string & handler, std::string & 
     if (it != mpDeviceFunction->end())
         mpDeviceFunction->erase(it);
     mpDeviceFunction->insert(make_pair(handler, function));
+#ifdef DEBUG
     cout << "Registered DeviceFunction " << function << " with handler " << handler << endl;
+#endif
 }
 
 void CudaRtHandler::RegisterDeviceFunction(const char * handler, const char * function) {
@@ -158,7 +163,9 @@ const char *CudaRtHandler::GetDeviceFunction(const char * handler) {
 
 void CudaRtHandler::RegisterVar(string & handler, string & symbol) {
     mpVar->insert(make_pair(handler, symbol));
+#ifdef DEBUG
     cout << "Registered Var " << symbol << " with handler " << handler << endl;
+#endif
 }
 
 void CudaRtHandler::RegisterVar(const char* handler, const char* symbol) {
@@ -181,8 +188,9 @@ const char * CudaRtHandler::GetVar(const char* handler) {
 
 void CudaRtHandler::RegisterTexture(string& handler, textureReference* texref) {
     mpTexture->insert(make_pair(handler, texref));
-    cout << "Registered Texture " << texref << " with handler " << handler
-            << endl;
+#ifdef DEBUG
+    cout << "Registered Texture " << texref << " with handler " << handler<< endl;
+#endif
 }
 
  void CudaRtHandler::RegisterTexture(const char* handler,
@@ -193,8 +201,9 @@ void CudaRtHandler::RegisterTexture(string& handler, textureReference* texref) {
 
 void CudaRtHandler::RegisterSurface(string& handler, surfaceReference* surfref) {
     mpSurface->insert(make_pair(handler, surfref));
-    cout << "Registered Surface " << surfref << " with handler " << handler
-            << endl;
+#ifdef DEBUG
+    cout << "Registered Surface " << surfref << " with handler " << handler<< endl;
+#endif
 }
 
  void CudaRtHandler::RegisterSurface(const char* handler,

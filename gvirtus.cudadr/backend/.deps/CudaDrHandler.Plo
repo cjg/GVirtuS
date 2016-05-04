@@ -34,7 +34,7 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
  /usr/include/string.h /usr/include/xlocale.h \
  /usr/include/x86_64-linux-gnu/bits/string3.h \
- /home/cferraro/gvirtus-develDR/gvirtus.cudadr/util/CudaUtil.h \
+ /home/cferraro/Github/GVirtuS/gvirtus.cudadr/util/CudaUtil.h \
  /usr/include/c++/4.8/iostream /usr/include/c++/4.8/ostream \
  /usr/include/c++/4.8/ios /usr/include/c++/4.8/iosfwd \
  /usr/include/c++/4.8/bits/stringfwd.h \
@@ -113,10 +113,10 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/local/cuda/include/__cudaFatFormat.h \
- /home/cferraro/optDR/include/gvirtus/Buffer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h \
  /usr/include/c++/4.8/typeinfo \
- /home/cferraro/optDR/include/gvirtus/Communicator.h \
- /home/cferraro/optDR/include/gvirtus/ConfigFile.h \
+ /home/cferraro/Github/opt/include/gvirtus/Communicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/ConfigFile.h \
  /usr/include/c++/4.8/vector /usr/include/c++/4.8/bits/stl_construct.h \
  /usr/include/c++/4.8/ext/alloc_traits.h \
  /usr/include/c++/4.8/bits/stl_uninitialized.h \
@@ -125,8 +125,8 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/4.8/bits/vector.tcc /usr/include/c++/4.8/map \
  /usr/include/c++/4.8/bits/stl_tree.h /usr/include/c++/4.8/bits/stl_map.h \
  /usr/include/c++/4.8/bits/stl_multimap.h \
- /home/cferraro/optDR/include/gvirtus/gvirtus-type.h \
- /home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h \
+ /home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h \
  /usr/include/x86_64-linux-gnu/sys/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
@@ -145,17 +145,17 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
  /usr/include/c++/4.8/bits/fstream.tcc \
- /home/cferraro/optDR/include/gvirtus/Buffer.h \
- /home/cferraro/optDR/include/gvirtus/Observable.h \
- /home/cferraro/optDR/include/gvirtus/Observer.h CudaDrHandler.h \
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observable.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observer.h CudaDrHandler.h \
  /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
  /usr/include/x86_64-linux-gnu/bits/unistd.h \
- /home/cferraro/optDR/include/gvirtus/Result.h \
+ /home/cferraro/Github/opt/include/gvirtus/Result.h \
  /usr/local/cuda/include/cuda.h \
- /home/cferraro/optDR/include/gvirtus/Handler.h \
- /home/cferraro/optDR/include/gvirtus/Result.h
+ /home/cferraro/Github/opt/include/gvirtus/Handler.h \
+ /home/cferraro/Github/opt/include/gvirtus/Result.h
 
 /usr/include/stdc-predef.h:
 
@@ -239,7 +239,7 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
 
 /usr/include/x86_64-linux-gnu/bits/string3.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus.cudadr/util/CudaUtil.h:
+/home/cferraro/Github/GVirtuS/gvirtus.cudadr/util/CudaUtil.h:
 
 /usr/include/c++/4.8/iostream:
 
@@ -435,13 +435,13 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
 
 /usr/local/cuda/include/__cudaFatFormat.h:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:
 
 /usr/include/c++/4.8/typeinfo:
 
-/home/cferraro/optDR/include/gvirtus/Communicator.h:
+/home/cferraro/Github/opt/include/gvirtus/Communicator.h:
 
-/home/cferraro/optDR/include/gvirtus/ConfigFile.h:
+/home/cferraro/Github/opt/include/gvirtus/ConfigFile.h:
 
 /usr/include/c++/4.8/vector:
 
@@ -465,9 +465,9 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
 
 /usr/include/c++/4.8/bits/stl_multimap.h:
 
-/home/cferraro/optDR/include/gvirtus/gvirtus-type.h:
+/home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h:
 
-/home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h:
+/home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h:
 
 /usr/include/x86_64-linux-gnu/sys/mman.h:
 
@@ -513,11 +513,11 @@ CudaDrHandler.lo: CudaDrHandler.cpp /usr/include/stdc-predef.h \
 
 /usr/include/c++/4.8/bits/fstream.tcc:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:
 
-/home/cferraro/optDR/include/gvirtus/Observable.h:
+/home/cferraro/Github/opt/include/gvirtus/Observable.h:
 
-/home/cferraro/optDR/include/gvirtus/Observer.h:
+/home/cferraro/Github/opt/include/gvirtus/Observer.h:
 
 CudaDrHandler.h:
 
@@ -533,10 +533,10 @@ CudaDrHandler.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd.h:
 
-/home/cferraro/optDR/include/gvirtus/Result.h:
+/home/cferraro/Github/opt/include/gvirtus/Result.h:
 
 /usr/local/cuda/include/cuda.h:
 
-/home/cferraro/optDR/include/gvirtus/Handler.h:
+/home/cferraro/Github/opt/include/gvirtus/Handler.h:
 
-/home/cferraro/optDR/include/gvirtus/Result.h:
+/home/cferraro/Github/opt/include/gvirtus/Result.h:

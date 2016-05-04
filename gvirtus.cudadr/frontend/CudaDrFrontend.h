@@ -22,7 +22,7 @@
  * Written by: Flora Giannone <flora.giannone@studenti.uniparthenope.it>,
  *             Department of Applied Science
  */
-
+//#define DEBUG
 #ifndef CUDADRFRONTEND_H
 #define	CUDADRFRONTEND_H
 
@@ -36,7 +36,9 @@ class CudaDrFrontend {
 public:
 
     static inline void Execute(const char *routine, const Buffer *input_buffer = NULL) {
+#ifdef DEBUG
         std::cout<<"Called "<<routine<<std::endl;
+#endif
         Frontend::GetFrontend()->Execute(routine, input_buffer);
     }
 

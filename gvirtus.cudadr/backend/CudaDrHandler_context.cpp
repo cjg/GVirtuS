@@ -36,7 +36,6 @@ CUDA_DRIVER_HANDLER(CtxCreate) {
     CUresult exit_code = cuCtxCreate(&pctx, flags, dev);
     Buffer *out = new Buffer();
     out->AddMarshal(pctx);
-    std::cout<<"CtxCreate CuContext "<<pctx<<std::endl;
     return new Result((cudaError_t) exit_code, out);
 }
 
@@ -67,7 +66,6 @@ CUDA_DRIVER_HANDLER(CtxDetach) {
 
 /*Returns the device ID for the current context.*/
 CUDA_DRIVER_HANDLER(CtxGetDevice) {
-    std::cout<<"CtxGetDeviceCalled"<<std::endl;
     CUdevice *device = input_buffer->Assign<CUdevice > ();
     CUresult exit_code = cuCtxGetDevice(device);
     Buffer *out = new Buffer();

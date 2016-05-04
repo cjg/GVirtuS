@@ -150,7 +150,7 @@ CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -E
-CPPFLAGS =   -I/home/cferraro/gvirtus-develDR/gvirtus/util -I/home/cferraro/gvirtus-develDR/gvirtus/frontend -I/home/cferraro/gvirtus-develDR/gvirtus/backend -D_PLUGINS_DIR=\"${exec_prefix}/lib/backend\" -D_CONFIG_FILE=\"${prefix}/etc/gvirtus.properties\"
+CPPFLAGS =   -I/home/cferraro/Github/GVirtuS/gvirtus/util -I/home/cferraro/Github/GVirtuS/gvirtus/frontend -I/home/cferraro/Github/GVirtuS/gvirtus/backend -D_PLUGINS_DIR=\"${exec_prefix}/lib/backend\" -D_CONFIG_FILE=\"${prefix}/etc/gvirtus.properties\"
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
@@ -204,10 +204,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = strip
 VERSION = 01-beta2
-abs_builddir = /home/cferraro/gvirtus-develDR/gvirtus/conf
-abs_srcdir = /home/cferraro/gvirtus-develDR/gvirtus/conf
-abs_top_builddir = /home/cferraro/gvirtus-develDR/gvirtus
-abs_top_srcdir = /home/cferraro/gvirtus-develDR/gvirtus
+abs_builddir = /home/cferraro/Github/GVirtuS/gvirtus/conf
+abs_srcdir = /home/cferraro/Github/GVirtuS/gvirtus/conf
+abs_top_builddir = /home/cferraro/Github/GVirtuS/gvirtus
+abs_top_srcdir = /home/cferraro/Github/GVirtuS/gvirtus
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -237,7 +237,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/cferraro/gvirtus-develDR/gvirtus/install-sh
+install_sh = ${SHELL} /home/cferraro/Github/GVirtuS/gvirtus/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -246,7 +246,7 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/cferraro/optDR
+prefix = /home/cferraro/Github/opt
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin

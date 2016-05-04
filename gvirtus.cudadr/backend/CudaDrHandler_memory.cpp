@@ -43,7 +43,6 @@ CUDA_DRIVER_HANDLER(MemAlloc) {
     CUdeviceptr dptr = 0;
     size_t bytesize = input_buffer->Get<size_t > ();
     CUresult exit_code = cuMemAlloc(&dptr, bytesize);
-    cout << "Allocated DevicePointer " << dptr << " with a size of " << bytesize<< endl;
     Buffer *out = new Buffer();
     out->AddMarshal(dptr);
     return new Result((cudaError_t) exit_code, out);
@@ -116,9 +115,6 @@ CUDA_DRIVER_HANDLER(MemAllocPitch) {
     size_t Height = input_buffer->Get<size_t > ();
     unsigned int ElementSizeBytes = input_buffer->Get<unsigned int>();
     CUresult exit_code = cuMemAllocPitch(&dptr, &pitch, WidthInBytes, Height, ElementSizeBytes);
-
-    cout << "Allocated DevicePointer " << dptr << " with a size of " << WidthInBytes * Height
-            << endl;
     Buffer *out = new Buffer();
     out->AddMarshal(dptr);
     out->Add(pitch);

@@ -243,7 +243,7 @@ private:
     Buffer * mpLaunchBuffer;
     int mExitCode;
     static map<pthread_t, Frontend*> *mpFrontends;
-    bool mpInitialized = false;
+    bool mpInitialized;
 };
 
 #endif	/* _FRONTEND_H */

@@ -32,7 +32,7 @@
  *
  *
  */
-
+//#define DEBUG
 #include "Buffer.h"
 
 using namespace std;
@@ -101,7 +101,9 @@ void Buffer::Reset() {
 
 void Buffer::Reset(Communicator *c) {
     c->Read((char *) & mLength, sizeof (size_t));
+#ifdef DEBUG
     std::cout<<"readed size of buffer "<<mLength<<std::endl;
+#endif
     mOffset = 0;
     mBackOffset = mLength;
     if (mLength >= mSize) {

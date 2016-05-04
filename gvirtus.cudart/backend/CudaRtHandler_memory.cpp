@@ -30,7 +30,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-
+//#define DEBUG
 using namespace std;
 
 CUDA_ROUTINE_HANDLER(Free) {
@@ -108,7 +108,9 @@ CUDA_ROUTINE_HANDLER(MallocManaged) {
         size_t size = input_buffer->Get<size_t > ();
         unsigned flags = input_buffer->Get<unsigned > ();
         cudaError_t exit_code = cudaMallocManaged(&devPtr, size, flags);
+#ifdef DEBUG
         std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << size << std::endl;
+#endif
         Buffer *out = new Buffer();
         out->AddMarshal(devPtr);
         return new Result(exit_code, out);
@@ -158,7 +160,9 @@ CUDA_ROUTINE_HANDLER(Malloc) {
     try {
         size_t size = input_buffer->Get<size_t > ();
         cudaError_t exit_code = cudaMalloc(&devPtr, size);
+#ifdef DEBUG
         std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << size << std::endl;
+#endif
         Buffer *out = new Buffer();
         out->AddMarshal(devPtr);
         return new Result(exit_code, out);
@@ -204,7 +208,9 @@ CUDA_ROUTINE_HANDLER(MallocPitch) {
         size_t width = input_buffer->Get<size_t > ();
         size_t height = input_buffer->Get<size_t > ();
         cudaError_t exit_code = cudaMallocPitch(&devPtr, &pitch, width, height);
+#ifdef DEBUG
         std::cout << "Allocated DevicePointer " << devPtr << " with a size of " << width * height << std::endl;
+#endif
         Buffer *out = new Buffer();
         out->AddMarshal(devPtr);
         out->Add(pitch);

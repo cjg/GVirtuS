@@ -268,8 +268,8 @@ private :
     static set <const void*>* devicePointers;
     static map <pthread_t, stack<void*> *>* toManage;
     static list <configureFunction>* setup;
-    Buffer * mpInputBuffer = NULL;
-    bool configured = false;
+    Buffer * mpInputBuffer;
+    bool configured;
     
 };
 

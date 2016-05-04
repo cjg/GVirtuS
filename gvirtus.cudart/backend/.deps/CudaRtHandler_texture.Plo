@@ -116,9 +116,9 @@ CudaRtHandler_texture.lo: CudaRtHandler_texture.cpp \
  /usr/local/cuda/include/texture_types.h \
  /usr/local/cuda/include/vector_types.h \
  /usr/local/cuda/include/cuda_device_runtime_api.h \
- /home/cferraro/optDR/include/gvirtus/Handler.h \
- /home/cferraro/optDR/include/gvirtus/Result.h \
- /home/cferraro/optDR/include/gvirtus/Buffer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Handler.h \
+ /home/cferraro/Github/opt/include/gvirtus/Result.h \
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/c++/4.8/cstdlib /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
@@ -128,30 +128,30 @@ CudaRtHandler_texture.lo: CudaRtHandler_texture.cpp \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/4.8/typeinfo /usr/include/c++/4.8/cstring \
  /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
- /home/cferraro/optDR/include/gvirtus/Communicator.h \
- /home/cferraro/optDR/include/gvirtus/ConfigFile.h \
+ /home/cferraro/Github/opt/include/gvirtus/Communicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/ConfigFile.h \
  /usr/include/c++/4.8/vector /usr/include/c++/4.8/bits/stl_construct.h \
  /usr/include/c++/4.8/ext/alloc_traits.h \
  /usr/include/c++/4.8/bits/stl_uninitialized.h \
  /usr/include/c++/4.8/bits/stl_vector.h \
  /usr/include/c++/4.8/bits/stl_bvector.h \
  /usr/include/c++/4.8/bits/vector.tcc \
- /home/cferraro/optDR/include/gvirtus/gvirtus-type.h \
- /home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h \
+ /home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h \
+ /home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h \
  /usr/include/c++/4.8/ext/stdio_filebuf.h /usr/include/c++/4.8/fstream \
  /usr/include/c++/4.8/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
  /usr/include/c++/4.8/bits/fstream.tcc \
- /home/cferraro/optDR/include/gvirtus/Observable.h \
- /home/cferraro/optDR/include/gvirtus/Observer.h \
- /home/cferraro/optDR/include/gvirtus/Result.h \
- /home/cferraro/gvirtus-develDR/gvirtus.cudart/util/CudaUtil.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observable.h \
+ /home/cferraro/Github/opt/include/gvirtus/Observer.h \
+ /home/cferraro/Github/opt/include/gvirtus/Result.h \
+ /home/cferraro/Github/GVirtuS/gvirtus.cudart/util/CudaUtil.h \
  /usr/local/cuda/include/fatBinaryCtl.h \
  /usr/local/cuda/include/fatbinary.h /usr/local/cuda/include/fatbinary.h \
  /usr/local/cuda/include/texture_types.h \
  /usr/local/cuda/include/__cudaFatFormat.h \
- /home/cferraro/optDR/include/gvirtus/Buffer.h
+ /home/cferraro/Github/opt/include/gvirtus/Buffer.h
 
 /usr/include/stdc-predef.h:
 
@@ -443,11 +443,11 @@ CudaRtHandler.h:
 
 /usr/local/cuda/include/cuda_device_runtime_api.h:
 
-/home/cferraro/optDR/include/gvirtus/Handler.h:
+/home/cferraro/Github/opt/include/gvirtus/Handler.h:
 
-/home/cferraro/optDR/include/gvirtus/Result.h:
+/home/cferraro/Github/opt/include/gvirtus/Result.h:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
@@ -477,9 +477,9 @@ CudaRtHandler.h:
 
 /usr/include/x86_64-linux-gnu/bits/string3.h:
 
-/home/cferraro/optDR/include/gvirtus/Communicator.h:
+/home/cferraro/Github/opt/include/gvirtus/Communicator.h:
 
-/home/cferraro/optDR/include/gvirtus/ConfigFile.h:
+/home/cferraro/Github/opt/include/gvirtus/ConfigFile.h:
 
 /usr/include/c++/4.8/vector:
 
@@ -495,9 +495,9 @@ CudaRtHandler.h:
 
 /usr/include/c++/4.8/bits/vector.tcc:
 
-/home/cferraro/optDR/include/gvirtus/gvirtus-type.h:
+/home/cferraro/Github/opt/include/gvirtus/gvirtus-type.h:
 
-/home/cferraro/optDR/include/gvirtus/AfUnixCommunicator.h:
+/home/cferraro/Github/opt/include/gvirtus/AfUnixCommunicator.h:
 
 /usr/include/c++/4.8/ext/stdio_filebuf.h:
 
@@ -511,13 +511,13 @@ CudaRtHandler.h:
 
 /usr/include/c++/4.8/bits/fstream.tcc:
 
-/home/cferraro/optDR/include/gvirtus/Observable.h:
+/home/cferraro/Github/opt/include/gvirtus/Observable.h:
 
-/home/cferraro/optDR/include/gvirtus/Observer.h:
+/home/cferraro/Github/opt/include/gvirtus/Observer.h:
 
-/home/cferraro/optDR/include/gvirtus/Result.h:
+/home/cferraro/Github/opt/include/gvirtus/Result.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus.cudart/util/CudaUtil.h:
+/home/cferraro/Github/GVirtuS/gvirtus.cudart/util/CudaUtil.h:
 
 /usr/local/cuda/include/fatBinaryCtl.h:
 
@@ -529,4 +529,4 @@ CudaRtHandler.h:
 
 /usr/local/cuda/include/__cudaFatFormat.h:
 
-/home/cferraro/optDR/include/gvirtus/Buffer.h:
+/home/cferraro/Github/opt/include/gvirtus/Buffer.h:

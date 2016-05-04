@@ -67,7 +67,6 @@ CUDA_DRIVER_HANDLER(ModuleGetGlobal) {
 
 /*Load a module's data with options.*/
 CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
-    std::cout<<"cuModuleLoadDataEx handle->"<<std::endl;
     CUmodule module;
     unsigned int numOptions = input_buffer->Get<unsigned int>();
     CUjit_option *options = input_buffer->AssignAll<CUjit_option > ();
@@ -75,9 +74,7 @@ CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
     void **optionValues = new void*[numOptions];
     int log_buffer_size_bytes = 1024;
     int error_log_buffer_size_bytes = 1024;
-    std::cout<<"cuModuleLoadDataEx numOptions->"<<numOptions<<std::endl;
     for (unsigned int i = 0; i < numOptions; i++) {
-        std::cout<<"Options di ["<<i<<"] = "<<options[i]<<std::endl;
         switch (options[i]) {
             case CU_JIT_INFO_LOG_BUFFER:
                 *(optionValues + i) = input_buffer->Assign<char>();
@@ -90,7 +87,6 @@ CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
             case CU_JIT_INFO_LOG_BUFFER_SIZE_BYTES:
                 log_buffer_size_bytes = (*(input_buffer->Assign<unsigned int>()));
                 optionValues[i] = (void *) log_buffer_size_bytes;
-                std::cout<<"optionValues buffer size is "<<optionValues[i]<<std::endl;
                 break;
             case CU_JIT_ERROR_LOG_BUFFER_SIZE_BYTES:
                 error_log_buffer_size_bytes = (*(input_buffer->Assign<unsigned int>()));
@@ -98,21 +94,17 @@ CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
                 break;
             default:   
                 optionValues[i] = (void *) (*(input_buffer->Assign<unsigned int>()));
-                 std::cout<<"Default status"<<std::endl;
         }
     }
     CUresult exit_code = cuModuleLoadDataEx(&module, image, numOptions, options, optionValues);
     Buffer * out = new Buffer();
     out->AddMarshal(module);
-    std::cout<<"valore module: "<<module<<std::endl;
     for (unsigned int i = 0; i < numOptions; i++) {
-        std::cout<<"cuModuleLoadDataEx numOptions->"<<numOptions<<"  i->"<<i<<"  options[i]->"<<options[i]<<"  optionValues[i]->"<<optionValues[i]<<std::endl;
         if (options[i] == CU_JIT_INFO_LOG_BUFFER || options[i] == CU_JIT_ERROR_LOG_BUFFER) {
             int len_string = strlen((char *) (optionValues[i]));
             out->Add<int>(len_string);
             out->Add((char *) (optionValues[i]), len_string);
         } else{
-            std::cout<<"cuModuleLoadDataEx option-> "<<optionValues[i]<<std::endl;
             out->Add(&optionValues[i]);
 
         }
@@ -127,7 +119,6 @@ CUDA_DRIVER_HANDLER(ModuleGetTexRef) {
     char *name = input_buffer->AssignString();
     CUmodule hmod = input_buffer->Get<CUmodule > ();
     CUresult exit_code = cuModuleGetTexRef(&pTexRef, hmod, name);
-    printf("DEBUG : %p\n", (void*) pTexRef);
     Buffer * out = new Buffer();
     out->AddMarshal(pTexRef);
     return new Result((cudaError_t) exit_code, out);

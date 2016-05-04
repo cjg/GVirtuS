@@ -83,7 +83,7 @@ libgvirtus_frontend_la-Frontend.lo: Frontend.cpp \
  /usr/include/x86_64-linux-gnu/asm/unistd.h \
  /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
  /usr/include/x86_64-linux-gnu/bits/syscall.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/Communicator.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/Communicator.h \
  /usr/include/c++/4.8/iostream /usr/include/c++/4.8/ostream \
  /usr/include/c++/4.8/ios /usr/include/c++/4.8/bits/ios_base.h \
  /usr/include/c++/4.8/bits/locale_classes.h \
@@ -99,8 +99,8 @@ libgvirtus_frontend_la-Frontend.lo: Frontend.cpp \
  /usr/include/c++/4.8/bits/basic_ios.tcc \
  /usr/include/c++/4.8/bits/ostream.tcc /usr/include/c++/4.8/istream \
  /usr/include/c++/4.8/bits/istream.tcc \
- /home/cferraro/gvirtus-develDR/gvirtus/util/ConfigFile.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/Buffer.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/ConfigFile.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/Buffer.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/c++/4.8/cstdlib /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
@@ -110,9 +110,9 @@ libgvirtus_frontend_la-Frontend.lo: Frontend.cpp \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/4.8/typeinfo /usr/include/c++/4.8/cstring \
  /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/Communicator.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/gvirtus-type.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/AfUnixCommunicator.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/Communicator.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/gvirtus-type.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/AfUnixCommunicator.h \
  /usr/include/x86_64-linux-gnu/sys/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
@@ -132,10 +132,10 @@ libgvirtus_frontend_la-Frontend.lo: Frontend.cpp \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
  /usr/include/c++/4.8/bits/fstream.tcc \
- /home/cferraro/gvirtus-develDR/gvirtus/util/Buffer.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/Observable.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/Observer.h \
- /home/cferraro/gvirtus-develDR/gvirtus/util/ConfigFile.h
+ /home/cferraro/Github/GVirtuS/gvirtus/util/Buffer.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/Observable.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/Observer.h \
+ /home/cferraro/Github/GVirtuS/gvirtus/util/ConfigFile.h
 
 /usr/include/stdc-predef.h:
 
@@ -341,7 +341,7 @@ Frontend.h:
 
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/Communicator.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/Communicator.h:
 
 /usr/include/c++/4.8/iostream:
 
@@ -383,9 +383,9 @@ Frontend.h:
 
 /usr/include/c++/4.8/bits/istream.tcc:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/ConfigFile.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/ConfigFile.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/Buffer.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/Buffer.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
@@ -415,11 +415,11 @@ Frontend.h:
 
 /usr/include/x86_64-linux-gnu/bits/string3.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/Communicator.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/Communicator.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/gvirtus-type.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/gvirtus-type.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/AfUnixCommunicator.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/AfUnixCommunicator.h:
 
 /usr/include/x86_64-linux-gnu/sys/mman.h:
 
@@ -467,10 +467,10 @@ Frontend.h:
 
 /usr/include/c++/4.8/bits/fstream.tcc:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/Buffer.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/Buffer.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/Observable.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/Observable.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/Observer.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/Observer.h:
 
-/home/cferraro/gvirtus-develDR/gvirtus/util/ConfigFile.h:
+/home/cferraro/Github/GVirtuS/gvirtus/util/ConfigFile.h:
