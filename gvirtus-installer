@@ -1,0 +1,33 @@
+#! /bin/bash
+set -e
+
+
+if [ $# -ne 1 ]; then
+    echo  usage: $0 "<path-of-installation-folder>"
+    exit 1
+fi
+
+INSTALL_FOLDER=$1
+echo $INSTALL_FOLDER
+cd gvirtus
+#make clean
+./autogen.sh --prefix="${INSTALL_FOLDER}"
+make
+make install
+cd ..
+cd gvirtus.cudart
+#make clean
+./autogen.sh --prefix="${INSTALL_FOLDER}"
+make
+make install
+cd ..
+cd gvirtus.cudadr
+#make clean
+./autogen.sh --prefix="${INSTALL_FOLDER}"
+make
+make install
+cd $INSTALL_FOLDER/lib/frontend
+ln -sf libcudart.so.6.5.14 libcudart.so.6.5
+echo
+echo
+echo INSTALLATION COMPLETED!
