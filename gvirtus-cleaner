@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+cd gvirtus
+make clean
+cd ..
+cd gvirtus.cudart
+make clean
+cd ..
+cd gvirtus.cudadr
+make clean
