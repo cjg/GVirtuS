@@ -17,6 +17,6 @@ CudaDr_event.cpp\
 CudaDr_texture.cpp
 
 libcuda_la_LIBADD = -lgvirtus-frontend -lrt 
-libcuda_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libcudautil.a -version-info 1:0:0
+libcuda_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libcudautil.a -Wl,--no-whole-archive -version-info 1:0:0
 
 

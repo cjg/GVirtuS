@@ -19,6 +19,6 @@ CudaRt_thread.cpp\
 CudaRt_version.cpp
 
 libcudart_la_LIBADD = -lgvirtus-frontend -lrt
-libcudart_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libcudautil.a -version-info 11:14:5
+libcudart_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libcudautil.a -Wl,--no-whole-archive -version-info 11:14:5
 
 
