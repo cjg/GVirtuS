@@ -53,6 +53,10 @@
 #include "Result.h"
 #include "CudaUtil.h"
 
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
+
 //#define DEBUG
 
 /**						
@@ -104,6 +108,7 @@ public:
     const char *GetSymbol(Buffer * in);
 
 private:
+    log4cplus::Logger logger;
     void Initialize();
     typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
     static std::map<std::string, CudaRoutineHandler> * mspHandlers;
@@ -253,6 +258,10 @@ CUDA_ROUTINE_HANDLER(ThreadSynchronize);
 /* CudaRtHandler_version */
 CUDA_ROUTINE_HANDLER(DriverGetVersion);
 CUDA_ROUTINE_HANDLER(RuntimeGetVersion);
+
+/* Occupancy */
+CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor);
+CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessorWithFlags);
 
 #endif	/* _CUDARTHANDLER_H */
 
