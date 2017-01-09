@@ -43,6 +43,10 @@
 #include "Communicator.h"
 #include "Handler.h"
 
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
+
 /**
  * Process is the object used by the Backend to handle the request from a single
  * Frontend.
@@ -54,6 +58,7 @@ public:
     void Setup();
     void Execute(void * arg);
 private:
+    log4cplus::Logger logger;
     Communicator * mpCommunicator;
     std::vector<std::string> mPlugins;
     std::vector<Handler *> mHandlers;
