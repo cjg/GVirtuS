@@ -75,6 +75,12 @@
 #include "Communicator.h"
 #include "Backend.h"
 
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
+
+using namespace log4cplus;
+
 using namespace std;
 
 vector<string> split(const string& s, const string& f) {
@@ -97,21 +103,33 @@ vector<string> split(const string& s, const string& f) {
     return temp;
 }
 
+Logger logger;
+
 int main(int argc, char** argv) {
+    initialize();
+    BasicConfigurator config;
+    config.configure();
+    logger=Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS-8.0"));
+    LOG4CPLUS_INFO(logger, "GVirtuS backend version 8.0" );
     string conf = _CONFIG_FILE;
     if (argc == 2)
         conf = string(argv[1]);
     try {
+        LOG4CPLUS_INFO(logger, "Configuration:" << conf.c_str() );
         ConfigFile *cf = new ConfigFile(conf.c_str());
         Communicator *c = Communicator::Get(cf->Get("communicator"));
         vector<string> plugins = split(cf->Get("plugins"), ",");
         Backend b(plugins);
+        LOG4CPLUS_INFO(logger, "Up and running" );
         b.Start(c);
         delete c;
+        LOG4CPLUS_INFO(logger, "Shutdown" );
     } catch (string &e) {
-        cerr << "Exception: " << e << endl;
+        //cerr << "Exception: " << e << endl;
+        LOG4CPLUS_ERROR(logger, "Exception: " << e);
     } catch (const char *e) {
-        cerr << "Exception: " << e << endl;
+        //cerr << "Exception: " << e << endl;
+        LOG4CPLUS_ERROR(logger, "Exception: " << e);
     }
     return 0;
 }
