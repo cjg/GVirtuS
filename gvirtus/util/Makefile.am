@@ -36,7 +36,11 @@ VMSocketCommunicator.h\
 VirtioCommunicator.cpp\
 VirtioCommunicator.h\
 VmciCommunicator.cpp\
-VmciCommunicator.h
+VmciCommunicator.h\
+Decoder.cpp\
+Decoder.h\
+Encoder.cpp\
+Encoder.h
 
 libutil_includedir=$(includedir)/gvirtus
 libutil_include_HEADERS= \
@@ -56,6 +60,8 @@ TcpCommunicator.h\
 Thread.h\
 Util.h\
 VMShmCommunicator.h\
-VmciCommunicator.h
+VmciCommunicator.h\
+Decoder.h\
+Encoder.h
 
 AM_CXXFLAGS=-fPIC
