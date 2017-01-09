@@ -29,7 +29,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "Decoder.h"
+
 using namespace std;
+using namespace log4cplus;
 
 /*Load a module's data. */
 CUDA_DRIVER_HANDLER(ModuleLoadData) {
@@ -67,6 +70,10 @@ CUDA_DRIVER_HANDLER(ModuleGetGlobal) {
 
 /*Load a module's data with options.*/
 CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ModuleLoadDataEx"));
+    //std::cout <<"Start CULAUNCHKERNEL"<<std::endl;
+    LOG4CPLUS_DEBUG(logger,"Start ModuleLoadDataEx");
+    
     CUmodule module;
     unsigned int numOptions = input_buffer->Get<unsigned int>();
     CUjit_option *options = input_buffer->AssignAll<CUjit_option > ();
@@ -110,6 +117,7 @@ CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
         }
            
     }
+    LOG4CPLUS_DEBUG(logger,"End ModuleLoadDataEx");
     return new Result((cudaError_t) exit_code, out);
 }
 
@@ -123,3 +131,48 @@ CUDA_DRIVER_HANDLER(ModuleGetTexRef) {
     out->AddMarshal(pTexRef);
     return new Result((cudaError_t) exit_code, out);
 }
+
+/*Load a module's data with options.*/
+CUDA_DRIVER_HANDLER(ModuleLoad) {
+    Decoder *decoder=new Decoder();
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ModuleLoad"));
+    LOG4CPLUS_DEBUG(logger,"Start ModuleLoad");
+    char *fname=input_buffer->AssignString();
+    LOG4CPLUS_DEBUG(logger,"Module name:" << fname);
+    char *moduleLoad=input_buffer->AssignString();
+    LOG4CPLUS_DEBUG(logger,"Calling decoder->Decode");
+    std::istringstream iss(moduleLoad);
+    fstream fout;
+    fout.open("/tmp/file.bin", ios::binary | ios::out);
+    decoder->Decode(iss,fout); 
+    fout.close();
+    CUmodule module;
+    CUresult exit_code = cuModuleLoad(&module,"/tmp/file.bin");	
+    Buffer * out = new Buffer();
+    out->AddMarshal(module);
+    return new Result((cudaError_t) exit_code, out);
+}
+
+/*Load a module's data with options.*/
+CUDA_DRIVER_HANDLER(ModuleLoadFatBinary) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ModuleLoadFatBinary"));
+    LOG4CPLUS_DEBUG(logger,"Start ModuleLoadFatBinary");
+    char *fname=input_buffer->AssignString();
+    LOG4CPLUS_DEBUG(logger,"Module name:" << fname);
+    CUmodule module;
+    CUresult exit_code = cuModuleLoadFatBinary(&module,fname);
+    Buffer * out = new Buffer();
+    out->AddMarshal(module);
+    return new Result((cudaError_t) exit_code, out);
+}
+
+/*Load a module's data with options.*/
+CUDA_DRIVER_HANDLER(ModuleUnload) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ModuleUnLoad"));
+    LOG4CPLUS_DEBUG(logger,"Start ModuleUnLoad");
+    CUmodule module=input_buffer->Get<CUmodule> ();
+    Buffer * out = new Buffer();
+    CUresult exit_code = cuModuleUnload(module);
+    return new Result((cudaError_t) exit_code, out);
+}
+
