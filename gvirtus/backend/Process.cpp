@@ -42,9 +42,11 @@
 #include <dlfcn.h>
 
 using namespace std;
+using namespace log4cplus;
 
 static GetHandler_t LoadModule(const char *name) {
     char path[4096];
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("LoadModule"));
     if(*name == '/')
         strcpy(path, name);
     else
@@ -78,19 +80,22 @@ static GetHandler_t LoadModule(const char *name) {
         return NULL;
     }
 
-    cout << "Loaded module '" << name << "'." << endl;
+    //cout << "Loaded module '" << name << "'." << endl;
+    LOG4CPLUS_DEBUG(logger,"Loaded module '" << name << "'.");
 
     return sym;
 }
 
 Process::Process(const Communicator *communicator, vector<string> &plugins)
 : Subprocess(), Observable() {
+    logger=Logger::getInstance(LOG4CPLUS_TEXT("Process"));
     mpCommunicator = const_cast<Communicator *> (communicator);
     mPlugins = plugins;
 }
 
 Process::~Process() {
-    cout << "[Process " << GetPid() << "]: Destroyed." << endl;
+    //cout << "[Process " << GetPid() << "]: Destroyed." << endl;
+    LOG4CPLUS_DEBUG(logger, "[Process " << GetPid() << "]: Destroyed." );
 }
 
 void Process::Setup() {
@@ -110,7 +115,8 @@ static bool getstring(Communicator *c, string & s) {
 }
 
 void Process::Execute(void * arg) {
-    cout << "[Process " << GetPid() << "]: Started." << endl;
+    //cout << "[Process " << GetPid() << "]: Started." << endl;
+    LOG4CPLUS_DEBUG(logger, "[Process " << GetPid() << "]: Started." );
 
     GetHandler_t h;
     for(vector<string>::iterator i = mPlugins.begin(); i != mPlugins.end();
@@ -122,9 +128,10 @@ void Process::Execute(void * arg) {
     string routine;
     Buffer * input_buffer = new Buffer();
     while (getstring(mpCommunicator, routine)) {
-#ifdef DEBUG
-        cout<< "Received routine "<<routine<<endl;
-#endif
+        LOG4CPLUS_DEBUG(logger,"Received routine "<<routine);
+//#ifdef DEBUG
+        //cout<< "Received routine "<<routine<<endl;
+//#endif
         input_buffer->Reset(mpCommunicator);
         Handler *h = NULL;
         for(vector<Handler *>::iterator i = mHandlers.begin();
@@ -136,17 +143,23 @@ void Process::Execute(void * arg) {
         }
         Result * result;
         if(h == NULL) {
-            cout << "[Process " << GetPid() << "]: Requested unknown routine "
-                    << routine << "." << endl;
+            //cout << "[Process " << GetPid() << "]: Requested unknown routine "
+            //        << routine << "." << endl;
+            LOG4CPLUS_ERROR(logger,"[Process " << GetPid() << "]: Requested unknown routine "
+                    << routine << ".");
             result = new Result(-1, new Buffer());
         } else
             result = h->Execute(routine, input_buffer);
         result->Dump(mpCommunicator);
         if (result->GetExitCode() != 0 && routine.compare("cudaLaunch")) {
-            cout << "[Process " << GetPid() << "]: Requested '" << routine
-                    << "' routine." << endl;
-            cout << "[Process " << GetPid() << "]: Exit Code '"
-                    << result->GetExitCode() << "'." << endl;
+            //cout << "[Process " << GetPid() << "]: Requested '" << routine
+            //        << "' routine." << endl;
+            LOG4CPLUS_DEBUG(logger,"[Process " << GetPid() << "]: Requested '" << routine
+                    << "' routine.");
+            //cout << "[Process " << GetPid() << "]: Exit Code '"
+            //        << result->GetExitCode() << "'." << endl;
+            LOG4CPLUS_DEBUG(logger,"[Process " << GetPid() << "]: Exit Code '"
+                    << result->GetExitCode() << "'.");
         }
         delete result;
     }
