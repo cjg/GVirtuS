@@ -40,6 +40,10 @@
 #include "Communicator.h"
 #include "Handler.h"
 
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
+
 /**
  * Backend is the main object of gvirtus-backend. It is responsible of accepting
  * the connection from the Frontend(s) and spawing a new Process for handling
@@ -57,6 +61,7 @@ public:
 private:
     std::vector<GetHandler_t> mHandlers;
     std::vector<std::string> mPlugins;
+    log4cplus::Logger logger;
 };
 
 #endif	/* _BACKEND_H */
