@@ -1,3 +1,1 @@
-CudaDr.lo: CudaDr.cpp /usr/include/stdc-predef.h
-
-/usr/include/stdc-predef.h:
+CudaDr.lo: CudaDr.cpp
