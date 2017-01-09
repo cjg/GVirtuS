@@ -4,7 +4,7 @@ GCC, G++
 
 OS: Ubuntu 10.04 (tested) /  Ubuntu  12.04 (tested) / Ubuntu 14.04 (tested)  /CentOS 6.8 (tested)
 
-CUDA Toolkit: Version 6.5
+CUDA Toolkit: Version 8.0
 
 This package are required:
     build-essential
