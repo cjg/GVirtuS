@@ -47,8 +47,10 @@
 #include <cstring>
 
 using namespace std;
+using namespace log4cplus;
 
 Backend::Backend(vector<string> &plugins) {
+    logger=Logger::getInstance(LOG4CPLUS_TEXT("Backend"));
     mPlugins = plugins;
 }
 
@@ -58,12 +60,13 @@ void Backend::Start(Communicator * communicator) {
     while (true) {
         Communicator *client =
                 const_cast<Communicator *> (communicator->Accept());
-                
+        LOG4CPLUS_DEBUG(logger, "Connection accepted" );   
         Process *process = new Process(client, mPlugins);
         process->Start(NULL);
     }
 }
 
 void Backend::EventOccurred(std::string& event, void* object) {
-    std::cout << "EventOccurred: " << event << std::endl;
+    //std::cout << "EventOccurred: " << event << std::endl;
+    LOG4CPLUS_DEBUG(logger, "EventOccurred: " << event); 
 }
