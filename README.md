@@ -18,7 +18,7 @@ This package are required:
 ## Installation: ##
 1) Clone the GVirtuS main repository
 
-    git clone https://github.com/RapidProjectH2020/GVirtuS.git
+    git clone https://github.com/raffmont/GVirtuS.git
 
 In the directory “GVirtuS” there are three directories named “gvirtus”, “gvirtus.cudart” and "gvirtus.cudadr".
 
@@ -42,7 +42,7 @@ Check GVIRTUS_PATH/lib for frontend and backend directories
 
 On the remote machine where the cuda executables will be executed
 
-Modify the Gvirtus configuration file backend if the default port 9991 is occuped or the machine is remote:
+Modify the Gvirtus configuration file backend if the default port 9998 is occuped or the machine is remote:
 
 GVIRTUS_PATH/etc/gvirtus.properties
 
@@ -57,7 +57,7 @@ GVIRTUS_PATH/etc/gvirtus.properties
     #   Tcp: tcp://hostname:port
     #   VMShm: vmshm://hostname:port
     
-    communicator : tcp://localhost:9991 #change localhost with remote host if necessary
+    communicator : tcp://127.0.0.1:9998 #change 127.0.0.1 with remote host if necessary
     plugins : cudart, cudadr
     
     #
@@ -93,7 +93,7 @@ GVIRTUS_PATH/etc/gvirtus.properties
     #   Tcp: tcp://hostname:port
     #   VMShm: vmshm://hostname:port
     
-    communicator : tcp://localhost:9991 #change localhost with the host of backend machine if necessary
+    communicator : tcp://127.0.0.1:9998 #change 127.0.0.1 with the host of backend machine if necessary
     plugins : cudart, cudadr
     
     #
