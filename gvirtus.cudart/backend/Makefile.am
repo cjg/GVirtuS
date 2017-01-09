@@ -14,8 +14,10 @@ CudaRtHandler_stream.cpp\
 CudaRtHandler_surface.cpp\
 CudaRtHandler_texture.cpp\
 CudaRtHandler_thread.cpp\
-CudaRtHandler_version.cpp
+CudaRtHandler_version.cpp\
+CudaRtHandler_occupancy.cpp
+
 libcudart_backend_la_AMCXXFLAGS = -fPIC
 libcudart_backend_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libcudautil.a -Wl,--no-whole-archive
-libcudart_backend_la_LIBADD = $(CUDA_LIB_FLAGS) -lrt -lcudart
+libcudart_backend_la_LIBADD = $(CUDA_LIB_FLAGS) -lrt -lcudart -llog4cplus
 
