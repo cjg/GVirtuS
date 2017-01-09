@@ -17,5 +17,5 @@ CudaDrHandler_event.cpp\
 CudaDrHandler_texture.cpp
 libcudadr_backend_la_AMCXXFLAGS = -fPIC
 libcudadr_backend_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libcudautil.a -Wl,--no-whole-archive
-libcudadr_backend_la_LIBADD = $(CUDA_LIB_FLAGS) -lrt -lcuda
+libcudadr_backend_la_LIBADD = $(CUDA_LIB_FLAGS) -lrt -lcuda -llog4cplus
 
