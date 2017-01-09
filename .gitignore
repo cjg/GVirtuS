@@ -1,0 +1,11 @@
+*.o
+*.a
+*.la
+*.lo
+*.Plo
+*.Tpo
+*.Po
+*.cache
+.deps
+.libs
+config.h.in*
