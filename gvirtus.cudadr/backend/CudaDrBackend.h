@@ -31,7 +31,6 @@
 #include "Backend.h"
 #include <cuda.h>
 
-
 /**
  * Backend is the main object of gvirtus-backend. It is responsible of accepting
  * the connection from the Frontend(s) and spawing a new Process for handling
@@ -40,7 +39,6 @@
 class CudaDrBackend : public Backend {
 public:
     Handler *GetHandler();
-
 };
 #endif	/* _CUDADRBACKEND_H */
 
