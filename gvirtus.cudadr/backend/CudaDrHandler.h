@@ -43,7 +43,9 @@
 #include <cuda.h>
 #include "Handler.h"
 
-
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
 
 class CudaDrHandler : public Handler{
 public:
@@ -117,6 +119,7 @@ public:
     
 
 private:
+    log4cplus::Logger logger;
     void Initialize();
     typedef Result * (*CudaDriverHandler)(CudaDrHandler *, Buffer *);
     static std::map<std::string, CudaDriverHandler> * mspHandlers;
@@ -144,6 +147,10 @@ CUDA_DRIVER_HANDLER(CtxGetDevice);
 CUDA_DRIVER_HANDLER(CtxPopCurrent);
 CUDA_DRIVER_HANDLER(CtxPushCurrent);
 CUDA_DRIVER_HANDLER(CtxSynchronize);
+
+CUDA_DRIVER_HANDLER(CtxDisablePeerAccess);
+CUDA_DRIVER_HANDLER(CtxEnablePeerAccess);
+CUDA_DRIVER_HANDLER(DeviceCanAccessPeer);
 
 /*CudaDrHandler_device*/
 CUDA_DRIVER_HANDLER(DeviceComputeCapability);
@@ -185,6 +192,8 @@ CUDA_DRIVER_HANDLER(MemGetInfo);
 /*CudaDrHandler_module*/
 CUDA_DRIVER_HANDLER(ModuleLoadData);
 CUDA_DRIVER_HANDLER(ModuleLoad);
+CUDA_DRIVER_HANDLER(ModuleLoadFatBinary);
+CUDA_DRIVER_HANDLER(ModuleUnload);
 CUDA_DRIVER_HANDLER(ModuleGetFunction);
 CUDA_DRIVER_HANDLER(ModuleGetGlobal);
 CUDA_DRIVER_HANDLER(ModuleLoadDataEx);
@@ -220,7 +229,6 @@ CUDA_DRIVER_HANDLER(TexRefSetAddress);
 
 /*New Cuda 6.5 functions*/
 CUDA_DRIVER_HANDLER(LaunchKernel);
-
 
 #endif	/* _CUDADRHANDLER_H */
 
