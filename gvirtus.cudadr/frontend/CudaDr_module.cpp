@@ -23,12 +23,18 @@
  *             Department of Applied Science
  */
 
-
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
 #include <cstring>
 #include "CudaDrFrontend.h"
 #include "CudaUtil.h"
 #include "CudaDr.h"
 #include <cuda.h>
+
+#include "Encoder.h"
 
 using namespace std;
 
@@ -123,19 +129,48 @@ extern CUresult cuModuleLoadDataEx(CUmodule *module, const void *image, unsigned
 }
 
 extern CUresult cuModuleLoad(CUmodule *module, const char *fname) {
+    Encoder *encoder=new Encoder();
+    std::ostringstream res;
+    std::ifstream input("helloWorldDriverAPI.ptx", std::ios::binary);
+    encoder->Encode(input,res);
+    //input >> std::noskipws;
+    
+    std::string moduleLoad = res.str();
+    cout << "Encoded module:\n"; 
+    cout << moduleLoad;
+    cout << "--------------\n";
+
+    CudaDrFrontend::Prepare();
+    CudaDrFrontend::AddStringForArguments((char *) fname);
+    CudaDrFrontend::AddStringForArguments(moduleLoad.c_str());
+    CudaDrFrontend::Execute("cuModuleLoad");
+    if (CudaDrFrontend::Success())
+        *module = (CUmodule) (CudaDrFrontend::GetOutputDevicePointer());
+    return (CUresult) (CudaDrFrontend::GetExitCode());
+
     // FIXME: implement
-    cerr << "*** Error: cuModuleLoad not yet implemented!" << endl;
-    return (CUresult) 1;
+    //cerr << "*** Error: cuModuleLoad not yet implemented!" << endl;
+    //return (CUresult) 1;
 }
 
 extern CUresult cuModuleLoadFatBinary(CUmodule *module, const void *fatCubin) {
+    CudaDrFrontend::Prepare();
+    CudaDrFrontend::AddStringForArguments((char *) fatCubin);
+    CudaDrFrontend::Execute("cuModuleLoadFatBinary");
+    if (CudaDrFrontend::Success())
+        *module = (CUmodule) (CudaDrFrontend::GetOutputDevicePointer());
+    return (CUresult) (CudaDrFrontend::GetExitCode());
     // FIXME: implement
-    cerr << "*** Error: cuModuleLoadFatBinary not yet implemented!" << endl;
-    return (CUresult) 1;
+    //cerr << "*** Error: cuModuleLoadFatBinary not yet implemented!" << endl;
+    //return (CUresult) 1;
 }
 
 extern CUresult cuModuleUnload(CUmodule hmod) {
+    CudaDrFrontend::Prepare();
+    CudaDrFrontend::AddDevicePointerForArguments((char *)hmod);
+    CudaDrFrontend::Execute("cuModuleUnload");
+    return (CUresult) (CudaDrFrontend::GetExitCode());
     // FIXME: implement
-    cerr << "*** Error: cuModuleUnload not yet implemented!" << endl;
-    return (CUresult) 1;
+    //cerr << "*** Error: cuModuleUnload not yet implemented!" << endl;
+    //return (CUresult) 1;
 }
