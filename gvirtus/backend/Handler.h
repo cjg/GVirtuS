@@ -38,10 +38,17 @@
 
 #include "Result.h"
 
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
+
 class Handler {
 public:
     virtual bool CanExecute(std::string routine) = 0;
     virtual Result * Execute(std::string routine, Buffer * input_buffer) = 0;
+
+private:
+    log4cplus::Logger logger;
 };
 
 
