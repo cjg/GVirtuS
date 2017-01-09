@@ -28,6 +28,7 @@ make
 make install
 cd $INSTALL_FOLDER/lib/frontend
 ln -sf libcudart.so.6.5.14 libcudart.so.6.5
+
 echo
 echo
 echo INSTALLATION COMPLETED!
