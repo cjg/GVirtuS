@@ -109,3 +109,33 @@ extern CUresult cuCtxSynchronize(void) {
     CudaDrFrontend::Execute("cuCtxSynchronize");
     return (CUresult) CudaDrFrontend::GetExitCode();
 }
+
+/* Disable peer access */
+extern CUresult cuCtxDisablePeerAccess(CUcontext peerContext) {
+    CudaDrFrontend::Prepare();
+    CudaDrFrontend::AddDevicePointerForArguments((void*) peerContext);
+    CudaDrFrontend::Execute("cuCtxDisablePeerAccess");
+    return (CUresult) (CudaDrFrontend::GetExitCode());
+}
+
+/* Enable peer access */
+extern CUresult cuCtxEnablePeerAccess(CUcontext peerContext, unsigned int flags) {
+    CudaDrFrontend::Prepare();
+    CudaDrFrontend::AddDevicePointerForArguments((void*) peerContext);
+    CudaDrFrontend::AddVariableForArguments(flags);
+    CudaDrFrontend::Execute("cuCtxEnablePeerAccess");
+    return (CUresult) (CudaDrFrontend::GetExitCode());
+}
+
+/* Check if two devices could be connected using peer to peer */
+extern CUresult cuDeviceCanAccessPeer(int *canAccessPeer, CUdevice dev, CUdevice peerDev) {
+    CudaDrFrontend::Prepare();
+    CudaDrFrontend::AddHostPointerForArguments(canAccessPeer);
+    CudaDrFrontend::AddVariableForArguments(dev);
+    CudaDrFrontend::AddVariableForArguments(peerDev);
+    CudaDrFrontend::Execute("cuDeviceCanAccessPeer");
+    if (CudaDrFrontend::Success())
+        *canAccessPeer = *(CudaDrFrontend::GetOutputHostPointer<int>());
+    return (CUresult) (CudaDrFrontend::GetExitCode());
+}
+
