@@ -1,6 +1,3 @@
-VmciCommunicator.o: VmciCommunicator.cpp /usr/include/stdc-predef.h \
- ../config.h
-
-/usr/include/stdc-predef.h:
+VmciCommunicator.o: VmciCommunicator.cpp ../config.h
 
 ../config.h:

@@ -1,6 +1,3 @@
-MessageDispatcher.o: MessageDispatcher.cpp /usr/include/stdc-predef.h \
- MessageDispatcher.h
-
-/usr/include/stdc-predef.h:
+MessageDispatcher.o: MessageDispatcher.cpp MessageDispatcher.h
 
 MessageDispatcher.h:
