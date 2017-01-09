@@ -174,6 +174,8 @@ extern CUresult cuFuncSetCacheConfig(CUfunction hfunc, CUfunc_cache config) {
 
 // new Cuda 4.0 functions
 extern CUresult cuLaunchKernel(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream hstream , void** kernelParams, void** extra){
+    cout << "cuLaunchKernel\n";
+    
     CudaDrFrontend::Prepare();
     CudaDrFrontend::AddDevicePointerForArguments((void*) f);
     CudaDrFrontend::AddVariableForArguments(gridDimX);
@@ -184,29 +186,7 @@ extern CUresult cuLaunchKernel(CUfunction f, unsigned int gridDimX, unsigned int
     CudaDrFrontend::AddVariableForArguments(blockDimZ);
     CudaDrFrontend::AddVariableForArguments(sharedMemBytes);
     CudaDrFrontend::AddDevicePointerForArguments((void*) hstream);
-    int link[2];
-    int size;
-    pid_t pid;
-    char foo[1024];
-    pipe(link);
-    pid=fork();
-    if (pid == 0){
-        dup2(link[1],STDOUT_FILENO);
-        close(link[0]);
-        close(link[1]);
-        char cwd[1024];
-        getcwd(cwd,sizeof(cwd));
-        listFiles(cwd);
-        fprintf(stderr,"pwd: %s\n",cwd);
-        system("grep -rnw 'vectorAdd_kernel64.ptx' -e '.param' -c");
-    } else {
-        close(link[1]);
-        read(link[0],foo,sizeof(foo));
-        size = atoi(foo);
-    }
-    for (unsigned int i = 0; i < size; i++) {
-        CudaDrFrontend::AddDevicePointerForArguments(kernelParams+i);
-    }
+    CudaDrFrontend::AddDevicePointerForArguments(kernelParams);
     CudaDrFrontend::AddHostPointerForArguments(&extra);
     CudaDrFrontend::Execute("cuLaunchKernel");
     return (CUresult) CudaDrFrontend::GetExitCode();
