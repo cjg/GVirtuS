@@ -31,7 +31,7 @@
 #include <vector>
 #include "CudaDrBackend.h"
 
-
+using namespace log4cplus;
 
 typedef const struct CUfunc_st
 {
@@ -162,7 +162,8 @@ CUDA_DRIVER_HANDLER(FuncSetCacheConfig) {
 
 //new functions CUDA 6.5
 CUDA_DRIVER_HANDLER(LaunchKernel){
-    std::cout <<"Start CULAUNCHKERNEL"<<std::endl;
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
+    LOG4CPLUS_DEBUG(logger,"Start LaunchKernel");
     CUfunction f =  input_buffer->Get<CUfunction >();
     unsigned int gridDimX = input_buffer->Get<unsigned int>();
     unsigned int gridDimY = input_buffer->Get<unsigned int>();
@@ -174,7 +175,8 @@ CUDA_DRIVER_HANDLER(LaunchKernel){
     CUstream hstream = input_buffer->Get<CUstream>();
     void **optionValues = new void*[4];
     for (unsigned int i = 0; i < 4; i++) {
-        std::cout<<"i sta a -> "<<i<<std::endl;
+        //std::cout<<"i sta a -> "<<i<<std::endl;
+        LOG4CPLUS_DEBUG(logger,"i:"<<i);   
         *(optionValues + i) =(void *) input_buffer->Assign<char>();
     }
     void *config = input_buffer->Get<void *>();
@@ -189,6 +191,6 @@ CUDA_DRIVER_HANDLER(LaunchKernel){
 //        exit_code= cuLaunchKernel((CUfunction)f,gridDimX,gridDimY,gridDimZ,blockDimX,blockDimY,blockDimZ,sharedMemBytes,hstream,optionValues,NULL);
 //        std::cout<<"cuLaunchKernel back a result!"<<std::endl;
 //    }
-
+    LOG4CPLUS_DEBUG(logger,"End LaunchKernel");
     return new Result((cudaError_t) exit_code);
 }
