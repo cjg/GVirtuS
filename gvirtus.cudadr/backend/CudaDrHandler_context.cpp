@@ -93,3 +93,32 @@ CUDA_DRIVER_HANDLER(CtxPushCurrent) {
 CUDA_DRIVER_HANDLER(CtxSynchronize) {
     return new Result((cudaError_t) cuCtxSynchronize());
 }
+
+/* Disable peer access */
+CUDA_DRIVER_HANDLER(CtxEnablePeerAccess) {
+    CUcontext peerContext=input_buffer->Get<CUcontext> ();
+    unsigned int flags=input_buffer->Get<unsigned int> ();
+    CUresult exit_code = cuCtxEnablePeerAccess(peerContext,flags);
+    Buffer *out = new Buffer();
+    return new Result((cudaError_t) exit_code, out);
+}
+
+/* Enable peer access */
+CUDA_DRIVER_HANDLER(CtxDisablePeerAccess) {
+    CUcontext peerContext=input_buffer->Get<CUcontext> ();
+    CUresult exit_code = cuCtxDisablePeerAccess(peerContext);
+    Buffer *out = new Buffer();
+    return new Result((cudaError_t) exit_code, out);
+}
+
+/* Check if two devices could be connected using peer to peer */
+CUDA_DRIVER_HANDLER(DeviceCanAccessPeer) {
+    int *canAccessPeer = input_buffer->Assign<int> ();
+    CUdevice dev = input_buffer->Get<CUdevice > ();
+    CUdevice devPeer = input_buffer->Get<CUdevice > ();
+    CUresult exit_code = cuDeviceCanAccessPeer(canAccessPeer, dev,devPeer);
+    Buffer *out = new Buffer();
+    out->Add(canAccessPeer);
+    return new Result((cudaError_t) exit_code, out);
+}
+
