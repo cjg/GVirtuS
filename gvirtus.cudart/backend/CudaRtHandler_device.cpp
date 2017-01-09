@@ -25,30 +25,37 @@
 
 #include "CudaRtHandler.h"
 
+using namespace log4cplus;
+
 CUDA_ROUTINE_HANDLER(DeviceSetCacheConfig) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceSetCacheConfig"));
     try {
         cudaFuncCache cacheConfig = input_buffer->Get<cudaFuncCache>();
         cudaError_t exit_code = cudaDeviceSetCacheConfig(cacheConfig);
         return new Result(exit_code);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation); //???
     }
 }
 
 CUDA_ROUTINE_HANDLER(DeviceSetLimit) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceSetLimit"));
     try {
         cudaLimit limit = input_buffer->Get<cudaLimit>();
         size_t value = input_buffer->Get<size_t>();
         cudaError_t exit_code = cudaDeviceSetLimit(limit, value);
         return new Result(exit_code);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation); //???
     }
 }
 
 CUDA_ROUTINE_HANDLER(IpcOpenMemHandle) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcOpenMemHandle"));
     void *devPtr = NULL;
     try {
         cudaIpcMemHandle_t handle = input_buffer->Get<cudaIpcMemHandle_t>();
@@ -58,13 +65,15 @@ CUDA_ROUTINE_HANDLER(IpcOpenMemHandle) {
         out->AddMarshal(devPtr);
         return new Result(exit_code, out);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
 }
 
 CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceEnablePeerAccess"));
     int peerDevice = input_buffer->Get<int>();
     unsigned int flags = input_buffer->Get<unsigned int>();
     cudaError_t exit_code = cudaDeviceEnablePeerAccess(peerDevice, flags);
@@ -72,12 +81,14 @@ CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess) {
 }
 
 CUDA_ROUTINE_HANDLER(DeviceDisablePeerAccess) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceDisablePeerAccess"));
     int peerDevice = input_buffer->Get<int>();
     cudaError_t exit_code = cudaDeviceDisablePeerAccess(peerDevice);
     return new Result(exit_code);
 }
 
 CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceCanAccessPeer"));
     int *canAccessPeer = input_buffer->Assign<int>();
     int device = input_buffer->Get<int>();
     int peerDevice = input_buffer->Get<int>();
@@ -88,7 +99,8 @@ CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
     try {
         out->Add(canAccessPeer);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
@@ -96,6 +108,7 @@ CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
 }
 
 CUDA_ROUTINE_HANDLER(DeviceGetStreamPriorityRange) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceGetStreamPriorityRange"));
     int *leastPriority = input_buffer->Assign<int>();
     int *greatestPriority = input_buffer->Assign<int>();
 
@@ -106,26 +119,8 @@ CUDA_ROUTINE_HANDLER(DeviceGetStreamPriorityRange) {
         out->Add(leastPriority);
         out->Add(greatestPriority);
     } catch (string e) {
-        cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
-    }
-
-    return new Result(exit_code, out);
-}
-
-CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor) {
-    int *numBlocks = input_buffer->Assign<int>();
-    const char *func = (const char*) (input_buffer->Get<pointer_t> ());
-    int blockSize = input_buffer->Get<int>();
-    size_t dynamicSMemSize = input_buffer->Get<size_t>();
-
-    cudaError_t exit_code = cudaOccupancyMaxActiveBlocksPerMultiprocessor(numBlocks, func, blockSize, dynamicSMemSize);
-
-    Buffer *out = new Buffer();
-    try {
-        out->Add(numBlocks);
-    } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
@@ -133,6 +128,7 @@ CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor) {
 }
 
 CUDA_ROUTINE_HANDLER(DeviceGetAttribute) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceGetAttribute"));
     int *value = input_buffer->Assign<int>();
     cudaDeviceAttr attr = input_buffer->Get<cudaDeviceAttr>();
     int device = input_buffer->Get<int>();
@@ -141,7 +137,8 @@ CUDA_ROUTINE_HANDLER(DeviceGetAttribute) {
     try {
         out->Add(value);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
@@ -149,6 +146,7 @@ CUDA_ROUTINE_HANDLER(DeviceGetAttribute) {
 }
 
 CUDA_ROUTINE_HANDLER(IpcGetMemHandle) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcGetMemHanlde"));
     cudaIpcMemHandle_t *handle = input_buffer->Assign<cudaIpcMemHandle_t>();
     void *devPtr = input_buffer->GetFromMarshal<void *>();
 
@@ -158,7 +156,8 @@ CUDA_ROUTINE_HANDLER(IpcGetMemHandle) {
     try {
         out->Add(handle);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
@@ -166,7 +165,7 @@ CUDA_ROUTINE_HANDLER(IpcGetMemHandle) {
 }
 
 CUDA_ROUTINE_HANDLER(IpcGetEventHandle) {
-
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcGetEventHandle"));
     cudaIpcEventHandle_t *handle = input_buffer->Assign<cudaIpcEventHandle_t>();
     cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
 
@@ -176,7 +175,8 @@ CUDA_ROUTINE_HANDLER(IpcGetEventHandle) {
     try {
         out->Add(handle);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
@@ -184,6 +184,7 @@ CUDA_ROUTINE_HANDLER(IpcGetEventHandle) {
 }
 
 CUDA_ROUTINE_HANDLER(ChooseDevice) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ChooseDevice"));
     int *device = input_buffer->Assign<int>();
     const cudaDeviceProp *prop = input_buffer->Assign<cudaDeviceProp>();
     cudaError_t exit_code = cudaChooseDevice(device, prop);
@@ -191,7 +192,8 @@ CUDA_ROUTINE_HANDLER(ChooseDevice) {
     try {
         out->Add(device);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
@@ -199,6 +201,7 @@ CUDA_ROUTINE_HANDLER(ChooseDevice) {
 }
 
 CUDA_ROUTINE_HANDLER(GetDevice) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetDevice"));
     try {
         int *device = input_buffer->Assign<int>();
         cudaError_t exit_code = cudaGetDevice(device);
@@ -206,32 +209,36 @@ CUDA_ROUTINE_HANDLER(GetDevice) {
         out->Add(device);
         return new Result(exit_code, out);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 }
 
 CUDA_ROUTINE_HANDLER(DeviceReset) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceReset"));
     cudaError_t exit_code = cudaDeviceReset();
     Buffer *out = new Buffer();
     return new Result(exit_code, out);
 }
 
 CUDA_ROUTINE_HANDLER(DeviceSynchronize) {
-
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceSynchronize"));
     cudaError_t exit_code = cudaDeviceSynchronize();
 
     try {
         Buffer *out = new Buffer();
         return new Result(exit_code, out);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
 }
 
 CUDA_ROUTINE_HANDLER(GetDeviceCount) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetDeviceCount"));
     try {
         int *count = input_buffer->Assign<int>();
         cudaError_t exit_code = cudaGetDeviceCount(count);
@@ -239,13 +246,15 @@ CUDA_ROUTINE_HANDLER(GetDeviceCount) {
         out->Add(count);
         return new Result(exit_code, out);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
 }
 
 CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetDeviceProperties"));
     try {
         struct cudaDeviceProp *prop = input_buffer->Assign<struct cudaDeviceProp>();
         int device = input_buffer->Get<int>();
@@ -260,19 +269,22 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
         out->Add(prop, 1);
         return new Result(exit_code, out);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
 }
 
 CUDA_ROUTINE_HANDLER(SetDevice) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetDevice"));
     try {
         int device = input_buffer->Get<int>();
         cudaError_t exit_code = cudaSetDevice(device);
         return new Result(exit_code);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 }
@@ -283,17 +295,20 @@ CUDA_ROUTINE_HANDLER(SetDevice) {
 #if CUDART_VERSION >= 2030
 
 CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetDeviceFlags"));
     try {
         int flags = input_buffer->Get<int>();
         cudaError_t exit_code = cudaSetDeviceFlags(flags);
         return new Result(exit_code);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 }
 
 CUDA_ROUTINE_HANDLER(IpcOpenEventHandle) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcOpenEventHandler"));
     Buffer *out = new Buffer();
     try {
         cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
@@ -301,12 +316,14 @@ CUDA_ROUTINE_HANDLER(IpcOpenEventHandle) {
         cudaError_t exit_code = cudaIpcOpenEventHandle(event, handle);
         out->Add(event);
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 }
 
 CUDA_ROUTINE_HANDLER(SetValidDevices) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetValidDevice"));
     try {
         int len = input_buffer->BackGet<int>();
         int *device_arr = input_buffer->Assign<int>(len);
@@ -316,7 +333,8 @@ CUDA_ROUTINE_HANDLER(SetValidDevices) {
         return new Result(exit_code, out);
 
     } catch (string e) {
-        cerr << e << endl;
+        //cerr << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
     }
 
