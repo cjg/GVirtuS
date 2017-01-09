@@ -117,3 +117,8 @@ extern CUresult cuDeviceTotalMem(size_t *bytes, CUdevice dev) {
         *bytes = *(CudaDrFrontend::GetOutputHostPointer<size_t > ());
     return (CUresult) (CudaDrFrontend::GetExitCode());
 }
+
+extern cudaError_t cudaDeviceGetP2PAttribute ( int* value, cudaDeviceP2PAttr attr, int  srcDevice, int  dstDevice ) {
+    cudaError_t error;
+    return error;
+}
