@@ -22,7 +22,7 @@
 #undef HAVE_LIBCUFFT
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
- *    to 0 otherwise. */
+   to 0 otherwise. */
 #undef HAVE_MALLOC
 
 /* Define to 1 if you have the `memmove' function. */
@@ -41,7 +41,7 @@
 #undef HAVE_NETINET_IN_H
 
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
- *    and to 0 otherwise. */
+   and to 0 otherwise. */
 #undef HAVE_REALLOC
 
 /* Define to 1 if you have the `socket' function. */
@@ -102,7 +102,7 @@
 #undef HAVE__BOOL
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
- *    */
+   */
 #undef LT_OBJDIR
 
 /* Name of package */
@@ -120,9 +120,6 @@
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
 
-/* Define to the home page for this package. */
-#undef PACKAGE_URL
-
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
@@ -133,12 +130,12 @@
 #undef VERSION
 
 /* Define for Solaris 2.5.1 so the uint64_t typedef from <sys/synch.h>,
- *    <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
- *       #define below would cause a syntax error. */
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
+   #define below would cause a syntax error. */
 #undef _UINT64_T
 
 /* Define to `__inline__' or `__inline' if that's what the C compiler
- *    calls it, or to nothing if 'inline' is not supported under any name.  */
+   calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
 #undef inline
 #endif
@@ -156,7 +153,7 @@
 #undef size_t
 
 /* Define to the type of an unsigned integer type of width exactly 64 bits if
- *    such a type exists and the standard includes do not define it. */
+   such a type exists and the standard includes do not define it. */
 #undef uint64_t
 
 /* Define as `fork' if `vfork' does not work. */
