@@ -41,6 +41,10 @@
 
 #include <cufft.h>
 
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
+
 /**						
  * CudaRtHandler is used by Backend's Process(es) for storing and retrieving
  * device related data and functions. 
@@ -55,6 +59,7 @@ public:
     bool CanExecute(std::string routine);
     Result * Execute(std::string routine, Buffer * input_buffer);
 private:
+    log4cplus::Logger logger;
     void Initialize();
     typedef Result * (*CufftRoutineHandler)(CufftHandler *, Buffer *);
     static std::map<std::string, CufftRoutineHandler> * mspHandlers;
@@ -62,6 +67,12 @@ private:
 
 #define CUFFT_ROUTINE_HANDLER(name) Result * handle##name(CufftHandler * pThis, Buffer * in)
 #define CUFFT_ROUTINE_HANDLER_PAIR(name) make_pair("cufft" #name, handle##name)
+
+CUFFT_ROUTINE_HANDLER(Plan1d);
+CUFFT_ROUTINE_HANDLER(Plan2d);
+CUFFT_ROUTINE_HANDLER(Plan3d);
+CUFFT_ROUTINE_HANDLER(ExecC2R);
+CUFFT_ROUTINE_HANDLER(SetCompatibilityMode);
 
 #endif	/* _CUDARTHANDLER_H */
 
