@@ -39,6 +39,7 @@
 #include "CufftHandler.h"
 
 using namespace std;
+using namespace log4cplus;
 
 map<string, CufftHandler::CufftRoutineHandler> *CufftHandler::mspHandlers = NULL;
 
@@ -51,6 +52,7 @@ extern "C" Handler *GetHandler() {
 }
 
 CufftHandler::CufftHandler() {
+    logger=Logger::getInstance(LOG4CPLUS_TEXT("CufftHandler"));
     Initialize();
 }
 
@@ -63,6 +65,7 @@ bool CufftHandler::CanExecute(std::string routine) {
 }
 
 Result * CufftHandler::Execute(std::string routine, Buffer * input_buffer) {
+    LOG4CPLUS_DEBUG(logger,"Called " << routine);
     map<string, CufftHandler::CufftRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
     if (it == mspHandlers->end())
@@ -76,6 +79,17 @@ Result * CufftHandler::Execute(std::string routine, Buffer * input_buffer) {
     return NULL;
 }
 
+CUFFT_ROUTINE_HANDLER(Plan1d) {
+    cufftHandle plan;
+    int nx = in->Get<int>();
+    cufftType type = in->Get<cufftType > ();
+    int batch = in->Get<int>();
+    cufftResult ec = cufftPlan1d(&plan, nx, type,batch);
+    Buffer *out = new Buffer();
+    out->Add(plan);
+    return new Result(ec, out);
+}
+
 CUFFT_ROUTINE_HANDLER(Plan2d) {
     cufftHandle plan;
     int nx = in->Get<int>();
@@ -86,6 +100,19 @@ CUFFT_ROUTINE_HANDLER(Plan2d) {
     out->Add(plan);
     return new Result(ec, out);
 }
+
+CUFFT_ROUTINE_HANDLER(Plan3d) {
+    cufftHandle plan;
+    int nx = in->Get<int>();
+    int ny = in->Get<int>();
+    int nz = in->Get<int>();
+    cufftType type = in->Get<cufftType > ();
+    cufftResult ec = cufftPlan3d(&plan, nx, ny, nz, type);
+    Buffer *out = new Buffer();
+    out->Add(plan);
+    return new Result(ec, out);
+}
+
 
 CUFFT_ROUTINE_HANDLER(ExecC2R) {
     cufftHandle plan = in->Get<cufftHandle > ();
@@ -104,7 +131,9 @@ void CufftHandler::Initialize() {
     if (mspHandlers != NULL)
         return;
     mspHandlers = new map<string, CufftHandler::CufftRoutineHandler > ();
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan2d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
 }
