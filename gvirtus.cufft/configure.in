@@ -80,7 +80,7 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([gethostbyname memmove memset socket strcasecmp strdup strtoul])
 
-CXXFLAGS="$CXXFLAGS -Wall -pedantic"
+CXXFLAGS="$CXXFLAGS -Wall -pedantic -llog4cplus"
 
 AC_CONFIG_FILES([Makefile
                  backend/Makefile
