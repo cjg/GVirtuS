@@ -40,7 +40,10 @@ extern "C" cufftResult cufftPlan1d(cufftHandle *plan, int nx, cufftType type,
     in->Add(type);
     in->Add(batch);
     f->Execute("cufftPlan1d");
+    cout << hex << f->GetOutputBuffer() << endl;
+    cout << hex << f->GetOutputBuffer()->Get<uint64_t>();
     *plan = (cufftHandle) f->GetOutputBuffer()->Get<uint64_t>();
+    cout << "CCCC\n";
     return (cufftResult) f->GetExitCode();
 }
 
