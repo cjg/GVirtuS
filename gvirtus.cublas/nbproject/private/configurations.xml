@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="backend" name="0">
+      <in>OpenclBackend.cpp</in>
+      <in>OpenclBackend.h</in>
+      <in>OpenclHandler.cpp</in>
+      <in>OpenclHandler.h</in>
+      <in>OpenclHandler_Context.cpp</in>
+      <in>OpenclHandler_Device.cpp</in>
+      <in>OpenclHandler_EnqueuedCommands.cpp</in>
+      <in>OpenclHandler_EventObject.cpp</in>
+      <in>OpenclHandler_FlushandFinish.cpp</in>
+      <in>OpenclHandler_KernelObject.cpp</in>
+      <in>OpenclHandler_MemoryObject.cpp</in>
+      <in>OpenclHandler_Object.cpp</in>
+      <in>OpenclHandler_Platform.cpp</in>
+      <in>OpenclHandler_Queue.cpp</in>
+      <in>main.cpp</in>
+    </df>
+    <df root="frontend" name="1">
+      <in>OpenclFrontend.cpp</in>
+      <in>OpenclFrontend.h</in>
+      <in>Opencl_Context.cpp</in>
+      <in>Opencl_Device.cpp</in>
+      <in>Opencl_EnqueuedCommands.cpp</in>
+      <in>Opencl_EventObject.cpp</in>
+      <in>Opencl_FlushandFinish.cpp</in>
+      <in>Opencl_KernelObject.cpp</in>
+      <in>Opencl_MemoryObject.cpp</in>
+      <in>Opencl_Object.cpp</in>
+      <in>Opencl_Platform.cpp</in>
+      <in>Opencl_Queue.cpp</in>
+      <in>Opencl_gv.cpp</in>
+      <in>Opencl_gv.h</in>
+      <in>cl.h</in>
+      <in>hellocl_platf.c</in>
+      <in>newhellocl.c</in>
+    </df>
+    <df root="util" name="2">
+      <in>OpenclUtil.cpp</in>
+      <in>OpenclUtil.h</in>
+    </df>
+  </logicalFolder>
+  <projectmakefile>Makefile-gvirtus-cudart.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <rundir></rundir>
+        <buildfirst>true</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>
