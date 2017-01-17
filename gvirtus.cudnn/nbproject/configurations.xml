@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="backend" name="0">
+      <in>OpenclBackend.cpp</in>
+      <in>OpenclBackend.h</in>
+      <in>OpenclHandler.cpp</in>
+      <in>OpenclHandler.h</in>
+      <in>OpenclHandler_Context.cpp</in>
+      <in>OpenclHandler_Device.cpp</in>
+      <in>OpenclHandler_EnqueuedCommands.cpp</in>
+      <in>OpenclHandler_EventObject.cpp</in>
+      <in>OpenclHandler_FlushandFinish.cpp</in>
+      <in>OpenclHandler_KernelObject.cpp</in>
+      <in>OpenclHandler_MemoryObject.cpp</in>
+      <in>OpenclHandler_Object.cpp</in>
+      <in>OpenclHandler_Platform.cpp</in>
+      <in>OpenclHandler_Queue.cpp</in>
+      <in>main.cpp</in>
+    </df>
+    <df root="frontend" name="1">
+      <in>OpenclFrontend.cpp</in>
+      <in>OpenclFrontend.h</in>
+      <in>Opencl_Context.cpp</in>
+      <in>Opencl_Device.cpp</in>
+      <in>Opencl_EnqueuedCommands.cpp</in>
+      <in>Opencl_EventObject.cpp</in>
+      <in>Opencl_FlushandFinish.cpp</in>
+      <in>Opencl_KernelObject.cpp</in>
+      <in>Opencl_MemoryObject.cpp</in>
+      <in>Opencl_Object.cpp</in>
+      <in>Opencl_Platform.cpp</in>
+      <in>Opencl_Queue.cpp</in>
+      <in>Opencl_gv.cpp</in>
+      <in>Opencl_gv.h</in>
+      <in>cl.h</in>
+      <in>hellocl_platf.c</in>
+    </df>
+    <df root="util" name="2">
+      <in>OpenclUtil.cpp</in>
+      <in>OpenclUtil.h</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>backend</Elem>
+    <Elem>frontend</Elem>
+    <Elem>util</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile-gvirtus-cudart.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>/opt/gvirtus/include/gvirtus</pElem>
+              <pElem>/usr/local/gvirtus/include/gvirtus</pElem>
+              <pElem>/usr/local/cuda/include</pElem>
+              <pElem>/opt/cuda/include</pElem>
+              <pElem>/home/cjg/gvirtus/include/gvirtus</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>HAVE_CONFIG_H</Elem>
+            </preprocessorList>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="backend/OpenclBackend.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/OpenclBackend.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_Context.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_Device.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_EnqueuedCommands.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_EventObject.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_FlushandFinish.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_KernelObject.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_MemoryObject.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_Object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_Platform.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/OpenclHandler_Queue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="backend/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/OpenclFrontend.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/OpenclFrontend.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_Context.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_Device.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_EnqueuedCommands.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="frontend/Opencl_EventObject.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_FlushandFinish.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_KernelObject.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_MemoryObject.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_Object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_Platform.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_Queue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_gv.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="frontend/Opencl_gv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="frontend/cl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="frontend/hellocl_platf.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="util/OpenclUtil.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/OpenclUtil.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
