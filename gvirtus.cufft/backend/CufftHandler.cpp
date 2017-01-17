@@ -127,6 +127,15 @@ CUFFT_ROUTINE_HANDLER(SetCompatibilityMode) {
     return new Result(cufftSetCompatibilityMode(plan, mode));
 }
 
+CUFFT_ROUTINE_HANDLER(Create) {
+    cufftHandle plan_adv;
+    cufftResult ec = cufftCreate(&plan_adv);
+    cout << "plan: " << plan_adv << endl;
+    Buffer *out = new Buffer();
+    out->Add(plan_adv);
+    return new Result(ec, out);
+}
+
 void CufftHandler::Initialize() {
     if (mspHandlers != NULL)
         return;
@@ -136,5 +145,7 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Create));
+
 }
 
