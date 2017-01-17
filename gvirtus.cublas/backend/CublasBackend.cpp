@@ -26,8 +26,8 @@
 #include "CublasHandler.h"
 #include "CublasBackend.h"
 
-Handler *OpenclBackend::GetHandler() {
-    return (Handler *) new OpenclHandler();
+Handler *CublasBackend::GetHandler() {
+    return (Handler *) new CublasHandler();
 }
 
 
