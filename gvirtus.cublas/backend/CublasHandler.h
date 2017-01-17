@@ -54,7 +54,7 @@ public:
 private:
     void Initialize();
     typedef Result * (*CublasRoutineHandler)(CublasHandler *, Buffer *);
-    static std::map<std::string, OpenclRoutineHandler> * mspHandlers;
+    static std::map<std::string, CublasRoutineHandler> * mspHandlers;
     void **pointers;
     int nPointers;
     std::map<std::string, std::string> * mpMapObject;
