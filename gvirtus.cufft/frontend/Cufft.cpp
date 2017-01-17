@@ -40,9 +40,10 @@ extern "C" cufftResult cufftPlan1d(cufftHandle *plan, int nx, cufftType type,
     in->Add(type);
     in->Add(batch);
     f->Execute("cufftPlan1d");
-    cout << hex << f->GetOutputBuffer() << endl;
-    cout << hex << f->GetOutputBuffer()->Get<uint64_t>();
-    *plan = (cufftHandle) f->GetOutputBuffer()->Get<uint64_t>();
+    //cout << hex << f->GetOutputBuffer() << endl;
+    //cout << hex << f->GetOutputBuffer()->Get<uint64_t>();
+    //*plan = (cufftHandle) f->GetOutputBuffer()->Get<uint64_t>();
+    *plan = f->GetOutputBuffer()->Get<cufftHandle>();
     cout << "CCCC\n";
     return (cufftResult) f->GetExitCode();
 }
@@ -93,6 +94,19 @@ extern "C" cufftResult cufftPlanMany(cufftHandle *plan, int rank, int *n,
     *n = f->GetOutputBuffer()->Get<int>();
     return (cufftResult) f->GetExitCode();
 }
+
+/*
+ * in Testing - Vincenzo Santopietro
+ */
+extern "C" cufftResult cufftCreate(cufftHandle *plan) {
+    Frontend *f = Frontend::GetFrontend();
+    f->Prepare();
+    Buffer *in = f->GetInputBuffer();
+    in->Add(plan);
+    f->Execute("cufftCreate");
+    return (cufftResult) f->GetExitCode();
+}
+
 
 extern "C" cufftResult cufftDestroy(cufftHandle plan) {
     Frontend *f = Frontend::GetFrontend();
@@ -198,3 +212,5 @@ extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
     f->Execute("cufftSetCompatibilityMode");
     return (cufftResult) f->GetExitCode();
 }
+
+
