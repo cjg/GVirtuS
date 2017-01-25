@@ -214,3 +214,31 @@ extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
 }
 
 
+extern "C" cufftResult cufftXtMakePlanMany(cufftHandle plan, int rank, long long int *n, long long int *inembed, long long int istride, long long int idist, cudaDataType inputtype, long long int *onembed, long long int ostride, long long int odist, cudaDataType outputtype, long long int batch, size_t *workSize, cudaDataType executiontype) {
+    Frontend *f = Frontend::GetFrontend();
+    f->Prepare();
+    Buffer *in = f->GetInputBuffer();
+    //plan = (cufftHandle) f->GetOutputBuffer()->Get<cufftHandle>();
+    //n = (long long int * )f->GetOutputBuffer()->Get<long long int>();
+    
+    in->Add(plan);
+    in->Add(rank);
+    in->Add(*n);
+    in->Add(*inembed);
+    in->Add(istride);
+    in->Add(idist);
+    in->Add(inputtype);
+
+    in->Add(*onembed);
+    in->Add(ostride);
+    in->Add(odist);
+    in->Add(outputtype);
+    
+    in->Add(batch);
+    in->Add(*workSize);
+    in->Add(executiontype);
+    f->Execute("cufftXtMakePlanMany");
+    
+    
+    return (cufftResult) f->GetExitCode();
+}
