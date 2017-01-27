@@ -26,6 +26,7 @@
 /**
  * @file   CudaRtHandler.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
+ * @author Vincenzo Santopietro <vincenzo.santopietro@uniparthenope.it>
  * @date   Sat Oct 10 10:51:58 2009
  * 
  * @brief  
@@ -40,6 +41,7 @@
 #include "Result.h"
 
 #include <cufft.h>
+#include <cufftXt.h>
 
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
@@ -68,12 +70,14 @@ private:
 #define CUFFT_ROUTINE_HANDLER(name) Result * handle##name(CufftHandler * pThis, Buffer * in)
 #define CUFFT_ROUTINE_HANDLER_PAIR(name) make_pair("cufft" #name, handle##name)
 
+/* CufftHandler.cpp */
 CUFFT_ROUTINE_HANDLER(Plan1d);
 CUFFT_ROUTINE_HANDLER(Plan2d);
 CUFFT_ROUTINE_HANDLER(Plan3d);
 CUFFT_ROUTINE_HANDLER(ExecC2R);
 CUFFT_ROUTINE_HANDLER(SetCompatibilityMode);
 CUFFT_ROUTINE_HANDLER(Create);
+CUFFT_ROUTINE_HANDLER(XtMakePlanMany);
 //CUFFT_ROUTINE_HANDLER(cufftDestroy);
 
 #endif	/* _CUDARTHANDLER_H */

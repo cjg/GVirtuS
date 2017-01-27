@@ -87,19 +87,24 @@ Result * CufftHandler::Execute(std::string routine, Buffer * input_buffer) {
  */
 CUFFT_ROUTINE_HANDLER(Plan1d) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan1D"));
-    try {
-        cufftHandle plan;
-        int nx = in->Get<int>();
-        cufftType type = in->Get<cufftType> ();
-        int batch = in->Get<int>();
-        cufftResult ec = cufftPlan1d(&plan, nx, type,batch);
-        Buffer *out = new Buffer();
-        out->Add(plan);
-        return new Result(ec, out);
+    
+    cufftHandle *plan_adv = in->Assign<cufftHandle>();
+    int nx = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    int batch = in->Get<int>();
+    
+    cufftResult exit_code = cufftPlan1d(plan_adv, nx, type,batch);
+    Buffer *out = new Buffer();
+    
+    try{
+        out->Add(plan_adv);
     } catch (string e) {
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation); //???
     }
+    cout <<"DEBUG - Plan: "<< *plan_adv<<"\n";
+    cout<<"DEBUG - cufftPlan1d Executed\n";
+    return new Result(exit_code, out);
 }
 
 /*
@@ -161,12 +166,21 @@ CUFFT_ROUTINE_HANDLER(SetCompatibilityMode) {
 }
 
 CUFFT_ROUTINE_HANDLER(Create) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceGetAttribute"));
     cufftHandle *plan_adv = in->Assign<cufftHandle>();
-    cufftResult ec = cufftCreate(plan_adv);
+    cufftResult exit_code = cufftCreate(plan_adv);
     Buffer *out = new Buffer();
-    out->Add(plan_adv);
-    cout <<"plan: "<< *plan_adv<<"\n";
-    return new Result(ec, out);
+    try {
+        out->Add(plan_adv);
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout <<"DEBUG - Plan: "<< *plan_adv<<"\n";
+    cout<<"DEBUG - cufftCreate Executed\n";
+    
+    return new Result(exit_code, out);
+    //return new Result(ec, out);
 }
 
 /**
