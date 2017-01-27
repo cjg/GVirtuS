@@ -112,20 +112,23 @@ CUFFT_ROUTINE_HANDLER(Plan1d) {
  * Creates a 2D FFT plan configuration according to specified signal sizes and data type.
  */
 CUFFT_ROUTINE_HANDLER(Plan2d) {
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan1D"));
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan2D"));
+
+    cufftHandle * plan = in->Assign<cufftHandle>();
+    int nx = in->Get<int>();
+    int ny = in->Get<int>();
+    cufftType type = in->Get<cufftType >();
+    cufftResult exit_code = cufftPlan2d(plan, nx, ny, type);
+    Buffer *out = new Buffer();
     try {
-        cufftHandle plan;
-        int nx = in->Get<int>();
-        int ny = in->Get<int>();
-        cufftType type = in->Get<cufftType > ();
-        cufftResult ec = cufftPlan2d(&plan, nx, ny, type);
-        Buffer *out = new Buffer();
         out->Add(plan);
-        return new Result(ec, out);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation); //???
     }
+    cout <<"DEBUG - Plan: "<< *plan<<"\n";
+    cout<<"DEBUG - cufftPlan2d Executed\n";
+    return new Result(exit_code, out);
 }
 
 /*
@@ -134,7 +137,7 @@ CUFFT_ROUTINE_HANDLER(Plan2d) {
  * This function is the same as cufftPlan2d() except that it takes a third size parameter nz.
  */
 CUFFT_ROUTINE_HANDLER(Plan3d) {
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan1D"));
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan3D"));
     try{
         cufftHandle plan;
         int nx = in->Get<int>();
@@ -166,7 +169,7 @@ CUFFT_ROUTINE_HANDLER(SetCompatibilityMode) {
 }
 
 CUFFT_ROUTINE_HANDLER(Create) {
-    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceGetAttribute"));
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Create"));
     cufftHandle *plan_adv = in->Assign<cufftHandle>();
     cufftResult exit_code = cufftCreate(plan_adv);
     Buffer *out = new Buffer();
@@ -203,9 +206,10 @@ CUFFT_ROUTINE_HANDLER(Create) {
     @return    *workSize   Pointer to the size(s) of the work areas.
 */
 CUFFT_ROUTINE_HANDLER(XtMakePlanMany) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("XtMakePlanMany"));
+    
     cufftHandle plan = in->Get<cufftHandle>();
     int rank = in->Get<int>();
-    cout <<"HelloXtPlanMAny"<<endl;
     long long int *n = in->Assign<long long int>();//long long int's address -> uint64_t
     long long int *inembed = in->Assign<long long int>();
     long long int istride = in->Get<long long int>();
@@ -221,10 +225,22 @@ CUFFT_ROUTINE_HANDLER(XtMakePlanMany) {
     size_t * workSize = in->Assign<size_t>();
     cudaDataType executiontype = in->Get<cudaDataType>();
     
-    //Buffer *out = new Buffer();
-    //out->Add(workSize);
+    cufftResult exit_code = cufftXtMakePlanMany(plan,rank,n,inembed,istride,idist,inputtype,onembed,ostride,odist,outputtype,batch,workSize,executiontype);
+    cout << "cufftResult: "<<exit_code;
+    Buffer *out = new Buffer();
+    try{
+        //out->Add(n);
+        //out->Add(inembed);
+        //out->Add(onembed);
+        out->Add(workSize);   
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftXtMakePlanMany Executed\n";
+    
     //return new Result(ec,out);
-    return new Result(cufftXtMakePlanMany(plan,rank,n,inembed,istride,idist,inputtype,onembed,ostride,odist,outputtype,batch,workSize,executiontype));
+    return new Result(exit_code,out);
 }
 
 void CufftHandler::Initialize() {
