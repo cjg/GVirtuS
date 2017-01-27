@@ -26,14 +26,13 @@
 #include <cufft.h>
 
 #include "Frontend.h"
-
-#include <iostream>
+#include "CufftFrontend.h"
 
 using namespace std;
 
 extern "C" cufftResult cufftPlan1d(cufftHandle *plan, int nx, cufftType type,
         int batch) {
-    Frontend *f = Frontend::GetFrontend();
+    /*Frontend *f = Frontend::GetFrontend();
     f->Prepare();
     Buffer *in = f->GetInputBuffer();
     in->Add(nx);
@@ -44,8 +43,19 @@ extern "C" cufftResult cufftPlan1d(cufftHandle *plan, int nx, cufftType type,
     //cout << hex << f->GetOutputBuffer()->Get<uint64_t>();
     //*plan = (cufftHandle) f->GetOutputBuffer()->Get<uint64_t>();
     *plan = f->GetOutputBuffer()->Get<cufftHandle>();
-    cout << "CCCC\n";
-    return (cufftResult) f->GetExitCode();
+    return (cufftResult) f->GetExitCode();*/
+    CufftFrontend::Prepare();
+    CufftFrontend::AddHostPointerForArguments(plan);
+    CufftFrontend::AddVariableForArguments(nx);
+    CufftFrontend::AddVariableForArguments(type);
+    CufftFrontend::AddVariableForArguments(batch);
+    
+    CufftFrontend::Execute("cufftPlan1d");
+    if(CufftFrontend::Success())
+        *plan = *(CufftFrontend::GetOutputHostPointer<cufftHandle>());
+    cout << "plan : "<< *plan;
+    return (cufftResult) CufftFrontend::GetExitCode();
+    
 }
 
 extern "C" cufftResult cufftPlan2d(cufftHandle *plan, int nx, int ny,
@@ -99,12 +109,15 @@ extern "C" cufftResult cufftPlanMany(cufftHandle *plan, int rank, int *n,
  * in Testing - Vincenzo Santopietro
  */
 extern "C" cufftResult cufftCreate(cufftHandle *plan) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    f->Execute("cufftCreate");
-    return (cufftResult) f->GetExitCode();
+    //Frontend *f = Frontend::GetFrontend();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddHostPointerForArguments(plan);
+    //f->GetFrontend();
+    CufftFrontend::Execute("cufftCreate");
+    if(CufftFrontend::Success())
+        *plan = *(CufftFrontend::GetOutputHostPointer<cufftHandle>());
+    printf("plan: %d",*plan);
+    return (cufftResult) CufftFrontend::GetExitCode();//(cufftResult) CufftFrontend::GetExitCode();
 }
 
 
@@ -217,28 +230,27 @@ extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
 extern "C" cufftResult cufftXtMakePlanMany(cufftHandle plan, int rank, long long int *n, long long int *inembed, long long int istride, long long int idist, cudaDataType inputtype, long long int *onembed, long long int ostride, long long int odist, cudaDataType outputtype, long long int batch, size_t *workSize, cudaDataType executiontype) {
     Frontend *f = Frontend::GetFrontend();
     f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    //plan = (cufftHandle) f->GetOutputBuffer()->Get<cufftHandle>();
-    //n = (long long int * )f->GetOutputBuffer()->Get<long long int>();
+    Buffer *input_buffer = f->GetInputBuffer();
+    plan = (cufftHandle) f->GetOutputBuffer()->Get<cufftHandle>();
+    n = (long long int * )f->GetOutputBuffer()->Get<long long int>();
     
-    in->Add(plan);
-    in->Add(rank);
-    in->Add(*n);
-    in->Add(*inembed);
-    in->Add(istride);
-    in->Add(idist);
-    in->Add(inputtype);
+    input_buffer->Add(plan);
+    input_buffer->Add(rank);
+    input_buffer->Add(*n);
+    input_buffer->Add(*inembed);
+    input_buffer->Add(istride);
+    input_buffer->Add(idist);
+    input_buffer->Add(inputtype);
 
-    in->Add(*onembed);
-    in->Add(ostride);
-    in->Add(odist);
-    in->Add(outputtype);
+    input_buffer->Add(*onembed);
+    input_buffer->Add(ostride);
+    input_buffer->Add(odist);
+    input_buffer->Add(outputtype);
     
-    in->Add(batch);
-    in->Add(*workSize);
-    in->Add(executiontype);
+    input_buffer->Add(batch);
+    input_buffer->Add(*workSize);
+    input_buffer->Add(executiontype);
     f->Execute("cufftXtMakePlanMany");
-    
     
     return (cufftResult) f->GetExitCode();
 }
