@@ -23,7 +23,18 @@
  *             Department of Applied Science
  */
 
+/**
+ * @file   Cufft.cpp
+ * 
+ * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
+ * @author Vincenzo Santopietro <vincenzo.santopietro@uniparthenope.it>
+ * @date   Sat Oct 10 10:51:58 2009
+ *
+ * @brief
+ */
+
 #include <cufft.h>
+#include <cufftXt.h>
 
 #include "Frontend.h"
 #include "CufftFrontend.h"
@@ -119,18 +130,6 @@ extern "C" cufftResult cufftDestroy(cufftHandle plan) {
     return (cufftResult) f->GetExitCode();
 }
 
-extern "C" cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata,
-        cufftComplex *odata, int direction) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add(idata);
-    in->Add(odata);
-    in->Add(direction);
-    f->Execute("cufftExecC2C");
-    return (cufftResult) f->GetExitCode();
-}
 
 extern "C" cufftResult cufftExecR2C(cufftHandle plan, cufftReal *idata,
         cufftComplex *odata) {
@@ -217,31 +216,6 @@ extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
 
 
 extern "C" cufftResult cufftXtMakePlanMany(cufftHandle plan, int rank, long long int *n, long long int *inembed, long long int istride, long long int idist, cudaDataType inputtype, long long int *onembed, long long int ostride, long long int odist, cudaDataType outputtype, long long int batch, size_t *workSize, cudaDataType executiontype) {
-    /*Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *input_buffer = f->GetInputBuffer();
-    plan = (cufftHandle) f->GetOutputBuffer()->Get<cufftHandle>();
-    n = (long long int * )f->GetOutputBuffer()->Get<long long int>();
-    
-    input_buffer->Add(plan);
-    input_buffer->Add(rank);
-    input_buffer->Add(*n);
-    input_buffer->Add(*inembed);
-    input_buffer->Add(istride);
-    input_buffer->Add(idist);
-    input_buffer->Add(inputtype);
-
-    input_buffer->Add(*onembed);
-    input_buffer->Add(ostride);
-    input_buffer->Add(odist);
-    input_buffer->Add(outputtype);
-    
-    input_buffer->Add(batch);
-    input_buffer->Add(*workSize);
-    input_buffer->Add(executiontype);
-    f->Execute("cufftXtMakePlanMany");
-    
-    return (cufftResult) f->GetExitCode();*/
     CufftFrontend::Prepare();
     //Passing Arguments
     CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
@@ -264,10 +238,22 @@ extern "C" cufftResult cufftXtMakePlanMany(cufftHandle plan, int rank, long long
     
     CufftFrontend::Execute("cufftXtMakePlanMany");
     if(CufftFrontend::Success()){
-        //*n = *(CufftFrontend::GetOutputHostPointer<long long int>());
-        //*inembed = *(CufftFrontend::GetOutputHostPointer<long long int>());
-        //*onembed = *(CufftFrontend::GetOutputHostPointer<long long int>());
         *workSize = *(CufftFrontend::GetOutputHostPointer<size_t>());
+    }
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata, cufftComplex *odata, int direction) {
+    CufftFrontend::Prepare();
+    //Passing Arguments
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments((void*)idata);
+    CufftFrontend::AddDevicePointerForArguments((void*)odata);
+    CufftFrontend::AddVariableForArguments<int>(direction);
+    
+    CufftFrontend::Execute("cufftExecC2C");
+    if(CufftFrontend::Success()){
+        odata = (cufftComplex*)(CufftFrontend::GetOutputDevicePointer());
     }
     return (cufftResult) CufftFrontend::GetExitCode();
 }

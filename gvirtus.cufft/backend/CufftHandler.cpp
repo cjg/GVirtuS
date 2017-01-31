@@ -226,7 +226,6 @@ CUFFT_ROUTINE_HANDLER(XtMakePlanMany) {
     cudaDataType executiontype = in->Get<cudaDataType>();
     
     cufftResult exit_code = cufftXtMakePlanMany(plan,rank,n,inembed,istride,idist,inputtype,onembed,ostride,odist,outputtype,batch,workSize,executiontype);
-    cout << "cufftResult: "<<exit_code;
     Buffer *out = new Buffer();
     try{
         //out->Add(n);
@@ -238,8 +237,45 @@ CUFFT_ROUTINE_HANDLER(XtMakePlanMany) {
         return new Result(cudaErrorMemoryAllocation);
     }
     cout<<"DEBUG - cufftXtMakePlanMany Executed\n";
+    return new Result(exit_code,out);
+}
+
+/*
+ *cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata, cufftComplex *odata, int direction);
+ *cufftExecC2C() (cufftExecZ2Z()) executes a single-precision (double-precision) complex-to-complex transform plan in the transform direction as specified by direction parameter.
+ *cuFFT uses the GPU memory pointed to by the idata parameter as input data. 
+ *This function stores the Fourier coefficients in the odata array. If idata and odata are the same, this method does an in-place transform. 
+ */
+CUFFT_ROUTINE_HANDLER(ExecC2C){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecC2C"));
     
-    //return new Result(ec,out);
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftComplex **idata,**odata;
+    try{
+        idata = (in->Assign<cufftComplex*>());
+    } catch (std::string e){
+        cout << e <<endl;
+    }
+    
+    try{
+        odata = (in->Assign<cufftComplex*>());    
+    } catch (std::string e){
+        odata = idata;
+        cout << e <<endl;
+    }
+    
+    int direction = in->Get<int>();
+    
+    cufftResult exit_code = cufftExecC2C(plan,*idata,*odata,direction);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->AddMarshal(*odata);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftExecC2C Executed\n";
     return new Result(exit_code,out);
 }
 
@@ -254,6 +290,7 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Create));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtMakePlanMany));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2C));
 }
 
 
