@@ -185,6 +185,20 @@ CUFFT_ROUTINE_HANDLER(Create) {
     return new Result(exit_code, out);
     //return new Result(ec, out);
 }
+/*
+ * cufftResult cufftDestroy(cufftHandle plan);
+ * Frees all GPU resources associated with a cuFFT plan and destroys the internal plan data structure.
+ * This function should be called once a plan is no longer needed, to avoid wasting GPU memory.
+ */
+CUFFT_ROUTINE_HANDLER(Destroy) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Create"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftResult exit_code = cufftDestroy(plan);
+    
+    cout << "DEBUG - cufftDestroy Executed\n";
+    return new Result(exit_code);
+}
 
 /**
     cufftXtMakePlanMAny Handler
@@ -210,7 +224,7 @@ CUFFT_ROUTINE_HANDLER(XtMakePlanMany) {
     
     cufftHandle plan = in->Get<cufftHandle>();
     int rank = in->Get<int>();
-    long long int *n = in->Assign<long long int>();//long long int's address -> uint64_t
+    long long int *n = in->Assign<long long int>();
     long long int *inembed = in->Assign<long long int>();
     long long int istride = in->Get<long long int>();
     long long int idist = in->Get<long long int>();
@@ -279,6 +293,56 @@ CUFFT_ROUTINE_HANDLER(ExecC2C){
     return new Result(exit_code,out);
 }
 
+/*
+ * cufftResult 
+    cufftXtSetGPUs(cufftHandle plan, int nGPUs, int *whichGPUs);
+ *  cufftXtSetGPUs() indentifies which GPUs are to be used with the plan. 
+ * As in the single GPU case cufftCreate() creates a plan and cufftMakePlan*() does the plan generation.
+ * This call will return an error if a non-default stream has been associated with the plan.
+ */
+CUFFT_ROUTINE_HANDLER(XtSetGPUs){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("XtSetGPUs"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    int nGPUs = in->Get<int>();
+    int *whichGPUs = (in->Assign<int>());
+    cufftResult exit_code = cufftXtSetGPUs(plan,nGPUs,whichGPUs);
+    
+    cout<<"DEBUG - cufftXtSetGPUs Executed\n";
+    return new Result(exit_code);
+}
+
+/*
+ * cufftResult 
+    cufftMakePlan1d(cufftHandle plan, int nx, cufftType type, int batch, 
+        size_t *workSize);
+ * Following a call to cufftCreate() makes a 1D FFT plan configuration for a specified signal size and data type.
+ * The batch input parameter tells cuFFT how many 1D transforms to configure.
+ */
+CUFFT_ROUTINE_HANDLER(MakePlan1d) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("MakePlan1d"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    int nx = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    int batch = in->Get<int>();
+    size_t * workSize = (in->Assign<size_t>());
+    cout<< "worksize: "<<workSize<<endl;
+    cout<<"worksize0 : "<<workSize[0]<<"worksize1: "<<workSize[1]<<endl;
+    cufftResult exit_code = cufftMakePlan1d(plan,nx,type,batch,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftMakePlan1d Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
 void CufftHandler::Initialize() {
     if (mspHandlers != NULL)
         return;
@@ -286,10 +350,13 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan3d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Create));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Destroy));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtMakePlanMany));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtSetGPUs));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2C));
 }
 

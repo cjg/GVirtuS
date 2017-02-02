@@ -85,6 +85,23 @@ extern "C" cufftResult cufftPlan3d(cufftHandle *plan, int nx, int ny, int nz,
     return (cufftResult) f->GetExitCode();
 }
 
+
+extern "C" cufftResult cufftMakePlan1d(cufftHandle plan, int nx, cufftType type, int batch, size_t * workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    
+    CufftFrontend::Execute("cufftMakePlan1d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
 extern "C" cufftResult cufftPlanMany(cufftHandle *plan, int rank, int *n, 
         int *inembed, int istride, int idist, int *onembed, int ostride,
         int odist, cufftType type, int batch) {
@@ -105,29 +122,23 @@ extern "C" cufftResult cufftPlanMany(cufftHandle *plan, int rank, int *n,
     return (cufftResult) f->GetExitCode();
 }
 
-/*
- * in Testing - Vincenzo Santopietro
- */
+
 extern "C" cufftResult cufftCreate(cufftHandle *plan) {
-    //Frontend *f = Frontend::GetFrontend();
     CufftFrontend::Prepare();
     CufftFrontend::AddHostPointerForArguments(plan);
-    //f->GetFrontend();
     CufftFrontend::Execute("cufftCreate");
     if(CufftFrontend::Success())
         *plan = *(CufftFrontend::GetOutputHostPointer<cufftHandle>());
-    printf("plan: %d",*plan);
+    //printf("plan: %d",*plan);
     return (cufftResult) CufftFrontend::GetExitCode();//(cufftResult) CufftFrontend::GetExitCode();
 }
 
 
 extern "C" cufftResult cufftDestroy(cufftHandle plan) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    f->Execute("cufftDestroy");
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::Execute("cufftDestroy");
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 
@@ -257,3 +268,16 @@ extern "C" cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata, cufft
     }
     return (cufftResult) CufftFrontend::GetExitCode();
 }
+
+
+extern "C" cufftResult cufftXtSetGPUs(cufftHandle plan, int nGPUs, int *whichGPUs) {
+    CufftFrontend::Prepare();
+    //Passing arguments
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(nGPUs);
+    CufftFrontend::AddHostPointerForArguments<int>(whichGPUs,sizeof(int));
+ 
+    CufftFrontend::Execute("cufftXtSetGPUs");
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
