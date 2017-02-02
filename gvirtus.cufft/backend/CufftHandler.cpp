@@ -327,8 +327,6 @@ CUFFT_ROUTINE_HANDLER(MakePlan1d) {
     cufftType type = in->Get<cufftType>();
     int batch = in->Get<int>();
     size_t * workSize = (in->Assign<size_t>());
-    cout<< "worksize: "<<workSize<<endl;
-    cout<<"worksize0 : "<<workSize[0]<<"worksize1: "<<workSize[1]<<endl;
     cufftResult exit_code = cufftMakePlan1d(plan,nx,type,batch,workSize);
     
     Buffer *out = new Buffer();
