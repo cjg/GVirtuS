@@ -346,6 +346,29 @@ CUFFT_ROUTINE_HANDLER(XtSetGPUs){
     return new Result(exit_code);
 }
 
+
+CUFFT_ROUTINE_HANDLER(Estimate1d) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Estimate1d"));
+    
+    int nx = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    int batch = in->Get<int>();
+    size_t * workSize = (in->Assign<size_t>());
+    cufftResult exit_code = cufftEstimate1d(nx,type,batch,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftEstimate1d Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
+
 /*
  * cufftResult 
     cufftMakePlan1d(cufftHandle plan, int nx, cufftType type, int batch, 
@@ -485,6 +508,38 @@ CUFFT_ROUTINE_HANDLER(MakePlanMany64) {
     cout<<"DEBUG - cufftMakePlanMany64 Executed\n";
     return new Result(exit_code,out);
 }
+
+
+CUFFT_ROUTINE_HANDLER(GetSizeMany64) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSizeMany64"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    int rank = in->Get<int>();
+    long long int *n = in->Assign<long long int>();
+    long long int *inembed = in->Assign<long long int>();
+    long long int istride = in->Get<long long int>();
+    long long int idist = in->Get<long long int>();
+
+    long long int *onembed = in->Assign<long long int>();
+    long long int ostride = in->Get<long long int>();
+    long long int odist = in->Get<long long int>();
+    
+    cufftType type = in->Get<cufftType>();
+    long long int batch = in->Get<long long int>();
+    size_t * workSize = in->Assign<size_t>();
+    
+    cufftResult exit_code = cufftGetSizeMany64(plan,rank,n,inembed,istride,idist,onembed,ostride,odist,type,batch,workSize);
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);   
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftGetSizeMany64 Executed\n";
+    return new Result(exit_code,out);
+}
+
 
 
 /*
@@ -651,6 +706,7 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany64));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany64));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Create));

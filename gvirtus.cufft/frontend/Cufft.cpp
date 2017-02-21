@@ -85,6 +85,18 @@ extern "C" cufftResult cufftPlan3d(cufftHandle *plan, int nx, int ny, int nz,
     return (cufftResult) f->GetExitCode();
 }
 
+extern "C" cufftResult cufftEstimate1d(int nx, cufftType type, int batch, size_t * workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    CufftFrontend::Execute("cufftEstimate1d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
 
 extern "C" cufftResult cufftMakePlan1d(cufftHandle plan, int nx, cufftType type, int batch, size_t * workSize){
     CufftFrontend::Prepare();
@@ -198,7 +210,10 @@ extern "C" cufftResult cufftGetSizeMany64(cufftHandle plan, int rank, long long 
         CufftFrontend::AddVariableForArguments<cufftType>(type);
         CufftFrontend::AddVariableForArguments<long long int>(batch);
         CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
-
+        CufftFrontend::Execute("cufftGetSizeMany64");
+        if(CufftFrontend::Success())
+            *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+        return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 
