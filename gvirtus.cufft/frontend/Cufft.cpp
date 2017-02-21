@@ -243,29 +243,112 @@ extern "C" cufftResult cufftMakePlanMany64(cufftHandle plan, int rank, long long
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+extern "C" cufftResult cufftGetSize1d(cufftHandle handle, int nx, cufftType type,
+        int batch, size_t *workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<cufftHandle>(handle);
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+                                   
+    CufftFrontend::Execute("cufftGetSize1d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftGetSize2d(cufftHandle handle, int nx, int ny, cufftType type,
+        size_t *workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<cufftHandle>(handle);
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<int>(ny);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+                                   
+    CufftFrontend::Execute("cufftGetSize2d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
+extern "C" cufftResult cufftGetSize3d(cufftHandle handle, int nx, int ny, int nz, cufftType type,
+        size_t *workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<cufftHandle>(handle);
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<int>(ny);
+    CufftFrontend::AddVariableForArguments<int>(nz);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+                                   
+    CufftFrontend::Execute("cufftGetSize3d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftGetSizeMany(cufftHandle handle, int rank, int *n, 
+        int *inembed, int istride, int idist, int *onembed, int ostride,
+        int odist, cufftType type, int batch, size_t *workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<cufftHandle>(handle);
+    CufftFrontend::AddVariableForArguments<int>(rank);
+    CufftFrontend::AddHostPointerForArguments<int>(n);
+    CufftFrontend::AddHostPointerForArguments<int>(inembed);
+    CufftFrontend::AddVariableForArguments<int>(istride);
+    CufftFrontend::AddVariableForArguments<int>(idist);
+    CufftFrontend::AddHostPointerForArguments<int>(onembed);
+    CufftFrontend::AddVariableForArguments<int>(ostride);
+    CufftFrontend::AddVariableForArguments<int>(odist);
+    
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    
+    CufftFrontend::Execute("cufftGetSizeMany");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
 
 extern "C" cufftResult cufftGetSizeMany64(cufftHandle plan, int rank, long long int *n, 
         long long int *inembed, long long int istride, long long int idist, long long int *onembed, long long int ostride,
         long long int odist, cufftType type, long long int batch,size_t * workSize) {
-        CufftFrontend::Prepare();
-        CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
-        CufftFrontend::AddVariableForArguments<int>(rank);
-        CufftFrontend::AddHostPointerForArguments<long long int>(n);
-        CufftFrontend::AddHostPointerForArguments<long long int>(inembed);
-        CufftFrontend::AddVariableForArguments<long long int>(istride);
-        CufftFrontend::AddVariableForArguments<long long int>(idist);
-        CufftFrontend::AddHostPointerForArguments<long long int>(onembed);
-        CufftFrontend::AddVariableForArguments<long long int>(ostride);
-        CufftFrontend::AddVariableForArguments<long long int>(odist);
-        CufftFrontend::AddVariableForArguments<cufftType>(type);
-        CufftFrontend::AddVariableForArguments<long long int>(batch);
-        CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
-        CufftFrontend::Execute("cufftGetSizeMany64");
-        if(CufftFrontend::Success())
-            *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
-        return (cufftResult) CufftFrontend::GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(rank);
+    CufftFrontend::AddHostPointerForArguments<long long int>(n);
+    CufftFrontend::AddHostPointerForArguments<long long int>(inembed);
+    CufftFrontend::AddVariableForArguments<long long int>(istride);
+    CufftFrontend::AddVariableForArguments<long long int>(idist);
+    CufftFrontend::AddHostPointerForArguments<long long int>(onembed);
+    CufftFrontend::AddVariableForArguments<long long int>(ostride);
+    CufftFrontend::AddVariableForArguments<long long int>(odist);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<long long int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    CufftFrontend::Execute("cufftGetSizeMany64");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+extern "C" cufftResult cufftGetSize(cufftHandle handle, size_t * workSize){
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(handle);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    CufftFrontend::Execute("cufftGetSize");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
 
 extern "C" cufftResult cufftPlanMany(cufftHandle *plan, int rank, int *n, 
         int *inembed, int istride, int idist, int *onembed, int ostride,

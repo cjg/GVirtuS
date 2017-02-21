@@ -584,6 +584,104 @@ CUFFT_ROUTINE_HANDLER(MakePlanMany64) {
     return new Result(exit_code,out);
 }
 
+CUFFT_ROUTINE_HANDLER(GetSize1d) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSize1d"));
+        
+    cufftHandle handle = in->Get<cufftHandle>();
+    int nx = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    int batch = in->Get<int>();
+    size_t * workSize = (in->Assign<size_t>());
+    cufftResult exit_code = cufftGetSize1d(handle,nx,type,batch,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftGetSize1d Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
+
+CUFFT_ROUTINE_HANDLER(GetSize2d) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSize2d"));
+        
+    cufftHandle handle = in->Get<cufftHandle>();
+    int nx = in->Get<int>();
+    int ny = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    size_t * workSize = (in->Assign<size_t>());
+    cufftResult exit_code = cufftGetSize2d(handle,nx,ny,type,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftGetSize2d Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
+CUFFT_ROUTINE_HANDLER(GetSize3d) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSize3d"));
+        
+    cufftHandle handle = in->Get<cufftHandle>();
+    int nx = in->Get<int>();
+    int ny = in->Get<int>();
+    int nz = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    size_t * workSize = (in->Assign<size_t>());
+    cufftResult exit_code = cufftGetSize3d(handle,nx,ny,nz,type,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftGetSize3d Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
+CUFFT_ROUTINE_HANDLER(GetSizeMany) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSizeMany"));
+    
+    cufftHandle handle = in->Get<cufftHandle>();
+    int rank = in->Get<int>();
+    int * n = in->Assign<int>();
+    int * inembed = in->Assign<int>();
+    int istride = in->Get<int>();
+    int idist = in->Get<int>();
+    
+    int * onembed = in->Assign<int>();
+    int ostride = in->Get<int>();
+    int odist = in->Get<int>();
+    
+    cufftType type = in->Get<cufftType>();
+    int batch = in->Get<int>();
+    size_t * workSize = (in->Assign<size_t>());
+    
+    cufftResult exit_code = cufftGetSizeMany(handle,rank,n,inembed,istride,idist,onembed,ostride,odist,type,batch,workSize);
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftGetSizeMany Executed"<<endl;
+    return new Result(exit_code,out);
+}
 
 CUFFT_ROUTINE_HANDLER(GetSizeMany64) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSizeMany64"));
@@ -615,7 +713,23 @@ CUFFT_ROUTINE_HANDLER(GetSizeMany64) {
     return new Result(exit_code,out);
 }
 
+CUFFT_ROUTINE_HANDLER(GetSize) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSize"));
+    
+    cufftHandle handle = in->Get<cufftHandle>();
+    size_t * workSize = in->Assign<size_t>();
+    cufftResult exit_code = cufftGetSize(handle,workSize);
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);   
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftGetSize Executed\n";
+    return new Result(exit_code,out);
 
+}
 
 /*
  * cufftResult cufftXtMalloc(cufftHandle plan, cudaLibXtDesc **descriptor, 
@@ -781,7 +895,12 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany64));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize1d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize2d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize3d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany64));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate3d));
