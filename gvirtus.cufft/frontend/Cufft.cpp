@@ -101,25 +101,130 @@ extern "C" cufftResult cufftMakePlan1d(cufftHandle plan, int nx, cufftType type,
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+extern "C" cufftResult cufftMakePlan2d(cufftHandle plan, int nx,int ny, cufftType type, size_t * workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<int>(ny);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    
+    CufftFrontend::Execute("cufftMakePlan2d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
+extern "C" cufftResult cufftMakePlan3d(cufftHandle plan, int nx,int ny,int nz, cufftType type, size_t * workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<int>(ny);
+    CufftFrontend::AddVariableForArguments<int>(nz);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    
+    CufftFrontend::Execute("cufftMakePlan3d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftMakePlanMany(cufftHandle plan, int rank, int *n, 
+        int *inembed, int istride, int idist, int *onembed, int ostride,
+        int odist, cufftType type, int batch,size_t * workSize) {
+    CufftFrontend::Prepare();
+    //Passing arguments
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(rank);
+    CufftFrontend::AddHostPointerForArguments<int>(n);
+    CufftFrontend::AddHostPointerForArguments<int>(inembed);
+    CufftFrontend::AddVariableForArguments<int>(istride);
+    CufftFrontend::AddVariableForArguments<int>(idist);
+    CufftFrontend::AddHostPointerForArguments<int>(onembed);
+    CufftFrontend::AddVariableForArguments<int>(ostride);
+    CufftFrontend::AddVariableForArguments<int>(odist);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    
+    CufftFrontend::Execute("cufftMakePlanMany");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftMakePlanMany64(cufftHandle plan, int rank, long long int *n, 
+        long long int *inembed, long long int istride, long long int idist, long long int *onembed, long long int ostride,
+        long long int odist, cufftType type, long long int batch,size_t * workSize) {
+    CufftFrontend::Prepare();
+    //Passing arguments
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(rank);
+    CufftFrontend::AddHostPointerForArguments<long long int>(n);
+    CufftFrontend::AddHostPointerForArguments<long long int>(inembed);
+    CufftFrontend::AddVariableForArguments<long long int>(istride);
+    CufftFrontend::AddVariableForArguments<long long int>(idist);
+    CufftFrontend::AddHostPointerForArguments<long long int>(onembed);
+    CufftFrontend::AddVariableForArguments<long long int>(ostride);
+    CufftFrontend::AddVariableForArguments<long long int>(odist);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<long long int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    
+    CufftFrontend::Execute("cufftMakePlanMany64");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
+extern "C" cufftResult cufftGetSizeMany64(cufftHandle plan, int rank, long long int *n, 
+        long long int *inembed, long long int istride, long long int idist, long long int *onembed, long long int ostride,
+        long long int odist, cufftType type, long long int batch,size_t * workSize) {
+        CufftFrontend::Prepare();
+        CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+        CufftFrontend::AddVariableForArguments<int>(rank);
+        CufftFrontend::AddHostPointerForArguments<long long int>(n);
+        CufftFrontend::AddHostPointerForArguments<long long int>(inembed);
+        CufftFrontend::AddVariableForArguments<long long int>(istride);
+        CufftFrontend::AddVariableForArguments<long long int>(idist);
+        CufftFrontend::AddHostPointerForArguments<long long int>(onembed);
+        CufftFrontend::AddVariableForArguments<long long int>(ostride);
+        CufftFrontend::AddVariableForArguments<long long int>(odist);
+        CufftFrontend::AddVariableForArguments<cufftType>(type);
+        CufftFrontend::AddVariableForArguments<long long int>(batch);
+        CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+
+}
+
 
 extern "C" cufftResult cufftPlanMany(cufftHandle *plan, int rank, int *n, 
         int *inembed, int istride, int idist, int *onembed, int ostride,
         int odist, cufftType type, int batch) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(rank);
-    in->Add(*n);
-    in->Add(istride);
-    in->Add(idist);
-    in->Add(ostride);
-    in->Add(odist);
-    in->Add(type);
-    in->Add(batch);
-    f->Execute("cufftPlanMany");
-    *plan = (cufftHandle) f->GetOutputBuffer()->Get<uint64_t>();
-    *n = f->GetOutputBuffer()->Get<int>();
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    //Passing arguments
+    CufftFrontend::AddHostPointerForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(rank);
+    CufftFrontend::AddHostPointerForArguments<int>(n);
+    CufftFrontend::AddHostPointerForArguments<int>(inembed);
+    CufftFrontend::AddVariableForArguments<int>(istride);
+    CufftFrontend::AddVariableForArguments<int>(idist);
+    CufftFrontend::AddHostPointerForArguments<int>(onembed);
+    CufftFrontend::AddVariableForArguments<int>(ostride);
+    CufftFrontend::AddVariableForArguments<int>(odist);
+    
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<int>(batch);
+    CufftFrontend::Execute("cufftPlanMany");
+    
+    if(CufftFrontend::Success())
+        plan = CufftFrontend::GetOutputHostPointer<cufftHandle>();
+        
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 
@@ -141,7 +246,7 @@ extern "C" cufftResult cufftDestroy(cufftHandle plan) {
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
-
+//Da convertire
 extern "C" cufftResult cufftExecR2C(cufftHandle plan, cufftReal *idata,
         cufftComplex *odata) {
     Frontend *f = Frontend::GetFrontend();
@@ -153,7 +258,7 @@ extern "C" cufftResult cufftExecR2C(cufftHandle plan, cufftReal *idata,
     f->Execute("cufftExecR2C");
     return (cufftResult) f->GetExitCode();
 }
-
+//Da convertire
 extern "C" cufftResult cufftExecC2R(cufftHandle plan, cufftComplex *idata,
         cufftReal *odata) {
     Frontend *f = Frontend::GetFrontend();
@@ -261,11 +366,11 @@ extern "C" cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata, cufft
     CufftFrontend::AddDevicePointerForArguments((void*)idata);
     CufftFrontend::AddDevicePointerForArguments((void*)odata);
     CufftFrontend::AddVariableForArguments<int>(direction);
-    
+    cout<< "ExecC2C"<<endl;
     CufftFrontend::Execute("cufftExecC2C");
-    if(CufftFrontend::Success()){
+    /*if(CufftFrontend::Success()){
         odata = (cufftComplex*)(CufftFrontend::GetOutputDevicePointer());
-    }
+    }*/
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
@@ -280,4 +385,101 @@ extern "C" cufftResult cufftXtSetGPUs(cufftHandle plan, int nGPUs, int *whichGPU
     CufftFrontend::Execute("cufftXtSetGPUs");
     return (cufftResult) CufftFrontend::GetExitCode();
 }
+
+extern "C" cufftResult cufftXtMalloc(cufftHandle plan, cudaLibXtDesc **descriptor,cufftXtSubFormat format ){
+    CufftFrontend::Prepare();
+    //Passing arguments
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddHostPointerForArguments<cudaLibXtDesc*>(descriptor);
+    CufftFrontend::AddVariableForArguments<cufftXtSubFormat>(format);
+    
+    CufftFrontend::Execute("cufftXtMalloc");
+    if (CufftFrontend::Success())
+        descriptor = CufftFrontend::GetOutputHostPointer<cudaLibXtDesc*>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
+/*Da testare*/
+extern "C" cufftResult cufftXtMemcpy(cufftHandle plan, void *dstPointer, void *srcPointer,cufftXtCopyType type){
+    CufftFrontend::Prepare();
+    
+    switch(type){
+        case CUFFT_COPY_HOST_TO_DEVICE:
+            CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+            CufftFrontend::AddDevicePointerForArguments((void*)dstPointer);
+            CufftFrontend::AddHostPointerForArguments((void*)srcPointer);
+            CufftFrontend::AddVariableForArguments<cufftXtCopyType>(CUFFT_COPY_HOST_TO_DEVICE);
+            CufftFrontend::Execute("cufftXtMemcpy");
+            cout<<"executed"<<endl;
+            //if(CufftFrontend::Success())
+            //    dstPointer = CufftFrontend::GetOutputDevicePointer();
+            cout <<"dstPointer"<<dstPointer<<endl;
+            break;
+        case CUFFT_COPY_DEVICE_TO_HOST:
+            CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+            CufftFrontend::AddHostPointerForArguments(dstPointer);
+            CufftFrontend::AddDevicePointerForArguments(srcPointer);
+            CufftFrontend::AddVariableForArguments<cufftXtCopyType>(type);
+            CufftFrontend::Execute("cufftXtMemcpy");
+            if(CufftFrontend::Success())
+                dstPointer = CufftFrontend::GetOutputHostPointer<void>();
+            break;
+        case CUFFT_COPY_DEVICE_TO_DEVICE:
+            CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+            CufftFrontend::AddDevicePointerForArguments(dstPointer);
+            CufftFrontend::AddDevicePointerForArguments(srcPointer);
+            CufftFrontend::AddVariableForArguments<cufftXtCopyType>(type);
+            CufftFrontend::Execute("cufftXtMemcpy");
+            if(CufftFrontend::Success())
+                dstPointer = CufftFrontend::GetOutputDevicePointer();
+            break;
+        default:
+            break;
+    }
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
+/*Da testare*/
+extern "C" cufftResult cufftXtExecDescriptorC2C(cufftHandle plan, cudaLibXtDesc *input, cudaLibXtDesc *output, int direction){
+    CufftFrontend::Prepare();
+    //Passing Arguments
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments(input);
+    CufftFrontend::AddDevicePointerForArguments(output);
+    CufftFrontend::AddVariableForArguments<int>(direction);
+    
+    CufftFrontend::Execute("cufftXtExecDescriptorC2C");
+    if(CufftFrontend::Success()){
+        output = (cudaLibXtDesc*)(CufftFrontend::GetOutputDevicePointer());
+    }
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
+/*Da testare*/
+extern "C" cufftResult cufftXtFree(cudaLibXtDesc *descriptor){
+    CufftFrontend::Prepare();
+    //Passing arguments
+    CufftFrontend::AddHostPointerForArguments<cudaLibXtDesc>(descriptor);
+    CufftFrontend::Execute("cufftXtFree");
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+/*Da testare*/
+extern "C" cufftResult cufftXtSetCallback(cufftHandle plan, void **callbackRoutine, cufftXtCallbackType type, void **callerInfo){
+    /*CufftFrontend::Prepare();
+    //Passing arguments
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddHostPointerForArguments(callbackRoutine);
+    CufftFrontend::AddVariableForArguments<cufftXtCallbackType>(type);
+    CufftFrontend::AddDevicePointerForArguments(callerInfo);
+    cout<<"callerinfo: "<<callerInfo<< "plan: "<<plan<<endl;
+    CufftFrontend::Execute("cufftXtSetCallback");*/
+    /* Avoiding useless communication because GVIRTUS does not support statically linked libraries */
+    cout << endl <<"EXCEPTION - function cufftXtSetCallback not supported in GVIRTUS" << endl;
+    return (cufftResult) CUFFT_NOT_IMPLEMENTED;//CufftFrontend::GetExitCode();
+} 
+
 
