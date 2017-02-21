@@ -368,6 +368,81 @@ CUFFT_ROUTINE_HANDLER(Estimate1d) {
     return new Result(exit_code,out);
 }
 
+CUFFT_ROUTINE_HANDLER(Estimate2d) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Estimate2d"));
+    
+    int nx = in->Get<int>();
+    int ny = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    size_t * workSize = (in->Assign<size_t>());
+    cufftResult exit_code = cufftEstimate2d(nx,ny,type,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftEstimate2d Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
+
+CUFFT_ROUTINE_HANDLER(Estimate3d) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Estimate3d"));
+    
+    int nx = in->Get<int>();
+    int ny = in->Get<int>();
+    int nz = in->Get<int>();
+    cufftType type = in->Get<cufftType>();
+    size_t * workSize = (in->Assign<size_t>());
+    cufftResult exit_code = cufftEstimate3d(nx,ny,nz,type,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftEstimate3d Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
+CUFFT_ROUTINE_HANDLER(EstimateMany) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("EstimateMany"));
+    
+    int rank = in->Get<int>();
+    int * n = in->Assign<int>();
+    int * inembed = in->Assign<int>();
+    int istride = in->Get<int>();
+    int idist = in->Get<int>();
+    
+    int * onembed = in->Assign<int>();
+    int ostride = in->Get<int>();
+    int odist = in->Get<int>();
+    
+    cufftType type = in->Get<cufftType>();
+    int batch = in->Get<int>();
+    size_t * workSize = (in->Assign<size_t>());
+    
+    cufftResult exit_code = cufftEstimateMany(rank,n,inembed,istride,idist,onembed,ostride,odist,type,batch,workSize);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->Add(workSize);
+    } catch (string e){
+        cout << 'DEBUG - ' <<  e << endl;
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftEstimateMany Executed"<<endl;
+    return new Result(exit_code,out);
+}
+
 
 /*
  * cufftResult 
@@ -707,13 +782,19 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany64));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany64));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate1d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate2d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate3d));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(EstimateMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Create));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Destroy));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2C));
+    
+    /* -- CufftX -- */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtMakePlanMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtSetGPUs));
-    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2C));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtExecDescriptorC2C));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtSetCallback));
     /* - Memory Management - */

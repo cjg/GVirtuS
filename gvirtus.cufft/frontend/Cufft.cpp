@@ -98,6 +98,56 @@ extern "C" cufftResult cufftEstimate1d(int nx, cufftType type, int batch, size_t
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+extern "C" cufftResult cufftEstimate2d(int nx, int ny, cufftType type, size_t * workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<int>(ny);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    CufftFrontend::Execute("cufftEstimate2d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftEstimate3d(int nx, int ny, int nz, cufftType type, size_t * workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<int>(nx);
+    CufftFrontend::AddVariableForArguments<int>(ny);
+    CufftFrontend::AddVariableForArguments<int>(nz);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    CufftFrontend::Execute("cufftEstimate3d");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftEstimateMany( int rank, int *n, 
+        int *inembed, int istride, int idist, int *onembed, int ostride,
+        int odist, cufftType type, int batch,size_t * workSize){
+    CufftFrontend::Prepare();
+    
+    CufftFrontend::AddVariableForArguments<int>(rank);
+    CufftFrontend::AddHostPointerForArguments<int>(n);
+    CufftFrontend::AddHostPointerForArguments<int>(inembed);
+    CufftFrontend::AddVariableForArguments<int>(istride);
+    CufftFrontend::AddVariableForArguments<int>(idist);
+    CufftFrontend::AddHostPointerForArguments<int>(onembed);
+    CufftFrontend::AddVariableForArguments<int>(ostride);
+    CufftFrontend::AddVariableForArguments<int>(odist);
+    CufftFrontend::AddVariableForArguments<cufftType>(type);
+    CufftFrontend::AddVariableForArguments<int>(batch);
+    CufftFrontend::AddHostPointerForArguments<size_t>(workSize);
+    CufftFrontend::Execute("cufftEstimateMany");
+    if(CufftFrontend::Success())
+        *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+
 extern "C" cufftResult cufftMakePlan1d(cufftHandle plan, int nx, cufftType type, int batch, size_t * workSize){
     CufftFrontend::Prepare();
     
