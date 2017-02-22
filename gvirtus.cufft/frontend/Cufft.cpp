@@ -394,42 +394,52 @@ extern "C" cufftResult cufftDestroy(cufftHandle plan) {
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
-//Da convertire
+extern "C" cufftResult cufftSetWorkArea(cufftHandle plan, void *workArea) {
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments(workArea);
+    CufftFrontend::Execute("cufftSetWorkArea");
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftSetAutoAllocation(cufftHandle plan, int autoAllocate){
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<int>(autoAllocate);
+    CufftFrontend::Execute("cufftSetAutoAllocation");
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
 extern "C" cufftResult cufftExecR2C(cufftHandle plan, cufftReal *idata,
         cufftComplex *odata) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add(idata);
-    in->Add(odata);
-    f->Execute("cufftExecR2C");
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments((void*)idata);
+    CufftFrontend::AddDevicePointerForArguments((void*)odata);
+    CufftFrontend::Execute("cufftExecR2C");
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
-//Da convertire
+
+
 extern "C" cufftResult cufftExecC2R(cufftHandle plan, cufftComplex *idata,
         cufftReal *odata) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add((uint64_t) idata);
-    in->Add((uint64_t) odata);
-    f->Execute("cufftExecC2R");
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments((void*)idata);
+    CufftFrontend::AddDevicePointerForArguments((void*)odata);
+    CufftFrontend::Execute("cufftExecC2R");
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 extern "C" cufftResult cufftExecZ2Z(cufftHandle plan, cufftDoubleComplex *idata,
         cufftDoubleComplex *odata, int direction) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add(idata);
-    in->Add(odata);
-    in->Add(direction);
-    f->Execute("cufftExecZ2z");
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments((void*)idata);
+    CufftFrontend::AddDevicePointerForArguments((void*)odata);
+    CufftFrontend::AddVariableForArguments<int>(direction);
+    CufftFrontend::Execute("cufftExecZ2Z");
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 extern "C" cufftResult cufftExecD2Z(cufftHandle plan, cufftDoubleReal *idata,

@@ -188,10 +188,35 @@ CUFFT_ROUTINE_HANDLER(PlanMany) {
 
 
 CUFFT_ROUTINE_HANDLER(ExecC2R) {
-    cufftHandle plan = in->Get<cufftHandle > ();
-    cufftComplex *idata = (cufftComplex *) in->Get<uint64_t > ();
-    cufftReal *odata = (cufftReal *) in->Get<uint64_t > ();
-    return new Result(cufftExecC2R(plan, idata, odata));
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecC2R"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftReal **odata;
+    cufftComplex **idata;
+    try{
+        idata = (in->Assign<cufftComplex*>());
+    } catch (std::string e){
+        cout << e <<endl;
+    }
+    
+    try{
+        odata = (in->Assign<cufftReal*>());    
+    } catch (std::string e){
+        odata = (cufftReal**) idata;
+        cout << e <<endl;
+    }
+    
+    cufftResult exit_code = cufftExecC2R(plan,*idata,*odata);
+    
+    /*Buffer *out = new Buffer();
+    try{
+        out->AddMarshal(*odata);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }*/
+    cout<<"DEBUG - cufftExecC2R Executed\n";
+    return new Result(exit_code/*,out*/);
 }
 
 CUFFT_ROUTINE_HANDLER(SetCompatibilityMode) {
@@ -229,6 +254,25 @@ CUFFT_ROUTINE_HANDLER(Destroy) {
     cufftResult exit_code = cufftDestroy(plan);
     
     cout << "DEBUG - cufftDestroy Executed\n";
+    return new Result(exit_code);
+}
+
+CUFFT_ROUTINE_HANDLER(SetWorkArea){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetWorkArea"));
+    cufftHandle plan = in->Get<cufftHandle>();
+    void * workArea = in->GetFromMarshal<void*>();
+    cufftResult exit_code = cufftSetWorkArea(plan,workArea);
+    cout << "DEBUG - cufftSetWorkArea Executed\n";
+    return new Result(exit_code);
+}
+
+
+CUFFT_ROUTINE_HANDLER(SetAutoallocation){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetAutoallocation"));
+    cufftHandle plan = in->Get<cufftHandle>();
+    int autoAllocate = in->Get<int>();
+    cufftResult exit_code = cufftSetAutoAllocation(plan,autoAllocate);
+    cout << "DEBUG - cufftSetAutoallocation Executed\n";
     return new Result(exit_code);
 }
 
@@ -324,6 +368,71 @@ CUFFT_ROUTINE_HANDLER(ExecC2C){
     cout<<"DEBUG - cufftExecC2C Executed\n";
     return new Result(exit_code/*,out*/);
 }
+
+CUFFT_ROUTINE_HANDLER(ExecR2C){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecR2C"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftReal **idata;
+    cufftComplex **odata;
+    try{
+        idata = (in->Assign<cufftReal*>());
+    } catch (std::string e){
+        cout << e <<endl;
+    }
+    
+    try{
+        odata = (in->Assign<cufftComplex*>());    
+    } catch (std::string e){
+        odata = (cufftComplex**) idata;
+        cout << e <<endl;
+    }
+    
+    cufftResult exit_code = cufftExecR2C(plan,*idata,*odata);
+    
+    /*Buffer *out = new Buffer();
+    try{
+        out->AddMarshal(*odata);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }*/
+    cout<<"DEBUG - cufftExecR2C Executed\n";
+    return new Result(exit_code/*,out*/);
+}
+
+
+CUFFT_ROUTINE_HANDLER(ExecZ2Z){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecZ2Z"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftDoubleComplex **idata,**odata;
+    try{
+        idata = (in->Assign<cufftDoubleComplex*>());
+    } catch (std::string e){
+        cout << e <<endl;
+    }
+    
+    try{
+        odata = (in->Assign<cufftDoubleComplex*>());    
+    } catch (std::string e){
+        odata = idata;
+        cout << e <<endl;
+    }
+    int direction = in->Get<int>();
+    cufftResult exit_code = cufftExecZ2Z(plan,*idata,*odata,direction);
+    
+    /*Buffer *out = new Buffer();
+    try{
+        out->AddMarshal(*odata);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }*/
+    cout<<"DEBUG - cufftExecZ2Z Executed\n";
+    return new Result(exit_code/*,out*/);
+}
+
 
 /*
  * cufftResult 
@@ -713,6 +822,7 @@ CUFFT_ROUTINE_HANDLER(GetSizeMany64) {
     return new Result(exit_code,out);
 }
 
+
 CUFFT_ROUTINE_HANDLER(GetSize) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSize"));
     
@@ -728,7 +838,6 @@ CUFFT_ROUTINE_HANDLER(GetSize) {
     }
     cout<<"DEBUG - cufftGetSize Executed\n";
     return new Result(exit_code,out);
-
 }
 
 /*
@@ -881,36 +990,46 @@ CUFFT_ROUTINE_HANDLER(XtSetCallback){
 }
 
 
-
 void CufftHandler::Initialize() {
     if (mspHandlers != NULL)
         return;
     mspHandlers = new map<string, CufftHandler::CufftRoutineHandler > ();
+    /* - Plan - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Plan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(PlanMany));
+    /* - MakePlan - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany64));
+    /* - GetSize - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany64));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize));
+    
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetWorkArea));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetAutoAllocation));
+    /* - Estimate - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(EstimateMany));
-    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
-    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
+    
+    /* - Create/Destroy - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Create));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Destroy));
+    /* - Exec - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2C));
-    
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecR2C));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecZ2Z));
     /* -- CufftX -- */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtMakePlanMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtSetGPUs));
