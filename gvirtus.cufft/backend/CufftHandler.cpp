@@ -141,12 +141,12 @@ CUFFT_ROUTINE_HANDLER(Plan2d) {
 CUFFT_ROUTINE_HANDLER(Plan3d) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan3D"));
     try{
-        cufftHandle plan;
+        cufftHandle *plan = in->Assign<cufftHandle>();
         int nx = in->Get<int>();
         int ny = in->Get<int>();
         int nz = in->Get<int>();
-        cufftType type = in->Get<cufftType > ();
-        cufftResult ec = cufftPlan3d(&plan, nx, ny, nz, type);
+        cufftType type = in->Get<cufftType>();
+        cufftResult ec = cufftPlan3d(plan, nx, ny, nz, type);
         Buffer *out = new Buffer();
         out->Add(plan);
         return new Result(ec, out);
