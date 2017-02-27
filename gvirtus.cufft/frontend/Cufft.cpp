@@ -52,8 +52,6 @@ extern "C" cufftResult cufftPlan1d(cufftHandle *plan, int nx, cufftType type,
     CufftFrontend::Execute("cufftPlan1d");
     if(CufftFrontend::Success())
         *plan = *(CufftFrontend::GetOutputHostPointer<cufftHandle>());
-    cout << "plan : "<< *plan;
-    
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
@@ -73,16 +71,16 @@ extern "C" cufftResult cufftPlan2d(cufftHandle *plan, int nx, int ny,
 
 extern "C" cufftResult cufftPlan3d(cufftHandle *plan, int nx, int ny, int nz,
         cufftType type) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(nx);
-    in->Add(ny);
-    in->Add(nz);
-    in->Add(type);
-    f->Execute("cufftPlan3d");
-    *plan = (cufftHandle) f->GetOutputBuffer()->Get<uint64_t>();
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddHostPointerForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments(nx);
+    CufftFrontend::AddVariableForArguments(ny);
+    CufftFrontend::AddVariableForArguments(nz);
+    CufftFrontend::AddVariableForArguments(type);
+    CufftFrontend::Execute("cufftPlan3d");
+    if(CufftFrontend::Success())
+        *plan =  *(CufftFrontend::GetOutputHostPointer<cufftHandle>());
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 extern "C" cufftResult cufftEstimate1d(int nx, cufftType type, int batch, size_t * workSize){
@@ -417,6 +415,9 @@ extern "C" cufftResult cufftExecR2C(cufftHandle plan, cufftReal *idata,
     CufftFrontend::AddDevicePointerForArguments((void*)idata);
     CufftFrontend::AddDevicePointerForArguments((void*)odata);
     CufftFrontend::Execute("cufftExecR2C");
+    if(CufftFrontend::Success()){
+        odata = (cufftComplex*)(CufftFrontend::GetOutputDevicePointer());
+    }
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
@@ -428,6 +429,9 @@ extern "C" cufftResult cufftExecC2R(cufftHandle plan, cufftComplex *idata,
     CufftFrontend::AddDevicePointerForArguments((void*)idata);
     CufftFrontend::AddDevicePointerForArguments((void*)odata);
     CufftFrontend::Execute("cufftExecC2R");
+    if(CufftFrontend::Success()){
+        odata = (cufftReal*)(CufftFrontend::GetOutputDevicePointer());
+    }
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
@@ -439,53 +443,61 @@ extern "C" cufftResult cufftExecZ2Z(cufftHandle plan, cufftDoubleComplex *idata,
     CufftFrontend::AddDevicePointerForArguments((void*)odata);
     CufftFrontend::AddVariableForArguments<int>(direction);
     CufftFrontend::Execute("cufftExecZ2Z");
+    if(CufftFrontend::Success()){
+        odata = (cufftDoubleComplex*)(CufftFrontend::GetOutputDevicePointer());
+    }
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 extern "C" cufftResult cufftExecD2Z(cufftHandle plan, cufftDoubleReal *idata,
         cufftDoubleComplex *odata) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add(idata);
-    in->Add(odata);
-    f->Execute("cufftExecD2Z");
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    //cout << "idata: "<< idata << "odata: "<<odata<<endl;
+    CufftFrontend::AddDevicePointerForArguments((void*)idata);
+    CufftFrontend::AddDevicePointerForArguments((void*)odata);
+    CufftFrontend::Execute("cufftExecD2Z");
+    if(CufftFrontend::Success())
+        odata = (cufftDoubleComplex*)(CufftFrontend::GetOutputDevicePointer());
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 extern "C" cufftResult cufftExecZ2D(cufftHandle plan, cufftDoubleComplex *idata,
         cufftDoubleReal *odata) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add(idata);
-    in->Add(odata);
-    f->Execute("cufftExecZ2D");
-    return (cufftResult) f->GetExitCode();
-
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments((void*)idata);
+    CufftFrontend::AddDevicePointerForArguments((void*)odata);
+    //cout << "idata: "<< idata << "odata: "<<odata<<endl;
+    CufftFrontend::Execute("cufftExecZ2D");
+    if(CufftFrontend::Success())
+        odata = (cufftDoubleReal*)(CufftFrontend::GetOutputDevicePointer());
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 extern "C" cufftResult cufftSetStream(cufftHandle plan, cudaStream_t stream) {
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add((uint64_t) stream);
-    f->Execute("cufftSetStream");
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddDevicePointerForArguments(stream);
+    CufftFrontend::Execute("cufftSetStream");
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
         cufftCompatibility mode){
-    Frontend *f = Frontend::GetFrontend();
-    f->Prepare();
-    Buffer *in = f->GetInputBuffer();
-    in->Add(plan);
-    in->Add(mode);
-    f->Execute("cufftSetCompatibilityMode");
-    return (cufftResult) f->GetExitCode();
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<cufftHandle>(plan);
+    CufftFrontend::AddVariableForArguments<cufftCompatibility>(mode);
+    CufftFrontend::Execute("cufftSetCompatibilityMode");
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
+
+extern "C" cufftResult cufftGetProperty(libraryPropertyType type, int* value){
+    CufftFrontend::Prepare();
+    CufftFrontend::AddVariableForArguments<libraryPropertyType>(type);
+    CufftFrontend::AddHostPointerForArguments<int>(value);
+    CufftFrontend::Execute("cufftGetProperty");
+    return (cufftResult) CufftFrontend::GetExitCode();
 }
 
 
@@ -524,11 +536,10 @@ extern "C" cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata, cufft
     CufftFrontend::AddDevicePointerForArguments((void*)idata);
     CufftFrontend::AddDevicePointerForArguments((void*)odata);
     CufftFrontend::AddVariableForArguments<int>(direction);
-    cout<< "ExecC2C"<<endl;
     CufftFrontend::Execute("cufftExecC2C");
-    /*if(CufftFrontend::Success()){
+    if(CufftFrontend::Success()){
         odata = (cufftComplex*)(CufftFrontend::GetOutputDevicePointer());
-    }*/
+    }
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
@@ -640,4 +651,10 @@ extern "C" cufftResult cufftXtSetCallback(cufftHandle plan, void **callbackRouti
     return (cufftResult) CUFFT_NOT_IMPLEMENTED;//CufftFrontend::GetExitCode();
 } 
 
+extern "C" cufftResult cufftGetVersion(int *version){
+    CufftFrontend::Prepare();
+    CufftFrontend::AddHostPointerForArguments<int>(version);
+    CufftFrontend::Execute("cufftGetVersion");
+    return (cufftResult) CufftFrontend::GetExitCode();
+}
 

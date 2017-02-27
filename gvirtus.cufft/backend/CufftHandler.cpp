@@ -113,12 +113,13 @@ CUFFT_ROUTINE_HANDLER(Plan1d) {
  * Creates a 2D FFT plan configuration according to specified signal sizes and data type.
  */
 CUFFT_ROUTINE_HANDLER(Plan2d) {
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan2D"));
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan2d"));
 
     cufftHandle * plan = in->Assign<cufftHandle>();
     int nx = in->Get<int>();
     int ny = in->Get<int>();
-    cufftType type = in->Get<cufftType >();
+    cufftType type = in->Get<cufftType>();
+    
     cufftResult exit_code = cufftPlan2d(plan, nx, ny, type);
     Buffer *out = new Buffer();
     try {
@@ -191,38 +192,38 @@ CUFFT_ROUTINE_HANDLER(ExecC2R) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecC2R"));
     
     cufftHandle plan = in->Get<cufftHandle>();
-    cufftReal **odata;
-    cufftComplex **idata;
+    cufftReal *odata;
+    cufftComplex *idata;
+    
+    idata = (in->GetFromMarshal<cufftComplex*>());
+    
     try{
-        idata = (in->Assign<cufftComplex*>());
+        odata = (in->GetFromMarshal<cufftReal*>());    
     } catch (std::string e){
+        odata = (cufftReal*) idata;
         cout << e <<endl;
     }
     
-    try{
-        odata = (in->Assign<cufftReal*>());    
-    } catch (std::string e){
-        odata = (cufftReal**) idata;
-        cout << e <<endl;
-    }
+    cufftResult exit_code = cufftExecC2R(plan,idata,odata);
     
-    cufftResult exit_code = cufftExecC2R(plan,*idata,*odata);
-    
-    /*Buffer *out = new Buffer();
+    Buffer *out = new Buffer();
     try{
-        out->AddMarshal(*odata);
+        out->AddMarshal(odata);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
-    }*/
+    }
     cout<<"DEBUG - cufftExecC2R Executed\n";
-    return new Result(exit_code/*,out*/);
+    return new Result(exit_code,out);
 }
 
 CUFFT_ROUTINE_HANDLER(SetCompatibilityMode) {
-    cufftHandle plan = in->Get<cufftHandle > ();
-    cufftCompatibility mode = in->Get<cufftCompatibility > ();
-    return new Result(cufftSetCompatibilityMode(plan, mode));
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetCompatibilityMode"));
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftCompatibility mode = in->Get<cufftCompatibility>();
+    cufftResult exit_code = cufftSetCompatibilityMode(plan, mode);
+    cout<<"DEBUG - cufftSetCompatibilityMode Executed\n";
+    return new Result(exit_code);
 }
 
 CUFFT_ROUTINE_HANDLER(Create) {
@@ -267,7 +268,7 @@ CUFFT_ROUTINE_HANDLER(SetWorkArea){
 }
 
 
-CUFFT_ROUTINE_HANDLER(SetAutoallocation){
+CUFFT_ROUTINE_HANDLER(SetAutoAllocation){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetAutoallocation"));
     cufftHandle plan = in->Get<cufftHandle>();
     int autoAllocate = in->Get<int>();
@@ -340,15 +341,12 @@ CUFFT_ROUTINE_HANDLER(ExecC2C){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecC2C"));
     
     cufftHandle plan = in->Get<cufftHandle>();
-    cufftComplex **idata,**odata;
-    try{
-        idata = (in->Assign<cufftComplex*>());
-    } catch (std::string e){
-        cout << e <<endl;
-    }
+    cufftComplex *idata,*odata;
+    
+    idata = (in->GetFromMarshal<cufftComplex*>());
     
     try{
-        odata = (in->Assign<cufftComplex*>());    
+        odata = (in->GetFromMarshal<cufftComplex*>());    
     } catch (std::string e){
         odata = idata;
         cout << e <<endl;
@@ -356,49 +354,43 @@ CUFFT_ROUTINE_HANDLER(ExecC2C){
     
     int direction = in->Get<int>();
     
-    cufftResult exit_code = cufftExecC2C(plan,*idata,*odata,direction);
+    cufftResult exit_code = cufftExecC2C(plan,idata,odata,direction);
     
-    /*Buffer *out = new Buffer();
+    Buffer *out = new Buffer();
     try{
-        out->AddMarshal(*odata);
+        out->AddMarshal(odata);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
-    }*/
+    }
     cout<<"DEBUG - cufftExecC2C Executed\n";
-    return new Result(exit_code/*,out*/);
+    return new Result(exit_code,out);
 }
 
 CUFFT_ROUTINE_HANDLER(ExecR2C){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecR2C"));
     
     cufftHandle plan = in->Get<cufftHandle>();
-    cufftReal **idata;
-    cufftComplex **odata;
+    cufftReal *idata;
+    cufftComplex *odata;
+    idata = (in->GetFromMarshal<cufftReal*>());
     try{
-        idata = (in->Assign<cufftReal*>());
+        odata = (in->GetFromMarshal<cufftComplex*>());    
     } catch (std::string e){
-        cout << e <<endl;
+        odata = (cufftComplex*) idata;
     }
     
-    try{
-        odata = (in->Assign<cufftComplex*>());    
-    } catch (std::string e){
-        odata = (cufftComplex**) idata;
-        cout << e <<endl;
-    }
+    cufftResult exit_code = cufftExecR2C(plan,idata,odata);
     
-    cufftResult exit_code = cufftExecR2C(plan,*idata,*odata);
-    
-    /*Buffer *out = new Buffer();
+    Buffer *out = new Buffer();
     try{
-        out->AddMarshal(*odata);
+        out->AddMarshal(odata);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
-    }*/
+    }
     cout<<"DEBUG - cufftExecR2C Executed\n";
-    return new Result(exit_code/*,out*/);
+    return new Result(exit_code,out);
 }
 
 
@@ -406,31 +398,85 @@ CUFFT_ROUTINE_HANDLER(ExecZ2Z){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecZ2Z"));
     
     cufftHandle plan = in->Get<cufftHandle>();
-    cufftDoubleComplex **idata,**odata;
-    try{
-        idata = (in->Assign<cufftDoubleComplex*>());
-    } catch (std::string e){
-        cout << e <<endl;
-    }
+    cufftDoubleComplex *idata,*odata;
+    idata = (in->GetFromMarshal<cufftDoubleComplex*>());
     
     try{
-        odata = (in->Assign<cufftDoubleComplex*>());    
+        odata = (in->GetFromMarshal<cufftDoubleComplex*>());    
     } catch (std::string e){
         odata = idata;
         cout << e <<endl;
     }
     int direction = in->Get<int>();
-    cufftResult exit_code = cufftExecZ2Z(plan,*idata,*odata,direction);
+    cufftResult exit_code = cufftExecZ2Z(plan,idata,odata,direction);
     
-    /*Buffer *out = new Buffer();
+    Buffer *out = new Buffer();
     try{
-        out->AddMarshal(*odata);
+        out->AddMarshal(odata);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation);
-    }*/
+    }
     cout<<"DEBUG - cufftExecZ2Z Executed\n";
-    return new Result(exit_code/*,out*/);
+    return new Result(exit_code,out);
+}
+
+
+CUFFT_ROUTINE_HANDLER(ExecD2Z){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecD2Z"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftDoubleReal *idata;
+    cufftDoubleComplex *odata;
+    idata = (in->GetFromMarshal<cufftDoubleReal*>());
+    
+    try{
+        odata = (in->GetFromMarshal<cufftDoubleComplex*>());    
+    } catch (std::string e){
+        odata = (cufftDoubleComplex*)idata;
+        cout << e <<endl;
+    }
+    
+    int direction = in->BackGet<int>();
+    cufftResult exit_code = cufftExecD2Z(plan,idata,odata);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->AddMarshal(odata);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftExecD2Z Executed\n";
+    return new Result(exit_code,out);
+}
+
+
+CUFFT_ROUTINE_HANDLER(ExecZ2D){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ExecZ2D"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    cufftDoubleComplex *idata;
+    cufftDoubleReal *odata;
+    idata = (in->GetFromMarshal<cufftDoubleComplex*>());
+    
+    try{
+        odata = (in->GetFromMarshal<cufftDoubleReal*>());    
+    } catch (std::string e){
+        odata = (cufftDoubleReal*)idata;
+        cout << e <<endl;
+    }
+    cufftResult exit_code = cufftExecZ2D(plan,idata,odata);
+    
+    Buffer *out = new Buffer();
+    try{
+        out->AddMarshal(odata);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout<<"DEBUG - cufftExecZ2D Executed\n";
+    return new Result(exit_code,out);
 }
 
 
@@ -840,6 +886,28 @@ CUFFT_ROUTINE_HANDLER(GetSize) {
     return new Result(exit_code,out);
 }
 
+CUFFT_ROUTINE_HANDLER(SetStream) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetStream"));
+    
+    cufftHandle plan = in->Get<cufftHandle>();
+    cudaStream_t stream = in->GetFromMarshal<cudaStream_t>();
+    
+    cufftResult exit_code = cufftSetStream(plan,stream);
+    
+    cout<<"DEBUG - cufftSetStream Executed\n";
+    return new Result(exit_code);
+}
+
+CUFFT_ROUTINE_HANDLER(GetProperty){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetProperty"));
+    
+    libraryPropertyType type = in->Get<libraryPropertyType>();
+    int * value = in->Assign<int>();
+    cufftResult exit_code = cufftGetProperty(type,value);
+    cout<<"DEBUG - cufftGetProperty Executed\n";
+    return new Result(exit_code);
+}
+
 /*
  * cufftResult cufftXtMalloc(cufftHandle plan, cudaLibXtDesc **descriptor, 
         cufftXtSubFormat format);
@@ -989,6 +1057,13 @@ CUFFT_ROUTINE_HANDLER(XtSetCallback){
     return new Result(CUFFT_NOT_IMPLEMENTED);
 }
 
+CUFFT_ROUTINE_HANDLER(GetVersion){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetVersion"));
+    int *version = in->Assign<int>();
+    cufftResult exit_code = cufftGetVersion(version);
+    cout<<"DEBUG - cufftGetVersion Executed"<<endl;
+}
+
 
 void CufftHandler::Initialize() {
     if (mspHandlers != NULL)
@@ -1012,10 +1087,13 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany64));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize));
-    
+    /* - Estimate - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetWorkArea));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetCompatibilityMode));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetAutoAllocation));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetVersion));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetStream));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetProperty));
     /* - Estimate - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate2d));
@@ -1030,6 +1108,8 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecR2C));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecC2R));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecZ2Z));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecD2Z));
+    mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecZ2D));
     /* -- CufftX -- */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtMakePlanMany));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtSetGPUs));
