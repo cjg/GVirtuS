@@ -115,20 +115,20 @@ CUFFT_ROUTINE_HANDLER(Plan1d) {
 CUFFT_ROUTINE_HANDLER(Plan2d) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Plan2d"));
 
-    cufftHandle * plan = in->Assign<cufftHandle>();
+    cufftHandle plan;// = in->Assign<cufftHandle>();
     int nx = in->Get<int>();
     int ny = in->Get<int>();
     cufftType type = in->Get<cufftType>();
     
-    cufftResult exit_code = cufftPlan2d(plan, nx, ny, type);
+    cufftResult exit_code = cufftPlan2d(&plan, nx, ny, type);
     Buffer *out = new Buffer();
     try {
-        out->Add(plan);
+        out->Add(&plan);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(cudaErrorMemoryAllocation); //???
     }
-    cout <<"DEBUG - Plan: "<< *plan<<"\n";
+    cout <<"DEBUG - Plan: "<< plan<<"\n";
     cout<<"DEBUG - cufftPlan2d Executed\n";
     return new Result(exit_code, out);
 }

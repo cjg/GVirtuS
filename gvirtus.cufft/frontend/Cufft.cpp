@@ -58,7 +58,6 @@ extern "C" cufftResult cufftPlan1d(cufftHandle *plan, int nx, cufftType type,
 extern "C" cufftResult cufftPlan2d(cufftHandle *plan, int nx, int ny,
         cufftType type) {
     CufftFrontend::Prepare();
-    CufftFrontend::AddHostPointerForArguments<cufftHandle>(plan);
     CufftFrontend::AddVariableForArguments(nx);
     CufftFrontend::AddVariableForArguments(ny);
     CufftFrontend::AddVariableForArguments(type);
