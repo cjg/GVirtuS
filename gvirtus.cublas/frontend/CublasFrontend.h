@@ -25,7 +25,13 @@
 #ifndef CUBLASFRONTEND_H
 #define	CUBLASFRONTEND_H
 
-#include <Frontend.h>
+#include <cublas.h>
+#include <cublas_api.h>
+#include "cublas_v2.h"
+#include <cuda_runtime_api.h>
+
+#include "Frontend.h"
+//#include "Cublas.h"
 
 class CublasFrontend {
 public:
@@ -95,17 +101,19 @@ public:
      *
      * @param symbol the symbol to add as a parameter.
      */
-    /*static inline void AddSymbolForArguments(const char *symbol) {
-        AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
-        AddStringForArguments(symbol);
-    }*/
+    static inline void AddSymbolForArguments(const char *symbol) {
+        /* TODO: implement AddSymbolForArguments
+         * AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
+         * AddStringForArguments(symbol);
+         * */
+    }
 
-    static inline cl_uint GetExitCode() {
-        return (cl_uint) Frontend::GetFrontend()->GetExitCode();
+    static inline cublasStatus_t GetExitCode() {
+        return (cublasStatus_t) Frontend::GetFrontend()->GetExitCode();
     }
 
     static inline bool Success() {
-        return Frontend::GetFrontend()->Success(0);
+        return Frontend::GetFrontend()->Success(cudaSuccess);
     }
 
     template <class T> static inline T GetOutputVariable() {
@@ -145,7 +153,8 @@ public:
     static inline char * GetOutputString() {
         return Frontend::GetFrontend()->GetOutputBuffer()->AssignString();
     }
-    OpenclFrontend();
+    CublasFrontend();
+    static void * handler;
 };
 #endif	/* CUBLASFRONTEND_H */
 

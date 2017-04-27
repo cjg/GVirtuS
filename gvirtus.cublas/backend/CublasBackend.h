@@ -26,10 +26,10 @@
 #define	CUBLASBACKEND_H
 
 #include "Backend.h"
+#include "CublasHandler.h"
 
 class CublasBackend : public Backend {
 public:
-    Handler *GetHandler();
+    inline Handler *getHandler(){ return new (Handler * ) new CublasHandler(); };
 };
-
 #endif	/* CUBLASBACKEND_H */

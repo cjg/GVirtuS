@@ -22,54 +22,56 @@
  */
 
 #include "CublasHandler.h"
-
+#include "CublasHandler_Helper.cpp"
+#include "CublasHandler_Level1.cpp"
+#include "CublasHandler_Level2.cpp"
+#include "CublasHandler_Level3.cpp"
 #include <cstring>
-
-#include <dlfcn.h>
+//#include <map>
+#include <errno.h>
+#include <bits/stl_map.h>
 
 using namespace std;
+using namespace log4cplus;
 
-map<string, CublasHandler::CublasRoutineHandler> *CublasHandler::mspHandlers = NULL;
+std::map<string, CublasHandler::CublasRoutineHandler> * CublasHandler::mspHandlers = NULL;
 
 extern "C" int HandlerInit() {
     return 0;
 }
 extern "C" Handler *GetHandler() {
-    return new OpenclHandler();
+    return new CublasHandler();
 }
 
-OpenclHandler::CublasHandler() {
-    mpMapObject = new map<string, string> ();
-    pointers = (void **)malloc(sizeof(void*));
-    mpMapObject = new map<string, string>();
-    nPointers = 1;
-
+CublasHandler::CublasHandler() {
+    logger=Logger::getInstance(LOG4CPLUS_TEXT("CufftHandler"));
     Initialize();
 }
 
-CublasHandler::~OpenclHandler() {
+CublasHandler::~CublasHandler() {
 
 }
+
 bool CublasHandler::CanExecute(std::string routine) {
-    map<string, CublasHandler::CublasRoutineHandler>::iterator it;
-    it = mspHandlers->find(routine);
-    if (it == mspHandlers->end()){
-        return false;
-        cout<<"false"<<endl;
-    }
-    return true;
-    cout<<"true"<<endl;
+    return mspHandlers->find(routine) != mspHandlers->end();
 }
 
 Result * CublasHandler::Execute(std::string routine, Buffer * input_buffer) {
+    LOG4CPLUS_DEBUG(logger,"Called " << routine);
     map<string, CublasHandler::CublasRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
     if (it == mspHandlers->end())
         throw "No handler for '" + routine + "' found!";
-    return it->second(this, input_buffer);
+    try {
+        return it->second(this, input_buffer);
+    } catch (const char *ex) {
+        cout << ex << endl;
+        cout << strerror(errno) << endl;
+    }
+    return NULL;
 }
 
-void* CublasHandler::RegisterPointer(void* pointer,size_t bytes){
+/*void* CublasHandler::RegisterPointer(void* pointer,size_t bytes){
     if (nPointers==1){
         pointers[0] = (char *)malloc(bytes);
         memcpy(pointers[0],(char *)pointer,bytes);
@@ -84,33 +86,89 @@ void* CublasHandler::RegisterPointer(void* pointer,size_t bytes){
     }
 }
 
-    void CublasHandler::RegisterMapObject(char * key,char * value){
+void CublasHandler::RegisterMapObject(char * key,char * value){
 
-        mpMapObject->insert(make_pair(key, value));
+    mpMapObject->insert(make_pair(key, value));
 
-    }
-    char * CublasHandler::GetMapObject(char * key){
-        for (map<string, string>::iterator it = mpMapObject->begin();
-            it != mpMapObject->end(); it++)
-        if (it->first == key)
-            return (char *)(it->second.c_str());
+}
+
+char * CublasHandler::GetMapObject(char * key){
+    for (map<string, string>::iterator it = mpMapObject->begin();
+        it != mpMapObject->end(); it++)
+    if (it->first == key)
+        return (char *)(it->second.c_str());
     return NULL;
-    }
+}*/
+    
 
 void CublasHandler::Initialize() {
     if (mspHandlers != NULL)
         return;
-    pointers = (void **)malloc(sizeof(void*));
-    mpMapObject = new map<string, string>();
-    nPointers = 1;
-    mspHandlers = new map<string, OpenclHandler::OpenclRoutineHandler> ();
-
-    /* CublasHandler Query Platform Info */
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasCreate));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSetMatrix));
+    mspHandlers = new map<string, CublasHandler::CublasRoutineHandler> ();
+    
+    //pointers = (void **)malloc(sizeof(void*));
+    //mpMapObject = new map<string, string>();
+    //nPointers = 1;
+    
+    /* CublasHandler Helper functions */
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(GetVersion_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Create_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Destroy_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(SetVector));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(GetVector));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(SetStream_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(GetPointerMode_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(SetPointerMode_v2));
+    
+    
+    /* CublasHandler Level1 functions */
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sdot_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ddot_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cdotu_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cdotc_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zdotu_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zdotc_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sscal_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dscal_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cscal_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csscal_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zscal_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zdscal_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Saxpy_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Daxpy_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Caxpy_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zaxpy_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Scopy_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ccopy_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dcopy_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zcopy_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sswap_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dswap_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cswap_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zswap_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Isamax_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Idamax_v2));
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Icamax_v2));
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Izamax_v2));
+    
+    /* CublasHandler Level2 functions */
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgemv_v2));
+    /* CublasHandler Level3 functions */
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgemm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Snrm2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dnrm2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Scnrm2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dznrm2_v2));
+    
+    /*mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSetMatrix));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasGetMatrix));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSscal));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasDestroy));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasDestroy));*/
 }
 
 

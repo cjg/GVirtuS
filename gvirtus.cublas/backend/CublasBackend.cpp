@@ -23,12 +23,9 @@
  *             Department of Science and Technologies
  */
 
-#include "CublasHandler.h"
 #include "CublasBackend.h"
 
-Handler *CublasBackend::GetHandler() {
-    return (Handler *) new CublasHandler();
-}
+
 
 
 
