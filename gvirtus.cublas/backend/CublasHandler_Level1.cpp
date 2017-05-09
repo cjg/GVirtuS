@@ -380,7 +380,7 @@ CUBLAS_ROUTINE_HANDLER(Isamax_v2){
 }
 
 CUBLAS_ROUTINE_HANDLER(Idamax_v2){
-    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Isamax_v2"));
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Idamax_v2"));
     
     cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
     int n = in->Get<int>();
@@ -392,4 +392,333 @@ CUBLAS_ROUTINE_HANDLER(Idamax_v2){
     Buffer * out = new Buffer();
     out->Add(result);
     return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Icamax_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Icamax_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int incx = in->Get<int>();
+    int * result = in->Assign<int>();
+    
+    cublasStatus_t cs = cublasIcamax_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Izamax_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Izamax_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int incx = in->Get<int>();
+    int * result = in->Assign<int>();
+    
+    cublasStatus_t cs = cublasIzamax_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Isamin_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Isamin_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    float * x = in->GetFromMarshal<float*>();
+    int incx = in->Get<int>();
+    int * result = in->Assign<int>();
+    
+    cublasStatus_t cs = cublasIsamin_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Idamin_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Idamin_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    double * x = in->GetFromMarshal<double*>();
+    int incx = in->Get<int>();
+    int * result = in->Assign<int>();
+    
+    cublasStatus_t cs = cublasIdamin_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Icamin_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Icamin_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int incx = in->Get<int>();
+    int * result = in->Assign<int>();
+    
+    cublasStatus_t cs = cublasIcamin_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Izamin_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Izamin_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int incx = in->Get<int>();
+    int * result = in->Assign<int>();
+    
+    cublasStatus_t cs = cublasIzamin_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Sasum_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Sasum_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    float * x = in->GetFromMarshal<float*>();
+    int incx = in->Get<int>();
+    float * result = in->Assign<float>();
+    
+    cublasStatus_t cs = cublasSasum_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Dasum_v2){
+   Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Dasum_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    double * x = in->GetFromMarshal<double*>();
+    int incx = in->Get<int>();
+    double * result = in->Assign<double>();
+    
+    cublasStatus_t cs = cublasDasum_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Scasum_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Scasum_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int incx = in->Get<int>();
+    float * result = in->Assign<float>();
+    
+    cublasStatus_t cs = cublasScasum_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Dzasum_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Dzasum_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int incx = in->Get<int>();
+    double * result = in->Assign<double>();
+    
+    cublasStatus_t cs = cublasDzasum_v2(handle,n,x,incx,result);
+    Buffer * out = new Buffer();
+    out->Add(result);
+    return new Result(cs,out);
+}
+
+CUBLAS_ROUTINE_HANDLER(Srot_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Srot_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    float * x = in->GetFromMarshal<float*>();
+    int incx = in->Get<int>();
+    float * y = in->GetFromMarshal<float*>();
+    int incy = in->Get<int>();
+    float * c = in->Assign<float>();
+    float * s = in->Assign<float>();
+    
+    cublasStatus_t cs = cublasSrot_v2(handle,n,x,incx,y,incy,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Drot_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Drot_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    double * x = in->GetFromMarshal<double*>();
+    int incx = in->Get<int>();
+    double * y = in->GetFromMarshal<double*>();
+    int incy = in->Get<int>();
+    double * c = in->Assign<double>();
+    double * s = in->Assign<double>();
+    
+    cublasStatus_t cs = cublasDrot_v2(handle,n,x,incx,y,incy,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Crot_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Crot_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int incx = in->Get<int>();
+    cuComplex * y = in->GetFromMarshal<cuComplex*>();
+    int incy = in->Get<int>();
+    float * c = in->Assign<float>();
+    cuComplex * s = in->Assign<cuComplex>();
+    
+    cublasStatus_t cs = cublasCrot_v2(handle,n,x,incx,y,incy,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Csrot_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Csrot_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int incx = in->Get<int>();
+    cuComplex * y = in->GetFromMarshal<cuComplex*>();
+    int incy = in->Get<int>();
+    float * c = in->Assign<float>();
+    float * s = in->Assign<float>();
+    
+    cublasStatus_t cs = cublasCsrot_v2(handle,n,x,incx,y,incy,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Zrot_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Zrot_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int incx = in->Get<int>();
+    cuDoubleComplex * y = in->GetFromMarshal<cuDoubleComplex*>();
+    int incy = in->Get<int>();
+    double * c = in->Assign<double>();
+    cuDoubleComplex * s = in->Assign<cuDoubleComplex>();
+    
+    cublasStatus_t cs = cublasZrot_v2(handle,n,x,incx,y,incy,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Zdrot_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Zdrot_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int incx = in->Get<int>();
+    cuDoubleComplex * y = in->GetFromMarshal<cuDoubleComplex*>();
+    int incy = in->Get<int>();
+    double * c = in->Assign<double>();
+    double * s = in->Assign<double>();
+    
+    cublasStatus_t cs = cublasZdrot_v2(handle,n,x,incx,y,incy,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Srotg_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Srotg_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    float * a = in->Assign<float>();
+    float * b = in->Assign<float>();
+    float * c = in->Assign<float>();
+    float * s = in->Assign<float>();
+    
+    cublasStatus_t cs = cublasSrotg_v2(handle,a,b,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Drotg_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Drotg_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    double * a = in->Assign<double>();
+    double * b = in->Assign<double>();
+    double * c = in->Assign<double>();
+    double * s = in->Assign<double>();
+    
+    cublasStatus_t cs = cublasDrotg_v2(handle,a,b,c,s);
+    return new Result(cs);
+}
+
+
+CUBLAS_ROUTINE_HANDLER(Crotg_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Drotg_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    cuComplex * a = in->Assign<cuComplex>();
+    cuComplex * b = in->Assign<cuComplex>();
+    float * c = in->Assign<float>();
+    cuComplex * s = in->Assign<cuComplex>();
+    
+    cublasStatus_t cs = cublasCrotg_v2(handle,a,b,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Zrotg_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Drotg_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    cuDoubleComplex * a = in->Assign<cuDoubleComplex>();
+    cuDoubleComplex * b = in->Assign<cuDoubleComplex>();
+    double * c = in->Assign<double>();
+    cuDoubleComplex * s = in->Assign<cuDoubleComplex>();
+    
+    cublasStatus_t cs = cublasZrotg_v2(handle,a,b,c,s);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Srotm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Srotm_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    float * x = in->GetFromMarshal<float*>();
+    int incx = in->Get<int>();
+    float * y = in->GetFromMarshal<float*>();
+    int incy = in->Get<int>();
+    float * param = in->Assign<float>();
+    
+    cublasStatus_t cs = cublasSrotm_v2(handle,n,x,incx,y,incy,param);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Drotm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Drotm_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    int n = in->Get<int>();
+    double * x = in->GetFromMarshal<double*>();
+    int incx = in->Get<int>();
+    double * y = in->GetFromMarshal<double*>();
+    int incy = in->Get<int>();
+    double * param = in->Assign<double>();
+    
+    cublasStatus_t cs = cublasDrotm_v2(handle,n,x,incx,y,incy,param);
+    return new Result(cs);
 }

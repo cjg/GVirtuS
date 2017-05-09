@@ -41,7 +41,7 @@ CUBLAS_ROUTINE_HANDLER(Create) {
     return new Result(cublas_status, out);
 }
 
-CUBLAS_ROUTINE_HANDLER(GetVersion){
+CUBLAS_ROUTINE_HANDLER(GetVersion_v2){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetVersion"));
     
     cublasHandle_t handle=(cublasHandle_t)in->Get<long long int>();
@@ -108,6 +108,28 @@ CUBLAS_ROUTINE_HANDLER(SetVector){
     return new Result(cs);
 }
 
+CUBLAS_ROUTINE_HANDLER(SetMatrix){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetMatrix"));
+    
+    int rows = (int)in->Get<int>();
+    int cols = (int)in->Get<int>();
+    int elemSize = (int)in->Get<int>();
+    void * B = in->GetFromMarshal<void*>();
+    int ldb = (int)in->Get<int>();
+    int lda = (int)in->Get<int>();
+    
+    void * A = in->AssignAll<char>();
+    cublasStatus_t cs = cublasSetMatrix(rows,cols,elemSize,A,lda,B,ldb);
+    if(cs == CUBLAS_STATUS_NOT_INITIALIZED)
+        cout<<"1"<<endl;
+    if(cs == CUBLAS_STATUS_INVALID_VALUE)
+        cout<<"2"<<endl;
+    if(cs == CUBLAS_STATUS_MAPPING_ERROR)
+        cout<<"3"<<endl;
+    cout << "DEBUG - cublasSetVector Executed"<<endl;
+    return new Result(cs);
+}
+
 
 CUBLAS_ROUTINE_HANDLER(GetVector){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetVector"));
@@ -134,6 +156,29 @@ CUBLAS_ROUTINE_HANDLER(GetVector){
     return new Result(cs,out);
 }
 
+CUBLAS_ROUTINE_HANDLER(GetMatrix) {
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetMatrix"));
+    
+    int rows = (int)in->Get<int>();
+    int cols = (int)in->Get<int>();
+    int elemSize = (int)in->Get<int>();
+    void * A = in->GetFromMarshal<void*>();
+    int lda = (int)in->Get<int>();
+    void * B = in->Assign<void>();
+    int ldb = (int)in->Get<int>();
+    
+    cublasStatus_t cs;
+    Buffer * out = new Buffer();
+    try{
+        cs = cublasGetMatrix(rows,cols,elemSize,A,lda,B,ldb);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    out->Add<char>((char*)B,rows*cols*elemSize);
+    cout << "DEBUG - cublasGetMatrix Executed"<<endl;
+    return new Result(cs,out);
+}
 CUBLAS_ROUTINE_HANDLER(SetStream_v2){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetStream"));
     

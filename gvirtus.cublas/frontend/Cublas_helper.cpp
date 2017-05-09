@@ -55,6 +55,22 @@ extern "C"  CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSetVector(int n, int ele
     CublasFrontend::Execute("cublasSetVector");
     return CublasFrontend::GetExitCode(); 
 }
+
+extern "C"  CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSetMatrix(int rows, int cols, int elemSize, const void *A, int lda, void *B, int ldb){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<int>(rows);
+    CublasFrontend::AddVariableForArguments<int>(cols);
+    CublasFrontend::AddVariableForArguments<int>(elemSize);
+    CublasFrontend::AddDevicePointerForArguments(B);
+    CublasFrontend::AddVariableForArguments<int>(ldb);
+    CublasFrontend::AddVariableForArguments<int>(lda);
+    CublasFrontend::AddHostPointerForArguments<char>(static_cast<char *>
+                    (const_cast<void *> (A)), rows*cols*elemSize);
+    CublasFrontend::Execute("cublasSetMatrix");
+    return CublasFrontend::GetExitCode();
+}
+
 /* This function copies n elements from a vector x in GPU memory space to a vector y in host memory space. 
  * Elements in both vectors are assumed to have a size of elemSize bytes. The storage spacing between consecutive elements is given by incx for the source vector and incy for the destination vector y.
  */
@@ -78,6 +94,24 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGetVector(int n, int elem
     return CublasFrontend::GetExitCode();
 }
 
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGetMatrix(int rows, int cols, int elemSize, const void *A, int lda, void *B, int ldb){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<int>(rows);
+    CublasFrontend::AddVariableForArguments<int>(cols);
+    CublasFrontend::AddVariableForArguments<int>(elemSize);
+    CublasFrontend::AddDevicePointerForArguments(A);
+    CublasFrontend::AddVariableForArguments<int>(lda);
+    CublasFrontend::AddHostPointerForArguments<void>(B);
+    CublasFrontend::AddVariableForArguments<int>(ldb);
+    
+    CublasFrontend::Execute("cublasGetMatrix");
+    
+    if(CublasFrontend::Success()){
+        memmove(B,CublasFrontend::GetOutputHostPointer<char>(rows*cols*elemSize),rows*cols*elemSize);
+    }
+    return CublasFrontend::GetExitCode();
+}
 
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDestroy_v2 (cublasHandle_t handle) {
     CublasFrontend::Prepare();
@@ -136,12 +170,7 @@ extern "C"  CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSetPointerMode_v2(cublas
     return CublasFrontend::GetExitCode();
 }
 
-/*extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDestroy_v2 (cublasHandle_t handle) {
-    CublasFrontend::Prepare();
-    CublasFrontend::AddVariableForArguments(handle);
-    CublasFrontend::Execute("cublasDestroy");
-    return CublasFrontend::GetExitCode();
-}
+/*
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGetMatrix (int rows, int cols, int elemSize, const void *A, int lda, void *B, int ldb) {
     CublasFrontend::Prepare();
     CublasFrontend::AddVariableForArguments(rows);

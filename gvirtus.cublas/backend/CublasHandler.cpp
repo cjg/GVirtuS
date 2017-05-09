@@ -116,6 +116,8 @@ void CublasHandler::Initialize() {
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Destroy_v2));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(SetVector));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(GetVector));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(SetMatrix));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(GetMatrix));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(SetStream_v2));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(GetPointerMode_v2));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(SetPointerMode_v2));
@@ -153,22 +155,41 @@ void CublasHandler::Initialize() {
     
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Isamax_v2));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Idamax_v2));
-    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Icamax_v2));
-    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Izamax_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Icamax_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Izamax_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sasum_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dasum_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Scasum_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dzasum_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Srot_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Drot_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Crot_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csrot_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zrot_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zdrot_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Srotg_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Drotg_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Crotg_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zrotg_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Srotm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Drotm_v2));
     
     /* CublasHandler Level2 functions */
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgemv_v2));
     /* CublasHandler Level3 functions */
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgemm_v2));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Snrm2_v2));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dnrm2_v2));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Scnrm2_v2));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dznrm2_v2));
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dnrm2_v2));
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Scnrm2_v2));
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dznrm2_v2));
     
-    /*mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSetMatrix));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasGetMatrix));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSscal));
-    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasDestroy));*/
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSetMatrix));
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSscal));
+    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasDestroy));
 }
 
 

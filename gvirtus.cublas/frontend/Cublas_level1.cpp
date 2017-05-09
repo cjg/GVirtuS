@@ -423,3 +423,334 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasIdamax_v2(cublasHandle_t 
         result = CublasFrontend::GetOutputHostPointer<int>();
     return CublasFrontend::GetExitCode();
 }
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasIcamax_v2(cublasHandle_t handle, int n, const cuComplex *x, int incx, int *result){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<int>(result);
+    
+    CublasFrontend::Execute("cublasIcamax_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<int>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasIzamax_v2(cublasHandle_t handle, int n, const cuDoubleComplex *x, int incx, int *result){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<int>(result);
+    
+    CublasFrontend::Execute("cublasIzamax_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<int>();
+    return CublasFrontend::GetExitCode();
+}
+
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasIsamin_v2(cublasHandle_t handle, int n, const float *x, int incx, int *result){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<int>(result);
+    
+    CublasFrontend::Execute("cublasIsamin_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<int>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasIdamin_v2(cublasHandle_t handle, int n, const double *x, int incx, int *result){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<int>(result);
+    
+    CublasFrontend::Execute("cublasIdamin_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<int>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasIcamin_v2(cublasHandle_t handle, int n, const cuComplex *x, int incx, int *result){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<int>(result);
+    
+    CublasFrontend::Execute("cublasIcamin_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<int>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasIzamin_v2(cublasHandle_t handle, int n, const cuDoubleComplex *x, int incx, int *result){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<int>(result);
+    
+    CublasFrontend::Execute("cublasIzamin_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<int>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSasum_v2(cublasHandle_t handle, int n, const float *x, int incx, float *result) {
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<float>(result);
+    
+    CublasFrontend::Execute("cublasSasum_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<float>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDasum_v2(cublasHandle_t handle, int n, const double *x, int incx, double *result) {
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<double>(result);
+    
+    CublasFrontend::Execute("cublasDasum_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<double>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasScasum_v2(cublasHandle_t handle, int n, const cuComplex *x, int incx, float *result) {
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<float>(result);
+    
+    CublasFrontend::Execute("cublasScasum_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<float>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDzasum_v2(cublasHandle_t handle, int n, const cuDoubleComplex *x, int incx, double *result) {
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddHostPointerForArguments<double>(result);
+    
+    CublasFrontend::Execute("cublasDzasum_v2");
+    if(CublasFrontend::Success())
+        result = CublasFrontend::GetOutputHostPointer<double>();
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSrot_v2(cublasHandle_t handle, int n, float *x, int incx, float *y, int incy, const float *c, const float *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<float>((float*)c);
+    CublasFrontend::AddHostPointerForArguments<float>((float*)s);
+    
+    CublasFrontend::Execute("cublasSrot_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDrot_v2(cublasHandle_t handle, int n, double *x, int incx, double *y, int incy, const double *c, const double *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<double>((double*)c);
+    CublasFrontend::AddHostPointerForArguments<double>((double*)s);
+    
+    CublasFrontend::Execute("cublasDrot_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCrot_v2(cublasHandle_t handle, int n, cuComplex *x, int incx, cuComplex *y, int incy, const float *c, const cuComplex *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<float>((float*)c);
+    CublasFrontend::AddHostPointerForArguments<cuComplex>((cuComplex*)s);
+    
+    CublasFrontend::Execute("cublasCrot_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCsrot_v2(cublasHandle_t handle, int n, cuComplex *x, int incx, cuComplex *y, int incy, const float *c, const float *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<float>((float*)c);
+    CublasFrontend::AddHostPointerForArguments<float>((float*)s);
+    
+    CublasFrontend::Execute("cublasCsrot_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZrot_v2(cublasHandle_t handle, int n, cuDoubleComplex *x, int incx, cuDoubleComplex *y, int incy, const double *c, const cuDoubleComplex *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<double>((double*)c);
+    CublasFrontend::AddHostPointerForArguments<cuDoubleComplex>((cuDoubleComplex*)s);
+    
+    CublasFrontend::Execute("cublasZrot_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZdrot_v2(cublasHandle_t handle, int n, cuDoubleComplex *x, int incx, cuDoubleComplex *y, int incy, const double *c, const double *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<double>((double*)c);
+    CublasFrontend::AddHostPointerForArguments<double>((double*)s);
+    
+    CublasFrontend::Execute("cublasZdrot_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSrotg_v2(cublasHandle_t handle, float *a, float *b, float *c, float *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddHostPointerForArguments<float>(a);
+    CublasFrontend::AddHostPointerForArguments<float>(b);
+    CublasFrontend::AddHostPointerForArguments<float>(c);
+    CublasFrontend::AddHostPointerForArguments<float>(s);
+    
+    CublasFrontend::Execute("cublasSrotg_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDrotg_v2(cublasHandle_t handle, double *a, double *b, double *c, double *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddHostPointerForArguments<double>(a);
+    CublasFrontend::AddHostPointerForArguments<double>(b);
+    CublasFrontend::AddHostPointerForArguments<double>(c);
+    CublasFrontend::AddHostPointerForArguments<double>(s);
+    
+    CublasFrontend::Execute("cublasDrotg_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCrotg_v2(cublasHandle_t handle, cuComplex *a, cuComplex *b, float *c, cuComplex *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddHostPointerForArguments<cuComplex>(a);
+    CublasFrontend::AddHostPointerForArguments<cuComplex>(b);
+    CublasFrontend::AddHostPointerForArguments<float>(c);
+    CublasFrontend::AddHostPointerForArguments<cuComplex>(s);
+    
+    CublasFrontend::Execute("cublasCrotg_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZrotg_v2(cublasHandle_t handle, cuDoubleComplex *a, cuDoubleComplex *b, double *c, cuDoubleComplex *s){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddHostPointerForArguments<cuDoubleComplex>(a);
+    CublasFrontend::AddHostPointerForArguments<cuDoubleComplex>(b);
+    CublasFrontend::AddHostPointerForArguments<double>(c);
+    CublasFrontend::AddHostPointerForArguments<cuDoubleComplex>(s);
+    
+    CublasFrontend::Execute("cublasZrotg_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSrotm_v2(cublasHandle_t handle, int n, float *x, int incx, float *y, int incy, const float* param){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<float>((float*)param);
+    
+    CublasFrontend::Execute("cublasSrotm_v2");
+    return CublasFrontend::GetExitCode();
+}
+
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDrotm_v2(cublasHandle_t handle, int n, double *x, int incx, double *y, int incy, const double* param){
+    CublasFrontend::Prepare();
+    
+    CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CublasFrontend::AddVariableForArguments<int>(n);
+    CublasFrontend::AddDevicePointerForArguments(x);
+    CublasFrontend::AddVariableForArguments<int>(incx);
+    CublasFrontend::AddDevicePointerForArguments(y);
+    CublasFrontend::AddVariableForArguments<int>(incy);
+    CublasFrontend::AddHostPointerForArguments<double>((double*)param);
+    
+    CublasFrontend::Execute("cublasDrotm_v2");
+    return CublasFrontend::GetExitCode();
+}
