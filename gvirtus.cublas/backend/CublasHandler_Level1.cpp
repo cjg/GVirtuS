@@ -722,3 +722,36 @@ CUBLAS_ROUTINE_HANDLER(Drotm_v2){
     cublasStatus_t cs = cublasDrotm_v2(handle,n,x,incx,y,incy,param);
     return new Result(cs);
 }
+
+CUBLAS_ROUTINE_HANDLER(Srotmg_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Srotmg_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    float * d1 = in->Assign<float>();
+    float * d2 = in->Assign<float>();
+    float * x1 = in->Assign<float>();
+    float * y1 = in->Assign<float>();
+    float * param = in->Assign<float>();
+    
+    cublasStatus_t cs = cublasSrotmg_v2(handle,d1,d2,x1,y1,param);
+    Buffer * out = new Buffer();
+    out->Add(param);
+    return new Result(cs,out);
+}
+
+
+CUBLAS_ROUTINE_HANDLER(Drotmg_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Drotmg_v2"));
+    
+    cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
+    double * d1 = in->Assign<double>();
+    double * d2 = in->Assign<double>();
+    double * x1 = in->Assign<double>();
+    double * y1 = in->Assign<double>();
+    double * param = in->Assign<double>();
+    
+    cublasStatus_t cs = cublasDrotmg_v2(handle,d1,d2,x1,y1,param);
+    Buffer * out = new Buffer();
+    out->Add(param);
+    return new Result(cs,out);
+}
