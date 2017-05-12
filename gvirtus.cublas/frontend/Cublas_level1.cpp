@@ -784,3 +784,4 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDrotmg_v2(cublasHandle_t 
         param = CublasFrontend::GetOutputHostPointer<double>();
     return CublasFrontend::GetExitCode();
 }
+

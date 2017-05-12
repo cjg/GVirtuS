@@ -183,6 +183,40 @@ void CublasHandler::Initialize() {
     
     /* CublasHandler Level2 functions */
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgemv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dgemv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cgemv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zgemv_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgbmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dgbmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgbmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgbmv_v2));  
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Strmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dtrmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ctrmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ztrmv_v2));  
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Stbmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dtbmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ctbmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ztbmv_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Stpmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dtpmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ctpmv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ztpmv_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Stpsv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dtpsv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ctpsv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ztpsv_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Stbsv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dtbsv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ctbsv_v2));  
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ztbsv_v2));
+    
     /* CublasHandler Level3 functions */
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgemm_v2));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Snrm2_v2));
