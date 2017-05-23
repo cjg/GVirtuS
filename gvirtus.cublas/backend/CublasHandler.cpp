@@ -217,12 +217,70 @@ void CublasHandler::Initialize() {
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ctbsv_v2));  
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ztbsv_v2));
     
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ssymv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dsymv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csymv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zsymv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Chemv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zhemv_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ssbmv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dsbmv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Chbmv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zhbmv_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sspmv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dspmv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Chpmv_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zhpmv_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sger_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dger_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cgeru_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cgerc_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zgeru_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zgerc_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ssyr_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dsyr_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csyr_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zsyr_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cher_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zher_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sspr_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dspr_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Chpr_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zhpr_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ssyr2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dsyr2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csyr2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zsyr2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cher2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zher2_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sspr2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dspr2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Chpr2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zhpr2_v2));
     /* CublasHandler Level3 functions */
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Sgemm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dgemm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cgemm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zgemm_v2));
+    
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Snrm2_v2));
-    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dnrm2_v2));
-    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Scnrm2_v2));
-    //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dznrm2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dnrm2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Scnrm2_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dznrm2_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ssyrk_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dsyrk_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csyrk_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zsyrk_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cherk_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zherk_v2));
     
     //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSetMatrix));
     //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSscal));
