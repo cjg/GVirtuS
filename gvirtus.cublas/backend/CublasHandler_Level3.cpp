@@ -280,3 +280,313 @@ CUBLAS_ROUTINE_HANDLER(Zherk_v2){
     cublasStatus_t cs = cublasZherk_v2(handle,uplo,trans,n,k,alpha,A,lda,beta,C,ldc);
     return new Result(cs);
 }
+
+CUBLAS_ROUTINE_HANDLER(Ssyr2k_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Ssyr2k_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    const float * alpha = in->Assign<float>();
+    float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    
+    float * B = in->GetFromMarshal<float*>();
+    int ldb = in->Get<int>();
+    
+    const float * beta = in->Assign<float>();
+    
+    float * C = in->GetFromMarshal<float*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasSsyr2k_v2(handle,uplo,trans,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+
+CUBLAS_ROUTINE_HANDLER(Dsyr2k_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Dsyr2k_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    const double * alpha = in->Assign<double>();
+    double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    
+    double * B = in->GetFromMarshal<double*>();
+    int ldb = in->Get<int>();
+    
+    const double * beta = in->Assign<double>();
+    
+    double * C = in->GetFromMarshal<double*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasDsyr2k_v2(handle,uplo,trans,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Csyr2k_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Csyr2k_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    cuComplex * A = in->GetFromMarshal<cuComplex*>();
+    int lda = in->Get<int>();
+    
+    cuComplex * B = in->GetFromMarshal<cuComplex*>();
+    int ldb = in->Get<int>();
+    
+    const cuComplex * beta = in->Assign<cuComplex>();
+    
+    cuComplex * C = in->GetFromMarshal<cuComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasCsyr2k_v2(handle,uplo,trans,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+
+CUBLAS_ROUTINE_HANDLER(Zsyr2k_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Zsyr2k_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    cuDoubleComplex * A = in->GetFromMarshal<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    
+    cuDoubleComplex * B = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldb = in->Get<int>();
+    
+    const cuDoubleComplex * beta = in->Assign<cuDoubleComplex>();
+    
+    cuDoubleComplex * C = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasZsyr2k_v2(handle,uplo,trans,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Cher2k_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Cher2k_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    cuComplex * A = in->GetFromMarshal<cuComplex*>();
+    int lda = in->Get<int>();
+    
+    cuComplex * B = in->GetFromMarshal<cuComplex*>();
+    int ldb = in->Get<int>();
+    
+    const float * beta = in->Assign<float>();
+    
+    cuComplex * C = in->GetFromMarshal<cuComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasCher2k_v2(handle,uplo,trans,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Zher2k_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Zher2k_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    cuDoubleComplex * A = in->GetFromMarshal<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    
+    cuDoubleComplex * B = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldb = in->Get<int>();
+    
+    const double * beta = in->Assign<double>();
+    
+    cuDoubleComplex * C = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasZher2k_v2(handle,uplo,trans,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+
+CUBLAS_ROUTINE_HANDLER(Ssymm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Ssymm_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+   
+    const float * alpha = in->Assign<float>();
+    float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    
+    float * B = in->GetFromMarshal<float*>();
+    int ldb = in->Get<int>();
+    
+    const float * beta = in->Assign<float>();
+    
+    float * C = in->GetFromMarshal<float*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasSsymm_v2(handle,side,uplo,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Dsymm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Dsymm_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+   
+    const double * alpha = in->Assign<double>();
+    double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    
+    double * B = in->GetFromMarshal<double*>();
+    int ldb = in->Get<int>();
+    
+    const double * beta = in->Assign<double>();
+    
+    double * C = in->GetFromMarshal<double*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasDsymm_v2(handle,side,uplo,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+
+CUBLAS_ROUTINE_HANDLER(Csymm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Csymm_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+   
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    cuComplex * A = in->GetFromMarshal<cuComplex*>();
+    int lda = in->Get<int>();
+    
+    cuComplex * B = in->GetFromMarshal<cuComplex*>();
+    int ldb = in->Get<int>();
+    
+    const cuComplex * beta = in->Assign<cuComplex>();
+    
+    cuComplex * C = in->GetFromMarshal<cuComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasCsymm_v2(handle,side,uplo,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Zsymm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Zsymm_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+   
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    cuDoubleComplex * A = in->GetFromMarshal<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    
+    cuDoubleComplex * B = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldb = in->Get<int>();
+    
+    const cuDoubleComplex * beta = in->Assign<cuDoubleComplex>();
+    
+    cuDoubleComplex * C = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasZsymm_v2(handle,side,uplo,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Chemm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Chemm_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+   
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    cuComplex * A = in->GetFromMarshal<cuComplex*>();
+    int lda = in->Get<int>();
+    
+    cuComplex * B = in->GetFromMarshal<cuComplex*>();
+    int ldb = in->Get<int>();
+    
+    const cuComplex * beta = in->Assign<cuComplex>();
+    
+    cuComplex * C = in->GetFromMarshal<cuComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasChemm_v2(handle,side,uplo,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}
+
+CUBLAS_ROUTINE_HANDLER(Zhemm_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Zhemm_v2"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+   
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    cuDoubleComplex * A = in->GetFromMarshal<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    
+    cuDoubleComplex * B = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldb = in->Get<int>();
+    
+    const cuDoubleComplex * beta = in->Assign<cuDoubleComplex>();
+    
+    cuDoubleComplex * C = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldc = in->Get<int>();
+    
+    cublasStatus_t cs = cublasZhemm_v2(handle,side,uplo,n,k,alpha,A,lda,B,ldb,beta,C,ldc);
+    return new Result(cs);
+}

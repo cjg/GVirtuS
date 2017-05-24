@@ -282,6 +282,20 @@ void CublasHandler::Initialize() {
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cherk_v2));
     mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zherk_v2));
     
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ssyr2k_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dsyr2k_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csyr2k_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zsyr2k_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Cher2k_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zher2k_v2));
+    
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Ssymm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Dsymm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Csymm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zsymm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Chemm_v2));
+    mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(Zhemm_v2));
+    
     //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSetMatrix));
     //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasSscal));
     //mspHandlers->insert(CUBLAS_ROUTINE_HANDLER_PAIR(cublasDestroy));
