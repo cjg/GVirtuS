@@ -39,6 +39,41 @@ CUBLAS_ROUTINE_HANDLER(Sgemm_v2) {
     return new Result(cs,out);
 }
 
+CUBLAS_ROUTINE_HANDLER(SgemmBatched_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SgemmBatched"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    
+    cublasOperation_t transa = in->Get<cublasOperation_t>();
+    cublasOperation_t transb = in->Get<cublasOperation_t>();
+    int m  = in->Get<int>();
+    int n  = in->Get<int>();
+    int k  = in->Get<int>();
+    const float * alpha = in->Assign<float>();
+    
+    const float ** A = (const float **) in->GetFromMarshal<float**>();
+    int lda = in->Get<int>();
+    const float ** B = (const float **) in->GetFromMarshal<float**>();
+    int ldb = in->Get<int>();
+    const float * beta = in->Assign<float>();
+    float ** C = in->GetFromMarshal<float**>();
+    int ldc = in->Get<int>();
+    int batchSize = in->Get<int>();
+    
+    cublasStatus_t cs;
+    Buffer * out = new Buffer();
+    try{
+        cs = cublasSgemmBatched(handle,transa,transb,m,n,k,alpha,A,lda,B,ldb,beta,C,ldc,batchSize);
+        out->AddMarshal<float **>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout << "DEBUG - cublasSgemmBatched_v2 Executed"<<endl;
+    return new Result(cs,out);
+}
+
 CUBLAS_ROUTINE_HANDLER(Dgemm_v2) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Dgemm"));
     
@@ -71,6 +106,42 @@ CUBLAS_ROUTINE_HANDLER(Dgemm_v2) {
     cout << "DEBUG - cublasDgemm_v2 Executed"<<endl;
     return new Result(cs,out);
 }
+
+CUBLAS_ROUTINE_HANDLER(DgemmBatched_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DgemmBatched"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    
+    cublasOperation_t transa = in->Get<cublasOperation_t>();
+    cublasOperation_t transb = in->Get<cublasOperation_t>();
+    int m  = in->Get<int>();
+    int n  = in->Get<int>();
+    int k  = in->Get<int>();
+    const double * alpha = in->Assign<double>();
+    
+    const double ** A = (const double **) in->GetFromMarshal<double**>();
+    int lda = in->Get<int>();
+    const double ** B = (const double **) in->GetFromMarshal<double**>();
+    int ldb = in->Get<int>();
+    const double * beta = in->Assign<double>();
+    double ** C = in->GetFromMarshal<double**>();
+    int ldc = in->Get<int>();
+    int batchSize = in->Get<int>();
+    
+    cublasStatus_t cs;
+    Buffer * out = new Buffer();
+    try{
+        cs = cublasDgemmBatched(handle,transa,transb,m,n,k,alpha,A,lda,B,ldb,beta,C,ldc,batchSize);
+        out->AddMarshal<double **>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout << "DEBUG - cublasDgemmBatched_v2 Executed"<<endl;
+    return new Result(cs,out);
+}
+
 
 CUBLAS_ROUTINE_HANDLER(Cgemm_v2) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Cgemm"));
@@ -105,6 +176,42 @@ CUBLAS_ROUTINE_HANDLER(Cgemm_v2) {
     return new Result(cs,out);
 }
 
+CUBLAS_ROUTINE_HANDLER(CgemmBatched_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("CgemmBatched"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    
+    cublasOperation_t transa = in->Get<cublasOperation_t>();
+    cublasOperation_t transb = in->Get<cublasOperation_t>();
+    int m  = in->Get<int>();
+    int n  = in->Get<int>();
+    int k  = in->Get<int>();
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    
+    const cuComplex ** A = (const cuComplex **) in->GetFromMarshal<cuComplex**>();
+    int lda = in->Get<int>();
+    const cuComplex ** B = (const cuComplex **) in->GetFromMarshal<cuComplex**>();
+    int ldb = in->Get<int>();
+    const cuComplex * beta = in->Assign<cuComplex>();
+    cuComplex ** C = in->GetFromMarshal<cuComplex**>();
+    int ldc = in->Get<int>();
+    int batchSize = in->Get<int>();
+    
+    cublasStatus_t cs;
+    Buffer * out = new Buffer();
+    try{
+        cs = cublasCgemmBatched(handle,transa,transb,m,n,k,alpha,A,lda,B,ldb,beta,C,ldc,batchSize);
+        out->AddMarshal<cuComplex **>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout << "DEBUG - cublasCgemmBatched_v2 Executed"<<endl;
+    return new Result(cs,out);
+}
+
+
 CUBLAS_ROUTINE_HANDLER(Zgemm_v2) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Zgemm"));
     
@@ -137,6 +244,42 @@ CUBLAS_ROUTINE_HANDLER(Zgemm_v2) {
     cout << "DEBUG - cublasZgemm_v2 Executed"<<endl;
     return new Result(cs,out);
 }
+
+CUBLAS_ROUTINE_HANDLER(ZgemmBatched_v2){
+    Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ZgemmBatched"));
+    
+    cublasHandle_t handle;
+    handle = (cublasHandle_t) in->Get<long long int>();
+    
+    cublasOperation_t transa = in->Get<cublasOperation_t>();
+    cublasOperation_t transb = in->Get<cublasOperation_t>();
+    int m  = in->Get<int>();
+    int n  = in->Get<int>();
+    int k  = in->Get<int>();
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    
+    const cuDoubleComplex ** A = (const cuDoubleComplex **) in->GetFromMarshal<cuDoubleComplex**>();
+    int lda = in->Get<int>();
+    const cuDoubleComplex ** B = (const cuDoubleComplex **) in->GetFromMarshal<cuDoubleComplex**>();
+    int ldb = in->Get<int>();
+    const cuDoubleComplex * beta = in->Assign<cuDoubleComplex>();
+    cuDoubleComplex ** C = in->GetFromMarshal<cuDoubleComplex**>();
+    int ldc = in->Get<int>();
+    int batchSize = in->Get<int>();
+    
+    cublasStatus_t cs;
+    Buffer * out = new Buffer();
+    try{
+        cs = cublasZgemmBatched(handle,transa,transb,m,n,k,alpha,A,lda,B,ldb,beta,C,ldc,batchSize);
+        out->AddMarshal<cuDoubleComplex **>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cudaErrorMemoryAllocation);
+    }
+    cout << "DEBUG - cublasZgemmBatched_v2 Executed"<<endl;
+    return new Result(cs,out);
+}
+
 
 CUBLAS_ROUTINE_HANDLER(Snrm2_v2){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Snrm2_v2"));
