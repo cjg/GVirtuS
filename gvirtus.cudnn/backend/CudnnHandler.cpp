@@ -21,93 +21,60 @@
  *
  */
 
-#include "CublasHandler.h"
-
 #include <cstring>
+#include <map>
+#include <errno.h>
 
-#include <dlfcn.h>
+#include "CudnnHandler.h"
+#include "CudnnHandler_Helper.cpp"
 
 using namespace std;
+using namespace log4cplus;
 
-map<string, CudnnHandler::CudnnRoutineHandler> *CudnnHandler::mspHandlers = NULL;
+std::map<string, CudnnHandler::CudnnRoutineHandler> * CudnnHandler::mspHandlers = NULL;
 
 extern "C" int HandlerInit() {
     return 0;
 }
 extern "C" Handler *GetHandler() {
-    return new OpenclHandler();
+    return new CudnnHandler();
 }
 
 CudnnHandler::CudnnHandler() {
-    mpMapObject = new map<string, string> ();
-    pointers = (void **)malloc(sizeof(void*));
-    mpMapObject = new map<string, string>();
-    nPointers = 1;
-
+    logger=Logger::getInstance(LOG4CPLUS_TEXT("CudnnHandler"));
     Initialize();
 }
 
 CudnnHandler::~CudnnHandler() {
 
 }
-bool CublasHandler::CanExecute(std::string routine) {
-    map<string, CudnnHandler::CudnnRoutineHandler>::iterator it;
-    it = mspHandlers->find(routine);
-    if (it == mspHandlers->end()){
-        return false;
-        cout<<"false"<<endl;
-    }
-    return true;
-    cout<<"true"<<endl;
+
+bool CudnnHandler::CanExecute(std::string routine) {
+    return mspHandlers->find(routine) != mspHandlers->end();
 }
 
-Result * CudnnHandler::Execute(std::string routine, Buffer * input_buffer) {
+Result * CudnnHandler::Execute(std::string routine, Buffer * in) {
+    LOG4CPLUS_DEBUG(logger,"Called " << routine);
     map<string, CudnnHandler::CudnnRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
     if (it == mspHandlers->end())
         throw "No handler for '" + routine + "' found!";
-    return it->second(this, input_buffer);
-}
-
-void* CudnnHandler::RegisterPointer(void* pointer,size_t bytes){
-    if (nPointers==1){
-        pointers[0] = (char *)malloc(bytes);
-        memcpy(pointers[0],(char *)pointer,bytes);
-        nPointers = nPointers + 1;
-        return pointers[0];
-    }else{
-        pointers = (void**)realloc(pointers,nPointers * sizeof(void*));
-        pointers[nPointers-1] = (char *)malloc(bytes);
-        memcpy(pointers[nPointers-1],pointer,bytes);
-        nPointers = nPointers + 1;
-        return pointers[nPointers-2];
+    try {
+        return it->second(this, in);
+    } catch (const char *ex) {
+        cout << ex << endl;
+        cout << strerror(errno) << endl;
     }
-}
-
-    void CudnnHandler::RegisterMapObject(char * key,char * value){
-
-        mpMapObject->insert(make_pair(key, value));
-
-    }
-    char * CudnnHandler::GetMapObject(char * key){
-        for (map<string, string>::iterator it = mpMapObject->begin();
-            it != mpMapObject->end(); it++)
-        if (it->first == key)
-            return (char *)(it->second.c_str());
     return NULL;
-    }
+}
+
 
 void CudnnHandler::Initialize() {
     if (mspHandlers != NULL)
         return;
-    pointers = (void **)malloc(sizeof(void*));
-    mpMapObject = new map<string, string>();
-    nPointers = 1;
     mspHandlers = new map<string, CudnnHandler::CudnnRoutineHandler> ();
 
     /* CublasHandler Query Platform Info */
-    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(cublasCreate));
-    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(cublasSetStream));
-    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(cublasGetStream));
-    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(cublasDestroy));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetVersion));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(Create));
 }

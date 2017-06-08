@@ -31,5 +31,4 @@ class CudnnBackend : public Backend {
 public:
     Handler *GetHandler();
 };
-
 #endif	/* CUDNNBACKEND_H */

@@ -23,13 +23,10 @@
  *             Department of Science and Technologies
  */
 
-#include "CudnnHandler.h"
 #include "CudnnBackend.h"
+#include "CudnnHandler.h"
 
-Handler *CudnnBackend::GetHandler() {
+Handler * CudnnBackend::GetHandler() {
     return (Handler *) new CudnnHandler();
 }
-
-
-
 

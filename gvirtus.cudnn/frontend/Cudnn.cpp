@@ -27,43 +27,30 @@
 #include <cstdio>
 #include <string>
 
-#include "CudnnHandler.h"
+#include "CudnnFrontend.h"
 
 using namespace std;
-using namespace log4cplus;
 
-CUDNN_ROUTINE_HANDLER(Create){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Create"));
+extern "C" size_t cudnnGetVersion(){
+    CudnnFrontend::Prepare();
     
-    cudnnHandle_t handle;
-    cudnnStatus_t cs = cudnnCreate(&handle);
-    Buffer * out = new Buffer();
-    try{
-        out->Add<cudnnHandle_t>(handle);
-    } catch (string e){
-        LOG4CPLUS_DEBUG(logger,e);
-        return new Result(CUDNN_STATUS_EXECUTION_FAILED);
-    }
-    return new Result(cs,out);
+    CudnnFrontend::Execute("cudnnGetVersion"); 
+    return CudnnFrontend::GetExitCode();
 }
 
-CUDNN_ROUTINE_HANDLER(GetVersion){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetVersion"));
+extern "C" cudnnStatus_t cudnnCreate(cudnnHandle_t *handle){
+    CudnnFrontend::Prepare();
     
-    size_t version = cudnnGetVersion();
-    return new Result(version);
+    CudnnFrontend::Execute("cudnnCreate");
+    if(CudnnFrontend::Success())
+        *handle = CudnnFrontend::GetOutputVariable<cudnnHandle_t>();
+    return CudnnFrontend::GetExitCode();
 }
 
-CUDNN_ROUTINE_HANDLER(GetErrorString){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetErrorString"));
-    cudnnStatus_t cs = in->Get<cudnnStatus_t>();
-    const char * s = cudnnGetErrorString(cs);
-    Buffer * out = new Buffer();
-    try{
-        out->Add((char *)s);
-    } catch (string e){
-        LOG4CPLUS_DEBUG(logger,e);
-        return new Result(CUDNN_STATUS_EXECUTION_FAILED);
-    }
-    return new Result(CUDNN_STATUS_SUCCESS,out);
+extern "C" const char * cudnnGetErrorString(cudnnStatus_t status){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<cudnnStatus_t>(status);
+    CudnnFrontend::Execute("cudnnGetErrorString");
+    return (const char *) CudnnFrontend::GetOutputHostPointer<char *>();
 }

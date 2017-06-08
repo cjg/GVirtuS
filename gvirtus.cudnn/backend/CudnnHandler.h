@@ -23,19 +23,17 @@
  *             Department of Science and Technologies
  */
 
-#include <iostream>
-#include <map>
-#include <string>
-#include <cstdio>
-
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-#include <cudnn.h>
+#ifndef _CUDNNHANDLER_H
+#define _CUDNNHANDLER_H
 
 #include "Handler.h"
 #include "Result.h"
+//#include "CudaUtil.h"
+#include <cudnn.h>
+
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+#include "log4cplus/configurator.h"
 
 class CudnnHandler : public Handler {
 public:
@@ -44,32 +42,29 @@ public:
     bool CanExecute(std::string routine);
     Result * Execute(std::string routine, Buffer * input_buffer);
 
-
-    void* RegisterPointer(void *,size_t);
+    /*void * RegisterPointer(void *,size_t);
 
     void RegisterMapObject(char *,char *);
     char * GetMapObject(char *);
-
-
+    */
 private:
+    log4cplus::Logger logger;
     void Initialize();
     typedef Result * (*CudnnRoutineHandler)(CudnnHandler *, Buffer *);
     static std::map<std::string, CudnnRoutineHandler> * mspHandlers;
-    void **pointers;
-    int nPointers;
-    std::map<std::string, std::string> * mpMapObject;
+    //void **pointers;
+    //int nPointers;
+    
+    //std::map<std::string, std::string> * mpMapObject;
 
-    void *mpShm;
-    int mShmFd;
+    //void *mpShm;
+    //int mShmFd;
 };
 
-#define CUDNN_ROUTINE_HANDLER(name) Result * handle##name(CudnnHandler * pThis, Buffer * input_buffer)
+#define CUDNN_ROUTINE_HANDLER(name) Result * handle##name(CudnnHandler * pThis, Buffer * in)
 #define CUDNN_ROUTINE_HANDLER_PAIR(name) make_pair("cudnn" #name, handle##name)
 
 /* CudnnHandler_Platform */
+CUDNN_ROUTINE_HANDLER(GetVersion);
 CUDNN_ROUTINE_HANDLER(Create);
-CUDNN_ROUTINE_HANDLER(SetStream);
-CUDNN_ROUTINE_HANDLER(GetStream);
-CUDNN_ROUTINE_HANDLER(Sscal);
-CUDNN_ROUTINE_HANDLER(Destroy);
-
+#endif //_CUDNNHANDLER_H

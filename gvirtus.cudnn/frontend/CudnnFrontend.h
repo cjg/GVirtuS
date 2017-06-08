@@ -25,11 +25,25 @@
 #ifndef CUDNNFRONTEND_H
 #define	CUDNNFRONTEND_H
 
-#include <Frontend.h>
+#include <map>
+#include <set>
+#include <stack>
+#include <list>
+#include <iostream>
+
+#include <cuda_runtime_api.h>
+#include <cudnn.h>
+
+#include "Frontend.h"
+
+typedef struct __configureFunction{
+      funcs __f;
+      Buffer* buffer;
+} configureFunction;
 
 class CudnnFrontend {
 public:
-    static inline void Execute(const char *routine, const Buffer *input_buffer = NULL) {
+    static inline void Execute(const char * routine, const Buffer * input_buffer = NULL) {
         Frontend::GetFrontend()->Execute(routine, input_buffer);
     }
 
@@ -95,17 +109,19 @@ public:
      *
      * @param symbol the symbol to add as a parameter.
      */
-    /*static inline void AddSymbolForArguments(const char *symbol) {
-        AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
-        AddStringForArguments(symbol);
-    }*/
+    static inline void AddSymbolForArguments(const char *symbol) {
+        /* TODO: implement AddSymbolForArguments
+         * AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
+         * AddStringForArguments(symbol);
+         * */
+    }
 
-    static inline cl_uint GetExitCode() {
-        return (cl_uint) Frontend::GetFrontend()->GetExitCode();
+    static inline cudnnStatus_t GetExitCode() {
+        return (cudnnStatus_t) Frontend::GetFrontend()->GetExitCode();
     }
 
     static inline bool Success() {
-        return Frontend::GetFrontend()->Success(0);
+        return Frontend::GetFrontend()->Success(cudaSuccess);
     }
 
     template <class T> static inline T GetOutputVariable() {
@@ -145,7 +161,8 @@ public:
     static inline char * GetOutputString() {
         return Frontend::GetFrontend()->GetOutputBuffer()->AssignString();
     }
-    OpenclFrontend();
+    CudnnFrontend();
+    static void * handler;
 };
 #endif	/* CUDNNFRONTEND_H */
 
