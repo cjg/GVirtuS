@@ -34,6 +34,19 @@ cd gvirtus.cufft
 make
 make install
 
+cd ..
+cd gvirtus.cublas
+#make clean
+./autogen.sh --prefix="${INSTALL_FOLDER}"
+make
+make install
+
+cd ..
+cd gvirtus.cudnn
+#make clean
+./autogen.sh --prefix="${INSTALL_FOLDER}"
+make
+make install
 
 cd $INSTALL_FOLDER/lib/frontend
 ln -sf libcudart.so.6.5.14 libcudart.so.6.5
