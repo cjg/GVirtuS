@@ -4,7 +4,7 @@
 AC_PREREQ([2.63])
 AC_INIT(gvirtus-cudnn, 01-beta2, http://osl.uniparthenope.it/mailman/listinfo/gvirtus-devel)
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([backend/CudnnHandler.cpp])
+AC_CONFIG_SRCDIR([frontend/Cudnn.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -18,6 +18,7 @@ AC_ARG_WITH([cudnn-include], [AC_HELP_STRING([--with-cudnn-include=PATH],
     CUDNN_FLAGS="-isystem $CUDNN_INCLUDE"
 ], [
     CUDNN_FLAGS="$CUDNN_FLAGS -isystem /usr/local/cuda/include/"
+    CUDNN_FLAGS="$CUDNN_FLAGS -isystem /opt/cuda/include"
 ])
 CPPFLAGS="$CPPFLAGS $CUDNN_FLAGS"
 
@@ -28,6 +29,9 @@ AC_ARG_WITH([cudnn-lib], [AC_HELP_STRING([--with-cudnn-lib=PATH],
     CUDNN_LIB_FLAGS="-L$withval"
 ], [
     CUDNN_LIB_FLAGS="$CUDNN_LIB_FLAGS -L/usr/local/cuda/lib64"
+    CUDNN_LIB_FLAGS="$CUDNN_LIB_FLAGS -L/usr/local/cuda/lib"
+    CUDNN_LIB_FLAGS="$CUDNN_LIB_FLAGS -L/opt/cuda/lib"
+    CUDNN_LIB_FLAGS="$CUDNN_LIB_FLAGS -L/opt/cuda/lib64"
 ])
 LDFLAGS="$LDFLAGS $CUDNN_LIB_FLAGS"
 AC_SUBST(CUDNN_LIB_FLAGS)
@@ -37,8 +41,10 @@ AC_ARG_WITH([gvirtus-include], [AC_HELP_STRING([--with-gvirtus-include=PATH],
     GVIRTUS_INCLUDE="$withval"
     GVIRTUS_FLAGS="-I$GVIRTUS_INCLUDE"
 ], [
-
-    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/home/rapid/opt/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I${prefix}/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/usr/local/gvirtus/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/opt/gvirtus/include/gvirtus"
+#    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/home/rapid/opt/include/gvirtus"
 #    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I${prefix}/include/gvirtus"
 ])
 CPPFLAGS="$CPPFLAGS $GVIRTUS_FLAGS"
@@ -49,7 +55,10 @@ AC_ARG_WITH([gvirtus-lib], [AC_HELP_STRING([--with-gvirtus-lib=PATH],
     GVIRTUS_LIB_DIR=$withval
     GVIRTUS_LIB_FLAGS="-L$withval"
 ], [
-    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/home/rapid/opt/lib"
+    GVIRTUS_LIB_FLAGS="-L${prefix}/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/usr/local/gvirtus/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/opt/gvirtus/lib"
+   # GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/home/rapid/opt/lib"
    # GVIRTUS_LIB_FLAGS="-L${prefix}/lib"
 ])
 LDFLAGS="$LDFLAGS $GVIRTUS_LIB_FLAGS"
@@ -83,17 +92,17 @@ AC_CHECK_HEADER([cudnn.h], [], [
         ])])
 
 CPPFLAGS="-I`pwd`/util $CPPFLAGS"
-CXXFLAGS="$CXXFLAGS -Wall -pedantic -Werror"
+CXXFLAGS="$CXXFLAGS -Wall -pedantic -llog4cplus"
 #AC_CONFIG_FILES([Makefile 
 #                 util/Makefile
 #                 backend/Makefile
 #                 frontend/Makefile
 #                 test/Makefile
-#		])
+#       ])
 
 
 AC_CONFIG_FILES([Makefile
                  frontend/Makefile
-		 backend/Makefile
-		])
+                 backend/Makefile
+        ])
 AC_OUTPUT

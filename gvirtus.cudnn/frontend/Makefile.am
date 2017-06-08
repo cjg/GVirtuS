@@ -1,7 +1,11 @@
 frontendlibdir = $(libdir)/frontend
-frontendlib_LTLIBRARIES = libCudnn.la
-libOpencl_la_SOURCES = \
-CudnnFrontend.cpp\
+frontendlib_LTLIBRARIES = libcudnn.la
+libcudnn_la_SOURCES = \
+Cudnn.cpp\
 CudnnFrontend.h\
-Cudnn_Helper.cpp\
-libCudnn_la_LIBADD = -lgvirtus-frontend -lrt
+CudnnFrontend.cpp
+
+libcudnn_la_LIBADD = -lgvirtus-frontend
+libcudnn_la_LDFLAGS = -version-info 3
+
+
