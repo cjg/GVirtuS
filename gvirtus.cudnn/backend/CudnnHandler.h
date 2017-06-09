@@ -67,4 +67,13 @@ private:
 /* CudnnHandler_Platform */
 CUDNN_ROUTINE_HANDLER(GetVersion);
 CUDNN_ROUTINE_HANDLER(Create);
+CUDNN_ROUTINE_HANDLER(Destroy);
+CUDNN_ROUTINE_HANDLER(GetErrorString);
+CUDNN_ROUTINE_HANDLER(SetStream);
+CUDNN_ROUTINE_HANDLER(GetStream);
+CUDNN_ROUTINE_HANDLER(CreateTensorDescriptor);
+CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptor);
+CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptorEx);
+CUDNN_ROUTINE_HANDLER(GetTensor4dDescriptor);
+
 #endif //_CUDNNHANDLER_H

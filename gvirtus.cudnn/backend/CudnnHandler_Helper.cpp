@@ -67,3 +67,116 @@ CUDNN_ROUTINE_HANDLER(GetErrorString){
     }
     return new Result(CUDNN_STATUS_SUCCESS,out);
 }
+
+CUDNN_ROUTINE_HANDLER(Destroy){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Destroy"));
+    
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    cudnnStatus_t cs = cudnnDestroy(handle);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(SetStream){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetStream"));
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    cudaStream_t streamId = (cudaStream_t) in->Get<long long int>();
+    
+    cudnnStatus_t cs = cudnnSetStream(handle,streamId);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(GetStream){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetStream"));
+    
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    cudaStream_t *streamId;
+    
+    cudnnStatus_t cs = cudnnGetStream(handle,streamId);
+    Buffer *out = new Buffer();
+    try {
+        out->Add<long long int>((long long int)*streamId);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+
+CUDNN_ROUTINE_HANDLER(CreateTensorDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateTensorDescriptor"));
+    
+    cudnnTensorDescriptor_t tensorDesc;
+    cudnnStatus_t cs = cudnnCreateTensorDescriptor(&tensorDesc);
+    Buffer * out = new Buffer();
+    try {
+        out->Add<cudnnTensorDescriptor_t>(tensorDesc);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetTensor4dDescriptor"));
+    
+    cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    cudnnTensorFormat_t format = in->Get<cudnnTensorFormat_t>();
+    cudnnDataType_t dataType = in->Get<cudnnDataType_t>();
+    
+    int n = in->Get<int>();
+    int c = in->Get<int>();
+    int h = in->Get<int>();
+    int w = in->Get<int>();
+    
+    cudnnStatus_t cs = cudnnSetTensor4dDescriptor(tensorDesc,format,dataType,n,c,h,w);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptorEx){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetTensor4dDescriptor"));
+    
+    cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    cudnnDataType_t dataType = in->Get<cudnnDataType_t>();
+    
+    int n = in->Get<int>();
+    int c = in->Get<int>();
+    int h = in->Get<int>();
+    int w = in->Get<int>();
+    
+    int nStride = in->Get<int>();
+    int cStride = in->Get<int>();
+    int hStride = in->Get<int>();
+    int wStride = in->Get<int>();
+    
+    cudnnStatus_t cs = cudnnSetTensor4dDescriptorEx(tensorDesc,dataType,n,c,h,w,nStride,cStride,hStride,wStride);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(GetTensor4dDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetTensor4dDescriptor"));
+    cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    
+    cudnnDataType_t dataType;
+    int n,c,h,w;
+    int nStride,cStride,hStride,wStride;
+    
+    cudnnStatus_t cs = cudnnGetTensor4dDescriptor(tensorDesc,&dataType,&n,&c,&h,&w,&nStride,&cStride,&hStride,&wStride);
+    Buffer * out = new Buffer();
+    try{
+        out->Add<cudnnDataType_t>(dataType);
+        out->Add<int>(n);
+        out->Add<int>(c);
+        out->Add<int>(h);
+        out->Add<int>(w);
+        out->Add<int>(nStride);
+        out->Add<int>(cStride);
+        out->Add<int>(hStride);
+        out->Add<int>(wStride);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}

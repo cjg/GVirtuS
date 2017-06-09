@@ -77,4 +77,13 @@ void CudnnHandler::Initialize() {
     /* CublasHandler Query Platform Info */
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetVersion));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(Create));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetErrorString));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(Destroy));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetStream));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetStream));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(CreateTensorDescriptor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetTensor4dDescriptor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetTensor4dDescriptorEx));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetTensor4dDescriptor));
+    
 }
