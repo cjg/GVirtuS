@@ -168,3 +168,42 @@ extern "C"  cudnnStatus_t cudnnGetTensor4dDescriptor( cudnnTensorDescriptor_t te
     }
     return CudnnFrontend::GetExitCode();
 }
+
+extern "C" cudnnStatus_t cudnnSetTensorNdDescriptor( cudnnTensorDescriptor_t tensorDesc,
+                            cudnnDataType_t dataType,
+                            int nbDims,
+                            const int *dimA,
+                            const int *strideA){
+    
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)tensorDesc);
+    CudnnFrontend::AddVariableForArguments<cudnnDataType_t>(dataType);
+    CudnnFrontend::AddVariableForArguments<int>(nbDims);
+    CudnnFrontend::AddHostPointerForArguments<int>((int*)dimA);
+    CudnnFrontend::AddHostPointerForArguments<int>((int*)strideA);
+    
+    CudnnFrontend::Execute("cudnnSetTensorNdDescriptor");
+    
+    return CudnnFrontend::GetExitCode();  
+}
+
+extern "C" cudnnStatus_t cudnnGetTensorNdDescriptor(const cudnnTensorDescriptor_t tensorDesc,
+                            int nbDimsRequested,
+                            cudnnDataType_t *dataType,
+                            int *nbDims,
+                            int *dimA,
+                            int *strideA){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)tensorDesc);
+    CudnnFrontend::AddVariableForArguments<int>(nbDimsRequested);
+    CudnnFrontend::Execute("cudnnGetTensorNdDescriptor");
+    if(CudnnFrontend::Success()){
+        *dataType = CudnnFrontend::GetOutputVariable<cudnnDataType_t>();
+        *nbDims = CudnnFrontend::GetOutputVariable<int>();
+        dimA = CudnnFrontend::GetOutputHostPointer<int>();
+        strideA = CudnnFrontend::GetOutputHostPointer<int>();
+    }
+    return CudnnFrontend::GetExitCode();
+}

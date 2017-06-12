@@ -180,3 +180,40 @@ CUDNN_ROUTINE_HANDLER(GetTensor4dDescriptor){
     }
     return new Result(cs,out);
 }
+
+CUDNN_ROUTINE_HANDLER(SetTensorNdDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetTensorNdDescriptor"));
+    
+    cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    cudnnDataType_t dataType = in->Get<cudnnDataType_t>();
+    int nbDims = in->Get<int>();
+    int *dimA = in->Assign<int>();
+    int *strideA = in->Assign<int>();
+    
+    cudnnStatus_t cs = cudnnSetTensorNdDescriptor(tensorDesc,dataType,nbDims,dimA,strideA);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(GetTensorNdDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetTensorNdDescriptor"));
+    
+    cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    int nbDimsRequested = in->Get<int>();
+    cudnnDataType_t dataType;
+    int *nbDims;
+    int *dimA;
+    int *strideA;
+    
+    cudnnStatus_t cs = cudnnGetTensorNdDescriptor(tensorDesc,nbDimsRequested,&dataType,nbDims,dimA,strideA);
+    Buffer * out = new Buffer();
+    try{
+        out->Add<cudnnDataType_t>(dataType);
+        out->Add<int>(nbDims);
+        out->Add<int>(dimA);
+        out->Add<int>(strideA);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
