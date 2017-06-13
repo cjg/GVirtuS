@@ -86,4 +86,8 @@ void CudnnHandler::Initialize() {
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetTensor4dDescriptorEx));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetTensor4dDescriptor));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetTensorNdDescriptor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(DestroyTensorDescriptor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(TransformTensor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(AddTensor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(OpTensor));
 }

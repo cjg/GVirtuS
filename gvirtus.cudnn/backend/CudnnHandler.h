@@ -76,5 +76,8 @@ CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptor);
 CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptorEx);
 CUDNN_ROUTINE_HANDLER(GetTensor4dDescriptor);
 CUDNN_ROUTINE_HANDLER(SetTensorNdDescriptor);
-
+CUDNN_ROUTINE_HANDLER(DestroyTensorDescriptor);
+CUDNN_ROUTINE_HANDLER(TransformTensor);
+CUDNN_ROUTINE_HANDLER(AddTensor);
+CUDNN_ROUTINE_HANDLER(OpTensor);
 #endif //_CUDNNHANDLER_H

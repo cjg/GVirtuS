@@ -217,3 +217,60 @@ CUDNN_ROUTINE_HANDLER(GetTensorNdDescriptor){
     }
     return new Result(cs,out);
 }
+
+CUDNN_ROUTINE_HANDLER(DestroyTensorDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DestroyTensorDescriptor"));
+    
+    cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    cudnnStatus_t cs = cudnnDestroyTensorDescriptor(tensorDesc);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(TransformTensor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("TransformTensor"));
+    
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    void * alpha = in->Assign<void>();
+    cudnnTensorDescriptor_t xDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * x = in->Assign<void>();
+    void * beta = in->Assign<void>();
+    cudnnTensorDescriptor_t yDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * y = in->Assign<void>();
+    
+    cudnnStatus_t cs = cudnnTransformTensor(handle,alpha,xDesc,x,beta,yDesc,y);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(AddTensor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("AddTensor"));
+    
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    void * alpha = in->Assign<void>();
+    cudnnTensorDescriptor_t aDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * A = in->Assign<void>();
+    void * beta = in->Assign<void>();
+    cudnnTensorDescriptor_t cDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * C = in->Assign<void>();
+    
+    cudnnStatus_t cs = cudnnAddTensor(handle,alpha,aDesc,A,beta,cDesc,C);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(OpTensor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("OpTensor"));
+    
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    cudnnOpTensorDescriptor_t opTensorDesc = (cudnnOpTensorDescriptor_t)in->Get<long long int>();
+    const void * alpha1 = in->Assign<void>();
+    cudnnTensorDescriptor_t aDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * A = in->Assign<void>();
+    void * alpha2 = in->Assign<void>();
+    cudnnTensorDescriptor_t bDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * B = in->Assign<void>();
+    void * beta = in->Assign<void>();
+    cudnnTensorDescriptor_t cDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * C = in->Assign<void>();
+    
+    cudnnStatus_t cs = cudnnOpTensor(handle,opTensorDesc,alpha1,aDesc,A,alpha2,bDesc,B,beta,cDesc,C);
+    return new Result(cs);
+}

@@ -31,14 +31,14 @@
 
 using namespace std;
 
-extern "C" size_t cudnnGetVersion(){
+extern "C" size_t CUDNNWINAPI cudnnGetVersion(){
     CudnnFrontend::Prepare();
     
     CudnnFrontend::Execute("cudnnGetVersion"); 
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t cudnnCreate(cudnnHandle_t *handle){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnCreate(cudnnHandle_t *handle){
     CudnnFrontend::Prepare();
     
     CudnnFrontend::Execute("cudnnCreate");
@@ -47,7 +47,7 @@ extern "C" cudnnStatus_t cudnnCreate(cudnnHandle_t *handle){
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" const char * cudnnGetErrorString(cudnnStatus_t status){
+extern "C" const char * CUDNNWINAPI cudnnGetErrorString(cudnnStatus_t status){
     CudnnFrontend::Prepare();
     
     CudnnFrontend::AddVariableForArguments<cudnnStatus_t>(status);
@@ -55,7 +55,7 @@ extern "C" const char * cudnnGetErrorString(cudnnStatus_t status){
     return (const char *) CudnnFrontend::GetOutputHostPointer<char *>();
 }
 
-extern "C" cudnnStatus_t cudnnDestroy(cudnnHandle_t handle){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnDestroy(cudnnHandle_t handle){
     CudnnFrontend::Prepare();
     
     CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
@@ -63,7 +63,7 @@ extern "C" cudnnStatus_t cudnnDestroy(cudnnHandle_t handle){
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t cudnnSetStream(cudnnHandle_t handle, cudaStream_t streamId){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetStream(cudnnHandle_t handle, cudaStream_t streamId){
     CudnnFrontend::Prepare();
     
     CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
@@ -72,7 +72,7 @@ extern "C" cudnnStatus_t cudnnSetStream(cudnnHandle_t handle, cudaStream_t strea
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t cudnnGetStream(cudnnHandle_t handle, cudaStream_t *streamId){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetStream(cudnnHandle_t handle, cudaStream_t *streamId){
     CudnnFrontend::Prepare();
     
     CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
@@ -82,7 +82,7 @@ extern "C" cudnnStatus_t cudnnGetStream(cudnnHandle_t handle, cudaStream_t *stre
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t cudnnCreateTensorDescriptor(cudnnTensorDescriptor_t *tensorDesc){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnCreateTensorDescriptor(cudnnTensorDescriptor_t *tensorDesc){
     CudnnFrontend::Prepare();
     
     CudnnFrontend::Execute("cudnnCreateTensorDescriptor");
@@ -92,7 +92,7 @@ extern "C" cudnnStatus_t cudnnCreateTensorDescriptor(cudnnTensorDescriptor_t *te
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t cudnnSetTensor4dDescriptor( cudnnTensorDescriptor_t   tensorDesc,
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetTensor4dDescriptor( cudnnTensorDescriptor_t   tensorDesc,
                             cudnnTensorFormat_t format,
                             cudnnDataType_t dataType,
                             int n,
@@ -112,7 +112,7 @@ extern "C" cudnnStatus_t cudnnSetTensor4dDescriptor( cudnnTensorDescriptor_t   t
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t cudnnSetTensor4dDescriptorEx( cudnnTensorDescriptor_t tensorDesc,
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetTensor4dDescriptorEx( cudnnTensorDescriptor_t tensorDesc,
                               cudnnDataType_t dataType,
                               int n,
                               int c,
@@ -140,7 +140,7 @@ extern "C" cudnnStatus_t cudnnSetTensor4dDescriptorEx( cudnnTensorDescriptor_t t
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C"  cudnnStatus_t cudnnGetTensor4dDescriptor( cudnnTensorDescriptor_t tensorDesc,
+extern "C"  cudnnStatus_t CUDNNWINAPI cudnnGetTensor4dDescriptor( cudnnTensorDescriptor_t tensorDesc,
                             cudnnDataType_t *dataType,
                             int *n,
                             int *c,
@@ -169,7 +169,7 @@ extern "C"  cudnnStatus_t cudnnGetTensor4dDescriptor( cudnnTensorDescriptor_t te
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t cudnnSetTensorNdDescriptor( cudnnTensorDescriptor_t tensorDesc,
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetTensorNdDescriptor( cudnnTensorDescriptor_t tensorDesc,
                             cudnnDataType_t dataType,
                             int nbDims,
                             const int *dimA,
@@ -188,7 +188,7 @@ extern "C" cudnnStatus_t cudnnSetTensorNdDescriptor( cudnnTensorDescriptor_t ten
     return CudnnFrontend::GetExitCode();  
 }
 
-extern "C" cudnnStatus_t cudnnGetTensorNdDescriptor(const cudnnTensorDescriptor_t tensorDesc,
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetTensorNdDescriptor(const cudnnTensorDescriptor_t tensorDesc,
                             int nbDimsRequested,
                             cudnnDataType_t *dataType,
                             int *nbDims,
@@ -205,5 +205,85 @@ extern "C" cudnnStatus_t cudnnGetTensorNdDescriptor(const cudnnTensorDescriptor_
         dimA = CudnnFrontend::GetOutputHostPointer<int>();
         strideA = CudnnFrontend::GetOutputHostPointer<int>();
     }
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnDestroyTensorDescriptor(cudnnTensorDescriptor_t tensorDesc){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int) tensorDesc);
+    CudnnFrontend::Execute("cudnnDestroyTensorDescriptor");
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnTransformTensor( cudnnHandle_t                  handle,
+                                                const void                    *alpha,
+                                                const cudnnTensorDescriptor_t  xDesc,
+                                                const void                    *x,
+                                                const void                    *beta,
+                                                const cudnnTensorDescriptor_t  yDesc,
+                                                void                          *y ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CudnnFrontend::AddHostPointerForArguments(alpha);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)xDesc);
+    CudnnFrontend::AddHostPointerForArguments(x);
+    CudnnFrontend::AddHostPointerForArguments(beta);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)yDesc);
+    CudnnFrontend::AddHostPointerForArguments(y);
+    
+    CudnnFrontend::Execute("cudnnTransformTensor");
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnAddTensor(
+                                cudnnHandle_t                       handle,
+                                const void                         *alpha,
+                                const cudnnTensorDescriptor_t       aDesc,
+                                const void                         *A,
+                                const void                         *beta,
+                                const cudnnTensorDescriptor_t       cDesc,
+                                void                               *C ){
+    CudnnFrontend::Prepare();
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CudnnFrontend::AddHostPointerForArguments(alpha);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)aDesc);
+    CudnnFrontend::AddHostPointerForArguments((void*)A);
+    CudnnFrontend::AddHostPointerForArguments((void*)beta);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)cDesc);
+    CudnnFrontend::AddHostPointerForArguments((void*)C);
+    
+    CudnnFrontend::Execute("cudnnAddTensor");
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnOpTensor(
+                                cudnnHandle_t                       handle,
+                                const cudnnOpTensorDescriptor_t     opTensorDesc,
+                                const void                         *alpha1,
+                                const cudnnTensorDescriptor_t       aDesc,
+                                const void                         *A,
+                                const void                         *alpha2,
+                                const cudnnTensorDescriptor_t       bDesc,
+                                const void                         *B,
+                                const void                         *beta,
+                                const cudnnTensorDescriptor_t       cDesc,
+                                void                               *C ){
+    CudnnFrontend::Prepare();
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)opTensorDesc);
+    CudnnFrontend::AddHostPointerForArguments(alpha1);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)aDesc);
+    CudnnFrontend::AddHostPointerForArguments((void*)A);
+    CudnnFrontend::AddHostPointerForArguments((void*)alpha2);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)bDesc);
+    CudnnFrontend::AddHostPointerForArguments((void*)B);
+    CudnnFrontend::AddHostPointerForArguments((void*)beta);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)cDesc);
+    CudnnFrontend::AddHostPointerForArguments((void*)C);
+    
+    CudnnFrontend::Execute("cudnnOpTensor");
     return CudnnFrontend::GetExitCode();
 }
