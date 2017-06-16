@@ -90,4 +90,9 @@ void CudnnHandler::Initialize() {
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(TransformTensor));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(AddTensor));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(OpTensor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetTensor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(ScaleTensor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(CreateFilterDescriptor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetFilter4dDescriptor));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetFilter4dDescriptor));
 }

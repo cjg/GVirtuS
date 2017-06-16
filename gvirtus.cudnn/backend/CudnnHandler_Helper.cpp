@@ -274,3 +274,78 @@ CUDNN_ROUTINE_HANDLER(OpTensor){
     cudnnStatus_t cs = cudnnOpTensor(handle,opTensorDesc,alpha1,aDesc,A,alpha2,bDesc,B,beta,cDesc,C);
     return new Result(cs);
 }
+
+CUDNN_ROUTINE_HANDLER(SetTensor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetTensor"));
+    
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    cudnnTensorDescriptor_t yDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * y = in->Assign<void>();
+    void * valuePtr = in->Assign<void>();
+    
+    cudnnStatus_t cs = cudnnSetTensor(handle,yDesc,y,valuePtr);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(ScaleTensor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("ScaleTensor"));
+    
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    const cudnnTensorDescriptor_t yDesc = (const cudnnTensorDescriptor_t)in->Get<long long int>();
+    void * y = in->Assign<void>();
+    void * alpha = in->Assign<void>();
+    
+    cudnnStatus_t cs = cudnnScaleTensor(handle,yDesc,y,alpha);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(CreateFilterDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateFilterDescriptor"));
+    
+    cudnnFilterDescriptor_t * filterDesc = in->Assign<cudnnFilterDescriptor_t>();
+    cudnnStatus_t cs = cudnnCreateFilterDescriptor(filterDesc);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetFilter4dDescriptor"));
+    
+    cudnnFilterDescriptor_t filterDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    cudnnDataType_t dataType = (cudnnDataType_t) in->Get<long long int>();
+    cudnnTensorFormat_t  format = (cudnnTensorFormat_t) in->Get<long long int>();
+    
+    int k = in->Get<int>();
+    int c = in->Get<int>();
+    int h = in->Get<int>();
+    int w = in->Get<int>();
+    
+    cudnnStatus_t cs = cudnnSetFilter4dDescriptor(filterDesc,dataType,format,k,c,h,w);
+    return new Result(cs);
+}
+
+
+CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetFilter4dDescriptor"));
+    
+    cudnnFilterDescriptor_t filterDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    cudnnDataType_t dataType;
+    cudnnTensorFormat_t  format;
+    
+    int k,c,h,w;
+    
+    cudnnStatus_t cs = cudnnGetFilter4dDescriptor(filterDesc,&dataType,&format,&k,&c,&h,&w);
+    Buffer * out = new Buffer();
+    
+    try{
+        out->Add<long long int>((long long int)dataType);
+        out->Add<long long int>((long long int)dataType);
+        out->Add<int>(k);
+        out->Add<int>(c);
+        out->Add<int>(h);
+        out->Add<int>(w);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
