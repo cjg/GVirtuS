@@ -85,4 +85,9 @@ CUDNN_ROUTINE_HANDLER(ScaleTensor);
 CUDNN_ROUTINE_HANDLER(CreateFilterDescriptor);
 CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor);
 CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor);
+CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor_v3);
+CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v3);
+CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor_v4);
+CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v4);;
+CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor);
 #endif //_CUDNNHANDLER_H

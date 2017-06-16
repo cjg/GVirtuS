@@ -372,4 +372,111 @@ extern "C"  CUDNNWINAPI cudnnStatus_t cudnnGetFilter4dDescriptor( cudnnFilterDes
     return CudnnFrontend::GetExitCode();
 }
 
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetFilter4dDescriptor_v3( cudnnFilterDescriptor_t filterDesc,
+                                                    cudnnDataType_t dataType,
+                                                    int k,
+                                                    int c, int h, int w ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dataType);
+    
+    CudnnFrontend::AddVariableForArguments<int>(k);
+    CudnnFrontend::AddVariableForArguments<int>(c);
+    CudnnFrontend::AddVariableForArguments<int>(h);
+    CudnnFrontend::AddVariableForArguments<int>(w);
+    
+    CudnnFrontend::Execute("cudnnSetFilter4dDescriptor_v3");
+    
+    return CudnnFrontend::GetExitCode();
+}
 
+extern "C"  CUDNNWINAPI cudnnStatus_t cudnnGetFilter4dDescriptor_v3( cudnnFilterDescriptor_t filterDesc,
+                                                                    cudnnDataType_t *dataType,
+                                                                    int *k,
+                                                                    int *c,
+                                                                    int *h,
+                                                                    int *w ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    
+    CudnnFrontend::Execute("cudnnGetFilter4dDescriptor_v3");
+    
+    if(CudnnFrontend::Success()){
+        *dataType = (cudnnDataType_t) CudnnFrontend::GetOutputVariable<long long int>();
+        *k = CudnnFrontend::GetOutputVariable<int>();
+        *c = CudnnFrontend::GetOutputVariable<int>();
+        *h = CudnnFrontend::GetOutputVariable<int>();
+        *w = CudnnFrontend::GetOutputVariable<int>();
+    }
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetFilter4dDescriptor_v4( cudnnFilterDescriptor_t filterDesc,
+                                                    cudnnDataType_t dataType,
+                                                    cudnnTensorFormat_t  format,
+                                                    int k,
+                                                    int c, int h, int w ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dataType);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)format);
+    
+    CudnnFrontend::AddVariableForArguments<int>(k);
+    CudnnFrontend::AddVariableForArguments<int>(c);
+    CudnnFrontend::AddVariableForArguments<int>(h);
+    CudnnFrontend::AddVariableForArguments<int>(w);
+    
+    CudnnFrontend::Execute("cudnnSetFilter4dDescriptor_v4");
+    
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C"  CUDNNWINAPI cudnnStatus_t cudnnGetFilter4dDescriptor_v4( cudnnFilterDescriptor_t filterDesc,
+                                                                                cudnnDataType_t *dataType,
+                                                                                cudnnTensorFormat_t  *format,
+                                                                                int *k,
+                                                                                int *c,
+                                                                                int *h,
+                                                                                int *w ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    
+    CudnnFrontend::Execute("cudnnGetFilter4dDescriptor_v4");
+    
+    if(CudnnFrontend::Success()){
+        *dataType = (cudnnDataType_t) CudnnFrontend::GetOutputVariable<long long int>();
+        *format = (cudnnTensorFormat_t) CudnnFrontend::GetOutputVariable<long long int>();
+        *k = CudnnFrontend::GetOutputVariable<int>();
+        *c = CudnnFrontend::GetOutputVariable<int>();
+        *h = CudnnFrontend::GetOutputVariable<int>();
+        *w = CudnnFrontend::GetOutputVariable<int>();
+    }
+    
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetFilterNdDescriptor( cudnnFilterDescriptor_t filterDesc,
+                                                                cudnnDataType_t  dataType,
+                                                                cudnnTensorFormat_t  format,
+                                                                int nbDims,
+                                                                const int* filterDimA){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dataType);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)format);
+    
+    CudnnFrontend::AddVariableForArguments<int>(nbDims);
+    CudnnFrontend::AddHostPointerForArguments<int>((int *)filterDimA);
+    
+    CudnnFrontend::Execute("cudnnSetFilterNdDescriptor");
+    if(CudnnFrontend::Success())
+        filterDesc = (cudnnFilterDescriptor_t) CudnnFrontend::GetOutputVariable<long long int>();
+    return CudnnFrontend::GetExitCode();
+}
