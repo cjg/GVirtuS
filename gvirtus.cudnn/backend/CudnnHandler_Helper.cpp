@@ -455,3 +455,196 @@ CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor){
     return new Result(cs,out);
 }
 
+CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetFilterNdDescriptor"));
+    
+    cudnnFilterDescriptor_t wDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    int nbDimsRequested = in->Get<int>();
+    cudnnDataType_t *dataType = in->Assign<cudnnDataType_t>();
+    int *nbDims = in->Assign<int>();
+    int *filterDimA = in->Assign<int>();
+    
+    cudnnTensorFormat_t  format;
+    
+    cudnnStatus_t cs = cudnnGetFilterNdDescriptor(wDesc,nbDimsRequested,dataType,&format,nbDims,filterDimA);
+    Buffer * out = new Buffer();
+    try{
+        out->Add<long long int>(format);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor_v3){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetFilterNdDescriptor_v3"));
+    
+    cudnnFilterDescriptor_t filterDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    cudnnDataType_t dataType = (cudnnDataType_t) in->Get<long long int>();
+    
+    int nbDims = in->Get<int>();
+    int * filterDimA = in->Assign<int>();
+    
+    cudnnStatus_t cs = cudnnSetFilterNdDescriptor_v3(filterDesc,dataType,nbDims,filterDimA);
+    Buffer * out = new Buffer();
+    try {
+        out->Add<long long int>((long long int)filterDesc);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor_v3){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetFilterNdDescriptor"));
+    
+    cudnnFilterDescriptor_t wDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    int nbDimsRequested = in->Get<int>();
+    cudnnDataType_t *dataType = in->Assign<cudnnDataType_t>();
+    int *nbDims = in->Assign<int>();
+    int *filterDimA = in->Assign<int>();
+    
+    
+    cudnnStatus_t cs = cudnnGetFilterNdDescriptor_v3(wDesc,nbDimsRequested,dataType,nbDims,filterDimA);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor_v4){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetFilterNdDescriptor_v4"));
+    
+    cudnnFilterDescriptor_t filterDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    cudnnDataType_t dataType = (cudnnDataType_t) in->Get<long long int>();
+    cudnnTensorFormat_t  format = (cudnnTensorFormat_t) in->Get<long long int>();
+    
+    int nbDims = in->Get<int>();
+    int * filterDimA = in->Assign<int>();
+    
+    cudnnStatus_t cs = cudnnSetFilterNdDescriptor_v4(filterDesc,dataType,format,nbDims,filterDimA);
+    Buffer * out = new Buffer();
+    try {
+        out->Add<long long int>((long long int)filterDesc);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+
+CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor_v4){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetFilterNdDescriptor_v4"));
+    
+    cudnnFilterDescriptor_t wDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    int nbDimsRequested = in->Get<int>();
+    cudnnDataType_t *dataType = in->Assign<cudnnDataType_t>();
+    int *nbDims = in->Assign<int>();
+    int *filterDimA = in->Assign<int>();
+    
+    cudnnTensorFormat_t  format;
+    
+    cudnnStatus_t cs = cudnnGetFilterNdDescriptor_v4(wDesc,nbDimsRequested,dataType,&format,nbDims,filterDimA);
+    Buffer * out = new Buffer();
+    try{
+        out->Add<long long int>(format);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CUDNN_ROUTINE_HANDLER(DestroyFilterDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DestoryFilterDescriptor"));
+    
+    cudnnFilterDescriptor_t filterDesc = (cudnnFilterDescriptor_t)in->Get<long long int>();
+    
+    cudnnStatus_t cs = cudnnDestroyFilterDescriptor(filterDesc);
+    return new Result(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(CreateConvolutionDescriptor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateConvolutionDescriptor"));
+
+    cudnnConvolutionDescriptor_t convDesc;
+    cudnnStatus_t cs = cudnnCreateConvolutionDescriptor(&convDesc);
+    Buffer * out = new Buffer();
+    try {
+        out->Add<cudnnConvolutionDescriptor_t>(convDesc);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CUDNN_ROUTINE_HANDLER(SetConvolution2dDescriptor){
+   Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetConvolution2dDescriptor")); 
+   
+    cudnnConvolutionDescriptor_t convDesc = (cudnnConvolutionDescriptor_t)in->Get<long long int>();
+    int padh = in->Get<int>();
+    int padw = in->Get<int>();
+    int u = in->Get<int>();
+    int v = in->Get<int>();
+    int upscalex = in->Get<int>();
+    int upscaley = in->Get<int>();
+    cudnnConvolutionMode_t mode = in->BackGet<cudnnConvolutionMode_t>();
+    
+    cudnnStatus_t cs = cudnnSetConvolution2dDescriptor(convDesc,padh,padw,u,v,upscalex,upscaley,mode);
+    
+    Buffer * out = new Buffer();
+    try{
+        out->Add<cudnnConvolutionDescriptor_t>(convDesc);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CUDNN_ROUTINE_HANDLER(GetConvolution2dDescriptor){
+   Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetConvolution2dDescriptor")); 
+   
+    cudnnConvolutionDescriptor_t convDesc = (cudnnConvolutionDescriptor_t)in->Get<long long int>();
+    int padh,padw,u,v,upscalex,upscaley;
+    cudnnConvolutionMode_t mode;
+    
+    cudnnStatus_t cs = cudnnGetConvolution2dDescriptor(convDesc,&padh,&padw,&u,&v,&upscalex,&upscaley,&mode);
+    Buffer * out = new Buffer();
+    try{
+        out->Add(padh);
+        out->Add(padw);
+        out->Add(u);
+        out->Add(v);
+        out->Add(upscalex);
+        out->Add(upscaley);
+    } catch(string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CUDNN_ROUTINE_HANDLER(GetConvolution2dForwardOutputDim){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetConvolution2dForwardOutputDim"));
+    
+    cudnnConvolutionDescriptor_t convDesc = (cudnnConvolutionDescriptor_t)in->Get<long long int>();
+    cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t) in->Get<long long int>();
+    cudnnFilterDescriptor_t filterDesc = (cudnnFilterDescriptor_t) in->Get<long long int>();
+    
+    int n,c,h,w;
+    
+    cudnnStatus_t cs = cudnnGetConvolution2dForwardOutputDim(convDesc,tensorDesc,filterDesc,&n,&c,&h,&w);
+    Buffer * out = new Buffer();
+    try {
+        out->Add(n);
+        out->Add(c);
+        out->Add(h);
+        out->Add(w);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}

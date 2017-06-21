@@ -480,3 +480,202 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetFilterNdDescriptor( cudnnFilterDesc
         filterDesc = (cudnnFilterDescriptor_t) CudnnFrontend::GetOutputVariable<long long int>();
     return CudnnFrontend::GetExitCode();
 }
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetFilterNdDescriptor( const cudnnFilterDescriptor_t wDesc,
+                                                                int nbDimsRequested,
+                                                                cudnnDataType_t *dataType,
+                                                                cudnnTensorFormat_t  *format,
+                                                                int *nbDims,
+                                                                int *filterDimA ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)wDesc);
+    CudnnFrontend::AddVariableForArguments<int>(nbDimsRequested);
+    CudnnFrontend::AddHostPointerForArguments(dataType);
+    
+    CudnnFrontend::AddHostPointerForArguments<int>(nbDims);
+    CudnnFrontend::AddHostPointerForArguments<int>(filterDimA);
+    
+    CudnnFrontend::Execute("cudnnGetFilterNdDescriptor");
+    if(CudnnFrontend::Success()){
+        *format = (cudnnTensorFormat_t) CudnnFrontend::GetOutputVariable<long long int>();
+    }
+    
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetFilterNdDescriptor_v3( cudnnFilterDescriptor_t filterDesc,
+                                                                cudnnDataType_t  dataType,
+                                                                int nbDims,
+                                                                const int* filterDimA){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dataType);
+    
+    CudnnFrontend::AddVariableForArguments<int>(nbDims);
+    CudnnFrontend::AddHostPointerForArguments<int>((int *)filterDimA);
+    
+    CudnnFrontend::Execute("cudnnSetFilterNdDescriptor_v3");
+    if(CudnnFrontend::Success())
+        filterDesc = (cudnnFilterDescriptor_t) CudnnFrontend::GetOutputVariable<long long int>();
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetFilterNdDescriptor_v3( const cudnnFilterDescriptor_t wDesc,
+                                                                int nbDimsRequested,
+                                                                cudnnDataType_t *dataType,
+                                                                int *nbDims,
+                                                                int *filterDimA ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)wDesc);
+    CudnnFrontend::AddVariableForArguments<int>(nbDimsRequested);
+    CudnnFrontend::AddHostPointerForArguments(dataType);
+    
+    CudnnFrontend::AddHostPointerForArguments<int>(nbDims);
+    CudnnFrontend::AddHostPointerForArguments<int>(filterDimA);
+    
+    CudnnFrontend::Execute("cudnnGetFilterNdDescriptor_v3");
+    
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetFilterNdDescriptor_v4( cudnnFilterDescriptor_t filterDesc,
+                                                                cudnnDataType_t  dataType,
+                                                                cudnnTensorFormat_t  format,
+                                                                int nbDims,
+                                                                const int* filterDimA){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dataType);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)format);
+    
+    CudnnFrontend::AddVariableForArguments<int>(nbDims);
+    CudnnFrontend::AddHostPointerForArguments<int>((int *)filterDimA);
+    
+    CudnnFrontend::Execute("cudnnSetFilterNdDescriptor_v4");
+    if(CudnnFrontend::Success())
+        filterDesc = (cudnnFilterDescriptor_t) CudnnFrontend::GetOutputVariable<long long int>();
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetFilterNdDescriptor_v4( const cudnnFilterDescriptor_t wDesc,
+                                                                int nbDimsRequested,
+                                                                cudnnDataType_t *dataType,
+                                                                cudnnTensorFormat_t  *format,
+                                                                int *nbDims,
+                                                                int *filterDimA ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)wDesc);
+    CudnnFrontend::AddVariableForArguments<int>(nbDimsRequested);
+    CudnnFrontend::AddHostPointerForArguments(dataType);
+    
+    CudnnFrontend::AddHostPointerForArguments<int>(nbDims);
+    CudnnFrontend::AddHostPointerForArguments<int>(filterDimA);
+    
+    CudnnFrontend::Execute("cudnnGetFilterNdDescriptor_v4");
+    if(CudnnFrontend::Success()){
+        *format = (cudnnTensorFormat_t) CudnnFrontend::GetOutputVariable<long long int>();
+    }
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnDestroyFilterDescriptor(cudnnFilterDescriptor_t filterDesc){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int) filterDesc);
+    CudnnFrontend::Execute("cudnnDestroyFilterDescriptor");
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnCreateConvolutionDescriptor(cudnnConvolutionDescriptor_t *convDesc){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::Execute("cudnnCreateConvolutionDescriptor");
+    if(CudnnFrontend::Success())
+        *convDesc = CudnnFrontend::GetOutputVariable<cudnnConvolutionDescriptor_t>();
+    return CudnnFrontend::GetExitCode();
+}
+ 
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetConvolution2dDescriptor( cudnnConvolutionDescriptor_t convDesc,
+                                                                    int pad_h,
+                                                                    int pad_w,
+                                                                    int u,
+                                                                    int v,
+                                                                    int upscalex,
+                                                                    int upscaley,
+                                                                    cudnnConvolutionMode_t mode ){
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)convDesc);
+    CudnnFrontend::AddVariableForArguments<int>(pad_h);
+    CudnnFrontend::AddVariableForArguments<int>(pad_w);
+    CudnnFrontend::AddVariableForArguments<int>(u);
+    CudnnFrontend::AddVariableForArguments<int>(v);
+    CudnnFrontend::AddVariableForArguments<int>(upscalex);
+    CudnnFrontend::AddVariableForArguments<int>(upscaley);
+    CudnnFrontend::AddVariableForArguments<cudnnConvolutionMode_t>(mode);
+    
+    CudnnFrontend::Execute("cudnnSetConvolution2dDescriptor");
+    if(CudnnFrontend::Success())
+        convDesc = (cudnnConvolutionDescriptor_t)CudnnFrontend::GetOutputVariable<long long int>();
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" CUDNNWINAPI cudnnStatus_t cudnnGetConvolution2dDescriptor( const cudnnConvolutionDescriptor_t convDesc,
+                                                                        int* pad_h,
+                                                                        int* pad_w,
+                                                                        int* u,
+                                                                        int* v,
+                                                                        int* upscalex,
+                                                                        int* upscaley,
+                                                                        cudnnConvolutionMode_t *mode ){
+    
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)convDesc);
+    
+    CudnnFrontend::Execute("cudnnGetConvolution2dDescriptor");
+    if(CudnnFrontend::Success()){
+        *pad_h = CudnnFrontend::GetOutputVariable<int>();
+        *pad_w = CudnnFrontend::GetOutputVariable<int>();
+        *u = CudnnFrontend::GetOutputVariable<int>();
+        *v = CudnnFrontend::GetOutputVariable<int>();
+        *upscalex = CudnnFrontend::GetOutputVariable<int>();
+        *upscaley = CudnnFrontend::GetOutputVariable<int>();
+        *mode = CudnnFrontend::GetOutputVariable<cudnnConvolutionMode_t>();
+    }
+    return CudnnFrontend::GetExitCode();
+}
+
+extern "C" cudnnStatus_t cudnnGetConvolution2dForwardOutputDim( const cudnnConvolutionDescriptor_t convDesc,
+                                                                const cudnnTensorDescriptor_t inputTensorDesc,
+                                                                const cudnnFilterDescriptor_t filterDesc,
+                                                                int *n,
+                                                                int *c,
+                                                                int *h,
+                                                                int *w ){
+    
+    CudnnFrontend::Prepare();
+    
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)convDesc);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)inputTensorDesc);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)filterDesc);
+    
+    CudnnFrontend::Execute("cudnnGetConvolution2dForwardOutputDim");
+    if(CudnnFrontend::Success()){
+        *n = CudnnFrontend::GetOutputVariable<int>();
+        *c = CudnnFrontend::GetOutputVariable<int>();
+        *h = CudnnFrontend::GetOutputVariable<int>();
+        *w = CudnnFrontend::GetOutputVariable<int>();
+    }
+    return CudnnFrontend::GetExitCode();
+}

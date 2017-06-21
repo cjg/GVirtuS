@@ -88,6 +88,16 @@ CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor);
 CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor_v3);
 CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v3);
 CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor_v4);
-CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v4);;
+CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v4);
 CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor);
+CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor);
+CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor_v3);
+CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor_v3);
+CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor_v4);
+CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor_v4);
+CUDNN_ROUTINE_HANDLER(DestroyFilterDescriptor);
+CUDNN_ROUTINE_HANDLER(CreateConvolutionDescriptor);
+CUDNN_ROUTINE_HANDLER(SetConvolution2dDescriptor);
+CUDNN_ROUTINE_HANDLER(GetConvolution2dDescriptor);
+CUDNN_ROUTINE_HANDLER(GetConvolution2dForwardOutputDim);
 #endif //_CUDNNHANDLER_H
