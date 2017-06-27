@@ -31,6 +31,7 @@
 
 using namespace std;
 
+/* HOST API */
 extern "C" curandStatus_t curandGenerate( curandGenerator_t generator, unsigned int *outputPtr, size_t num){
     CurandFrontend::Prepare();
     
@@ -91,3 +92,53 @@ extern "C" curandStatus_t curandGenerateLogNormal( curandGenerator_t generator, 
     return CurandFrontend::GetExitCode();
 }
 
+extern "C" curandStatus_t curandGeneratePoisson( curandGenerator_t generator, unsigned int *outputPtr, size_t n, double lambda){
+    CurandFrontend::Prepare();
+    
+    CurandFrontend::AddVariableForArguments<long long int>((long long int)generator);
+    CurandFrontend::AddHostPointerForArguments<unsigned int>(outputPtr);
+    CurandFrontend::AddVariableForArguments<size_t>(n);
+    CurandFrontend::AddVariableForArguments<double>(lambda);
+    
+    CurandFrontend::Execute("curandGeneratePoisson");
+    return CurandFrontend::GetExitCode();
+}
+
+extern "C" curandStatus_t curandGenerateUniformDouble( curandGenerator_t generator, double *outputPtr, size_t num){
+    CurandFrontend::Prepare();
+    
+    CurandFrontend::AddVariableForArguments<long long int>((long long int)generator);
+    CurandFrontend::AddHostPointerForArguments<double>(outputPtr);
+    CurandFrontend::AddVariableForArguments<size_t>(num);
+    
+    CurandFrontend::Execute("curandGenerateUniformDouble");
+    return CurandFrontend::GetExitCode();
+}
+
+extern "C" curandStatus_t curandGenerateNormalDouble( curandGenerator_t generator, double *outputPtr, size_t n, double mean, double stddev){
+    CurandFrontend::Prepare();
+    
+    CurandFrontend::AddVariableForArguments<long long int>((long long int)generator);
+    CurandFrontend::AddHostPointerForArguments<double>(outputPtr);
+    CurandFrontend::AddVariableForArguments<size_t>(n);
+    CurandFrontend::AddVariableForArguments<double>(mean);
+    CurandFrontend::AddVariableForArguments<double>(stddev);
+    
+    CurandFrontend::Execute("curandGenerateNormalDouble");
+    return CurandFrontend::GetExitCode();
+}
+
+extern "C" curandStatus_t curandGenerateLogNormalDouble( curandGenerator_t generator, double *outputPtr, size_t n, double mean, double stddev){
+    CurandFrontend::Prepare();
+    
+    CurandFrontend::AddVariableForArguments<long long int>((long long int)generator);
+    CurandFrontend::AddHostPointerForArguments<double>(outputPtr);
+    CurandFrontend::AddVariableForArguments<size_t>(n);
+    CurandFrontend::AddVariableForArguments<double>(mean);
+    CurandFrontend::AddVariableForArguments<double>(stddev);
+    
+    CurandFrontend::Execute("curandGenerateLogNormalDouble");
+    return CurandFrontend::GetExitCode();
+}
+
+/* --- HOST API END --- */

@@ -65,5 +65,14 @@ private:
 #define CURAND_ROUTINE_HANDLER_PAIR(name) make_pair("curand" #name, handle##name)
 
 /* CudnnHandler_Platform */
-//CUDNN_ROUTINE_HANDLER(GetVersion);
+CURAND_ROUTINE_HANDLER(Generate);
+CURAND_ROUTINE_HANDLER(GenerateLongLong);
+CURAND_ROUTINE_HANDLER(GenerateUniform);
+CURAND_ROUTINE_HANDLER(GenerateNormal);
+CURAND_ROUTINE_HANDLER(GenerateLogNormal);
+CURAND_ROUTINE_HANDLER(GeneratePoisson);
+CURAND_ROUTINE_HANDLER(GenerateUniformDouble);
+CURAND_ROUTINE_HANDLER(GenerateNormalDouble);
+CURAND_ROUTINE_HANDLER(GenerateLogNormalDouble);
+
 #endif //_CURANDHANDLER_H

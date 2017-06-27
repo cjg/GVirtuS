@@ -26,7 +26,7 @@
 #include <errno.h>
 
 #include "CurandHandler.h"
-//#include "CurandHandler_Helper.cpp"
+#include "CurandHandler_host.cpp"
 
 using namespace std;
 using namespace log4cplus;
@@ -74,5 +74,13 @@ void CurandHandler::Initialize() {
     mspHandlers = new map<string, CurandHandler::CurandRoutineHandler> ();
 
     /* CublasHandler Query Platform Info */
-    //mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetVersion));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(Generate));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateLongLong));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateUniform));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateNormal));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateLogNormal));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GeneratePoisson));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateUniformDouble));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateNormalDouble));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateLogNormalDouble));
 }
