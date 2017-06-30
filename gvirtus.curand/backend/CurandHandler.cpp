@@ -20,13 +20,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
+#include "CurandHandler.h"
+#include "CurandHandler_host.cpp"
 
 #include <cstring>
 #include <map>
 #include <errno.h>
 
-#include "CurandHandler.h"
-#include "CurandHandler_host.cpp"
 
 using namespace std;
 using namespace log4cplus;
@@ -74,6 +74,8 @@ void CurandHandler::Initialize() {
     mspHandlers = new map<string, CurandHandler::CurandRoutineHandler> ();
 
     /* CublasHandler Query Platform Info */
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(CreateGenerator));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(CreateGeneratorHost));
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(Generate));
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateLongLong));
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateUniform));
@@ -83,4 +85,5 @@ void CurandHandler::Initialize() {
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateUniformDouble));
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateNormalDouble));
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(GenerateLogNormalDouble));
+    mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(SetPseudoRandomGeneratorSeed));
 }

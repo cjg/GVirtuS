@@ -32,6 +32,37 @@
 using namespace std;
 using namespace log4cplus;
 
+CURAND_ROUTINE_HANDLER(CreateGenerator){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateGenerator"));
+    cout<<"ciao ciao ciao"<<endl;
+    curandGenerator_t generator;
+    curandRngType_t gnrType = (curandRngType_t) in->Get<int>();
+    curandStatus_t cs = curandCreateGenerator(&generator,gnrType);
+    Buffer * out = new Buffer();
+    try{
+        out->Add<long long int>((long long int)generator);
+    } catch (string e){
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+CURAND_ROUTINE_HANDLER(CreateGeneratorHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateGeneratorHost"));
+    
+    curandGenerator_t generator;
+    curandRngType_t gnrType = (curandRngType_t) in->Get<int>();
+    curandStatus_t cs = curandCreateGeneratorHost(&generator,gnrType);
+    Buffer * out = new Buffer();
+    try{
+        out->Add<long long int>((long long int)generator);
+    } catch (string e){
+        return new Result(cs);
+    }
+    return new Result(cs,out);
+}
+
+
 CURAND_ROUTINE_HANDLER(Generate){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Generate"));
     
@@ -141,5 +172,15 @@ CURAND_ROUTINE_HANDLER(GenerateLogNormalDouble){
     
     
     curandStatus_t cs = curandGenerateLogNormalDouble(generator,outputPtr,n,mean,stddev);
+    return new Result(cs);
+}
+
+CURAND_ROUTINE_HANDLER(SetPseudoRandomGeneratorSeed){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GenerateLogNormalDouble"));
+    cout<<"ciao ciao ciao"<<endl;
+    curandGenerator_t generator = (curandGenerator_t)in->Get<long long int>();
+    unsigned long long seed = in->Get<unsigned long long>();
+    cout<<"generator: "<< generator << " seed: "<< seed<<endl;
+    curandStatus_t cs = curandSetPseudoRandomGeneratorSeed(generator,seed);
     return new Result(cs);
 }

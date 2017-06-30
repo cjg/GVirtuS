@@ -22,8 +22,8 @@
  * Written by: Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>,
  *             Department of Applied Science
  */
-#ifndef CUDNNFRONTEND_H
-#define	CUDNNFRONTEND_H
+#ifndef CURANDFRONTEND_H
+#define	CURANDFRONTEND_H
 
 #include <map>
 #include <set>

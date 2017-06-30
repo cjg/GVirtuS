@@ -32,6 +32,29 @@
 using namespace std;
 
 /* HOST API */
+
+extern "C" curandStatus_t CURANDAPI curandCreateGenerator ( curandGenerator_t* generator, curandRngType_t rng_type ){
+    cout<<"ciao ciao ciao"<<endl;
+    CurandFrontend::Prepare();
+    cout<<"ciao ciao ciao"<<endl;
+    CurandFrontend::AddVariableForArguments<int>(rng_type);
+    CurandFrontend::Execute("curandCreateGenerator");
+    if(CurandFrontend::Success())
+        *generator = (curandGenerator_t) CurandFrontend::GetOutputVariable<long long int>();
+    return CurandFrontend::GetExitCode();
+}
+
+extern "C" curandStatus_t CURANDAPI curandCreateGeneratorHost ( curandGenerator_t* generator, curandRngType_t rng_type ){
+    CurandFrontend::Prepare();
+    
+    CurandFrontend::AddVariableForArguments<int>(rng_type);
+    CurandFrontend::Execute("curandCreateGeneratorHost");
+    if(CurandFrontend::Success())
+        *generator = (curandGenerator_t) CurandFrontend::GetOutputVariable<long long int>();
+    return CurandFrontend::GetExitCode();
+}
+
+
 extern "C" curandStatus_t curandGenerate( curandGenerator_t generator, unsigned int *outputPtr, size_t num){
     CurandFrontend::Prepare();
     
@@ -138,6 +161,16 @@ extern "C" curandStatus_t curandGenerateLogNormalDouble( curandGenerator_t gener
     CurandFrontend::AddVariableForArguments<double>(stddev);
     
     CurandFrontend::Execute("curandGenerateLogNormalDouble");
+    return CurandFrontend::GetExitCode();
+}
+
+extern "C" curandStatus_t CURANDAPI curandSetPseudoRandomGeneratorSeed( curandGenerator_t generator, unsigned long long seed ){
+    CurandFrontend::Prepare();
+    cout<<"ciao ciao ciao"<<endl;
+    CurandFrontend::AddVariableForArguments<long long int>((long long int)generator);
+    CurandFrontend::AddVariableForArguments<unsigned long long>(seed);
+    cout<<"Generator : "<<generator<<" seed: "<<seed<<endl;
+    CurandFrontend::Execute("curandSetPseudoRandomGeneratorSeed");
     return CurandFrontend::GetExitCode();
 }
 
