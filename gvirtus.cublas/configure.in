@@ -12,34 +12,38 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_LIBTOOL
 
-AC_ARG_WITH([cublas-include], [AC_HELP_STRING([--with-cublas-include=PATH],
-    [set PATH to the CUBLAS include directory])], [
-    CUBLAS_INCLUDE="$withval"
-    CUBLAS_FLAGS="-isystem $CUBLAS_INCLUDE"
+AC_ARG_WITH([cuda-include], [AC_HELP_STRING([--with-cuda-include=PATH],
+    [set PATH to the CUDA include directory])], [
+    CUDA_INCLUDE="$withval"
+    CUDA_FLAGS="-isystem $CUDA_INCLUDE"
 ], [
-    CUBLAS_FLAGS="$CUBLAS_FLAGS -isystem /usr/local/cuda/include"
+    CUDA_FLAGS="$CUDA_FLAGS -isystem /usr/local/cuda/include"
+    CUDA_FLAGS="$CUDA_FLAGS -isystem /opt/cuda/include"
 ])
-CPPFLAGS="$CPPFLAGS $CUBLAS_FLAGS"
+CPPFLAGS="$CPPFLAGS $CUDA_FLAGS"
 
-AC_ARG_WITH([cublas-lib], [AC_HELP_STRING([--with-cublas-lib=PATH],
-    [set PATH to the CUBLAS library directory])],
+AC_ARG_WITH([cuda-lib], [AC_HELP_STRING([--with-cuda-lib=PATH],
+    [set PATH to the CUDA library directory])],
     [
-    CUBLAS_LIB_DIR="$withval"
-    CUBLAS_LIB_FLAGS="-L$withval"
+    CUDA_LIB_DIR=$withval
+    CUDA_LIB_FLAGS="-L$withval"
 ], [
-    CUBLAS_LIB_FLAGS="$CUBLAS_LIB_FLAGS -L/usr/local/cuda/lib64"
+    CUDA_LIB_FLAGS="-L/usr/local/cuda/lib"
+    CUDA_LIB_FLAGS="$CUDA_LIB_FLAGS -L/usr/local/cuda/lib64"
+    CUDA_LIB_FLAGS="$CUDA_LIB_FLAGS -L/opt/cuda/lib"
+    CUDA_LIB_FLAGS="$CUDA_LIB_FLAGS -L/opt/cuda/lib64"
 ])
-LDFLAGS="$LDFLAGS $CUBLAS_LIB_FLAGS"
-AC_SUBST(CUBLAS_LIB_FLAGS)
+LDFLAGS="$LDFLAGS $CUDA_LIB_FLAGS"
+AC_SUBST(CUDA_LIB_FLAGS)
 
 AC_ARG_WITH([gvirtus-include], [AC_HELP_STRING([--with-gvirtus-include=PATH],
     [set PATH to the GVirtuS include directory])], [
     GVIRTUS_INCLUDE="$withval"
     GVIRTUS_FLAGS="-I$GVIRTUS_INCLUDE"
 ], [
-
-    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/home/rapid/opt/include/gvirtus"
-#    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I${prefix}/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I${prefix}/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/usr/local/gvirtus/include/gvirtus"
+    GVIRTUS_FLAGS="$GVIRTUS_FLAGS -I/opt/gvirtus/include/gvirtus"
 ])
 CPPFLAGS="$CPPFLAGS $GVIRTUS_FLAGS"
 
@@ -49,12 +53,12 @@ AC_ARG_WITH([gvirtus-lib], [AC_HELP_STRING([--with-gvirtus-lib=PATH],
     GVIRTUS_LIB_DIR=$withval
     GVIRTUS_LIB_FLAGS="-L$withval"
 ], [
-    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/home/rapid/opt/lib"
-   # GVIRTUS_LIB_FLAGS="-L${prefix}/lib"
+    GVIRTUS_LIB_FLAGS="-L${prefix}/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/usr/local/gvirtus/lib"
+    GVIRTUS_LIB_FLAGS="$GVIRTUS_LIB_FLAGS -L/opt/gvirtus/lib"
 ])
 LDFLAGS="$LDFLAGS $GVIRTUS_LIB_FLAGS"
 AC_SUBST(GVIRTUS_LIB_FLAGS)
-
 
 # Checks for libraries.
 #AC_CHECK_LIB([cudart], [__cudaRegisterFatBinary], , AC_MSG_ERROR([Could not find the cuda library.]))
@@ -83,7 +87,8 @@ AC_CHECK_HEADER([cublas.h], [], [
         ])])
 
 CPPFLAGS="-I`pwd`/util $CPPFLAGS"
-CXXFLAGS="$CXXFLAGS -Wall -pedantic -Werror"
+#CXXFLAGS="$CXXFLAGS -Wall -pedantic -Werror"
+CXXFLAGS="$CXXFLAGS -Wall -pedantic -llog4cplus"
 #AC_CONFIG_FILES([Makefile 
 #                 util/Makefile
 #                 backend/Makefile
