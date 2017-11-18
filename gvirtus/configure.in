@@ -39,7 +39,7 @@ AC_CHECK_FUNCS([gethostbyname memmove memset socket strcasecmp strdup strtoul])
 
 
 CPPFLAGS="$CPPFLAGS -I`pwd`/util -I`pwd`/frontend -I`pwd`/backend -D_PLUGINS_DIR=\\\"$libdir/backend\\\" -D_CONFIG_FILE=\\\"$sysconfdir/gvirtus.properties\\\""
-CXXFLAGS="$CXXFLAGS -Wall -pedantic -lpthread -llog4cplus"
+CXXFLAGS="$CXXFLAGS -Wall -pedantic -lpthread -llog4cplus -lzmq"
 
 AC_CONFIG_FILES([Makefile
                  backend/Makefile
