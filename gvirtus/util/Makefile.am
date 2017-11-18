@@ -24,6 +24,7 @@ ShmCommunicator.h\
 Subprocess.cpp\
 Subprocess.h\
 TcpCommunicator.cpp\
+ZmqCommunicator.cpp\
 TcpCommunicator.h\
 Thread.cpp\
 Thread.h\
