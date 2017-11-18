@@ -6,6 +6,11 @@ Handler.cpp\
 Handler.h\
 Process.cpp\
 Process.h\
+GVirtuSHandler.cpp\
+GVirtuSHandler.h\
+GVirtuSBackend.cpp\
+GVirtuSBackend.h\
+GVirtuSHandler_Helper.cpp\
 main.cpp
 gvirtus_backend_includedir=$(includedir)/gvirtus
 gvirtus_backend_include_HEADERS= \
