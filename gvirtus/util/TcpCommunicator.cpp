@@ -50,6 +50,7 @@ static bool initialized = false;
 #include <cstring>
 #include <cstdlib>
 
+
 using namespace std;
 
 TcpCommunicator::TcpCommunicator(const std::string& communicator) {
@@ -99,6 +100,7 @@ TcpCommunicator::TcpCommunicator(int fd, const char *hostname) {
 }
 
 TcpCommunicator::~TcpCommunicator() {
+    close(mSocketFd);
     delete[] mInAddr;
 }
 
