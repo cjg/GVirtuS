@@ -67,6 +67,5 @@ void Backend::Start(Communicator * communicator) {
 }
 
 void Backend::EventOccurred(std::string& event, void* object) {
-    //std::cout << "EventOccurred: " << event << std::endl;
     LOG4CPLUS_DEBUG(logger, "EventOccurred: " << event); 
 }
