@@ -13,9 +13,6 @@ CudaRt_stream.cpp\
 CudaRt_texture.cpp\
 CudaRt_thread.cpp\
 CudaRt_version.cpp\
-GVirtuS.cpp\
-GVirtuSFrontend.cpp\
-GVirtuSForntend.h\
 Frontend.cpp\
 Frontend.h
 #libcudart_la_LIBADD = ../util/libutil.a -lrt
