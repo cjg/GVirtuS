@@ -85,7 +85,7 @@ CPPFLAGS = -I/usr/local/cuda-8.0/include  -I/home/montella/dev/GVirtuS-8.0/gvirt
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -Wall -pedantic -lpthread -llog4cplus
+CXXFLAGS = -g -O2 -Wall -pedantic -lpthread -llog4cplus -lzmq
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
