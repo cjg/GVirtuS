@@ -277,6 +277,7 @@ CUFFT_ROUTINE_HANDLER(SetAutoAllocation){
     return new Result(exit_code);
 }
 
+#if __CUDA_API_VERSION >= 7000
 /**
     cufftXtMakePlanMAny Handler
     @param    plan     cufftHandle returned by cufftCreate
@@ -330,6 +331,7 @@ CUFFT_ROUTINE_HANDLER(XtMakePlanMany) {
     cout<<"DEBUG - cufftXtMakePlanMany Executed\n";
     return new Result(exit_code,out);
 }
+#endif
 
 /*
  *cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata, cufftComplex *odata, int direction);
@@ -709,6 +711,7 @@ CUFFT_ROUTINE_HANDLER(MakePlanMany) {
     return new Result(exit_code,out);
 }
 
+#ifdef BUILD_64
 CUFFT_ROUTINE_HANDLER(MakePlanMany64) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("MakePlanMany64"));
     
@@ -738,6 +741,7 @@ CUFFT_ROUTINE_HANDLER(MakePlanMany64) {
     cout<<"DEBUG - cufftMakePlanMany64 Executed\n";
     return new Result(exit_code,out);
 }
+#endif
 
 CUFFT_ROUTINE_HANDLER(GetSize1d) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSize1d"));
@@ -838,6 +842,7 @@ CUFFT_ROUTINE_HANDLER(GetSizeMany) {
     return new Result(exit_code,out);
 }
 
+#ifdef BUILD_64
 CUFFT_ROUTINE_HANDLER(GetSizeMany64) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSizeMany64"));
     
@@ -867,7 +872,7 @@ CUFFT_ROUTINE_HANDLER(GetSizeMany64) {
     cout<<"DEBUG - cufftGetSizeMany64 Executed\n";
     return new Result(exit_code,out);
 }
-
+#endif
 
 CUFFT_ROUTINE_HANDLER(GetSize) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSize"));
@@ -898,6 +903,7 @@ CUFFT_ROUTINE_HANDLER(SetStream) {
     return new Result(exit_code);
 }
 
+#if __CUDA_API_VERSION >= 7000
 CUFFT_ROUTINE_HANDLER(GetProperty){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetProperty"));
     
@@ -907,6 +913,7 @@ CUFFT_ROUTINE_HANDLER(GetProperty){
     cout<<"DEBUG - cufftGetProperty Executed\n";
     return new Result(exit_code);
 }
+#endif
 
 /*
  * cufftResult cufftXtMalloc(cufftHandle plan, cudaLibXtDesc **descriptor, 
@@ -1079,13 +1086,17 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany));
+#ifdef BUILD_64
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany64));
+#endif
     /* - GetSize - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany));
+#ifdef BUILD_64
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany64));
+#endif
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize));
     /* - Estimate - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetWorkArea));
@@ -1093,7 +1104,9 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetAutoAllocation));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetVersion));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(SetStream));
+#if __CUDA_API_VERSION >= 7000
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetProperty));
+#endif
     /* - Estimate - */
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate1d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(Estimate2d));
