@@ -47,6 +47,11 @@
 #include "log4cplus/loggingmacros.h"
 #include "log4cplus/configurator.h"
 
+#include <limits.h>
+#if ( __WORDSIZE == 64 )
+    #define BUILD_64   1
+#endif
+
 /**						
  * CudaRtHandler is used by Backend's Process(es) for storing and retrieving
  * device related data and functions. 
@@ -83,12 +88,16 @@ CUFFT_ROUTINE_HANDLER(MakePlan1d);
 CUFFT_ROUTINE_HANDLER(MakePlan2d);
 CUFFT_ROUTINE_HANDLER(MakePlan3d);
 CUFFT_ROUTINE_HANDLER(MakePlanMany);
+#ifdef BUILD_64
 CUFFT_ROUTINE_HANDLER(MakePlanMany64);
+#endif
 CUFFT_ROUTINE_HANDLER(GetSize1d);
 CUFFT_ROUTINE_HANDLER(GetSize2d);
 CUFFT_ROUTINE_HANDLER(GetSize3d);
 CUFFT_ROUTINE_HANDLER(GetSizeMany);
+#ifdef BUILD_64
 CUFFT_ROUTINE_HANDLER(GetSizeMany64);
+#endif
 CUFFT_ROUTINE_HANDLER(GetSize);
 CUFFT_ROUTINE_HANDLER(SetWorkArea);
 CUFFT_ROUTINE_HANDLER(ExecC2C);
