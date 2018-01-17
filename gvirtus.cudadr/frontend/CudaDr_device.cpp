@@ -118,7 +118,9 @@ extern CUresult cuDeviceTotalMem(size_t *bytes, CUdevice dev) {
     return (CUresult) (CudaDrFrontend::GetExitCode());
 }
 
+#if (__CUDA_API_VERSION >= 7000)
 extern cudaError_t cudaDeviceGetP2PAttribute ( int* value, cudaDeviceP2PAttr attr, int  srcDevice, int  dstDevice ) {
     cudaError_t error;
     return error;
 }
+#endif
