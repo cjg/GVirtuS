@@ -261,7 +261,9 @@ CUDA_ROUTINE_HANDLER(RuntimeGetVersion);
 
 /* Occupancy */
 CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor);
+#if (CUDART_VERSION >= 7000)
 CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessorWithFlags);
+#endif
 
 #endif	/* _CUDARTHANDLER_H */
 
