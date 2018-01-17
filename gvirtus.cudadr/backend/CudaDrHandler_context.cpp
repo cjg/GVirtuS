@@ -28,6 +28,9 @@
 #include <driver_types.h>
 #include <stdio.h>
 
+using namespace std;
+using namespace log4cplus;
+
 /*Create a CUDA context*/
 CUDA_DRIVER_HANDLER(CtxCreate) {
     CUcontext pctx;
