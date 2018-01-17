@@ -106,7 +106,7 @@ vector<string> split(const string& s, const string& f) {
 Logger logger;
 
 int main(int argc, char** argv) {
-    initialize();
+    //initialize();
     BasicConfigurator config;
     config.configure();
     logger=Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS-8.0"));
