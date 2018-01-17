@@ -1124,7 +1124,9 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecD2Z));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(ExecZ2D));
     /* -- CufftX -- */
+    #if __CUDA_API_VERSION >= 7000
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtMakePlanMany));
+    #endif
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtSetGPUs));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtExecDescriptorC2C));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(XtSetCallback));
