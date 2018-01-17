@@ -50,6 +50,7 @@ CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor) {
 }
 
 /*OccupancyMaxActiveBlocksPerMultiprocessorWithFlags.*/
+#if (CUDART_VERSION >= 7000)
 CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessorWithFlags) {
     int *numBlocks = input_buffer->Assign<int>();
     const char *func = (const char*) (input_buffer->Get<pointer_t> ());
@@ -69,3 +70,4 @@ CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessorWithFlags) {
 
     return new Result(exit_code, out);
 }
+#endif
