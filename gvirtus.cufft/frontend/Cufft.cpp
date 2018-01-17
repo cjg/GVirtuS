@@ -216,6 +216,7 @@ extern "C" cufftResult cufftMakePlanMany(cufftHandle plan, int rank, int *n,
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+#ifdef BUILD_64
 extern "C" cufftResult cufftMakePlanMany64(cufftHandle plan, int rank, long long int *n, 
         long long int *inembed, long long int istride, long long int idist, long long int *onembed, long long int ostride,
         long long int odist, cufftType type, long long int batch,size_t * workSize) {
@@ -239,6 +240,7 @@ extern "C" cufftResult cufftMakePlanMany64(cufftHandle plan, int rank, long long
         *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
     return (cufftResult) CufftFrontend::GetExitCode();
 }
+#endif
 
 extern "C" cufftResult cufftGetSize1d(cufftHandle handle, int nx, cufftType type,
         int batch, size_t *workSize){
@@ -315,6 +317,7 @@ extern "C" cufftResult cufftGetSizeMany(cufftHandle handle, int rank, int *n,
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+#ifdef BUILD_64
 extern "C" cufftResult cufftGetSizeMany64(cufftHandle plan, int rank, long long int *n, 
         long long int *inembed, long long int istride, long long int idist, long long int *onembed, long long int ostride,
         long long int odist, cufftType type, long long int batch,size_t * workSize) {
@@ -336,6 +339,7 @@ extern "C" cufftResult cufftGetSizeMany64(cufftHandle plan, int rank, long long 
         *workSize = *CufftFrontend::GetOutputHostPointer<size_t>();
     return (cufftResult) CufftFrontend::GetExitCode();
 }
+#endif
 
 extern "C" cufftResult cufftGetSize(cufftHandle handle, size_t * workSize){
     CufftFrontend::Prepare();
@@ -491,6 +495,7 @@ extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+#if __CUDA_API_VERSION >= 7000
 extern "C" cufftResult cufftGetProperty(libraryPropertyType type, int* value){
     CufftFrontend::Prepare();
     CufftFrontend::AddVariableForArguments<libraryPropertyType>(type);
@@ -498,8 +503,9 @@ extern "C" cufftResult cufftGetProperty(libraryPropertyType type, int* value){
     CufftFrontend::Execute("cufftGetProperty");
     return (cufftResult) CufftFrontend::GetExitCode();
 }
+#endif
 
-
+#if __CUDA_API_VERSION >= 7000
 extern "C" cufftResult cufftXtMakePlanMany(cufftHandle plan, int rank, long long int *n, long long int *inembed, long long int istride, long long int idist, cudaDataType inputtype, long long int *onembed, long long int ostride, long long int odist, cudaDataType outputtype, long long int batch, size_t *workSize, cudaDataType executiontype) {
     CufftFrontend::Prepare();
     //Passing Arguments
@@ -527,6 +533,7 @@ extern "C" cufftResult cufftXtMakePlanMany(cufftHandle plan, int rank, long long
     }
     return (cufftResult) CufftFrontend::GetExitCode();
 }
+#endif
 
 extern "C" cufftResult cufftExecC2C(cufftHandle plan, cufftComplex *idata, cufftComplex *odata, int direction) {
     CufftFrontend::Prepare();
