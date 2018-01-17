@@ -79,8 +79,9 @@
 #include "log4cplus/loggingmacros.h"
 #include "log4cplus/configurator.h"
 
-using namespace log4cplus;
+#include <stdlib.h>     /* getenv */
 
+using namespace log4cplus;
 using namespace std;
 
 vector<string> split(const string& s, const string& f) {
@@ -109,8 +110,8 @@ int main(int argc, char** argv) {
     //initialize();
     BasicConfigurator config;
     config.configure();
-    logger=Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS-8.0"));
-    LOG4CPLUS_INFO(logger, "GVirtuS backend version 8.0" );
+    logger=Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS"));
+    LOG4CPLUS_INFO(logger, "GVirtuS backend version" );
     string conf = _CONFIG_FILE;
     if (argc == 2)
         conf = string(argv[1]);
@@ -125,10 +126,8 @@ int main(int argc, char** argv) {
         delete c;
         LOG4CPLUS_INFO(logger, "Shutdown" );
     } catch (string &e) {
-        //cerr << "Exception: " << e << endl;
         LOG4CPLUS_ERROR(logger, "Exception: " << e);
     } catch (const char *e) {
-        //cerr << "Exception: " << e << endl;
         LOG4CPLUS_ERROR(logger, "Exception: " << e);
     }
     return 0;
