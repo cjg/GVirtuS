@@ -23,3 +23,7 @@
  *             Department of Applied Science
  */
 
+#include <limits.h>
+#if ( __WORDSIZE == 64 )
+    #define BUILD_64   1
+#endif
