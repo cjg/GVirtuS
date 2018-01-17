@@ -28,6 +28,9 @@
 #include <driver_types.h>
 #include <stdio.h>
 
+using namespace std;
+using namespace log4cplus;
+
 /*Returns the compute capability of the device*/
 CUDA_DRIVER_HANDLER(DeviceComputeCapability) {
     int *major = input_buffer->Assign<int>();
