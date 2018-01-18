@@ -59,6 +59,8 @@ cd $INSTALL_FOLDER/lib/frontend
 ln -sf libcudart.so.6.5.14 libcudart.so.6.5
 ln -sf libcudart.so.6.5.14 libcudart.so.8.0
 ln -sf libcublas.so.8.0.0 libcublas.so.6.5
+ln -sf libcufft.so libcufft.so.6.5
+ln -sf libcurand.so libcurand.so.6.5
 ln -sf libcufft.so.3.0.0 libcufft.so.8.0
 ln -sf libcudart.so libcudart.so.9.0
 ln -sf libcuda.so libcuda.so.9.0
