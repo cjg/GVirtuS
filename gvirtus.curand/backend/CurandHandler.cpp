@@ -73,7 +73,7 @@ void CurandHandler::Initialize() {
         return;
     mspHandlers = new map<string, CurandHandler::CurandRoutineHandler> ();
 
-    /* CublasHandler Query Platform Info */
+    /* CurandHandler Query Platform Info */
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(CreateGenerator));
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(CreateGeneratorHost));
     mspHandlers->insert(CURAND_ROUTINE_HANDLER_PAIR(Generate));
