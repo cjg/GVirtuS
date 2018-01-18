@@ -12,18 +12,23 @@ sample_type_paths=`ls -d ${base_dir}/?_*`
 for sample_type_path in $sample_type_paths
 do
   sample_paths=`ls -d ${sample_type_path}/*`
+  sample_type=`basename $sample_type_path`
   for sample_path in $sample_paths
   do
-    exe=$sample_path/`basename $sample_path`
-    echo "-----------------------------------------"
-    echo "Running: $exe"
-    $exe >/dev/null
-    if [ $? -eq 0 ]; then
-      echo OK
-    else
-      echo FAIL
+    sample_exec=`basename $sample_path`
+    cd $sample_path
+    if [ -f $sample_exec ]; then
+      rm /tmp/err.txt
+      err=""
+      ./$sample_exec >/dev/null 2>/tmp/err.txt
+      if [ $? -eq 0 ]; then
+        result="OK"
+      else
+        result="FAIL"
+        err=`cat /tmp/err.txt`
+      fi
+      echo "$sample_type;$sample_exec;$result;$err"
     fi
-    echo "-----------------------------------------"
   done
 done
 
