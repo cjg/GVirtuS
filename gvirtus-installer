@@ -33,15 +33,22 @@ cd gvirtus.cufft
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make
 make install
-
 cd ..
+
 cd gvirtus.cublas
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make
 make install
+cd ..
 
-#cd ..
+cd gvirtus.curand
+#make clean
+./autogen.sh --prefix="${INSTALL_FOLDER}"
+make
+make install
+cd ..
+
 #cd gvirtus.cudnn
 #make clean
 #./autogen.sh --prefix="${INSTALL_FOLDER}"
