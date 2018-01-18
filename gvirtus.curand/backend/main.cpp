@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
         ConfigFile *cf = new ConfigFile(conf.c_str());
         Communicator *c = Communicator::Get(cf->Get("communicator"));
         delete cf;
-        CublasBackend b;
+        CurandBackend b;
         b.Start(c);
         delete c;
     } catch (string &e) {
