@@ -216,7 +216,7 @@ extern "C" cufftResult cufftMakePlanMany(cufftHandle plan, int rank, int *n,
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
-#ifdef BUILD_64
+#if CUDART_VERSION >= 7000
 extern "C" cufftResult cufftMakePlanMany64(cufftHandle plan, int rank, long long int *n, 
         long long int *inembed, long long int istride, long long int idist, long long int *onembed, long long int ostride,
         long long int odist, cufftType type, long long int batch,size_t * workSize) {
@@ -317,7 +317,7 @@ extern "C" cufftResult cufftGetSizeMany(cufftHandle handle, int rank, int *n,
     return (cufftResult) CufftFrontend::GetExitCode();
 }
 
-#ifdef BUILD_64
+#if CUDART_VERSION >= 7000
 extern "C" cufftResult cufftGetSizeMany64(cufftHandle plan, int rank, long long int *n, 
         long long int *inembed, long long int istride, long long int idist, long long int *onembed, long long int ostride,
         long long int odist, cufftType type, long long int batch,size_t * workSize) {
