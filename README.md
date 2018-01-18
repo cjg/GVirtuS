@@ -4,16 +4,23 @@ GCC, G++
 
 OS: Ubuntu 10.04 (tested) /  Ubuntu  12.04 (tested) / Ubuntu 14.04 (tested)  /CentOS 6.8 (tested)
 
-CUDA Toolkit: Version 8.0
+CUDA Toolkit: up to Version 9.0
 
 This package are required:
     build-essential
-    gcc-4.4
     autotools-dev
     automake
-    libtool
-    mesa-common-dev
     git
+    libtool
+    libxmu-dev
+    libxi-dev
+    libgl-dev
+    libosmesa-dev
+    liblog4cplus-dev
+    libzmq-dev
+
+Ubuntu:
+sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-dev git liblog4cplus-dev libzmq-dev
 
 ## Installation: ##
 1) Clone the GVirtuS main repository
