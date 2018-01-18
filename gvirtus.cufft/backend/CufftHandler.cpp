@@ -711,7 +711,7 @@ CUFFT_ROUTINE_HANDLER(MakePlanMany) {
     return new Result(exit_code,out);
 }
 
-#ifdef BUILD_64
+#if CUDART_VERSION >= 7000
 CUFFT_ROUTINE_HANDLER(MakePlanMany64) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("MakePlanMany64"));
     
@@ -842,7 +842,7 @@ CUFFT_ROUTINE_HANDLER(GetSizeMany) {
     return new Result(exit_code,out);
 }
 
-#ifdef BUILD_64
+#if CUDART_VERSION >= 7000
 CUFFT_ROUTINE_HANDLER(GetSizeMany64) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetSizeMany64"));
     
@@ -1086,7 +1086,7 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlan3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany));
-#ifdef BUILD_64
+#if CUDART_VERSION >= 7000
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(MakePlanMany64));
 #endif
     /* - GetSize - */
@@ -1094,7 +1094,7 @@ void CufftHandler::Initialize() {
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize2d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize3d));
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany));
-#ifdef BUILD_64
+#if CUDART_VERSION >= 7000
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSizeMany64));
 #endif
     mspHandlers->insert(CUFFT_ROUTINE_HANDLER_PAIR(GetSize));
