@@ -1,13 +1,24 @@
 #! /bin/bash
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage $0 NVIDIA_SAMPLES_PATH"
+if [ "$#" -lt 2 ]; then
+    echo "Usage $0 NVIDIA_SAMPLES_PATH output_file [avoid_file]"
     exit -1
 fi
 
-echo "TYPE;SAMPLE;RESULT;ERROR"
-
 base_dir=$1
+output_file=$2
+avoid_file=""
+if [ "$#" -eq 3 ]; then
+  avoid_file=$3
+  if [ ! -f $avoid_file ]; then
+    echo "Avoid file doesn't exist"
+    exit -1
+  fi
+  cp $avoid_file /tmp/avoid.txt
+  avoid_file="/tmp/avoid.txt"
+fi
+
+echo >$output_file "TYPE;SAMPLE;RESULT;ERROR"
 
 cd $base_dir
 sample_type_paths=`ls -d ${base_dir}/?_*`
@@ -19,17 +30,27 @@ do
   do
     sample_exec=`basename $sample_path`
     cd $sample_path
-    if [ -f $sample_exec ]; then
-      rm /tmp/err.txt
-      err=""
-      ./$sample_exec >/dev/null 2>/tmp/err.txt
-      if [ $? -eq 0 ]; then
-        result="OK"
-      else
-        result="FAIL"
-        err=`head -n 1 /tmp/err.txt`
+    if [ -f "$sample_exec" ]; then
+      avoid=""
+      if [ -n "$avoid_file" ]; then
+        avoid=`grep -w $sample_type/$sample_exec $avoid_file`
       fi
-      echo "$sample_type;$sample_exec;$result;$err"
+      if [ -z "$avoid" ]; then
+        rm /tmp/err.txt
+        echo "Testing: $sample_type/$sample_exec"
+        err=""
+        ./$sample_exec >/dev/null 2>/tmp/err.txt
+        if [ $? -eq 0 ]; then
+          result="OK"
+        else
+          result="FAIL"
+          err=`head -n 1 /tmp/err.txt`
+          echo "FAIL:"
+          cat /tmp/err.txt
+        fi
+        echo "----------------------------"
+        echo >>$output_file "$sample_type;$sample_exec;$result;$err"
+      fi
     fi
   done
 done
