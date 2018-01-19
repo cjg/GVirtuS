@@ -138,6 +138,16 @@ Export the dynamic GVirtuS library:
 
     export  LD_LIBRARY_PATH=GVIRTUS_PATH/gvirtus/lib/frontend
 
+Optionally set a different configuration file
+
+    export CONFIG_FILE=$HOME/dev/gvirtus.properties
+
 execute the cuda application compiled with cuda dynamic library (with -lcuda -lcudart)
 
     ./example
+
+If you are using nvcc be sure you are compiling using shared libraries:
+
+    export EXTRA_NVCCFLAGS="--cudart=shared"
+
+
