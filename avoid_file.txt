@@ -1,0 +1,12 @@
+0_Simple/simpleIPC
+0_Simple/clock_nvrtc
+0_Simple/inlinePTX_nvrtc
+0_Simple/matrixMul_nvrtc
+0_Simple/simpleAssert_nvrtc
+0_Simple/simpleAtomicIntrinsics_nvrtc
+0_Simple/simpleTemplates_nvrtc
+0_Simple/simpleVoteIntrinsics_nvrtc
+0_Simple/vectorAdd_nvrtc
+3_Imaging/convolutionFFT2D
+7_CUDALibraries/simpleCUFFT_2d_MGPU
+7_CUDALibraries/simpleCUFFT_MGPU
