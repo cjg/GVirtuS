@@ -1,4 +1,11 @@
+# Unknown reason
 0_Simple/simpleIPC
+3_Imaging/convolutionFFT2D
+4_Finance/MonteCarloMultiGPU
+7_CUDALibraries/simpleCUFFT_2d_MGPU
+7_CUDALibraries/simpleCUFFT_MGPU
+
+# Using libnvrtc (not supported)
 0_Simple/clock_nvrtc
 0_Simple/inlinePTX_nvrtc
 0_Simple/matrixMul_nvrtc
@@ -7,6 +14,30 @@
 0_Simple/simpleTemplates_nvrtc
 0_Simple/simpleVoteIntrinsics_nvrtc
 0_Simple/vectorAdd_nvrtc
-3_Imaging/convolutionFFT2D
-7_CUDALibraries/simpleCUFFT_2d_MGPU
-7_CUDALibraries/simpleCUFFT_MGPU
+4_Finance/binomialOptions_nvrtc
+4_Finance/BlackScholes_nvrtc
+4_Finance/quasirandomGenerator_nvrtc
+
+# Display interaction (can't be supported)
+2_Graphics/bindlessTexture
+2_Graphics/Mandelbrot
+2_Graphics/marchingCubes
+2_Graphics/simpleGL
+2_Graphics/simpleTexture3D
+2_Graphics/volumeFiltering
+2_Graphics/volumeRender
+3_Imaging/bicubicTexture
+3_Imaging/bilateralFilter
+3_Imaging/boxFilter
+3_Imaging/cudaDecodeGL
+3_Imaging/imageDenoising
+3_Imaging/postProcessGL
+3_Imaging/recursiveGaussian
+3_Imaging/simpleCUDA2GL
+3_Imaging/SobelFilter
+5_Simulations/fluidsGL
+5_Simulations/nbody
+5_Simulations/oceanFFT
+5_Simulations/particles
+5_Simulations/smokeParticles
+6_Advanced/FunctionPointers
