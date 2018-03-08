@@ -1,6 +1,12 @@
 # Introducing GVirtuS
 GVirtuS is the general virtualization system developed in 2009 and firstly introduced in 2010 enabling a completely transparent layer among GPUs and VMs. GVirtuS has been chosen by the RAPID H2020 project as cornerstone for building the GPU Bridger.
 
+Contacts:
+Raffaele Montella
+raffaele.montella@uniparthenope.it
+Department of Science and Technologies
+University of Napoli Parthenope - Italy
+
 # Acknowledge
 This has been supported by the European Union Grant Agreement number 644312-RAPID--H2020-ICT-2014/H2020-ICT-2014-1 "Heterogeneous Secure Multi-level Remote Acceleration Service for Low-Power Integrated Systems and Devices" http://rapid-project.eu
 
@@ -8,9 +14,9 @@ This has been supported by the European Union Grant Agreement number 644312-RAPI
 ## Prerequisites: ##
 GCC, G++
 
-OS: Ubuntu 10.04 (tested) /  Ubuntu  12.04 (tested) / Ubuntu 14.04 (tested)  /CentOS 6.8 (tested)
+OS: Ubuntu 10.04 (tested) /  Ubuntu  12.04 (tested) / Ubuntu 14.04 (tested) / Ubuntu 16.04 (tested) /CentOS 6.8 (tested)
 
-CUDA Toolkit: up to Version 9.0
+CUDA Toolkit: up to Version 9.1
 
 This package are required:
     build-essential
