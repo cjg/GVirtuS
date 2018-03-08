@@ -2,9 +2,13 @@
 GVirtuS is the general virtualization system developed in 2009 and firstly introduced in 2010 enabling a completely transparent layer among GPUs and VMs. GVirtuS has been chosen by the RAPID H2020 project as cornerstone for building the GPU Bridger.
 
 Contacts:
+
 Raffaele Montella
+
 raffaele.montella@uniparthenope.it
+
 Department of Science and Technologies
+
 University of Napoli Parthenope - Italy
 
 # Acknowledge
