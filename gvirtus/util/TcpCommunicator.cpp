@@ -100,7 +100,7 @@ TcpCommunicator::TcpCommunicator(int fd, const char *hostname) {
 }
 
 TcpCommunicator::~TcpCommunicator() {
-    close(mSocketFd);
+    // close(mSocketFd);
     delete[] mInAddr;
 }
 
