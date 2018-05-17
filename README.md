@@ -33,7 +33,7 @@ sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-de
 ## Installation: ##
 1) Clone the GVirtuS main repository
 
-    git clone https://github.com/raffmont/GVirtuS.git
+    git clone https://github.com/RapidProjectH2020/GVirtuS.git
 
 In the directory “GVirtuS” there are three directories named “gvirtus”, “gvirtus.cudart” and "gvirtus.cudadr".
 
