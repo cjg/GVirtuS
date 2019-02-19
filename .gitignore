@@ -1,0 +1,11 @@
+cmake-build-debug/
+external/
+.idea/
+*.dia*
+*.xcf
+test
+bin/
+main.cpp
+client.cpp
+server.cpp
+
