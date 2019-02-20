@@ -14,7 +14,8 @@ include_directories(SYSTEM ${INCLUDE_LOCATION})
 #   EXTERNAL LIBRARY
 include(ExternalProject)
 set(EXTERNAL_INSTALL_LOCATION ${CMAKE_SOURCE_DIR}/core/external)
-include_directories(SYSTEM ${EXTERNAL_INSTALL_LOCATION}/include)
+set(EXTERNAL_INCLUDE_LOCATION ${EXTERNAL_INSTALL_LOCATION}/include)
+include_directories(SYSTEM ${EXTERNAL_INCLUDE_LOCATION})
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
 #
 # nlohmann-json
@@ -23,3 +24,4 @@ ExternalProject_Add(nlohmann
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
         TIMEOUT 360
         )
+
