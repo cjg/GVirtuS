@@ -10,3 +10,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Allows you to use angle brackets instead of quotation marks in the include directives
 set(INCLUDE_LOCATION ${CMAKE_SOURCE_DIR}/core/include)
 include_directories(SYSTEM ${INCLUDE_LOCATION})
+
+#   EXTERNAL LIBRARY
+include(ExternalProject)
+set(EXTERNAL_INSTALL_LOCATION ${CMAKE_SOURCE_DIR}/core/external)
+include_directories(SYSTEM ${EXTERNAL_INSTALL_LOCATION}/include)
+link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
+#
+# nlohmann-json
+ExternalProject_Add(nlohmann
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
+        TIMEOUT 360
+        )
