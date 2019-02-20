@@ -3,35 +3,32 @@
 
 #include <string>
 #include <vector>
+#include <backend/Endpoint.h>
 
-class Property {
-public:
-    Property() = default;
+namespace gvirtus {
+    class Property {
+    public:
+        Property() = default;
 
-    Property(const std::string &protocol, const std::string &address, const std::string &port,
-             const std::vector<std::string> *plugins);
+        Property(const std::vector<gvirtus::Endpoint> *endpoints,
+                 const std::vector<std::string> *plugins);
 
-    const std::string &protocol() const;
+        Property &endpoints(const std::vector<gvirtus::Endpoint> *endpoints);
 
-    const std::string &address() const;
+        inline const std::vector<gvirtus::Endpoint> &endpoints() const {
+            return _endpoints;
+        }
 
-    const std::uint16_t &port() const;
+        Property &plugins(const std::vector<std::string> *plugins);
 
-    const std::vector<std::string> &plugins() const;
+        inline const std::vector<std::string> &plugins() const {
+            return _plugins;
+        }
 
-    Property &protocol(const std::string &protocol);
-
-    Property &address(const std::string &address);
-
-    Property &port(const std::string &port);
-
-    Property &plugins(const std::vector<std::string> *plugins);
-
-private:
-    std::string _protocol;
-    std::string _address;
-    std::uint16_t _port = 65535;
-    std::vector<std::string> _plugins;
-};
+    private:
+        std::vector<std::string> _plugins;
+        std::vector<gvirtus::Endpoint> _endpoints;
+    };
+}
 
 #endif //GVIRTUSPP_PROPERTY_H
