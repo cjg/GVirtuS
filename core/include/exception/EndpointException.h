@@ -7,7 +7,7 @@ namespace gvirtus {
     class EndpointException : public gvirtus::Exception {
     public:
         EndpointException(const std::string file, int line, const std::string func, const std::string info = "")
-                : gvirtus::Exception(_file, _line, _func, _info) {
+                : gvirtus::Exception{file, line, func, info} {
         }
     };
 }

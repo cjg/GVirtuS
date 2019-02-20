@@ -7,7 +7,7 @@ namespace gvirtus {
     class PropertyException : public gvirtus::Exception {
     public:
         PropertyException(const std::string file, int line, const std::string func, const std::string info = "")
-                : gvirtus::Exception(_file, _line, _func, _info) {
+                : gvirtus::Exception{file, line, func, info} {
         }
 
     };

@@ -29,19 +29,23 @@ namespace gvirtus {
         fs::path p(fs::current_path().parent_path());
         p += "/core/plugins";
 
-        if (fs::exists(p) && fs::is_directory(p)) {
-            if (plugins == nullptr || plugins->empty()) {
-                for (const auto &entry : fs::directory_iterator(p)) {
-                    if (fs::is_directory(entry.status())) {
-                        auto filename = entry.path().filename().string();
-                        _plugins.emplace_back(filename);
+        if (fs::exists(p) && fs::is_directory(p) && !fs::is_empty(p)) {
+            for (const auto &entry : fs::directory_iterator(p)) {
+                if (fs::is_directory(entry.status())) {
+                    auto filename = entry.path().filename().string();
+                    for (const auto &plugin : *plugins) {
+                        if (filename == plugin)
+                            _plugins.emplace_back(filename);
                     }
                 }
-            } else
-                _plugins = *plugins;
+            }
+
+            if (_plugins.empty())
+                throw PropertyException("Property.cpp", 44, "plugins(const std::vector<std::string> *plugins)",
+                                        "No plugin found.");
         } else
-            throw PropertyException("Property.cpp", 88, "plugins(const std::vector<std::string> *plugins)",
-                                    "Plugins: no such directory.");
+            throw PropertyException("Property.cpp", 48, "plugins(const std::vector<std::string> *plugins)",
+                                    "Plugins: no such directory, or is empty.");
 
         return *this;
     }

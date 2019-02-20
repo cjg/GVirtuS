@@ -17,7 +17,7 @@ namespace gvirtus {
         std::regex_search(protocol, matches, pattern);
 
         if (protocol != matches[0])
-            throw EndpointException("Property.cpp", 28, "protocol(const std::string &protocol)",
+            throw EndpointException("Property.cpp", 20, "protocol(const std::string &protocol)",
                                     "Invalid protocol.");
         else
             _protocol = protocol;
@@ -33,7 +33,7 @@ namespace gvirtus {
         std::regex_search(address, matches, pattern);
 
         if (address != matches[0])
-            throw EndpointException("Property.cpp", 45, "address(const std::string &address)", "Invalid address.");
+            throw EndpointException("Property.cpp", 36, "address(const std::string &address)", "Invalid address.");
         else
             _address = address;
 
@@ -48,7 +48,7 @@ namespace gvirtus {
         std::regex_search(port, matches, pattern);
 
         if (port != matches[0])
-            throw EndpointException("Property.cpp", 60, "port(const std::string &port)", "Invalid port number.");
+            throw EndpointException("Property.cpp", 51, "port(const std::string &port)", "Invalid port number.");
         else
             _port = (uint16_t) std::stoi(port);
 
