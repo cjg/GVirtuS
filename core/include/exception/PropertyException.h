@@ -1,7 +1,3 @@
-//
-// Created by antonio on 20.02.19.
-//
-
 #ifndef GVIRTUSPP_PROPERTYEXCEPTION_H
 #define GVIRTUSPP_PROPERTYEXCEPTION_H
 
