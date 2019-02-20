@@ -25,3 +25,33 @@ ExternalProject_Add(nlohmann
         TIMEOUT 360
         )
 
+
+
+
+
+##############################################################################################
+# Unit test
+set(UNIT_TEST_LOCATION ${CMAKE_SOURCE_DIR}/core/unit-test)
+set(UNIT_TEST_BIN ${UNIT_TEST_LOCATION}/bin)
+
+# Property class
+add_executable(property-test
+        core/unit-test/src/property-test.cpp
+        core/src/backend/Property.cpp
+        core/src/backend/Endpoint.cpp
+        core/include/exception/Exception.h
+        core/include/exception/PropertyException.h
+        core/include/exception/EndpointException.h
+        )
+install(TARGETS property-test DESTINATION ${UNIT_TEST_BIN})
+
+# JSON class
+add_executable(json-test
+        core/unit-test/src/json-test.cpp
+        core/src/util/JSON.cpp
+        core/include/util/JSON.h
+        )
+add_dependencies(json-test nlohmann)
+install(TARGETS json-test DESTINATION ${UNIT_TEST_BIN})
+
+
