@@ -9,3 +9,5 @@ main.cpp
 client.cpp
 server.cpp
 
+doc/
+diagrams/
