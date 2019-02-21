@@ -10,7 +10,8 @@
 
 namespace gvirtus {
     /**
-     *
+     * Property class.
+     * This class is a model to represent the properties of the backend.
      */
     class Property {
     public:
