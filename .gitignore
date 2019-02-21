@@ -1,13 +1,24 @@
+# Clion
 cmake-build-debug/
-external/
 .idea/
+
+# Diagrams not exported
 *.dia*
 *.xcf
+
+# Build
+build/
+
+# Binary or source test
 test
 bin/
 main.cpp
 client.cpp
 server.cpp
 
+# External library
+external/
+
+# Temporainly
 doc/
 diagrams/
