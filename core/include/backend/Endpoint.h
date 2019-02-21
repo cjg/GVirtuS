@@ -2,7 +2,6 @@
 #define GVIRTUSPP_ENDPOINT_H
 
 #include <string>
-#include <vector>
 
 namespace gvirtus {
     class Endpoint {
