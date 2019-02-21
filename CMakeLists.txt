@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Allows you to use angle brackets instead of quotation marks in the include directives
 set(INCLUDE_LOCATION ${CMAKE_SOURCE_DIR}/core/include)
 include_directories(SYSTEM ${INCLUDE_LOCATION})
-
+##############################################################################################
 #   EXTERNAL LIBRARY
 include(ExternalProject)
 set(EXTERNAL_INSTALL_LOCATION ${CMAKE_SOURCE_DIR}/core/external)
@@ -25,14 +25,9 @@ ExternalProject_Add(nlohmann
         TIMEOUT 360
         )
 
-
-
-
-
 ##############################################################################################
 # Unit test
 set(UNIT_TEST_LOCATION ${CMAKE_SOURCE_DIR}/core/unit-test)
-set(UNIT_TEST_BIN ${UNIT_TEST_LOCATION}/bin)
 
 # Property class
 add_executable(property-test
@@ -43,7 +38,8 @@ add_executable(property-test
         core/include/exception/PropertyException.h
         core/include/exception/EndpointException.h
         )
-install(TARGETS property-test DESTINATION ${UNIT_TEST_BIN})
+
+add_dependencies(property-test nlohmann)
 
 # JSON class
 add_executable(json-test
@@ -55,7 +51,10 @@ add_executable(json-test
         core/include/exception/PropertyException.h
         core/include/exception/EndpointException.h
         )
+
 add_dependencies(json-test nlohmann)
-install(TARGETS json-test DESTINATION ${UNIT_TEST_BIN})
+
+install(TARGETS property-test DESTINATION ${UNIT_TEST_LOCATION}/bin)
+install(TARGETS json-test DESTINATION ${UNIT_TEST_LOCATION}/bin)
 
 
