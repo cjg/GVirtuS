@@ -1,20 +1,18 @@
-[
-  {
-    "endpoint": [
-      {
-        "protocol": "tcp",
-        "address": "127.0.0.1",
-        "port": "9999"
-      },
-      {
-        "protocol": "http",
-        "address": "127.0.0.1",
-        "port": "8080"
-      }
-    ],
-    "plugins": [
-      "cudart",
-      "cudas"
-    ]
-  }
-]
+{
+  "endpoint": [
+    {
+      "protocol": "tcp",
+      "address": "127.0.0.1",
+      "port": "9999"
+    },
+    {
+      "protocol": "http",
+      "address": "127.0.0.1",
+      "port": "8080"
+    }
+  ],
+  "plugins": [
+    "cudart",
+    "cudas"
+  ]
+}
