@@ -48,8 +48,12 @@ install(TARGETS property-test DESTINATION ${UNIT_TEST_BIN})
 # JSON class
 add_executable(json-test
         core/unit-test/src/json-test.cpp
-        core/src/util/JSON.cpp
         core/include/util/JSON.h
+        core/src/backend/Property.cpp
+        core/src/backend/Endpoint.cpp
+        core/include/exception/Exception.h
+        core/include/exception/PropertyException.h
+        core/include/exception/EndpointException.h
         )
 add_dependencies(json-test nlohmann)
 install(TARGETS json-test DESTINATION ${UNIT_TEST_BIN})
