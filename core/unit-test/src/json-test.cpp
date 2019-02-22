@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv) {
     gvirtus::JSON<gvirtus::Property> j;
-    std::filesystem::path p("/home/antonio/Desktop/GVirtuSpp/core/etc/properties.json");
+    std::filesystem::path p("/home/antonio/Desktop/GVirtuSpp/etc/properties.json");
 
 
     try {

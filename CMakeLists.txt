@@ -27,7 +27,7 @@ ExternalProject_Add(nlohmann
 
 ##############################################################################################
 # Unit test
-set(UNIT_TEST_LOCATION ${CMAKE_SOURCE_DIR}/core/unit-test)
+set(UNIT_TEST_LOCATION ${CMAKE_SOURCE_DIR}/bin/unit-test)
 
 # Property class
 add_executable(property-test
@@ -54,7 +54,7 @@ add_executable(json-test
 
 add_dependencies(json-test nlohmann)
 
-install(TARGETS property-test DESTINATION ${UNIT_TEST_LOCATION}/bin)
-install(TARGETS json-test DESTINATION ${UNIT_TEST_LOCATION}/bin)
+install(TARGETS property-test DESTINATION ${UNIT_TEST_LOCATION})
+install(TARGETS json-test DESTINATION ${UNIT_TEST_LOCATION})
 
 
