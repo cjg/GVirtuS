@@ -64,7 +64,10 @@ ExternalProject_Add(googletest
 enable_testing()
 include_directories(${GOOGLE_TEST_LOCATION} ${GOOGLE_TEST_LOCATION}/include)
 set(SOURCE_TEST ${GOOGLE_TEST_LOCATION}/test_main.cpp ${GOOGLE_TEST_LOCATION}/src/endpoint_test.cpp)
-add_executable(gtest ${SOURCE_TEST} unit_test/src/endpoint_test.cpp)
+add_executable(gtest ${SOURCE_TEST}
+        unit_test/src/endpoint_test.cpp
+        core/src/backend/Endpoint.cpp
+        )
 add_dependencies(gtest googletest)
 target_link_libraries(gtest ${GOOGLE_TEST_LOCATION}/lib64/libgtest.a ${GOOGLE_TEST_LOCATION}/lib64/libgtest_main.a)
 install(TARGETS gtest DESTINATION ${GOOGLE_TEST_LOCATION})

@@ -86,9 +86,9 @@ namespace gvirtus {
         }
 
     private:
-        std::string _protocol;
-        std::string _address;
-        std::uint16_t _port = 9999;
+        std::string _protocol{"tcp"};
+        std::string _address{"127.0.0.1"};
+        std::uint16_t _port{9999};
     };
 }
 #endif //GVIRTUSPP_ENDPOINT_H
