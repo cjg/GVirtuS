@@ -68,6 +68,23 @@ namespace gvirtus {
             return _port;
         }
 
+        /**
+         * This method return an object description
+         * @return string that represents the concatenation between class member
+         */
+        inline const std::string to_string() const {
+            return _protocol + _address + std::to_string(_port);
+        };
+
+        /**
+         * This method is an overload of == operator.
+         * @param endpoint: object to compare
+         * @return True if two object are similar, false otherwise
+         */
+        inline bool operator==(const Endpoint &endpoint) const {
+            return this->to_string() == endpoint.to_string();
+        }
+
     private:
         std::string _protocol;
         std::string _address;
