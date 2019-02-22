@@ -22,3 +22,7 @@ external/
 # Temporainly
 doc/
 diagrams/
+unit_test/include
+unit_test/lib64
+gtest
+
