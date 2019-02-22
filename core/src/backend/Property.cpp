@@ -1,7 +1,6 @@
 #include <backend/Property.h>
 #include <iostream>
 #include <filesystem>
-#include <exception/PropertyException.h>
 
 namespace gvirtus {
     Property::Property(const std::vector<gvirtus::Endpoint> *endpoints_required,
@@ -40,12 +39,12 @@ namespace gvirtus {
                 }
             }
 
+            //TODO: exception or optional?
             if (_plugins.empty())
-                throw PropertyException("Property.cpp", 44, "plugins(const std::vector<std::string> *plugins)",
-                                        "No plugin found.");
+                std::cerr << "Plugin not found" << std::endl;
         } else
-            throw PropertyException("Property.cpp", 48, "plugins(const std::vector<std::string> *plugins)",
-                                    "Plugins: no such directory, or is empty.");
+            //TODO: exception or optional?
+            std::cerr << "Plugins: no such directory, or is empty." << std::endl;
 
         return *this;
     }
