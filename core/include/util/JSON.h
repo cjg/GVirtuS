@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-namespace gvirtus {
+namespace gvirtus::util {
     /**
      * JSON class.
      * This class is a wrapper of nlohmann::json class.
@@ -48,10 +48,13 @@ namespace gvirtus {
                 _handler.open(file_path.string());
 
                 if (_handler.is_open()) {
+                    _file_path = file_path;
                     _handler >> _json;
                 } else
+                    //TODO: exception or optional?
                     throw std::ifstream::failure("Can't open file");
             } else
+                //TODO: exception or optional?
                 throw std::ifstream::failure("No such file, or file is irregular");
 
             return *this;
