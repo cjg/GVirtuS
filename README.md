@@ -4,6 +4,11 @@ Virtualizing general purpose GPUs for high performance cloud computing.
 ## Alpha version
 This is an alpha version with very tiny functionality.
 
+### Build requirements
+To be able to use **GVirtuSpp**, you must provide the following tools:
+* **CMake** version 3.2 or later.
+* **Doxygen** version 1.8 or later.
+
 ### Install
 ```shell
 1.  git clone https://github.com/xMentos5091/GVirtuSpp.git
