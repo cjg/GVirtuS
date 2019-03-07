@@ -1,11 +1,13 @@
 {
   "endpoint": [
     {
+      "suite" : "tcp/ip",
       "protocol": "tcp",
       "address": "127.0.0.1",
       "port": "9999"
     },
     {
+      "suite" : "tcp/ip",
       "protocol": "http",
       "address": "127.0.0.1",
       "port": "8080"
