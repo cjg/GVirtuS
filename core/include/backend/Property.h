@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <backend/Endpoint.h>
+#include <communicator/endpoint/Endpoint.h>
 
 #include <nlohmann/json.hpp>
 
@@ -25,7 +25,7 @@ namespace gvirtus {
          * @param endpoints: pointer to a vector of Endpoint
          * @param plugins: pointer to a vector of std::string
          */
-        Property(const std::vector<gvirtus::Endpoint> *endpoints,
+        Property(const int *endpoints,
                  const std::vector<std::string> *plugins);
 
         /**
@@ -33,13 +33,13 @@ namespace gvirtus {
          * @param endpoints: pointer to a vector of Endpoint
          * @return reference to itself (Fluent Interface API)
          */
-        Property &endpoints(const std::vector<gvirtus::Endpoint> *endpoints);
+        Property &endpoints(const int *endpoints);
 
         /**
          * This method is a getter for the class member _endpoints
          * @return the reference to vector where Endpoint are saved
          */
-        inline const std::vector<gvirtus::Endpoint> &endpoints() const {
+        inline const int &endpoints() const {
             return _endpoints;
         }
 
@@ -63,12 +63,11 @@ namespace gvirtus {
          */
         ~Property() {
             _plugins.clear();
-            _endpoints.clear();
         }
 
     private:
         std::vector<std::string> _plugins;
-        std::vector<gvirtus::Endpoint> _endpoints;
+        int _endpoints;
     };
 
     /**
@@ -78,20 +77,15 @@ namespace gvirtus {
      * @param p: reference to property object to be created
      */
     inline void from_json(const nlohmann::json &j, Property &p) {
-        std::vector<gvirtus::Endpoint> endpoints;
-
-        for (auto &el : j["endpoint"]) {
-            gvirtus::Endpoint epoint;
-            epoint.protocol(el.at("protocol")).address(el.at("address")).port(el.at("port"));
-            endpoints.emplace_back(epoint);
-        }
-
-        p.endpoints(&endpoints);
+        int endpoints = 0;
+        for (auto &el : j["endpoint"])
+            endpoints++;
 
         std::vector<std::string> plugins;
         for (auto &el : j["plugins"])
             plugins.emplace_back(el);
 
+        p.endpoints(&endpoints);
         p.plugins(&plugins);
     }
 }

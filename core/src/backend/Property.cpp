@@ -3,15 +3,15 @@
 #include <filesystem>
 
 namespace gvirtus {
-    Property::Property(const std::vector<gvirtus::Endpoint> *endpoints_required,
+    Property::Property(const int *endpoints_required,
                        const std::vector<std::string> *plugins_required) {
         endpoints(endpoints_required);
         plugins(plugins_required);
     }
 
-    Property &Property::endpoints(const std::vector<gvirtus::Endpoint> *endpoints) {
-        if (endpoints == nullptr || endpoints->empty()) {
-            _endpoints.emplace_back(gvirtus::Endpoint("tcp", "127.0.0.1", "9999"));
+    Property &Property::endpoints(const int *endpoints) {
+        if (endpoints == nullptr || *endpoints == 0) {
+//            _endpoints.emplace_back(gvirtus::Endpoint("tcp", "127.0.0.1", "9999"));
         } else
             _endpoints = *endpoints;
 
