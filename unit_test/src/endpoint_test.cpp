@@ -1,4 +1,4 @@
-#include <backend/Endpoint.h>
+#include <communicator/endpoint/Endpoint.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
