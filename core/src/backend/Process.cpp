@@ -12,7 +12,6 @@ namespace gvirtus {
 
 
     void Process::start() {
-        std::clog << __FILE__ << ":" << __LINE__ << ":" << " Process with this process id: " << getpid() << " started. ✓" << std::endl;
         _communicator->run();
     }
 }

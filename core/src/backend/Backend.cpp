@@ -29,6 +29,7 @@ namespace gvirtus {
     }
 
     void Backend::init() {
+        // FIXME: dove devono essere caricati i plugin?
         std::clog << __FILE__ << ":" << __LINE__ << ":" << " Plugins loaded. ✓" << std::endl;
     }
 
@@ -36,22 +37,26 @@ namespace gvirtus {
         int pid = 0;
         for (int i = 0; i < _children.size(); i++) {
             if ((pid = fork()) == 0) {
-                std::clog << __FILE__ << ":" << __LINE__ << ":" << " Child process created with this process id: "
-                          << getpid() << ". ✓" << std::endl;
                 _children[i].start();
                 break;
             }
+            std::clog << __FILE__ << ":" << __LINE__ << ":" << " Child process created with this process id: "
+                      << pid << ". ✓" << std::endl;
         }
 
         if (pid != 0) {
-            while (wait(nullptr) > 0);
-            std::clog << __FILE__ << ":" << __LINE__ << ":" << " Father process with this process id: " << getpid()
-                      << " has been terminated. ✓" << std::endl;
+            int child_pid = 0;
+            while ((child_pid = wait(nullptr)) > 0) {
+                std::clog << __FILE__ << ":" << __LINE__ << ":" << " Child process with this process id: " << child_pid
+                          << " has been terminated" << ". ✓" << std::endl;
+            }
+
+//            std::clog << __FILE__ << ":" << __LINE__ << ":" << " Father process with this process id: " << getpid()
+//                      << " has been terminated. ✓" << std::endl;
         }
 
         if (pid == 0) {
-            std::clog << __FILE__ << ":" << __LINE__ << ":" << " Child process with this process id: " << getpid()
-                      << " has been terminated" << ". ✓" << std::endl;
+            //CHILD
         }
     }
 }

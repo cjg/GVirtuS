@@ -16,9 +16,11 @@ namespace gvirtus {
         if ("tcp/ip" == j["endpoint"][ind_endpoint].at("suite")) {
             EndpointTCP_IP tcp_ip = gvirtus::util::JSON<EndpointTCP_IP>(_json_path).parser();
             _ptr_i_endpoint = std::make_shared<EndpointTCP_IP>(tcp_ip);
-
         }
-        //Add here: Else if new suite {}
+
+        //Add here: Else if( new suite ) {
+        //
+        // }
 
         ind_endpoint++;
         j.clear();

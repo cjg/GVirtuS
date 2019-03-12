@@ -7,8 +7,6 @@
 namespace gvirtus {
     class Communicator {
     public:
-        Communicator() = default;
-
         explicit Communicator(const Endpoint &);
 
         ~Communicator();

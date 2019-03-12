@@ -12,11 +12,6 @@ namespace gvirtus {
     class Backend {
     public:
         /**
-         * Default constructor
-         */
-        Backend() = default;
-
-        /**
          * Parameterized constructor
          * @param p:
          */
