@@ -9,3 +9,32 @@
 .deps
 .libs
 config.h.in*
+
+# Clion
+cmake-build-debug/
+.idea/
+
+# Diagrams not exported
+*.dia*
+*.xcf
+
+# Build
+build/
+
+# Binary or source test
+test
+bin/
+main.cpp
+client.cpp
+server.cpp
+
+# External library
+external/
+
+# Temporainly
+doc/
+diagrams/
+unit_test/include
+unit_test/lib64
+gtest
+

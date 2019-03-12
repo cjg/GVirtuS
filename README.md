@@ -157,5 +157,3 @@ execute the cuda application compiled with cuda dynamic library (with -lcuda -lc
 If you are using nvcc be sure you are compiling using shared libraries:
 
     export EXTRA_NVCCFLAGS="--cudart=shared"
-
-
