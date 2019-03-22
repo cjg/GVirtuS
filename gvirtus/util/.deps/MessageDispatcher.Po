@@ -1,3 +1,0 @@
-MessageDispatcher.o: MessageDispatcher.cpp MessageDispatcher.h
-
-MessageDispatcher.h:
