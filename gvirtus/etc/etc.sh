@@ -8,4 +8,4 @@ fi
 INSTALL_FOLDER=$1
 echo $INSTALL_FOLDER
 
-rsync -av gvirtus.properties INSTALL_FOLDER/etc/
+rsync -av gvirtus.properties $INSTALL_FOLDER/etc/
