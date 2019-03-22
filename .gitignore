@@ -6,7 +6,7 @@
 *.Tpo
 *.Po
 *.cache
-.deps
+.deps/
 .libs
 config.h.in*
 
