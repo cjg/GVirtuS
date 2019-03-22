@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(gvirtus-backend)
 
-set(pluginsDir "-D_PLUGINS_DIR=\\\"${CMAKE_INSTALL_PREFIX}/lib/backend\\\"")
+set(pluginsDir "-D_PLUGINS_DIR=\\\"${CMAKE_INSTALL_PREFIX}/lib\\\"")
 set(configFile "-D_CONFIG_FILE=\\\"${CMAKE_INSTALL_PREFIX}/etc/gvirtus.properties\\\"")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fPIC ${pluginsDir} ${configFile}")
 set(CMAKE_CXX_STANDARD 17)
