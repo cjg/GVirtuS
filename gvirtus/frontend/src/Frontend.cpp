@@ -56,13 +56,15 @@ void Frontend::Init(Communicator *c) {
 #if 1
     const char *config_file;
     pid_t tid = syscall(SYS_gettid);
-    
+
 #ifdef _CONFIG_FILE
     if((config_file = getenv("CONFIG_FILE")) == NULL)
         config_file = _CONFIG_FILE;
 #else
 	config_file = "gvirtus.properties";
 #endif
+
+    std::cout << _CONFIG_FILE << "\n\n\n\n\n\n";
     ConfigFile *cf = new ConfigFile(config_file);
     string communicator;
 #ifndef _WIN32 // not tested atm
@@ -93,19 +95,19 @@ void Frontend::Init(Communicator *c) {
 }
 
 Frontend::~Frontend() {
-    
+
     //cout<< "distruttore "<<endl;
     if (mpFrontends != NULL) {
-        
+
         pid_t tid = syscall(SYS_gettid); // getting frontend's tid
-    
+
         map<pthread_t, Frontend*>::iterator it;
         for(it = mpFrontends->begin(); it != mpFrontends->end(); it++) {
             cout << "~Frontend: "<< it->second <<endl;
             mpFrontends->erase(it);
             //delete it->second;
         }
-        
+
         //delete mpFrontends->find(tid);
     }
     else {
@@ -114,13 +116,13 @@ Frontend::~Frontend() {
         delete mpFrontends;
     }
 //    mpCommunicator->Close();
-//    delete mpCommunicator;        
+//    delete mpCommunicator;
 }
 
 Frontend * Frontend::GetFrontend(Communicator *c) {
     if (mpFrontends == NULL)
-        mpFrontends = new map<pthread_t, Frontend*>();    
-    
+        mpFrontends = new map<pthread_t, Frontend*>();
+
     pid_t tid = syscall(SYS_gettid); // getting frontend's tid
     //cout << "tid Get Frontend: "<< tid<< endl;
     if (mpFrontends->find(tid) != mpFrontends->end())
@@ -136,7 +138,7 @@ Frontend * Frontend::GetFrontend(Communicator *c) {
         }
         //}
         return f;
-    }    
+    }
     /*if (!initialized) {
         try {
             msFrontend.Init(c);
@@ -150,16 +152,16 @@ Frontend * Frontend::GetFrontend(Communicator *c) {
 void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
     if (input_buffer == NULL)
         input_buffer = mpInputBuffer;
-    
+
     pid_t tid = syscall(SYS_gettid);
     if (mpFrontends->find(tid) != mpFrontends->end()){
         /* sending job */
-        Frontend * frontend = new Frontend(); 
+        Frontend * frontend = new Frontend();
         frontend = mpFrontends->find(tid)->second;
         frontend->mpCommunicator->Write(routine, strlen(routine) + 1);
         input_buffer->Dump(frontend->mpCommunicator);
         frontend->mpCommunicator->Sync();
-        
+
         //std::istream &in = frontend->mpCommunicator->GetInputStream();
 
         frontend->mpOutputBuffer->Reset();
@@ -172,13 +174,13 @@ void Frontend::Execute(const char* routine, const Buffer* input_buffer) {
         /* error */
         cerr << " ERROR - can't send any job request "<<endl;
     }
-           
+
     /* sending job */
     /*mpCommunicator->Write(routine, strlen(routine) + 1);
     input_buffer->Dump(mpCommunicator);
     mpCommunicator->Sync();
 
-    // receiving output 
+    // receiving output
     //std::istream &in = mpCommunicator->GetInputStream();
 
     mpOutputBuffer->Reset();

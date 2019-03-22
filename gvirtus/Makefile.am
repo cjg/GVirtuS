@@ -1,3 +1,3 @@
-SUBDIRS=frontend
+# SUBDIRS=frontend
 #test cuda
 #cudadr opencl opengl

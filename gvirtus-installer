@@ -19,6 +19,9 @@ cd ..
 cd etc
 ./etc.sh ${INSTALL_FOLDER}
 cd ..
+cd frontend
+./frontend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make

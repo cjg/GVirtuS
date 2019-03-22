@@ -18,14 +18,13 @@ Frontend.h
 #libcudart_la_LIBADD = ../util/libutil.a -lrt
 #libcudart_la_LDFLAGS = -version-info 3:14:0
 
-lib_LTLIBRARIES = libgvirtus-frontend.la
-libgvirtus_frontend_la_SOURCES = \
-Frontend.cpp\
+# lib_LTLIBRARIES = libgvirtus-frontend.la
+# libgvirtus_frontend_la_SOURCES = \
+# Frontend.cpp\
+# Frontend.h
+# libgvirtus_frontend_includedir=$(includedir)/gvirtus
+# libgvirtus_frontend_include_HEADERS= \
 Frontend.h
-libgvirtus_frontend_includedir=$(includedir)/gvirtus
-libgvirtus_frontend_include_HEADERS= \
-Frontend.h
-libgvirtus_frontend_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libutil.a -Wl,--no-whole-archive
-libgvirtus_frontend_la_LIBADD = -lrt
-libgvirtus_frontend_la_CXXFLAGS = -fPIC
-
+# libgvirtus_frontend_la_LDFLAGS = -Wl,--whole-archive -Wl,../util/libutil.a -Wl,--no-whole-archive
+# libgvirtus_frontend_la_LIBADD = -lrt
+# libgvirtus_frontend_la_CXXFLAGS = -fPIC
