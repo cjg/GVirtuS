@@ -1,18 +1,10 @@
-# Introducing GVirtuS
-GVirtuS is the general virtualization system developed in 2009 and firstly introduced in 2010 enabling a completely transparent layer among GPUs and VMs. GVirtuS has been chosen by the RAPID H2020 project as cornerstone for building the GPU Bridger.
-
-Contacts: raffaele.montella@uniparthenope.it
-
-# Acknowledge
-This has been supported by the European Union Grant Agreement number 644312-RAPID--H2020-ICT-2014/H2020-ICT-2014-1 "Heterogeneous Secure Multi-level Remote Acceleration Service for Low-Power Integrated Systems and Devices" http://rapid-project.eu
-
 # How To install GVirtuS framework and plugins#
 ## Prerequisites: ##
 GCC, G++
 
-OS: Ubuntu 10.04 (tested) /  Ubuntu  12.04 (tested) / Ubuntu 14.04 (tested) / Ubuntu 16.04 (tested) /CentOS 6.8 (tested)
+OS: Ubuntu 10.04 (tested) /  Ubuntu  12.04 (tested) / Ubuntu 14.04 (tested)  /CentOS 6.8 (tested)
 
-CUDA Toolkit: up to Version 9.1
+CUDA Toolkit: up to Version 9.0
 
 This package are required:
     build-essential
@@ -33,7 +25,7 @@ sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-de
 ## Installation: ##
 1) Clone the GVirtuS main repository
 
-    git clone https://github.com/RapidProjectH2020/GVirtuS.git
+    git clone https://github.com/raffmont/GVirtuS.git
 
 In the directory “GVirtuS” there are three directories named “gvirtus”, “gvirtus.cudart” and "gvirtus.cudadr".
 
@@ -157,3 +149,5 @@ execute the cuda application compiled with cuda dynamic library (with -lcuda -lc
 If you are using nvcc be sure you are compiling using shared libraries:
 
     export EXTRA_NVCCFLAGS="--cudart=shared"
+
+
