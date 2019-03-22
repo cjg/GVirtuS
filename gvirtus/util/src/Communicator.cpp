@@ -40,7 +40,7 @@
 
 #ifndef _WIN32
 #include "AfUnixCommunicator.h"
-#include "VmciCommunicator.h"
+//#include "VmciCommunicator.h"
 #include "ShmCommunicator.h"
 #include "VMShmCommunicator.h"
 #include "VMSocketCommunicator.h"
