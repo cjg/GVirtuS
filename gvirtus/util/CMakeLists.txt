@@ -31,6 +31,7 @@ set(util_SOURCE ${CMAKE_SOURCE_DIR}/include/gvirtus-type.h
                           ${CMAKE_SOURCE_DIR}/include/Observer.h
                           ${CMAKE_SOURCE_DIR}/src/TcpCommunicator.cpp
                           ${CMAKE_SOURCE_DIR}/src/ZmqCommunicator.cpp
+                          ${CMAKE_SOURCE_DIR}/include/ZmqCommunicator.h
                           ${CMAKE_SOURCE_DIR}/include/TcpCommunicator.h
                           ${CMAKE_SOURCE_DIR}/src/Thread.cpp
                           ${CMAKE_SOURCE_DIR}/include/Thread.h

@@ -24,7 +24,6 @@ build/
 # Binary or source test
 test
 bin/
-main.cpp
 client.cpp
 server.cpp
 
