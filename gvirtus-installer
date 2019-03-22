@@ -10,6 +10,9 @@ fi
 INSTALL_FOLDER=$1
 echo $INSTALL_FOLDER
 cd gvirtus
+cd util
+./util.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make
