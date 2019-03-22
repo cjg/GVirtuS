@@ -42,8 +42,6 @@ CPPFLAGS="$CPPFLAGS -I`pwd`/util/include -I`pwd`/frontend -I`pwd`/backend/includ
 CXXFLAGS="$CXXFLAGS -Wall -pedantic -lpthread -llog4cplus -lzmq"
 
 AC_CONFIG_FILES([Makefile
-                 backend/Makefile
-                 conf/Makefile
                  frontend/Makefile
                  test/Makefile
 		])
