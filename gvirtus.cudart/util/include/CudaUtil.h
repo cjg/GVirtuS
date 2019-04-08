@@ -27,10 +27,10 @@
  * @file   CudaUtil.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
  * @date   Sun Oct 11 17:16:48 2009
- * 
- * @brief  
- * 
- * 
+ *
+ * @brief
+ *
+ *
  */
 
 #ifndef _CUDAUTIL_H
@@ -51,7 +51,7 @@
 /**
  * CudaUtil contains facility functions used by gVirtuS. These functions
  * includes the ones for marshalling and unmarshalling pointers and "CUDA fat
- * binaries". 
+ * binaries".
  */
 class CudaUtil {
 public:
@@ -130,7 +130,7 @@ static const char *_cudaGetErrorEnum(cudaError_t error)
 
         case cudaErrorInvalidConfiguration:
             return "cudaErrorInvalidConfiguration";
-        
+
         case cudaErrorInvalidDevice:
             return "cudaErrorInvalidDevice";
 
@@ -231,7 +231,7 @@ static const char *_cudaGetErrorEnum(cudaError_t error)
 
         case cudaErrorDuplicateVariableName:
             return "cudaErrorDuplicateVariableName";
-            
+
         case cudaErrorDuplicateTextureName:
             return "cudaErrorDuplicateTextureName";
 
@@ -283,7 +283,7 @@ static const char *_cudaGetErrorEnum(cudaError_t error)
 
         case cudaErrorHostMemoryNotRegistered:
             return "cudaErrorHostMemoryNotRegistered";
-            
+
         /* Since CUDA 5.0 */
         case cudaErrorOperatingSystem:
             return "cudaErrorOperatingSystem";
@@ -327,7 +327,7 @@ static const char *_cudaGetErrorEnum(cudaError_t error)
 
         case cudaErrorInvalidPc:
             return "cudaErrorInvalidPc";
-            
+
         case cudaErrorIllegalAddress:
             return "cudaErrorIllegalAddress";
 
@@ -351,4 +351,3 @@ static const char *_cudaGetErrorEnum(cudaError_t error)
 
 
 #endif	/* _CUDAUTIL_H */
-
