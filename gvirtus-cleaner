@@ -1,11 +1,17 @@
 #!/bin/bash
-set -e
 
-cd gvirtus
-make clean
-cd ..
-cd gvirtus.cudart
-make clean
-cd ..
-cd gvirtus.cudadr
-make clean
+if [ $# -ne 1 ]; then
+    dir=./
+else
+    dir=$1
+fi
+
+find $dir -name 'install_manifest.txt' -delete -print
+find $dir -name 'cmake_install.cmake' -delete -print
+find $dir -name 'CMakeCache.txt' -delete -print
+find $dir -name 'Makefile' -delete -print
+find $dir -name 'CMakeFiles' -exec rm -rv {} +
+
+echo "***********************************"
+echo "*       CMakeFiles removed        *"
+echo "***********************************"
