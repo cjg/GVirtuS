@@ -24,12 +24,23 @@ cd ..
 make
 make install
 cd ..
+
+## CUDA RUNTIME ##
 cd gvirtus.cudart
+cd util
+./util.sh ${INSTALL_FOLDER}
+cd ..
+cd backend
+./backend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make
 make install
 cd ..
+
+
+## CUDA DRIVER ##
 cd gvirtus.cudadr
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
@@ -44,7 +55,12 @@ make
 make install
 cd ..
 
+
+## CUDA BLAS ##
 cd gvirtus.cublas
+cd backend
+./backend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make
