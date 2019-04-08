@@ -12,4 +12,4 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} -G "Code
 make
 make install
 
-rm -rf gvirtus-backend gvirtus-backend.cbp Makefile CMakeCache.txt CMakeFiles cmake_install.cmake install_manifest.txt
+rm -rf gvirtus-backend gvirtus-backend.cbp

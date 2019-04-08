@@ -22,10 +22,12 @@ cd ..
 cd frontend
 ./frontend.sh ${INSTALL_FOLDER}
 cd ..
+
+## AUTO TOOLS ##
 #make clean
-./autogen.sh --prefix="${INSTALL_FOLDER}"
-make
-make install
+# ./autogen.sh --prefix="${INSTALL_FOLDER}"
+# make
+# make install
 cd ..
 
 ## CUDA RUNTIME ##
