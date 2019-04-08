@@ -12,4 +12,4 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} -G "Code
 make
 make install
 
-rm -rf cublas-backend.cbp libcublas-backend.so libcublas-backend.a
+rm -rf cublas.cbp libcublas.so libcublas.a

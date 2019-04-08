@@ -76,10 +76,13 @@ cd gvirtus.cublas
 cd backend
 ./backend.sh ${INSTALL_FOLDER}
 cd ..
+cd frontend
+./frontend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
-./autogen.sh --prefix="${INSTALL_FOLDER}"
-make
-make install
+# ./autogen.sh --prefix="${INSTALL_FOLDER}"
+# make
+# make install
 cd ..
 
 ## CUDA RAND ##
@@ -102,7 +105,7 @@ cd ..
 cd $INSTALL_FOLDER/lib/frontend
 ln -sf libcudart.so.6.5.14 libcudart.so.6.5
 ln -sf libcudart.so.6.5.14 libcudart.so.8.0
-ln -sf libcublas.so.8.0.0 libcublas.so.6.5
+ln -sf libcublas.so libcublas.so.6.5
 ln -sf libcufft.so libcufft.so.6.5
 ln -sf libcurand.so libcurand.so.6.5
 ln -sf libcufft.so.3.0.0 libcufft.so.8.0
