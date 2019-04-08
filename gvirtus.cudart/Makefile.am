@@ -1,1 +1,1 @@
-SUBDIRS=util frontend backend test
+SUBDIRS=frontend
