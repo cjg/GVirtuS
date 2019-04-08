@@ -4,7 +4,7 @@
 AC_PREREQ([2.63])
 AC_INIT(gvirtus-cublas, 01-beta2, http://osl.uniparthenope.it/mailman/listinfo/gvirtus-devel)
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([backend/CublasHandler.cpp])
+AC_CONFIG_SRCDIR([backend/src/CublasHandler.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -89,7 +89,7 @@ AC_CHECK_HEADER([cublas.h], [], [
 CPPFLAGS="-I`pwd`/util $CPPFLAGS"
 #CXXFLAGS="$CXXFLAGS -Wall -pedantic -Werror"
 CXXFLAGS="$CXXFLAGS -Wall -pedantic -llog4cplus"
-#AC_CONFIG_FILES([Makefile 
+#AC_CONFIG_FILES([Makefile
 #                 util/Makefile
 #                 backend/Makefile
 #                 frontend/Makefile
@@ -99,6 +99,5 @@ CXXFLAGS="$CXXFLAGS -Wall -pedantic -llog4cplus"
 
 AC_CONFIG_FILES([Makefile
                  frontend/Makefile
-		 backend/Makefile
 		])
 AC_OUTPUT
