@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(cublas-backend)
+project(curand-backend)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_CXX_STANDARD 17)
 
@@ -13,14 +13,14 @@ include_directories(SYSTEM ${PARENT_DIR})
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/include)
 
-set(backend_SOURCE ${CMAKE_SOURCE_DIR}/include/CublasHandler.h
-                              ${CMAKE_SOURCE_DIR}/src/CublasHandler.cpp
+set(backend_SOURCE ${CMAKE_SOURCE_DIR}/include/CurandHandler.h
+                      ${CMAKE_SOURCE_DIR}/src/CurandHandler.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
-add_library(cublas-backend-static STATIC ${backend_SOURCE})
-set_target_properties(cublas-backend-static PROPERTIES OUTPUT_NAME cublas-backend)
+add_library(curand-backend-static STATIC ${backend_SOURCE})
+set_target_properties(curand-backend-static PROPERTIES OUTPUT_NAME curand-backend)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-install(TARGETS cublas-backend-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
+install(TARGETS curand-backend-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
 
-target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} rt cublas log4cplus)
+target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} rt curand log4cplus)

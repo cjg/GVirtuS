@@ -93,7 +93,7 @@ AC_CHECK_HEADER([curand.h], [], [
 
 CPPFLAGS="-I`pwd`/util $CPPFLAGS"
 CXXFLAGS="$CXXFLAGS -Wall -pedantic -llog4cplus"
-#AC_CONFIG_FILES([Makefile 
+#AC_CONFIG_FILES([Makefile
 #                 util/Makefile
 #                 backend/Makefile
 #                 frontend/Makefile
@@ -103,6 +103,5 @@ CXXFLAGS="$CXXFLAGS -Wall -pedantic -llog4cplus"
 
 AC_CONFIG_FILES([Makefile
                  frontend/Makefile
-                 backend/Makefile
         ])
 AC_OUTPUT

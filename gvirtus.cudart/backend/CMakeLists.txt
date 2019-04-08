@@ -12,6 +12,7 @@ get_filename_component(PARENT_DIR ../ ABSOLUTE)
 include_directories(SYSTEM ${PARENT_DIR})
 include_directories(SYSTEM ${PARENT_DIR}/util/include)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
+include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus.cudautil)
 include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/include)
 
 set(backend_SOURCE ${CMAKE_SOURCE_DIR}/include/CudaRtHandler.h

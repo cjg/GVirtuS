@@ -42,13 +42,23 @@ cd ..
 
 ## CUDA DRIVER ##
 cd gvirtus.cudadr
+cd util
+./util.sh ${INSTALL_FOLDER}
+cd ..
+cd backend
+./backend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make
 make install
-
 cd ..
+
+## CUDA FFT ##
 cd gvirtus.cufft
+cd backend
+./backend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make
@@ -67,7 +77,11 @@ make
 make install
 cd ..
 
+## CUDA RAND ##
 cd gvirtus.curand
+cd backend
+./backend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
 ./autogen.sh --prefix="${INSTALL_FOLDER}"
 make

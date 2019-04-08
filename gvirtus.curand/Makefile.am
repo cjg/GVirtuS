@@ -1,1 +1,1 @@
-SUBDIRS=frontend backend
+SUBDIRS=frontend
