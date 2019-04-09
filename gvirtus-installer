@@ -70,10 +70,13 @@ cd gvirtus.cufft
 cd backend
 ./backend.sh ${INSTALL_FOLDER}
 cd ..
+cd frontend
+./frontend.sh ${INSTALL_FOLDER}
+cd ..
 #make clean
-./autogen.sh --prefix="${INSTALL_FOLDER}"
-make
-make install
+# ./autogen.sh --prefix="${INSTALL_FOLDER}"
+# make
+# make install
 cd ..
 
 

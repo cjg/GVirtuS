@@ -12,4 +12,4 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} -G "Code
 make
 make install
 
-rm -rf cufft-backend.cbp libcufft-backend.so libcufft-backend.a
+rm -rf cufft.cbp libcufft.a libcufft.so
