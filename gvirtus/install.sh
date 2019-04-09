@@ -19,6 +19,6 @@ bash frontend.sh ${INSTALL_FOLDER}
 cd ..
 
 echo
-/bin/echo -e "\e[1;30;102;5mGVIRTUS MODULE INSTALLATION COMPLETE!\e[0m"
+/bin/echo -e "\e[1;30;102mGVIRTUS MODULE INSTALLATION COMPLETE!\e[0m"
 echo
 echo

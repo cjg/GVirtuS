@@ -22,6 +22,6 @@ ln -sf libcublas.so libcublas.so.9.0
 ln -sf libcufft.so libcufft.so.9.0
 
 echo
-/bin/echo -e "\e[1;97;42mINSTALLATION COMPLETED!\e[0m"
+/bin/echo -e "\e[1;97;42;5mINSTALLATION COMPLETED!\e[0m"
 echo
 echo
