@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="cuda"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cuda-static">
+				<Option output="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/libcuda.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr"/>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/include"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus.cudautil"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 cuda-static"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cuda-static/fast">
+				<Option output="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/libcuda.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr"/>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/include"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus.cudautil"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 cuda-static/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cuda">
+				<Option output="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/libcuda.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr"/>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/include"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus.cudautil"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 cuda"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cuda/fast">
+				<Option output="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/libcuda.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr"/>
+					<Add directory="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/include"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus"/>
+					<Add directory="/home/antonio/Desktop/opt/include/gvirtus.cudautil"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 cuda/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/include/CudaDr.h">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/include/CudaDrFrontend.h">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDrFrontend.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_context.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_device.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_event.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_execution.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_initialization.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_memory.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_module.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_stream.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_texture.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/src/CudaDr_version.cpp">
+			<Option target="cuda-static"/>
+			<Option target="cuda"/>
+		</Unit>
+		<Unit filename="/home/antonio/Desktop/GVirtuS/gvirtus.cudadr/frontend/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

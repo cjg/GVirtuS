@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(util_cudadr)
+project(util_cudart)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_CXX_STANDARD 17)
 
@@ -17,4 +17,9 @@ set(util_SOURCE ${CMAKE_SOURCE_DIR}/include/CudaUtil.h
                       ${CMAKE_SOURCE_DIR}/src/CudaUtil.cpp
 )
 
+file(GLOB UTIL_HEADERS "${CMAKE_SOURCE_DIR}/include/*.h*")
+file(COPY ${UTIL_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gvirtus.cudautil)
+
 add_library(cudautil STATIC ${util_SOURCE})
+install(TARGETS cudautil DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/frontend)
+install(TARGETS cudautil DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)

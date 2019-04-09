@@ -12,4 +12,4 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} -G "Code
 make
 make install
 
-rm -rf cudadr-backend.cbp libcudadr-backend.so libcudadr-backend.a
+rm -rf cudart.cbp libcudart.so libcudart.a

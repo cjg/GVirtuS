@@ -79,42 +79,12 @@ void CudaUtil::MarshalDevicePointer(const void* devPtr, char * marshal) {
 #endif
 }
 
-#if 0
-/*
- * Fat binary container.
- * A mix of ptx intermediate programs and cubins,
- * plus a global identifier that can be used for
- * further lookup in a translation cache or a resource
- * file. This key is a checksum over the device text.
- * The ptx and cubin array are each terminated with
- * entries that have NULL components.
- */
-
-typedef struct __cudaFatCudaBinaryRec {
-    unsigned long            magic;
-    unsigned long            version;
-    unsigned long            gpuInfoVersion;
-    char*                   key;
-    char*                   ident;
-    char*                   usageMode;
-    __cudaFatPtxEntry             *ptx;
-    __cudaFatCubinEntry           *cubin;
-    __cudaFatDebugEntry           *debug;
-    void*                  debugInfo;
-    unsigned int                   flags;
-    __cudaFatSymbol               *exported;
-    __cudaFatSymbol               *imported;
-    struct __cudaFatCudaBinaryRec *dependends;
-    unsigned int                   characteristic;
-} __cudaFatCudaBinary
-#endif
-
 Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marshal) {
-    if(marshal == NULL)
+    if (marshal == NULL)
         marshal = new Buffer();
     size_t size;
     int count;
-    
+
     marshal->Add(bin->magic);
     marshal->Add(bin->version);
     marshal->Add(bin->gpuInfoVersion);
@@ -132,9 +102,9 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
     marshal->Add(bin->usageMode, size);
 
 
-    for(count = 0; bin->ptx[count].gpuProfileName != NULL; count++);
+    for (count = 0; bin->ptx[count].gpuProfileName != NULL; count++);
     marshal->Add(count);
-    for(int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         size = strlen(bin->ptx[i].gpuProfileName) + 1;
         marshal->Add(size);
         marshal->Add(bin->ptx[i].gpuProfileName, size);
@@ -144,9 +114,9 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
         marshal->Add(bin->ptx[i].ptx, size);
     }
 
-    for(count = 0; bin->cubin[count].gpuProfileName != NULL; count++);
+    for (count = 0; bin->cubin[count].gpuProfileName != NULL; count++);
     marshal->Add(count);
-    for(int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         size = strlen(bin->cubin[i].gpuProfileName) + 1;
         marshal->Add(size);
         marshal->Add(bin->cubin[i].gpuProfileName, size);
@@ -160,24 +130,24 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
     marshal->Add(0);
 
 #if 0
-    for(count = 0; bin->exported != NULL && bin->exported[count].name != NULL; count++);
+    for (count = 0; bin->exported != NULL && bin->exported[count].name != NULL; count++);
 #else
     count = 0;
 #endif
     marshal->Add(count);
-    for(int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         size = strlen(bin->exported[i].name) + 1;
         marshal->Add(size);
         marshal->Add(bin->exported[i].name, size);
     }
 
 #if 0
-    for(count = 0; bin->imported != NULL && bin->imported[count].name != NULL; count++);
+    for (count = 0; bin->imported != NULL && bin->imported[count].name != NULL; count++);
 #else
     count = 0;
 #endif
     marshal->Add(count);
-    for(int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         size = strlen(bin->imported[i].name) + 1;
         marshal->Add(size);
         marshal->Add(bin->imported[i].name, size);
@@ -194,8 +164,55 @@ Buffer * CudaUtil::MarshalFatCudaBinary(__cudaFatCudaBinary* bin, Buffer * marsh
 #if CUDA_VERSION >= 2030
     marshal->Add(bin->characteristic);
 #endif
-    
+
     return marshal;
+}
+
+Buffer * CudaUtil::MarshalFatCudaBinary(__fatBinC_Wrapper_t* bin, Buffer * marshal) {
+    if (marshal == NULL)
+        marshal = new Buffer();
+    //size_t size = (unsigned long long*)&(bin->magic) - bin->data;
+
+
+    marshal->Add(bin->magic);
+    marshal->Add(bin->version);
+
+    struct fatBinaryHeader* header = (fatBinaryHeader*) bin->data;
+//    size_t size = (header->fatSize / sizeof(unsigned long long)) + 2;
+//    size_t size = header->fatSize;
+    size_t size = header->fatSize + (unsigned long long)header->headerSize;
+ 
+    marshal->Add(size);
+//    marshal->Add((bin->data), size);
+    marshal->Add((char*)(bin->data), size);
+
+    return marshal;
+}
+
+__fatBinC_Wrapper_t * CudaUtil::UnmarshalFatCudaBinaryV2(Buffer* marshal) {
+    __fatBinC_Wrapper_t * bin = new __fatBinC_Wrapper_t __attribute__ ((aligned (8)));
+    size_t size;    
+
+    bin->magic = marshal->Get<int>();
+    bin->version = marshal->Get<int>();
+    size = marshal->Get<size_t>();
+//    bin->data = marshal->Get<unsigned long long int>(size);
+    bin->data = (const long long unsigned int*)marshal->Get<char>(size);
+    //bin->data= NULL;
+    /*
+    cerr << "**********DATA**********" << endl; 
+    fprintf(stderr, "data pointer: %p\n", bin->data);
+    if (bin->data == NULL)
+        throw "Error allocating";
+
+    char* data = (char*)bin->data;
+    for (int i = 0; i < (size * sizeof(long long int)); i++) {
+        fprintf(stderr, "%x ", *(data + i));
+    }
+    cerr << endl << "********** END DATA**********" << endl;
+     */
+    bin->filename_or_fatbins = NULL;
+    return bin;
 }
 
 __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
@@ -218,7 +235,7 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
 
     count = marshal->Get<int>();
     bin->ptx = new __cudaFatPtxEntry[count + 1];
-    for(i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         size = marshal->Get<size_t>();
         bin->ptx[i].gpuProfileName = marshal->Get<char>(size);
 
@@ -230,7 +247,7 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
 
     count = marshal->Get<int>();
     bin->cubin = new __cudaFatCubinEntry[count + 1];
-    for(i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         size = marshal->Get<size_t>();
         bin->cubin[i].gpuProfileName = marshal->Get<char>(size);
 
@@ -249,11 +266,11 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
     bin->debugInfo = NULL;
 
     count = marshal->Get<int>();
-    if(count == 0)
+    if (count == 0)
         bin->exported = NULL;
     else {
         bin->exported = new __cudaFatSymbol[count + 1];
-        for(i = 0; i < count; i++) {
+        for (i = 0; i < count; i++) {
             size = marshal->Get<size_t>();
             bin->exported[i].name = marshal->Get<char>(size);
         }
@@ -261,11 +278,11 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
     }
 
     count = marshal->Get<int>();
-    if(count == 0)
+    if (count == 0)
         bin->imported = NULL;
     else {
         bin->imported = new __cudaFatSymbol[count + 1];
-        for(i = 0; i < count; i++) {
+        for (i = 0; i < count; i++) {
             size = marshal->Get<size_t>();
             bin->imported[i].name = marshal->Get<char>(size);
         }
@@ -286,7 +303,7 @@ __cudaFatCudaBinary * CudaUtil::UnmarshalFatCudaBinary(Buffer* marshal) {
 #if CUDA_VERSION >= 3010
     bin->elf = NULL;
 #endif
-    
+
     return bin;
 }
 
@@ -300,36 +317,36 @@ void CudaUtil::DumpFatCudaBinary(__cudaFatCudaBinary* bin, ostream & out) {
     out << "usageMode: " << bin->usageMode << endl;
     out << "ptx:" << endl;
     int i;
-    for(i = 0; bin->ptx[i].gpuProfileName != NULL; i++) {
+    for (i = 0; bin->ptx[i].gpuProfileName != NULL; i++) {
         out << '\t' << "gpuProfileName[" << i << "]: " << bin->ptx[i].gpuProfileName << endl;
         out << '\t' << "ptx[" << i << "]: " << bin->ptx[i].ptx << endl;
     }
     out << "***" << i << endl;
     out << "cubin:" << endl;
-    for(int i = 0; bin->cubin[i].gpuProfileName != NULL; i++) {
+    for (int i = 0; bin->cubin[i].gpuProfileName != NULL; i++) {
         out << '\t' << "gpuProfileName[" << i << "]: " << bin->cubin[i].gpuProfileName << endl;
         out << '\t' << "cubin[" << i << "]: " << bin->cubin[i].cubin << endl;
     }
 #if 0
     out << "debug:" << endl;
-    for(int i = 0; bin->debug[i].gpuProfileName != NULL; i++) {
+    for (int i = 0; bin->debug[i].gpuProfileName != NULL; i++) {
         out << '\t' << "gpuProfileName[" << i << "]: " << bin->debug[i].gpuProfileName << endl;
         out << '\t' << "debug[" << i << "]: " << bin->debug[i].debug << endl;
     }
     out << "debugInfo: " << bin->debugInfo << endl;
 #endif
     out << "exported:" << endl;
-    for(int i = 0; bin->exported != NULL && bin->exported[i].name != NULL; i++) {
+    for (int i = 0; bin->exported != NULL && bin->exported[i].name != NULL; i++) {
         out << '\t' << "name[" << i << "]: " << bin->exported[i].name << endl;
     }
     out << "imported:" << endl;
-    for(int i = 0; bin->imported != NULL && bin->imported[i].name != NULL; i++) {
+    for (int i = 0; bin->imported != NULL && bin->imported[i].name != NULL; i++) {
         out << '\t' << "name[" << i << "]: " << bin->imported[i].name << endl;
     }
     out << "flags: " << bin->flags << endl;
 #if 0
     out << "dependends:" << endl;
-    for(int i = 0; bin->dependends != NULL && bin->dependends[i].key != NULL; i++) {
+    for (int i = 0; bin->dependends != NULL && bin->dependends[i].key != NULL; i++) {
         CudaUtil::DumpFatCudaBinary(bin->dependends + i);
     }
 #endif
@@ -340,4 +357,51 @@ void CudaUtil::DumpFatCudaBinary(__cudaFatCudaBinary* bin, ostream & out) {
     out << "characteristic: " << bin->characteristic << endl;
 #endif
     out << "----------" << endl << endl;
+}
+
+Buffer * CudaUtil::MarshalTextureDescForArguments(const cudaTextureDesc* tex,
+        Buffer * marshal = NULL) {
+    if (marshal == NULL)
+        marshal = new Buffer();
+    if (tex->addressMode != NULL) {
+        marshal->AddConst<int>(1);
+        marshal->AddConst<cudaTextureAddressMode>(tex->addressMode[0]);
+        marshal->AddConst<cudaTextureAddressMode>(tex->addressMode[1]);
+        marshal->AddConst<cudaTextureAddressMode>(tex->addressMode[2]);
+        marshal->AddConst<cudaTextureFilterMode>(tex->filterMode);
+        marshal->AddConst<cudaTextureReadMode>(tex->readMode);
+        marshal->AddConst<int>(tex->sRGB);
+        marshal->AddConst<int>(tex->normalizedCoords);
+        marshal->AddConst<unsigned int>(tex->maxAnisotropy);
+        marshal->AddConst<cudaTextureFilterMode>(tex->mipmapFilterMode);
+        marshal->AddConst<float>(tex->mipmapLevelBias);
+        marshal->AddConst<float>(tex->minMipmapLevelClamp);
+        marshal->AddConst<float>(tex->maxMipmapLevelClamp);
+    } else {
+        marshal->AddConst<int>(0);
+        marshal->AddConst<cudaTextureDesc>(tex);
+    }
+    
+    return marshal;
+}
+
+cudaTextureDesc * CudaUtil::UnmarshalTextureDesc(Buffer * marshal) {
+    int check = marshal->Get<int>();
+    cudaTextureDesc* tex = new cudaTextureDesc;
+    if (check == 1) {
+        tex->addressMode[0] = marshal->Get<cudaTextureAddressMode>();
+        tex->addressMode[1] = marshal->Get<cudaTextureAddressMode>();
+        tex->addressMode[2] = marshal->Get<cudaTextureAddressMode>();
+        tex->filterMode = marshal->Get<cudaTextureFilterMode>();
+        tex->readMode = marshal->Get<cudaTextureReadMode>();
+        tex->sRGB = marshal->Get<int>();
+        tex->normalizedCoords = marshal->Get<int>();
+        tex->maxAnisotropy = marshal->Get<unsigned int>();
+        tex->mipmapFilterMode = marshal->Get<cudaTextureFilterMode>();
+        tex->mipmapLevelBias = marshal->Get<float>();
+        tex->minMipmapLevelClamp = marshal->Get<float>();
+        tex->maxMipmapLevelClamp = marshal->Get<float>();
+        return tex;
+    } else
+        return marshal->Assign<cudaTextureDesc>();
 }
