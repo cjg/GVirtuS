@@ -1,6 +1,4 @@
 #! /bin/bash
-set -e
-
 
 if [ $# -ne 1 ]; then
     echo  usage: $0 "<path-of-installation-folder>"
@@ -8,122 +6,22 @@ if [ $# -ne 1 ]; then
 fi
 
 INSTALL_FOLDER=$1
-echo $INSTALL_FOLDER
-cd gvirtus
-cd util
-./util.sh ${INSTALL_FOLDER}
-cd ..
-cd backend
-./backend.sh ${INSTALL_FOLDER}
-cd ..
-cd etc
-./etc.sh ${INSTALL_FOLDER}
-cd ..
-cd frontend
-./frontend.sh ${INSTALL_FOLDER}
-cd ..
 
-## AUTO TOOLS ##
-#make clean
-# ./autogen.sh --prefix="${INSTALL_FOLDER}"
-# make
-# make install
-cd ..
+for module in `find . -maxdepth 1 -type d -regextype egrep -regex "./gvirtus(\.[a-zA-Z]*|\b)" | sort`
+do
+  cd $module
+  bash install.sh ${INSTALL_FOLDER}
+  cd $OLDPWD
+done
 
-## CUDA RUNTIME ##
-cd gvirtus.cudart
-cd util
-./util.sh ${INSTALL_FOLDER}
-cd ..
-cd backend
-./backend.sh ${INSTALL_FOLDER}
-cd ..
-cd frontend
-./frontend.sh ${INSTALL_FOLDER}
-cd ..
-#make clean
-# ./autogen.sh --prefix="${INSTALL_FOLDER}"
-# make
-# make install
-cd ..
-
-
-## CUDA DRIVER ##
-cd gvirtus.cudadr
-cd util
-./util.sh ${INSTALL_FOLDER}
-cd ..
-cd backend
-./backend.sh ${INSTALL_FOLDER}
-cd ..
-cd frontend
-./frontend.sh ${INSTALL_FOLDER}
-cd ..
-#make clean
-# ./autogen.sh --prefix="${INSTALL_FOLDER}"
-# make
-# make install
-cd ..
-
-## CUDA FFT ##
-cd gvirtus.cufft
-cd backend
-./backend.sh ${INSTALL_FOLDER}
-cd ..
-cd frontend
-./frontend.sh ${INSTALL_FOLDER}
-cd ..
-#make clean
-# ./autogen.sh --prefix="${INSTALL_FOLDER}"
-# make
-# make install
-cd ..
-
-
-## CUDA BLAS ##
-cd gvirtus.cublas
-cd backend
-./backend.sh ${INSTALL_FOLDER}
-cd ..
-cd frontend
-./frontend.sh ${INSTALL_FOLDER}
-cd ..
-#make clean
-# ./autogen.sh --prefix="${INSTALL_FOLDER}"
-# make
-# make install
-cd ..
-
-## CUDA RAND ##
-cd gvirtus.curand
-cd backend
-./backend.sh ${INSTALL_FOLDER}
-cd ..
-cd frontend
-./frontend.sh ${INSTALL_FOLDER}
-cd ..
-#make clean
-# ./autogen.sh --prefix="${INSTALL_FOLDER}"
-# make
-# make install
-cd ..
-
-#cd gvirtus.cudnn
-#make clean
-#./autogen.sh --prefix="${INSTALL_FOLDER}"
-#make
-#make install
-
-cd $INSTALL_FOLDER/lib/frontend
-ln -sf libcublas.so libcublas.so.6.5
-ln -sf libcufft.so libcufft.so.6.5
+cd ${INSTALL_FOLDER}/lib/frontend
 ln -sf libcurand.so libcurand.so.6.5
-ln -sf libcufft.so.3.0.0 libcufft.so.8.0
 ln -sf libcudart.so libcudart.so.9.0
 ln -sf libcuda.so libcuda.so.9.0
 ln -sf libcublas.so libcublas.so.9.0
 ln -sf libcufft.so libcufft.so.9.0
 
 echo
+/bin/echo -e "\e[1;97;42mINSTALLATION COMPLETED!\e[0m"
 echo
-echo INSTALLATION COMPLETED!
+echo
