@@ -12,4 +12,4 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} -G "Code
 make
 make install
 
-rm -rf curand-backend.cbp libcurand-backend.a libcurand-backend.so
+rm -rf curand.cbp libcurand.a libcurand.so
