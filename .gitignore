@@ -1,6 +1,7 @@
 *.o
 *.a
 *.la
+*.so
 *.lo
 *.Plo
 *.Tpo

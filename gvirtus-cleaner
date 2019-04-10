@@ -6,6 +6,10 @@ else
     dir=$1
 fi
 
+find $dir -name '*.so' -delete -print
+find $dir -name '*.a' -delete -print
+find $dir -name '*.cbp' -delete -print
+find $dir -name 'gvirtus-backend' -delete -print
 find $dir -name 'install_manifest.txt' -delete -print
 find $dir -name 'cmake_install.cmake' -delete -print
 find $dir -name 'CMakeCache.txt' -delete -print
