@@ -7,21 +7,32 @@ fi
 
 INSTALL_FOLDER=$1
 
-for module in `find . -maxdepth 1 -type d -regextype egrep -regex "./gvirtus(\.[a-zA-Z]*|\b)" | sort`
-do
+for module in `find . -maxdepth 1 -type d -regextype egrep -regex "./gvirtus(\.[a-zA-Z]*|\b)" | sort`; do
   cd $module
   bash install.sh ${INSTALL_FOLDER}
   cd $OLDPWD
 done
 
-cd ${INSTALL_FOLDER}/lib/frontend
-ln -sf libcurand.so libcurand.so.6.5
-ln -sf libcudart.so libcudart.so.9.0
-ln -sf libcuda.so libcuda.so.9.0
-ln -sf libcublas.so libcublas.so.9.0
-ln -sf libcufft.so libcufft.so.9.0
+
+lpath=${INSTALL_FOLDER}/lib/frontend
+for lib in `find $lpath -name "*.so" | sed 's|^./||'`; do
+  ln -sf $lib $lib.9.0
+done
+/bin/echo -e "\e[1;30;102mSYMBOLIC LINKS TO LIBRARY CREATED!\e[0m"
+echo
+
+/bin/echo -ne "\e[1;97;44;5mDo you want clean build files? (y|n) [Default: n]:\e[0m  "
+read flag
+if [[ $flag == "y" || $flag == "yes" ]]; then
+  echo
+  echo "-- Build files will be removed!"
+  /bin/echo -e " \e[2;94m`bash ./gvirtus-cleaner`\e[0m"
+else
+  echo
+  echo "-- Build files will not be removed!"
+  /bin/echo -e "-- If you want clean build files run \e[1;92m.$PWD/gvirtus-cleaner\e[0m"
+fi
 
 echo
-/bin/echo -e "\e[1;97;42;5mINSTALLATION COMPLETED!\e[0m"
-echo
+/bin/echo -e "\e[1;97;42mINSTALLATION COMPLETED!\e[0m"
 echo
