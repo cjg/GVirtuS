@@ -18,8 +18,5 @@ file(GLOB FRONTEND_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h*")
 file(COPY ${FRONTEND_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 
 add_library(${PROJECT_NAME} SHARED ${frontend_SOURCE})
-# add_library(gvirtus-frontend-static STATIC ${frontend_SOURCE})
-# set_target_properties(gvirtus-frontend-static PROPERTIES OUTPUT_NAME gvirtus-frontend)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-# install(TARGETS gvirtus-frontend-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 target_link_libraries(${PROJECT_NAME} "-Wl,--export-dynamic -Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libutil.a -Wl,--no-whole-archive" rt)
