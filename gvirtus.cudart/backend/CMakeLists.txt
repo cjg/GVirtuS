@@ -10,10 +10,9 @@ endif()
 
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 include_directories(SYSTEM ${PARENT_DIR})
-include_directories(SYSTEM ${PARENT_DIR}/util/include)
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus.cudautil)
-include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(backend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaRtHandler.h
                               ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaRtBackend.h
@@ -36,5 +35,4 @@ set(backend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaRtHandler.h
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-
 target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libcudautil.a -Wl,--no-whole-archive" ${CUDA_LIBRARIES} rt log4cplus)

@@ -30,7 +30,7 @@ set(frontend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaRt.h
 )
 
 add_library(gvirtus-frontend SHARED IMPORTED)
-set_target_properties(gvirtus-frontend PROPERTIES IMPORTED_LOCATION ${CMAKE_INSTALL_PREFIX}/lib/libgvirtus-frontend.so )
+set_target_properties(gvirtus-frontend PROPERTIES IMPORTED_LOCATION ${CMAKE_INSTALL_PREFIX}/lib/libgvirtus-frontend.so)
 
 add_library(${PROJECT_NAME} SHARED ${frontend_SOURCE})
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/frontend)

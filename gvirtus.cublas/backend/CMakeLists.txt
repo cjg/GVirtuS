@@ -18,9 +18,6 @@ set(backend_SOURCE ${CMAKE_SOURCE_DIR}/include/CublasHandler.h
 )
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
-add_library(cublas-backend-static STATIC ${backend_SOURCE})
-set_target_properties(cublas-backend-static PROPERTIES OUTPUT_NAME cublas-backend)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-install(TARGETS cublas-backend-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
 
 target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} rt cublas log4cplus)

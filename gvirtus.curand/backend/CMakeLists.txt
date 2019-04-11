@@ -18,9 +18,5 @@ set(backend_SOURCE ${CMAKE_SOURCE_DIR}/include/CurandHandler.h
 )
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
-add_library(curand-backend-static STATIC ${backend_SOURCE})
-set_target_properties(curand-backend-static PROPERTIES OUTPUT_NAME curand-backend)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-install(TARGETS curand-backend-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-
 target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} rt curand log4cplus)

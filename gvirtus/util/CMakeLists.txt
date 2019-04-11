@@ -52,5 +52,4 @@ set(util_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/gvirtus-type.h
 
 file(GLOB UTIL_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h*")
 file(COPY ${UTIL_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
-
 add_library(${PROJECT_NAME} STATIC ${util_SOURCE})

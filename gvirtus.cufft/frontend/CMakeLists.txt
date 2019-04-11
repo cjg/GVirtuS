@@ -21,9 +21,5 @@ add_library(gvirtus-frontend SHARED IMPORTED)
 set_target_properties(gvirtus-frontend PROPERTIES IMPORTED_LOCATION ${CMAKE_INSTALL_PREFIX}/lib/libgvirtus-frontend.so )
 
 add_library(${PROJECT_NAME} SHARED ${frontend_SOURCE})
-add_library(cufft-static STATIC ${frontend_SOURCE})
-set_target_properties(cufft-static PROPERTIES OUTPUT_NAME cufft)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/frontend)
-install(TARGETS cufft-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/frontend)
-
 target_link_libraries(${PROJECT_NAME} gvirtus-frontend rt log4cplus)

@@ -18,9 +18,5 @@ set(backend_SOURCE ${CMAKE_SOURCE_DIR}/include/CufftHandler.h
 )
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
-add_library(cufft-backend-static STATIC ${backend_SOURCE})
-set_target_properties(cufft-backend-static PROPERTIES OUTPUT_NAME cufft-backend)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-install(TARGETS cufft-backend-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-
 target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} rt cufft log4cplus)

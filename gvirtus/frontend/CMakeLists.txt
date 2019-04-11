@@ -7,8 +7,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fPIC ${pluginsDir} ${configFil
 set(CMAKE_CXX_STANDARD 17)
 
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
-include_directories(SYSTEM ${PARENT_DIR}/util/include)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 
 set(frontend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/Frontend.cpp
                             ${CMAKE_CURRENT_SOURCE_DIR}/include/Frontend.h
