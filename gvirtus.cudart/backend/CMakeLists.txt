@@ -13,31 +13,28 @@ include_directories(SYSTEM ${PARENT_DIR})
 include_directories(SYSTEM ${PARENT_DIR}/util/include)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus.cudautil)
-include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/include)
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-set(backend_SOURCE ${CMAKE_SOURCE_DIR}/include/CudaRtHandler.h
-                              ${CMAKE_SOURCE_DIR}/include/CudaRtBackend.h
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtBackend.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_device.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_error.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_event.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_execution.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_internal.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_memory.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_opengl.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_stream.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_surface.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_texture.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_thread.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_version.cpp
-                              ${CMAKE_SOURCE_DIR}/src/CudaRtHandler_occupancy.cpp
+set(backend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaRtHandler.h
+                              ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaRtBackend.h
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtBackend.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_device.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_error.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_event.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_execution.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_internal.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_memory.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_opengl.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_stream.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_surface.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_texture.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_thread.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_version.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_occupancy.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
-add_library(cudart-backend-static STATIC ${backend_SOURCE})
-set_target_properties(cudart-backend-static PROPERTIES OUTPUT_NAME cudart-backend)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-install(TARGETS cudart-backend-static DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
 
-target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_INSTALL_PREFIX}/lib/backend/libcudautil.a -Wl,--no-whole-archive" ${CUDA_LIBRARIES} rt log4cplus)
+target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libcudautil.a -Wl,--no-whole-archive" ${CUDA_LIBRARIES} rt log4cplus)
