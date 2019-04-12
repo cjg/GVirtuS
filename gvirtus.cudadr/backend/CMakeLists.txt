@@ -33,4 +33,4 @@ set(backend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaDrBackend.h
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_INSTALL_PREFIX}/lib/backend/libcudautil.a -Wl,--no-whole-archive" ${CUDA_LIBRARIES} rt log4cplus cuda)
+target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libcudautil.a -Wl,--no-whole-archive" ${CUDA_LIBRARIES} rt log4cplus cuda)

@@ -32,4 +32,4 @@ set_target_properties(gvirtus-frontend PROPERTIES IMPORTED_LOCATION ${CMAKE_INST
 add_library(${PROJECT_NAME} SHARED ${frontend_SOURCE})
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME cuda)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/frontend)
-target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_INSTALL_PREFIX}/lib/frontend/libcudautil.a -Wl,--no-whole-archive" gvirtus-frontend rt log4cplus)
+target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libcudautil.a -Wl,--no-whole-archive" gvirtus-frontend rt log4cplus)
