@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(cudart)
+project(cudart-frontend)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fPIC")
 set(CMAKE_CXX_STANDARD 17)
@@ -33,5 +33,6 @@ add_library(gvirtus-frontend SHARED IMPORTED)
 set_target_properties(gvirtus-frontend PROPERTIES IMPORTED_LOCATION ${CMAKE_INSTALL_PREFIX}/lib/libgvirtus-frontend.so)
 
 add_library(${PROJECT_NAME} SHARED ${frontend_SOURCE})
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME cudart)
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/frontend)
 target_link_libraries(${PROJECT_NAME} "-Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libcudautil.a -Wl,--no-whole-archive" gvirtus-frontend rt log4cplus)

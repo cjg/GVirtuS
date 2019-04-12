@@ -2,17 +2,12 @@
 
 INSTALL_FOLDER=$1
 
-cd util
-bash util.sh ${INSTALL_FOLDER}
-cd ..
-
-cd backend
-bash backend.sh ${INSTALL_FOLDER}
-cd ..
-
-cd frontend
-bash frontend.sh ${INSTALL_FOLDER}
-cd ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} \
+      -G "Unix Makefiles" -j 4 \
+      . \
+      --graphviz=.graphviz/gvirtus.cudadr
+make
+make install
 
 echo
 /bin/echo -e "\e[1;30;102mGVIRTUS CUDA DRIVER MODULE INSTALLATION COMPLETE!\e[0m"

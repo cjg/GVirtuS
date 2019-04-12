@@ -11,13 +11,13 @@ endif()
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 include_directories(SYSTEM ${PARENT_DIR})
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
-include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/include)
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-set(util_SOURCE ${CMAKE_SOURCE_DIR}/include/CudaUtil.h
-                      ${CMAKE_SOURCE_DIR}/src/CudaUtil.cpp
+set(util_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaUtil.h
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaUtil.cpp
 )
 
-file(GLOB UTIL_HEADERS "${CMAKE_SOURCE_DIR}/include/*.h*")
+file(GLOB UTIL_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h*")
 file(COPY ${UTIL_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gvirtus.cudautil)
 
 add_library(cudautil STATIC ${util_SOURCE})

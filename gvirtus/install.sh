@@ -5,8 +5,9 @@ INSTALL_FOLDER=$1
 rsync -avR etc/gvirtus.properties $INSTALL_FOLDER
 
 cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} \
-      -G "CodeBlocks - Unix Makefiles" -j 4 \
-      .
+      -G "Unix Makefiles" -j 4 \
+      . \
+      --graphviz=.graphviz/gvirtus
 make
 make install
 
