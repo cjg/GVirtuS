@@ -23,6 +23,8 @@ CMakeFiles/
 Makefile
 *.cbp
 .graphviz/
+.puml/
+*.pdf
 
 # Diagrams not exported
 *.dia*
