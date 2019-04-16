@@ -9,7 +9,7 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} \
 make
 make install
 
-dot -T pdf .graphviz/gvirtus.cudadr.dot -o .graphviz/gvirtus.cudadr.pdf
+dot -T pdf .graphviz/gvirtus.cudadr.dot -o gvirtus.cudadr.pdf
 
 echo
 /bin/echo -e "\e[1;30;102mGVIRTUS CUDA DRIVER MODULE INSTALLATION COMPLETE!\e[0m"

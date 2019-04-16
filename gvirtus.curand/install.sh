@@ -9,7 +9,7 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} \
 make
 make install
 
-dot -T pdf .graphviz/gvirtus.curand.dot -o .graphviz/gvirtus.curand.pdf
+dot -T pdf .graphviz/gvirtus.curand.dot -o gvirtus.curand.pdf
 
 echo
 /bin/echo -e "\e[1;30;102mGVIRTUS CUDA RANDOM NUMBER GENERATION MODULE INSTALLATION COMPLETE!\e[0m"
