@@ -1,20 +1,20 @@
 #! /bin/bash
 
 if [ $# -ne 1 ]; then
-    /bin/echo -e "\e[1;91mUsage: $0 \"path-of-installation-folder\"\e[0m"
-    exit 1
+  /bin/echo -e "\e[1;91mUsage: $0 \"path-of-installation-folder\"\e[0m"
+  exit 1
 fi
 
 INSTALL_FOLDER=$1
 
-for module in `find . -maxdepth 1 -type d -regextype egrep -regex "./gvirtus(\.[a-zA-Z]*|\b)" | sort`; do
+for module in $(find . -maxdepth 1 -type d -regextype egrep -regex "./gvirtus(\.[a-zA-Z]*|\b)" | sort); do
   cd $module
   bash install.sh ${INSTALL_FOLDER}
   cd $OLDPWD
 done
 
 lpath=${INSTALL_FOLDER}/lib/frontend
-for lib in `find $lpath -name "*.so" | sed 's|^./||'`; do
+for lib in $(find $lpath -name "*.so" | sed 's|^./||'); do
   ln -sf $lib $lib.9.0
 done
 /bin/echo -e "\e[1;30;102mSYMBOLIC LINKS TO LIBRARY CREATED!\e[0m"
@@ -25,11 +25,11 @@ read flag
 if [[ $flag == "y" || $flag == "yes" ]]; then
   echo
   echo "-- Build files will be removed!"
-  /bin/echo -e " \e[2;94m`bash ./gvirtus-cleaner`\e[0m"
+  /bin/echo -e " \e[2;94m$(bash ./gvirtus-cleaner.sh)\e[0m"
 else
   echo
   echo "-- Build files will not be removed!"
-  /bin/echo -e "-- If you want clean build files run \e[1;92m.$PWD/gvirtus-cleaner\e[0m"
+  /bin/echo -e "-- If you want clean build files run \e[1;92m.$PWD/gvirtus-cleaner.sh\e[0m"
 fi
 
 echo
