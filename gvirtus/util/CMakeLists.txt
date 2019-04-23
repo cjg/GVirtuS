@@ -25,8 +25,6 @@ set(util_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/gvirtus-type.h
                           ${CMAKE_CURRENT_SOURCE_DIR}/include/Result.h
                           ${CMAKE_CURRENT_SOURCE_DIR}/src/ShmCommunicator.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/include/ShmCommunicator.h
-                          ${CMAKE_CURRENT_SOURCE_DIR}/src/Subprocess.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/include/Subprocess.h
                           ${CMAKE_CURRENT_SOURCE_DIR}/include/Observer.h
                           ${CMAKE_CURRENT_SOURCE_DIR}/src/TcpCommunicator.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/src/ZmqCommunicator.cpp
