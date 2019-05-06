@@ -44,8 +44,8 @@
 #include <sys/types.h>
 #include <sys/syscall.h>
 
-#include "Communicator.h"
-#include "Buffer.h"
+#include "communicator/Communicator.h"
+#include "communicator/Buffer.h"
 
 using namespace std;
 
@@ -80,7 +80,7 @@ public:
      * 
      * @return The instance of the Frontend class.
      */
-    static Frontend * GetFrontend(Communicator *c = NULL);
+    static Frontend * GetFrontend(gvirtus::comm::Communicator *c = NULL);
 
     /** 
      * Requests the execution of the CUDA RunTime routine with the arguments
@@ -236,8 +236,8 @@ private:
      * use obtaining the information from the configuration file which path is
      * setted at compile time.
      */
-    void Init(Communicator *c);
-    Communicator *mpCommunicator;
+    void Init(gvirtus::comm::Communicator *c);
+    gvirtus::comm::Communicator *mpCommunicator;
     Buffer * mpInputBuffer;
     Buffer * mpOutputBuffer;
     Buffer * mpLaunchBuffer;
