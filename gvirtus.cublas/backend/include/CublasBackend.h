@@ -23,13 +23,16 @@
  *             Department of Science and Technologies
  */
 #ifndef CUBLASBACKEND_H
-#define	CUBLASBACKEND_H
+#define CUBLASBACKEND_H
 
 #include "Backend.h"
 #include "CublasHandler.h"
 
-class CublasBackend : public Backend {
+class CublasBackend : public gvirtus::Backend {
 public:
-    inline Handler *getHandler(){ return new (Handler * ) new CublasHandler(); };
+  inline Handler *
+  getHandler() {
+    return (Handler *)new CublasHandler();
+  };
 };
-#endif	/* CUBLASBACKEND_H */
+#endif /* CUBLASBACKEND_H */

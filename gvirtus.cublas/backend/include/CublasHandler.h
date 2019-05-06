@@ -28,11 +28,11 @@
 #define _CUBLASHANDLER
 
 #ifndef CUBLASAPI
-    #ifdef _WIN32
-        #define CUBLASAPI __stdcall
-    #else
-        #define CUBLASAPI
-    #endif
+#ifdef _WIN32
+#define CUBLASAPI __stdcall
+#else
+#define CUBLASAPI
+#endif
 #endif
 
 #include <iostream>
@@ -43,39 +43,39 @@
 #include "cublas_v2.h"
 
 #include "Handler.h"
-#include "Result.h"
+#include "communicator/Result.h"
 
+#include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
-#include "log4cplus/configurator.h"
 
 class CublasHandler : public Handler {
 public:
-    CublasHandler();
-    virtual ~CublasHandler();
-    bool CanExecute(std::string routine);
-    Result * Execute(std::string routine, Buffer * input_buffer);
+  CublasHandler();
+  virtual ~CublasHandler();
+  bool CanExecute(std::string routine);
+  Result *Execute(std::string routine, Buffer *input_buffer);
 
-    /*void * RegisterPointer(void *,size_t);
+  /*void * RegisterPointer(void *,size_t);
 
-    void RegisterMapObject(char *,char *);
-    char * GetMapObject(char *);
+  void RegisterMapObject(char *,char *);
+  char * GetMapObject(char *);
 */
 private:
-    log4cplus::Logger logger;
-    void Initialize();
-    typedef Result * (*CublasRoutineHandler)(CublasHandler *, Buffer *);
-    static std::map<std::string, CublasRoutineHandler> * mspHandlers;
-    //void **pointers;
-    //int nPointers;
-    
-    //std::map<std::string, std::string> * mpMapObject;
+  log4cplus::Logger logger;
+  void Initialize();
+  typedef Result *(*CublasRoutineHandler)(CublasHandler *, Buffer *);
+  static std::map<std::string, CublasRoutineHandler> *mspHandlers;
+  // void **pointers;
+  // int nPointers;
 
-    //void *mpShm;
-    //int mShmFd;
+  // std::map<std::string, std::string> * mpMapObject;
+
+  // void *mpShm;
+  // int mShmFd;
 };
 
-#define CUBLAS_ROUTINE_HANDLER(name) Result * handle##name(CublasHandler * pThis, Buffer * in)
+#define CUBLAS_ROUTINE_HANDLER(name) Result *handle##name(CublasHandler *pThis, Buffer *in)
 #define CUBLAS_ROUTINE_HANDLER_PAIR(name) make_pair("cublas" #name, handle##name)
 
 /* CublasHandler_Helper */
