@@ -2,12 +2,13 @@
 
 INSTALL_FOLDER=$1
 
-rsync -avR etc/gvirtus.properties $INSTALL_FOLDER
+#rsync -avR etc/gvirtus.properties $INSTALL_FOLDER
+rsync -avR etc/properties.json $INSTALL_FOLDER
 
-cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} \
-      -G "Unix Makefiles" -j 4 \
-      . \
-      --graphviz=.graphviz/gvirtus.dot
+cmake -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_INSTALL_PREFIX=${INSTALL_FOLDER} \
+    -G "Unix Makefiles" -j 4 \
+    . \
+    --graphviz=.graphviz/gvirtus.dot
 make
 make install
 
