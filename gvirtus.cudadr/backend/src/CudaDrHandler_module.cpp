@@ -28,8 +28,10 @@
 #include <driver_types.h>
 #include <stdio.h>
 #include <string.h>
+#include <fstream>
 
-#include "Decoder.h"
+
+#include "util/Decoder.h"
 
 using namespace std;
 using namespace log4cplus;

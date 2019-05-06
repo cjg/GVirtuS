@@ -24,7 +24,6 @@
  */
 
 #include <iostream>
-#include "Process.h"
 #include "CudaDrBackend.h"
 #include "CudaDrHandler.h"
 

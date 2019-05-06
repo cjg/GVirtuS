@@ -44,7 +44,7 @@
 #include <texture_types.h>
 #include "__cudaFatFormat.h"
 
-#include "Buffer.h"
+#include "communicator/Buffer.h"
 
 //#define DEBUG
 

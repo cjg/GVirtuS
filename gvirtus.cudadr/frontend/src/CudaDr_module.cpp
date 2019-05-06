@@ -34,7 +34,7 @@
 #include "CudaDr.h"
 #include <cuda.h>
 
-#include "Encoder.h"
+#include "util/Encoder.h"
 
 using namespace std;
 

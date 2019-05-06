@@ -23,12 +23,10 @@
  *             Department of Applied Science
  */
 
-
 #ifndef _CUDADRBACKEND_H
-#define	_CUDADRBACKEND_H
-#include "Observer.h"
-#include "Communicator.h"
+#define _CUDADRBACKEND_H
 #include "Backend.h"
+#include "communicator/Communicator.h"
 #include <cuda.h>
 
 /**
@@ -36,9 +34,8 @@
  * the connection from the Frontend(s) and spawing a new Process for handling
  * each Frontend.
  */
-class CudaDrBackend : public Backend {
+class CudaDrBackend : public gvirtus::Backend {
 public:
-    Handler *GetHandler();
+  Handler *GetHandler();
 };
-#endif	/* _CUDADRBACKEND_H */
-
+#endif /* _CUDADRBACKEND_H */

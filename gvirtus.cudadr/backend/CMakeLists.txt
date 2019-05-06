@@ -14,6 +14,7 @@ include_directories(SYSTEM ${PARENT_DIR}/util/include)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus.cudautil)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/external/include)
 
 set(backend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaDrBackend.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaDrBackend.cpp
