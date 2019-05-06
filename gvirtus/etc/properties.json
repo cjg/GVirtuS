@@ -13,20 +13,5 @@
       "cublas",
       "curand"
     ]
-  },
-  {
-    "endpoint": {
-      "suite": "tcp/ip",
-      "protocol": "tcp",
-      "address": "127.0.0.1",
-      "port": "9998"
-    },
-    "plugins": [
-      "cudart",
-      "cudadr",
-      "cufft",
-      "cublas",
-      "curand"
-    ]
   }
 ]
