@@ -50,7 +50,7 @@
 #include <cuda_runtime_api.h>
 
 #include "Handler.h"
-#include "Result.h"
+#include "communicator/Result.h"
 #include "CudaUtil.h"
 
 #include "log4cplus/logger.h"

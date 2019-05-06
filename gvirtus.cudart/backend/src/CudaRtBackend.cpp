@@ -23,9 +23,9 @@
  *             Department of Applied Science
  */
 
+#include "CudaRtBackend.h"
 #include "CudaRtHandler.h"
 
-#include "CudaRtBackend.h"
 
 Handler *CudaRtBackend::GetHandler() {
     return (Handler *) new CudaRtHandler();

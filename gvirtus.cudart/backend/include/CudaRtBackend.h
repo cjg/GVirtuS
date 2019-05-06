@@ -24,14 +24,13 @@
  */
 
 #ifndef CUDARTBACKEND_H
-#define	CUDARTBACKEND_H
+#define CUDARTBACKEND_H
 
 #include "Backend.h"
 
-class CudaRtBackend : public Backend {
+class CudaRtBackend : public gvirtus::Backend {
 public:
-    Handler *GetHandler();
+  Handler *GetHandler();
 };
 
-#endif	/* CUDARTBACKEND_H */
-
+#endif /* CUDARTBACKEND_H */
