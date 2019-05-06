@@ -24,59 +24,60 @@
  */
 
 /**
- * @file   TcpCommunicator.h
+ * @file   ShmCommunicator.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Thu Oct 8 12:08:33 2009
- * 
- * @brief  
- * 
- * 
+ * @date   Tue Nov 16 9:52:26 2010
+ *
+ * @brief
+ *
+ *
  */
 
-#ifndef _TCPCOMMUNICATOR_H
-#define	_TCPCOMMUNICATOR_H
+#ifndef SHMCOMMUNICATOR_H
+#define SHMCOMMUNICATOR_H
 
-#ifdef _WIN32
-#include <fstream>
-#else
-#include <ext/stdio_filebuf.h>
-#endif
+#include <semaphore.h>
+#include <string>
 
 #include "Communicator.h"
 
-/**
- * TcpCommunicator implements a Communicator for the TCP/IP socket.
- */
-class TcpCommunicator : public Communicator {
-public:
-    TcpCommunicator(const std::string & communicator);
-    TcpCommunicator(const char *hostname, short port);
-    TcpCommunicator(int fd, const char *hostname);
-    virtual ~TcpCommunicator();
+namespace gvirtus::comm {
+
+  class ShmCommunicator : public Communicator {
+  public:
+    ShmCommunicator(const std::string &communicator);
+    ShmCommunicator();
+    virtual ~ShmCommunicator();
     void Serve();
-    const Communicator * const Accept() const;
+    const Communicator *const Accept() const;
     void Connect();
     size_t Read(char *buffer, size_t size);
     size_t Write(const char *buffer, size_t size);
     void Sync();
     void Close();
-private:
-    void InitializeStream();
-    std::istream *mpInput;
-    std::ostream *mpOutput;
-    std::string mHostname;
-    char * mInAddr;
-    int mInAddrSize;
-    short mPort;
+
+  private:
+    ShmCommunicator(const char *name);
+    size_t ReadPacket(char *buffer);
     int mSocketFd;
-#ifdef _WIN32
-    std::filebuf *mpInputBuf;
-    std::filebuf *mpOutputBuf;
-#else
-    __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
-    __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
-#endif
-};
-
-#endif	/* _TCPCOMMUNICATOR_H */
-
+    int mFd;
+    char *mpShm;
+    size_t mIOSize;
+    int *mpClosed;
+    sem_t *mpInEmpty;
+    sem_t *mpInFull;
+    size_t *mpInSize;
+    char *mpIn;
+    sem_t *mpOutEmpty;
+    sem_t *mpOutFull;
+    size_t *mpOutSize;
+    char *mpOut;
+    char *mpLocalIn;
+    size_t mLocalInSize;
+    size_t mLocalInOffset;
+    char *mpLocalOut;
+    size_t mLocalOutSize;
+    size_t mLocalOutOffset;
+  };
+} // namespace gvirtus::comm
+#endif /* SHMCOMMUNICATOR_H */

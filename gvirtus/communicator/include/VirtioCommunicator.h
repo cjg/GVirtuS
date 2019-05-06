@@ -24,39 +24,36 @@
  */
 
 /**
- * @file   Result.h
- * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Sun Oct 18 13:23:56 2009
- * 
- * @brief  
- * 
- * 
+ * @file   VirtioCommunicator.h
+ * @author Abhijeet Dev <abhijeet@abhijeet-dev.net>
+ * @date   Tue Mar 6 15:30:21 2012
+ *
+ * @brief
+ *
  */
 
-#ifndef _RESULT_H
-#define	_RESULT_H
+#ifndef VIRTIOCOMMUNICATOR_H
+#define VIRTIOCOMMUNICATOR_H
 
-#include <iostream>
+#include "Communicator.h"
+#include <string>
 
-#include "Buffer.h"
+namespace gvirtus::comm {
 
-/**
- * Result is used to store the results of a CUDA Runtime routine.
- */
-class Result {
-public:
-    Result(int exit_code);
-    Result(int exit_code, const Buffer * output_buffer);
-    Result(const Result& orig);
-    Result(std::istream & in);
-    virtual ~Result();
-    int GetExitCode();
-    const Buffer * GetOutputBufffer() const;
-    void Dump(Communicator * c);
-private:
-    int mExitCode;
-    Buffer * mpOutputBuffer;
-};
+  class VirtioCommunicator : public Communicator {
+  public:
+    VirtioCommunicator(const std::string &communicator);
+    void Serve();
+    const Communicator *const Accept() const;
+    void Connect();
+    size_t Read(char *buffer, size_t size);
+    size_t Write(const char *buffer, size_t size);
+    void Sync();
+    void Close();
 
-#endif	/* _RESULT_H */
-
+  private:
+    int mFd;
+    std::string mDevice;
+  };
+} // namespace gvirtus::comm
+#endif /* VIRTIOCOMMUNICATOR_H */

@@ -24,68 +24,65 @@
  */
 
 /**
- * @file   VmciCommunicator.h
+ * @file   ZmqCommunicator.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Wed Nov 4 14:50:05 2009
+ * @date   Thu Oct 8 12:08:33 2009
  *
  * @brief
  *
  *
  */
 
-#ifndef _VMCICOMMUNICATOR_H
-#define	_VMCICOMMUNICATOR_H
+#ifndef _ZMQCOMMUNICATOR_H
+#define _ZMQCOMMUNICATOR_H
 
-#include "../config.h"
+#include <zmq.hpp>
 
-#ifdef HAVE_VMCI_VMCI_SOCKETS_H
-
+#ifdef _WIN32
+#include <fstream>
+#else
 #include <ext/stdio_filebuf.h>
-
-#include <vmci/vmci_sockets.h>
+#endif
 
 #include "Communicator.h"
 
-#define AF_VMCI VMCISock_GetAFValue()
+namespace gvirtus::comm {
 
-class VmciCommunicator : public Communicator {
-public:
-    VmciCommunicator(short port, short cid = -1);
-    VmciCommunicator(unsigned fd);
-    virtual ~VmciCommunicator();
+  /**
+   * ZmqCommunicator implements a Communicator for the ZMQ.
+   */
+  class ZmqCommunicator : public Communicator {
+  public:
+    ZmqCommunicator(const std::string &communicator);
+    ZmqCommunicator(const char *hostname, short port);
+    ZmqCommunicator(int fd, const char *hostname);
+    virtual ~ZmqCommunicator();
     void Serve();
-    const Communicator * const Accept() const;
+    const Communicator *const Accept() const;
     void Connect();
-    std::istream & GetInputStream() const;
-    std::ostream & GetOutputStream() const;
+    size_t Read(char *buffer, size_t size);
+    size_t Write(const char *buffer, size_t size);
+    void Sync();
     void Close();
 
-    /* Semaphores and Shared Memory */
-    bool HasSemaphoresAndShm() {
-        return false;
-    }
-    void HostWait() {}
-    void HostPost() {}
-    void HostSet(int value) {}
-    void GuestWait() {}
-    void GuestPost() {}
-    void GuestSet(int value) {}
-    void * GetShm() { return NULL; }
-    const char * GetHostSemName() { return NULL; }
-    const char * GetGuestSemName() { return NULL; }
-    const char * GetShmName() { return NULL; }
-private:
+  private:
     void InitializeStream();
     std::istream *mpInput;
     std::ostream *mpOutput;
-    short mCid;
+    std::string mHostname;
+    char *mInAddr;
+    int mInAddrSize;
     short mPort;
     int mSocketFd;
+#ifdef _WIN32
+    std::filebuf *mpInputBuf;
+    std::filebuf *mpOutputBuf;
+#else
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
-};
-
-#endif /* HAVE_VMCI_VMCI_SOCKETS_H */
-
-#endif	/* _VMCICOMMUNICATOR_H */
-
+#endif
+    zmq::context_t *zmq_context;
+    zmq::socket_t *zmq_socket;
+  };
+} // namespace gvirtus::comm
+#endif /* _ZMQCOMMUNICATOR_H */

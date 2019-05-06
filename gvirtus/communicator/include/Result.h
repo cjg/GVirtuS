@@ -24,57 +24,39 @@
  */
 
 /**
- * @file   ShmCommunicator.h
+ * @file   Result.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Tue Nov 16 9:52:26 2010
+ * @date   Sun Oct 18 13:23:56 2009
  *
  * @brief
  *
  *
  */
 
-#ifndef SHMCOMMUNICATOR_H
-#define	SHMCOMMUNICATOR_H
+#ifndef _RESULT_H
+#define _RESULT_H
 
-#include <semaphore.h>
+#include <iostream>
 
-#include "Communicator.h"
+#include "Buffer.h"
 
-class ShmCommunicator : public Communicator {
+/**
+ * Result is used to store the results of a CUDA Runtime routine.
+ */
+class Result {
 public:
-    ShmCommunicator(const std::string & communicator);
-    ShmCommunicator();
-    virtual ~ShmCommunicator();
-    void Serve();
-    const Communicator * const Accept() const;
-    void Connect();
-    size_t Read(char *buffer, size_t size);
-    size_t Write(const char *buffer, size_t size);
-    void Sync();
-    void Close();
+  Result(int exit_code);
+  Result(int exit_code, const Buffer *output_buffer);
+  Result(const Result &orig);
+  Result(std::istream &in);
+  virtual ~Result();
+  int GetExitCode();
+  const Buffer *GetOutputBufffer() const;
+  void Dump(gvirtus::comm::Communicator *c);
+
 private:
-    ShmCommunicator(const char *name);
-    size_t ReadPacket(char *buffer);
-    int mSocketFd;
-    int mFd;
-    char *mpShm;
-    size_t mIOSize;
-    int *mpClosed;
-    sem_t *mpInEmpty;
-    sem_t *mpInFull;
-    size_t *mpInSize;
-    char *mpIn;
-    sem_t *mpOutEmpty;
-    sem_t *mpOutFull;
-    size_t *mpOutSize;
-    char *mpOut;
-    char *mpLocalIn;
-    size_t mLocalInSize;
-    size_t mLocalInOffset;
-    char *mpLocalOut;
-    size_t mLocalOutSize;
-    size_t mLocalOutOffset;
+  int mExitCode;
+  Buffer *mpOutputBuffer;
 };
 
-#endif	/* SHMCOMMUNICATOR_H */
-
+#endif /* _RESULT_H */

@@ -65,13 +65,14 @@ const Buffer * Result::GetOutputBufffer() const {
     return mpOutputBuffer;
 }
 
-void Result::Dump(Communicator * c) {
-    c->Write((char *) &mExitCode, sizeof(int));
-    if(mpOutputBuffer != NULL)
-        mpOutputBuffer->Dump(c);
-    else {
-        size_t size = 0;
-        c->Write((char *) &size, sizeof(size_t));
-        c->Sync();
-    }
+void
+Result::Dump(gvirtus::comm::Communicator *c) {
+  c->Write((char *)&mExitCode, sizeof(int));
+  if (mpOutputBuffer != NULL)
+    mpOutputBuffer->Dump(c);
+  else {
+    size_t size = 0;
+    c->Write((char *)&size, sizeof(size_t));
+    c->Sync();
+  }
 }

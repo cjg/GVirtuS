@@ -24,33 +24,61 @@
  */
 
 /**
- * @file   VirtioCommunicator.h
- * @author Abhijeet Dev <abhijeet@abhijeet-dev.net>
- * @date   Tue Mar 6 15:30:21 2012
- * 
- * @brief  
- * 
+ * @file   TcpCommunicator.h
+ * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
+ * @date   Thu Oct 8 12:08:33 2009
+ *
+ * @brief
+ *
+ *
  */
 
-#ifndef VIRTIOCOMMUNICATOR_H
-#define VIRTIOCOMMUNICATOR_H
+#ifndef _TCPCOMMUNICATOR_H
+#define _TCPCOMMUNICATOR_H
+
+#ifdef _WIN32
+#include <fstream>
+#else
+#include <ext/stdio_filebuf.h>
+#endif
 
 #include "Communicator.h"
 
-class VirtioCommunicator : public Communicator {
-public:
-    VirtioCommunicator(const std::string &communicator);
+namespace gvirtus::comm {
+
+  /**
+   * TcpCommunicator implements a Communicator for the TCP/IP socket.
+   */
+  class TcpCommunicator : public Communicator {
+  public:
+    TcpCommunicator(const std::string &communicator);
+    TcpCommunicator(const char *hostname, short port);
+    TcpCommunicator(int fd, const char *hostname);
+    virtual ~TcpCommunicator();
     void Serve();
-    const Communicator * const Accept() const;
+    const Communicator *const Accept() const;
     void Connect();
     size_t Read(char *buffer, size_t size);
     size_t Write(const char *buffer, size_t size);
     void Sync();
     void Close();
-private:
-    int mFd;
-    std::string mDevice;
-};
 
-#endif	/* VIRTIOCOMMUNICATOR_H */
-
+  private:
+    void InitializeStream();
+    std::istream *mpInput;
+    std::ostream *mpOutput;
+    std::string mHostname;
+    char *mInAddr;
+    int mInAddrSize;
+    short mPort;
+    int mSocketFd;
+#ifdef _WIN32
+    std::filebuf *mpInputBuf;
+    std::filebuf *mpOutputBuf;
+#else
+    __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
+    __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
+#endif
+  };
+} // namespace gvirtus::comm
+#endif /* _TCPCOMMUNICATOR_H */

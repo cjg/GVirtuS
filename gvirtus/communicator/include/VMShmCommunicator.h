@@ -34,7 +34,7 @@
  */
 
 #ifndef VMSHMCOMMUNICATOR_H
-#define	VMSHMCOMMUNICATOR_H
+#define VMSHMCOMMUNICATOR_H
 
 #include <pthread.h>
 
@@ -42,24 +42,27 @@
 
 #include "Communicator.h"
 
-typedef struct {
-	pthread_spinlock_t *mLock;
-	int *mCounter;
-} vmshm_sem_t;
+namespace gvirtus::comm {
 
-class VMShmCommunicator : public Communicator {
-public:
-    VMShmCommunicator(const std::string & communicator);
+  typedef struct {
+    pthread_spinlock_t *mLock;
+    int *mCounter;
+  } vmshm_sem_t;
+
+  class VMShmCommunicator : public Communicator {
+  public:
+    VMShmCommunicator(const std::string &communicator);
     VMShmCommunicator(const char *hostname, short port);
     virtual ~VMShmCommunicator();
     void Serve();
-    const Communicator * const Accept() const;
+    const Communicator *const Accept() const;
     void Connect();
     size_t Read(char *buffer, size_t size);
     size_t Write(const char *buffer, size_t size);
     void Sync();
     void Close();
-private:
+
+  private:
     VMShmCommunicator(const char *name);
     size_t ReadPacket(char *buffer);
     std::string mHostname;
@@ -83,7 +86,6 @@ private:
     char *mpLocalOut;
     size_t mLocalOutSize;
     size_t mLocalOutOffset;
-};
-
-#endif	/* VMSHMCOMMUNICATOR_H */
-
+  };
+} // namespace gvirtus::comm
+#endif /* VMSHMCOMMUNICATOR_H */

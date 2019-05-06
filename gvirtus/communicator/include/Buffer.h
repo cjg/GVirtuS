@@ -44,8 +44,8 @@
 #include <cstring>
 
 #include "Communicator.h"
-#include "gvirtus-type.h"
-#include "Observable.h"
+#include "util/Observable.h"
+#include "util/gvirtus-type.h"
 
 #define BLOCK_SIZE  4096
 
@@ -55,7 +55,7 @@
  * be created starting from an input stream and to be sent over an output
  * stream.
  */
-class Buffer: public Observable {
+class Buffer {
 public:
     Buffer(size_t initial_size = 0, size_t block_size = BLOCK_SIZE);
     Buffer(const Buffer& orig);
@@ -130,7 +130,7 @@ public:
     }
 
 
-    template <class T> void Read(Communicator * c) {
+    template <class T> void Read(gvirtus::comm::Communicator * c) {
         while ((mLength + sizeof (T)) >= mSize) {
             mSize += mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
@@ -141,7 +141,7 @@ public:
         mBackOffset = mLength;
     }
 
-    template <class T> void Read(Communicator *c, size_t n = 1) {
+    template <class T> void Read(gvirtus::comm::Communicator *c, size_t n = 1) {
         while ((mLength + (sizeof (T) * n)) >= mSize) {
             mSize += mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
@@ -239,12 +239,12 @@ public:
     }
 
     void Reset();
-    void Reset(Communicator *c);
+    void Reset(gvirtus::comm::Communicator *c);
     const char * const GetBuffer() const;
     size_t GetBufferSize() const;
-    void Dump(Communicator * c) const;
-    
-private:
+    void Dump(gvirtus::comm::Communicator *c) const;
+
+  private:
     size_t mBlockSize;
     size_t mSize;
     size_t mLength;
