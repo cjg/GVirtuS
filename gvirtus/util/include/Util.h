@@ -38,9 +38,8 @@
 
 #include <iostream>
 #include <cstdlib>
+#include "gvirtus-type.h"
 
-
-#include "Buffer.h"
 
 
 /**

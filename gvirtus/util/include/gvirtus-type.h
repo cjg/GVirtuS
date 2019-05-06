@@ -1,26 +1,23 @@
 #include <stdint.h>
 
-#include "AfUnixCommunicator.h"
-#include "Buffer.h"
-
 #if defined(__ia64) || defined(__itanium__) || defined(_M_IA64) || defined(__x86_64__) || defined(_M_X64)
-  typedef uint64_t pointer_t;
+typedef uint64_t pointer_t;
 #else
-  typedef uint32_t pointer_t; 
+typedef uint32_t pointer_t;
 #endif
 
-  typedef struct __mappedPointer {
-      void* pointer;
-      size_t size;
-  } mappedPointer;  
-  
-  typedef enum __funcs {
-      RegisterFatBinary,
-      UnregisterFatBinary,
-      RegisterFunction,
-      RegisterVar,
-      RegisterShared,
-      RegisterSharedVar,
-      RegisterTexture,
-      RegisterSurface          
-  } funcs; 
+typedef struct __mappedPointer {
+  void *pointer;
+  size_t size;
+} mappedPointer;
+
+typedef enum __funcs {
+  RegisterFatBinary,
+  UnregisterFatBinary,
+  RegisterFunction,
+  RegisterVar,
+  RegisterShared,
+  RegisterSharedVar,
+  RegisterTexture,
+  RegisterSurface
+} funcs;
