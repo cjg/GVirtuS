@@ -28,7 +28,7 @@
 
 #include "Handler.h"
 
-#include "Result.h"
+#include "communicator/Result.h"
 #include <curand.h>
 
 #include "log4cplus/logger.h"

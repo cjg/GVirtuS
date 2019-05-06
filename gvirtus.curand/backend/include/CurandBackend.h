@@ -23,12 +23,12 @@
  *             Department of Science and Technologies
  */
 #ifndef CURANDBACKEND_H
-#define	CURANDBACKEND_H
+#define CURANDBACKEND_H
 
 #include "Backend.h"
 
-class CurandBackend : public Backend {
+class CurandBackend : public gvirtus::Backend {
 public:
-    Handler *GetHandler();
+  Handler *GetHandler();
 };
-#endif	/* CURANDBACKEND_H */
+#endif /* CURANDBACKEND_H */
