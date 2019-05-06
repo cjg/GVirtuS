@@ -20,6 +20,7 @@ find $dir -name 'cmake-build-debug' -exec rm -rv {} +
 find $dir -name 'build' -exec rm -rv {} +
 find $dir -name 'uvw-prefix' -exec rm -frv {} +
 find $dir -name 'libuv-prefix' -exec rm -frv {} +
+find $dir -name 'nlohmann-prefix' -exec rm -frv {} +
 
 echo
 echo
