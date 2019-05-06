@@ -1,68 +1,35 @@
-/*
- * gVirtuS -- A GPGPU transparent virtualization component.
- *
- * Copyright (C) 2009-2010  The University of Napoli Parthenope at Naples.
- *
- * This file is part of gVirtuS.
- *
- * gVirtuS is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * gVirtuS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with gVirtuS; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * Written by: Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>,
- *             Department of Applied Science
- */
+#ifndef GVIRTUS_PROCESS_H
+#define GVIRTUS_PROCESS_H
 
-/**
- * @file   Process.h
- * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
- * @date   Wed Sep 30 10:45:40 2009
- * 
- * @brief  
- * 
- * 
- */
-
-#ifndef _PROCESS_H
-#define	_PROCESS_H
-
-#include <vector>
-
-#include "Subprocess.h"
-#include "Observable.h"
-#include "Communicator.h"
+#include "communicator/Communicator.h"
 #include "Handler.h"
-
+#include "util/Observable.h"
+#include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
-#include "log4cplus/configurator.h"
+#include <memory>
+#include <string>
+#include <vector>
 
-/**
- * Process is the object used by the Backend to handle the request from a single
- * Frontend.
- */
-class Process : public Subprocess, public Observable {
-public:
-    Process(const Communicator *communicator, std::vector<std::string> &plugins);
-    virtual ~Process();
-    void Setup();
-    void Execute(void * arg);
-private:
-    log4cplus::Logger logger;
-    Communicator * mpCommunicator;
+namespace gvirtus {
+
+  /**
+   * Process is the object used by the Backend to handle the request from a single
+   * Frontend.
+   */
+  class Process : public Observable {
+  public:
+    Process(const std::unique_ptr<comm::Communicator> communicator, std::vector<std::string> &plugins);
+    ~Process() = default;
+    void Execute(std::unique_ptr<comm::Communicator> client_comm);
+    void Start();
+
+  private:
+    std::unique_ptr<comm::Communicator> _server_communicator;
     std::vector<std::string> mPlugins;
     std::vector<Handler *> mHandlers;
-};
+    log4cplus::Logger logger;
+  };
 
-#endif	/* _PROCESS_H */
-
+} // namespace gvirtus
+#endif /* GVIRTUS_PROCESS_H */
