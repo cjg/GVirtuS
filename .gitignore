@@ -57,3 +57,5 @@ diagrams/
 unit_test/include
 unit_test/lib64
 gtest
+
+gvirtus/backend/gvirtus-backend
