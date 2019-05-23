@@ -1,17 +1,20 @@
-[
-  {
-    "endpoint": {
-      "suite": "tcp/ip",
-      "protocol": "tcp",
-      "address": "127.0.0.1",
-      "port": "9999"
-    },
-    "plugins": [
-      "cudart",
-      "cudadr",
-      "cufft",
-      "cublas",
-      "curand"
-    ]
-  }
-]
+{
+  "communicator": [
+    {
+      "endpoint": {
+        "suite": "tcp/ip",
+        "protocol": "https",
+        "address": "127.0.0.1",
+        "port": "9999"
+      },
+      "plugins": [
+        "cudart",
+        "cudadr",
+        "cufft",
+        "cublas",
+        "curand"
+      ]
+    }
+  ],
+  "secure_application": true
+}
