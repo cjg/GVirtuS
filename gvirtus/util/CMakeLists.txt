@@ -22,11 +22,15 @@ set(util_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/gvirtus-type.h
                           ${CMAKE_CURRENT_SOURCE_DIR}/src/Encoder.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/include/Decoder.h
                           "include/JSON.h"
-                          )
+                          "include/LD_Lib.h"
+                          "include/SignalException.h"
+                          "include/SignalState.h"
+                          "src/SignalState.cpp"
+        )
 
 file(GLOB UTIL_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h*")
 file(COPY ${UTIL_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gvirtus/util)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${PROJECT_NAME} STATIC ${util_SOURCE})
-target_link_libraries(${PROJECT_NAME} stdc++fs)
+target_link_libraries(${PROJECT_NAME} stdc++fs ${CMAKE_DL_LIBS})
