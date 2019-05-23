@@ -59,3 +59,5 @@ unit_test/lib64
 gtest
 
 gvirtus/backend/gvirtus-backend
+
+gvirtus/uWebSockets-prefix/
