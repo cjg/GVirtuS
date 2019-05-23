@@ -38,7 +38,7 @@
 #define	_CUFFTHANDLER_H
 
 #include "Handler.h"
-#include "Result.h"
+#include "communicator/Result.h"
 
 #include <cufft.h>
 #include <cufftXt.h>
@@ -64,15 +64,15 @@ public:
     CufftHandler();
     virtual ~CufftHandler();
     bool CanExecute(std::string routine);
-    Result * Execute(std::string routine, Buffer * input_buffer);
+    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef Result * (*CufftRoutineHandler)(CufftHandler *, Buffer *);
+    typedef std::shared_ptr<Result> (*CufftRoutineHandler)(CufftHandler *, std::shared_ptr<Buffer>);
     static std::map<std::string, CufftRoutineHandler> * mspHandlers;
 };
 
-#define CUFFT_ROUTINE_HANDLER(name) Result * handle##name(CufftHandler * pThis, Buffer * in)
+#define CUFFT_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CufftHandler * pThis, std::shared_ptr<Buffer> in)
 #define CUFFT_ROUTINE_HANDLER_PAIR(name) make_pair("cufft" #name, handle##name)
 
 /* CufftHandler.cpp */

@@ -73,7 +73,7 @@ public:
     CudaRtHandler();
     virtual ~CudaRtHandler();
     bool CanExecute(std::string routine);
-    Result * Execute(std::string routine, Buffer * input_buffer);
+    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
 
     void RegisterFatBinary(std::string & handler, void **fatCubinHandle);
     void RegisterFatBinary(const char * handler, void **fatCubinHandle);
@@ -105,12 +105,12 @@ public:
     surfaceReference *GetSurface(const char *handler);
     const char *GetSurfaceHandler(surfaceReference *texref);
 
-    const char *GetSymbol(Buffer * in);
+    const char *GetSymbol(std::shared_ptr<Buffer> in);
 
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef Result * (*CudaRoutineHandler)(CudaRtHandler *, Buffer *);
+    typedef std::shared_ptr<Result> (*CudaRoutineHandler)(CudaRtHandler *, std::shared_ptr<Buffer>);
     static std::map<std::string, CudaRoutineHandler> * mspHandlers;
     std::map<std::string, void **> * mpFatBinary;
     std::map<std::string, std::string> * mpDeviceFunction;
@@ -121,7 +121,7 @@ private:
     int mShmFd;
 };
 
-#define CUDA_ROUTINE_HANDLER(name) Result * handle##name(CudaRtHandler * pThis, Buffer * input_buffer)
+#define CUDA_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CudaRtHandler * pThis, std::shared_ptr<Buffer> input_buffer)
 #define CUDA_ROUTINE_HANDLER_PAIR(name) make_pair("cuda" #name, handle##name)
 
 /* CudaRtHandler_device */

@@ -38,6 +38,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <memory>
 
 #include <cublas.h>
 #include "cublas_v2.h"
@@ -54,7 +55,7 @@ public:
   CublasHandler();
   virtual ~CublasHandler();
   bool CanExecute(std::string routine);
-  Result *Execute(std::string routine, Buffer *input_buffer);
+  std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
 
   /*void * RegisterPointer(void *,size_t);
 
@@ -64,7 +65,7 @@ public:
 private:
   log4cplus::Logger logger;
   void Initialize();
-  typedef Result *(*CublasRoutineHandler)(CublasHandler *, Buffer *);
+  typedef std::shared_ptr<Result>(*CublasRoutineHandler)(CublasHandler *, std::shared_ptr<Buffer>);
   static std::map<std::string, CublasRoutineHandler> *mspHandlers;
   // void **pointers;
   // int nPointers;
@@ -75,7 +76,7 @@ private:
   // int mShmFd;
 };
 
-#define CUBLAS_ROUTINE_HANDLER(name) Result *handle##name(CublasHandler *pThis, Buffer *in)
+#define CUBLAS_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CublasHandler *pThis, std::shared_ptr<Buffer> in)
 #define CUBLAS_ROUTINE_HANDLER_PAIR(name) make_pair("cublas" #name, handle##name)
 
 /* CublasHandler_Helper */

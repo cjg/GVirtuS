@@ -178,7 +178,7 @@ const textureReference *getTexture(const textureReference *handler) {
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
     try {
         char * handler = input_buffer->AssignString();
-        __fatBinC_Wrapper_t * fatBin = CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer);
+        __fatBinC_Wrapper_t * fatBin = CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer.get());
         void **bin = __cudaRegisterFatBinary((void *) fatBin);
         pThis->RegisterFatBinary(handler, bin);
         
@@ -189,10 +189,10 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
                     _cudaGetErrorEnum(error) << endl;
         }
 #endif
-        return new Result(cudaSuccess);
+        return std::make_shared<Result>(cudaSuccess);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
 }
@@ -203,10 +203,10 @@ CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
         void **fatCubinHandle = pThis->GetFatBinary(handler);
         __cudaUnregisterFatBinary(fatCubinHandle);
         pThis->UnregisterFatBinary(handler);
-        return new Result(cudaSuccess);
+        return std::make_shared<Result>(cudaSuccess);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
 }
@@ -234,17 +234,18 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
         }
 #endif
 
-        Buffer * output_buffer = new Buffer();
+    std::shared_ptr<Buffer> output_buffer = std::make_shared<Buffer>();
+
         output_buffer->AddString(deviceFun);
         output_buffer->Add(tid);
         output_buffer->Add(bid);
         output_buffer->Add(bDim);
         output_buffer->Add(gDim);
         output_buffer->Add(wSize);
-        return new Result(cudaSuccess, output_buffer);
+        return std::make_shared<Result>(cudaSuccess, output_buffer);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
 
@@ -271,10 +272,10 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
 #endif
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
-    return new Result(cudaSuccess);
+    return std::make_shared<Result>(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterSharedVar) {
@@ -297,10 +298,10 @@ CUDA_ROUTINE_HANDLER(RegisterSharedVar) {
 
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
-    return new Result(cudaSuccess);
+    return std::make_shared<Result>(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterShared) {
@@ -322,10 +323,10 @@ CUDA_ROUTINE_HANDLER(RegisterShared) {
 
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
-    return new Result(cudaSuccess);
+    return std::make_shared<Result>(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterTexture) {
@@ -355,7 +356,7 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
 
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
 
@@ -371,7 +372,7 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
         int ext = input_buffer->Get<int>();
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
     __cudaRegisterTexture(fatCubinHandle, hostVar, deviceAddress, deviceName,
@@ -379,7 +380,7 @@ CUDA_ROUTINE_HANDLER(RegisterTexture) {
 
     pThis->RegisterTexture(handler, hostVar);
 #endif
-    return new Result(cudaSuccess);
+    return std::make_shared<Result>(cudaSuccess);
 }
 
 CUDA_ROUTINE_HANDLER(RegisterSurface) {
@@ -404,8 +405,8 @@ CUDA_ROUTINE_HANDLER(RegisterSurface) {
 #endif
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
-    return new Result(cudaSuccess);
+    return std::make_shared<Result>(cudaSuccess);
 }
 

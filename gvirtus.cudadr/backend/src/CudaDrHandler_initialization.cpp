@@ -30,5 +30,5 @@
 CUDA_DRIVER_HANDLER(Init) {
     unsigned int flags = input_buffer->Get<unsigned int>();
     CUresult exit_code = cuInit(flags);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }

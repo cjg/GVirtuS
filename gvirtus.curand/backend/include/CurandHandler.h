@@ -40,7 +40,7 @@ public:
     CurandHandler();
     virtual ~CurandHandler();
     bool CanExecute(std::string routine);
-    Result * Execute(std::string routine, Buffer * input_buffer);
+    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
 
     /*void * RegisterPointer(void *,size_t);
 
@@ -50,7 +50,7 @@ public:
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef Result * (*CurandRoutineHandler)(CurandHandler *, Buffer *);
+    typedef std::shared_ptr<Result> (*CurandRoutineHandler)(CurandHandler *, std::shared_ptr<Buffer>);
     static std::map<std::string, CurandRoutineHandler> * mspHandlers;
     //void **pointers;
     //int nPointers;
@@ -61,7 +61,7 @@ private:
     //int mShmFd;
 };
 
-#define CURAND_ROUTINE_HANDLER(name) Result * handle##name(CurandHandler * pThis, Buffer * in)
+#define CURAND_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CurandHandler * pThis, std::shared_ptr<Buffer> in)
 #define CURAND_ROUTINE_HANDLER_PAIR(name) make_pair("curand" #name, handle##name)
 
 /* CudnnHandler_Platform */

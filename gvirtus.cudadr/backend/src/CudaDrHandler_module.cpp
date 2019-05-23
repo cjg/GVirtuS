@@ -41,9 +41,9 @@ CUDA_DRIVER_HANDLER(ModuleLoadData) {
     CUmodule module = NULL;
     char *image = input_buffer->AssignString();
     CUresult exit_code = cuModuleLoadData(&module, image);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(module);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns a function handle*/
@@ -52,9 +52,9 @@ CUDA_DRIVER_HANDLER(ModuleGetFunction) {
     char *name = input_buffer->AssignString();
     CUmodule hmod = input_buffer->Get<CUmodule > ();
     CUresult exit_code = cuModuleGetFunction(&hfunc, hmod, name);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(hfunc);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns a global pointer from a module.*/
@@ -64,10 +64,10 @@ CUDA_DRIVER_HANDLER(ModuleGetGlobal) {
     char *name = input_buffer->AssignString();
     CUmodule hmod = input_buffer->Get<CUmodule > ();
     CUresult exit_code = cuModuleGetGlobal(&dptr, &bytes, hmod, name);
-    Buffer * output_buffer = new Buffer();
+    std::shared_ptr<Buffer> output_buffer = std::make_shared<Buffer>();
     output_buffer->AddMarshal(dptr);
     output_buffer->AddMarshal(bytes);
-    return new Result((cudaError_t) exit_code, output_buffer);
+    return std::make_shared<Result>((cudaError_t) exit_code, output_buffer);
 }
 
 /*Load a module's data with options.*/
@@ -106,7 +106,7 @@ CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
         }
     }
     CUresult exit_code = cuModuleLoadDataEx(&module, image, numOptions, options, optionValues);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(module);
     for (unsigned int i = 0; i < numOptions; i++) {
         if (options[i] == CU_JIT_INFO_LOG_BUFFER || options[i] == CU_JIT_ERROR_LOG_BUFFER) {
@@ -120,7 +120,7 @@ CUDA_DRIVER_HANDLER(ModuleLoadDataEx) {
            
     }
     LOG4CPLUS_DEBUG(logger,"End ModuleLoadDataEx");
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns a handle to a texture-reference.*/
@@ -129,9 +129,9 @@ CUDA_DRIVER_HANDLER(ModuleGetTexRef) {
     char *name = input_buffer->AssignString();
     CUmodule hmod = input_buffer->Get<CUmodule > ();
     CUresult exit_code = cuModuleGetTexRef(&pTexRef, hmod, name);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(pTexRef);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Load a module's data with options.*/
@@ -150,9 +150,9 @@ CUDA_DRIVER_HANDLER(ModuleLoad) {
     fout.close();
     CUmodule module;
     CUresult exit_code = cuModuleLoad(&module,"/tmp/file.bin");	
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(module);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Load a module's data with options.*/
@@ -163,9 +163,9 @@ CUDA_DRIVER_HANDLER(ModuleLoadFatBinary) {
     LOG4CPLUS_DEBUG(logger,"Module name:" << fname);
     CUmodule module;
     CUresult exit_code = cuModuleLoadFatBinary(&module,fname);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(module);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Load a module's data with options.*/
@@ -173,8 +173,8 @@ CUDA_DRIVER_HANDLER(ModuleUnload) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ModuleUnLoad"));
     LOG4CPLUS_DEBUG(logger,"Start ModuleUnLoad");
     CUmodule module=input_buffer->Get<CUmodule> ();
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     CUresult exit_code = cuModuleUnload(module);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 

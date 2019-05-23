@@ -31,6 +31,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <map>
+#include <memory>
 #include <string>
 #include <cstdio>
 #include <host_defines.h>
@@ -52,7 +53,7 @@ public:
     CudaDrHandler();
     virtual ~CudaDrHandler();
     bool CanExecute(std::string routine);
-    Result * Execute(std::string routine, Buffer * input_buffer);
+    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
 
     void RegisterFatBinary(std::string & handler, void **fatCubinHandle);
     void RegisterFatBinary(const char * handler, void **fatCubinHandle);
@@ -121,7 +122,7 @@ public:
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef Result * (*CudaDriverHandler)(CudaDrHandler *, Buffer *);
+    typedef std::shared_ptr<Result> (*CudaDriverHandler)(CudaDrHandler *, std::shared_ptr<Buffer>);
     static std::map<std::string, CudaDriverHandler> * mspHandlers;
     std::map<std::string, void **> * mpFatBinary;
     std::map<std::string, std::string> * mpDeviceFunction;
@@ -132,7 +133,7 @@ private:
 };
 
 
-#define CUDA_DRIVER_HANDLER(name) Result * handle##name(CudaDrHandler * pThis, Buffer * input_buffer)
+#define CUDA_DRIVER_HANDLER(name) std::shared_ptr<Result> handle##name(CudaDrHandler * pThis, std::shared_ptr<Buffer> input_buffer)
 #define CUDA_DRIVER_HANDLER_PAIR(name) make_pair("cu" #name, handle##name)
 
 /*CudaDrHandler_initialization*/

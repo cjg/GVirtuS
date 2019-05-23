@@ -51,7 +51,8 @@ CUBLAS_ROUTINE_HANDLER(Sgemv_v2){
     float * y = in->GetFromMarshal<float*>();
     int incy = in->Get<int>();
     cublasStatus_t cs;
-    Buffer * out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         cs = cublasSgemv_v2(handle,trans,m,n,alpha,A,lda,x,incx,beta,y,incy);
         if (cs == CUBLAS_STATUS_INVALID_VALUE)
@@ -63,10 +64,10 @@ CUBLAS_ROUTINE_HANDLER(Sgemv_v2){
         out->AddMarshal<float *>(y);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     cout << "DEBUG - cublasSgemv_v2 Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dgemv_v2){
@@ -88,7 +89,8 @@ CUBLAS_ROUTINE_HANDLER(Dgemv_v2){
     double * y = in->GetFromMarshal<double*>();
     int incy = in->Get<int>();
     cublasStatus_t cs;
-    Buffer * out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         cs = cublasDgemv_v2(handle,trans,m,n,alpha,A,lda,x,incx,beta,y,incy);
         if (cs == CUBLAS_STATUS_INVALID_VALUE)
@@ -100,10 +102,10 @@ CUBLAS_ROUTINE_HANDLER(Dgemv_v2){
         out->AddMarshal<double *>(y);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     cout << "DEBUG - cublasDgemv_v2 Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUBLAS_ROUTINE_HANDLER(Cgemv_v2){
@@ -124,7 +126,8 @@ CUBLAS_ROUTINE_HANDLER(Cgemv_v2){
     cuComplex * y = in->GetFromMarshal<cuComplex*>();
     int incy = in->Get<int>();
     cublasStatus_t cs;
-    Buffer * out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         cs = cublasCgemv_v2(handle,trans,m,n,alpha,A,lda,x,incx,beta,y,incy);
         if (cs == CUBLAS_STATUS_INVALID_VALUE)
@@ -136,10 +139,10 @@ CUBLAS_ROUTINE_HANDLER(Cgemv_v2){
         out->AddMarshal<cuComplex *>(y);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     cout << "DEBUG - cublasCgemv_v2 Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 
@@ -161,7 +164,8 @@ CUBLAS_ROUTINE_HANDLER(Zgemv_v2){
     cuDoubleComplex * y = in->GetFromMarshal<cuDoubleComplex*>();
     int incy = in->Get<int>();
     cublasStatus_t cs;
-    Buffer * out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         cs = cublasZgemv_v2(handle,trans,m,n,alpha,A,lda,x,incx,beta,y,incy);
         if (cs == CUBLAS_STATUS_INVALID_VALUE)
@@ -173,10 +177,10 @@ CUBLAS_ROUTINE_HANDLER(Zgemv_v2){
         out->AddMarshal<cuDoubleComplex *>(y);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     cout << "DEBUG - cublasZgemv_v2 Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUBLAS_ROUTINE_HANDLER(Sgbmv_v2){
@@ -199,7 +203,7 @@ CUBLAS_ROUTINE_HANDLER(Sgbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasSgbmv_v2(handle,trans,m,n,kl,ku,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dgbmv_v2){
@@ -222,7 +226,7 @@ CUBLAS_ROUTINE_HANDLER(Dgbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasDgbmv_v2(handle,trans,m,n,kl,ku,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Cgbmv_v2){
@@ -245,7 +249,7 @@ CUBLAS_ROUTINE_HANDLER(Cgbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasCgbmv_v2(handle,trans,m,n,kl,ku,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zgbmv_v2){
@@ -268,7 +272,7 @@ CUBLAS_ROUTINE_HANDLER(Zgbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasZgbmv_v2(handle,trans,m,n,kl,ku,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Strmv_v2){
@@ -286,7 +290,7 @@ CUBLAS_ROUTINE_HANDLER(Strmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasStrmv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dtrmv_v2){
@@ -304,7 +308,7 @@ CUBLAS_ROUTINE_HANDLER(Dtrmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasDtrmv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ctrmv_v2){
@@ -322,7 +326,7 @@ CUBLAS_ROUTINE_HANDLER(Ctrmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasCtrmv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ztrmv_v2){
@@ -340,7 +344,7 @@ CUBLAS_ROUTINE_HANDLER(Ztrmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasZtrmv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Stbmv_v2){
@@ -359,7 +363,7 @@ CUBLAS_ROUTINE_HANDLER(Stbmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasStbmv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dtbmv_v2){
@@ -378,7 +382,7 @@ CUBLAS_ROUTINE_HANDLER(Dtbmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasDtbmv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ctbmv_v2){
@@ -397,7 +401,7 @@ CUBLAS_ROUTINE_HANDLER(Ctbmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasCtbmv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ztbmv_v2){
@@ -416,7 +420,7 @@ CUBLAS_ROUTINE_HANDLER(Ztbmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasZtbmv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Stpmv_v2){
@@ -433,7 +437,7 @@ CUBLAS_ROUTINE_HANDLER(Stpmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasStpmv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dtpmv_v2){
@@ -450,7 +454,7 @@ CUBLAS_ROUTINE_HANDLER(Dtpmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasDtpmv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ctpmv_v2){
@@ -467,7 +471,7 @@ CUBLAS_ROUTINE_HANDLER(Ctpmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasCtpmv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ztpmv_v2){
@@ -484,7 +488,7 @@ CUBLAS_ROUTINE_HANDLER(Ztpmv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasZtpmv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Strsv_v2){
@@ -502,7 +506,7 @@ CUBLAS_ROUTINE_HANDLER(Strsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasStrsv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dtrsv_v2){
@@ -520,7 +524,7 @@ CUBLAS_ROUTINE_HANDLER(Dtrsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasDtrsv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ctrsv_v2){
@@ -538,7 +542,7 @@ CUBLAS_ROUTINE_HANDLER(Ctrsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasCtrsv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ztrsv_v2){
@@ -556,7 +560,7 @@ CUBLAS_ROUTINE_HANDLER(Ztrsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasZtrsv_v2(handle,uplo,trans,diag,n,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -574,7 +578,7 @@ CUBLAS_ROUTINE_HANDLER(Stpsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasStpsv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dtpsv_v2){
@@ -591,7 +595,7 @@ CUBLAS_ROUTINE_HANDLER(Dtpsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasDtpsv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ctpsv_v2){
@@ -608,7 +612,7 @@ CUBLAS_ROUTINE_HANDLER(Ctpsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasCtpsv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ztpsv_v2){
@@ -625,7 +629,7 @@ CUBLAS_ROUTINE_HANDLER(Ztpsv_v2){
     int incx = in->Get<int>();
     
     cublasStatus_t cs = cublasZtpsv_v2(handle,uplo,trans,diag,n,AP,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Stbsv_v2){
@@ -644,7 +648,7 @@ CUBLAS_ROUTINE_HANDLER(Stbsv_v2){
     int incx = in->Get<int>();
 
     cublasStatus_t cs = cublasStbsv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dtbsv_v2){
@@ -663,7 +667,7 @@ CUBLAS_ROUTINE_HANDLER(Dtbsv_v2){
     int incx = in->Get<int>();
 
     cublasStatus_t cs = cublasDtbsv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ctbsv_v2){
@@ -682,7 +686,7 @@ CUBLAS_ROUTINE_HANDLER(Ctbsv_v2){
     int incx = in->Get<int>();
 
     cublasStatus_t cs = cublasCtbsv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ztbsv_v2){
@@ -701,7 +705,7 @@ CUBLAS_ROUTINE_HANDLER(Ztbsv_v2){
     int incx = in->Get<int>();
 
     cublasStatus_t cs = cublasZtbsv_v2(handle,uplo,trans,diag,n,k,A,lda,x,incx);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ssymv_v2){
@@ -722,7 +726,7 @@ CUBLAS_ROUTINE_HANDLER(Ssymv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasSsymv_v2(handle,uplo,n,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dsymv_v2){
@@ -743,7 +747,7 @@ CUBLAS_ROUTINE_HANDLER(Dsymv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasDsymv_v2(handle,uplo,n,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Csymv_v2){
@@ -764,7 +768,7 @@ CUBLAS_ROUTINE_HANDLER(Csymv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasCsymv_v2(handle,uplo,n,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zsymv_v2){
@@ -785,7 +789,7 @@ CUBLAS_ROUTINE_HANDLER(Zsymv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasZsymv_v2(handle,uplo,n,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Chemv_v2){
@@ -806,7 +810,7 @@ CUBLAS_ROUTINE_HANDLER(Chemv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasChemv_v2(handle,uplo,n,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zhemv_v2){
@@ -827,7 +831,7 @@ CUBLAS_ROUTINE_HANDLER(Zhemv_v2){
     int incy = in->Get<int>();
     
     cublasStatus_t cs = cublasZhemv_v2(handle,uplo,n,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ssbmv_v2){
@@ -849,7 +853,7 @@ CUBLAS_ROUTINE_HANDLER(Ssbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasSsbmv_v2(handle,uplo,n,k,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dsbmv_v2){
@@ -871,7 +875,7 @@ CUBLAS_ROUTINE_HANDLER(Dsbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasDsbmv_v2(handle,uplo,n,k,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Chbmv_v2){
@@ -893,7 +897,7 @@ CUBLAS_ROUTINE_HANDLER(Chbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasChbmv_v2(handle,uplo,n,k,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zhbmv_v2){
@@ -915,7 +919,7 @@ CUBLAS_ROUTINE_HANDLER(Zhbmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasZhbmv_v2(handle,uplo,n,k,alpha,A,lda,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Sspmv_v2){
@@ -935,7 +939,7 @@ CUBLAS_ROUTINE_HANDLER(Sspmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasSspmv_v2(handle,uplo,n,alpha,AP,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dspmv_v2){
@@ -955,7 +959,7 @@ CUBLAS_ROUTINE_HANDLER(Dspmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasDspmv_v2(handle,uplo,n,alpha,AP,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Chpmv_v2){
@@ -975,7 +979,7 @@ CUBLAS_ROUTINE_HANDLER(Chpmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasChpmv_v2(handle,uplo,n,alpha,AP,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zhpmv_v2){
@@ -995,7 +999,7 @@ CUBLAS_ROUTINE_HANDLER(Zhpmv_v2){
     int incy = in->Get<int>();
     
     cublasStatus cs = cublasZhpmv_v2(handle,uplo,n,alpha,AP,x,incx,beta,y,incy);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -1015,7 +1019,7 @@ CUBLAS_ROUTINE_HANDLER(Sger_v2){
     int lda = in->Get<int>();
 
     cublasStatus_t cs = cublasSger_v2(handle,m,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dger_v2){
@@ -1034,7 +1038,7 @@ CUBLAS_ROUTINE_HANDLER(Dger_v2){
     int lda = in->Get<int>();
 
     cublasStatus_t cs = cublasDger_v2(handle,m,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Cgeru_v2){
@@ -1053,7 +1057,7 @@ CUBLAS_ROUTINE_HANDLER(Cgeru_v2){
     int lda = in->Get<int>();
 
     cublasStatus_t cs = cublasCgeru_v2(handle,m,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Cgerc_v2){
@@ -1072,7 +1076,7 @@ CUBLAS_ROUTINE_HANDLER(Cgerc_v2){
     int lda = in->Get<int>();
 
     cublasStatus_t cs = cublasCgerc_v2(handle,m,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zgeru_v2){
@@ -1091,7 +1095,7 @@ CUBLAS_ROUTINE_HANDLER(Zgeru_v2){
     int lda = in->Get<int>();
 
     cublasStatus_t cs = cublasZgeru_v2(handle,m,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zgerc_v2){
@@ -1110,7 +1114,7 @@ CUBLAS_ROUTINE_HANDLER(Zgerc_v2){
     int lda = in->Get<int>();
 
     cublasStatus_t cs = cublasZgerc_v2(handle,m,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -1128,7 +1132,7 @@ CUBLAS_ROUTINE_HANDLER(Ssyr_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasSsyr_v2(handle,uplo,n,alpha,x,incx,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dsyr_v2){
@@ -1145,7 +1149,7 @@ CUBLAS_ROUTINE_HANDLER(Dsyr_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasDsyr_v2(handle,uplo,n,alpha,x,incx,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Csyr_v2){
@@ -1162,7 +1166,7 @@ CUBLAS_ROUTINE_HANDLER(Csyr_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasCsyr_v2(handle,uplo,n,alpha,x,incx,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zsyr_v2){
@@ -1179,7 +1183,7 @@ CUBLAS_ROUTINE_HANDLER(Zsyr_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasZsyr_v2(handle,uplo,n,alpha,x,incx,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Cher_v2){
@@ -1196,7 +1200,7 @@ CUBLAS_ROUTINE_HANDLER(Cher_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasCher_v2(handle,uplo,n,alpha,x,incx,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zher_v2){
@@ -1213,7 +1217,7 @@ CUBLAS_ROUTINE_HANDLER(Zher_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasZher_v2(handle,uplo,n,alpha,x,incx,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -1230,7 +1234,7 @@ CUBLAS_ROUTINE_HANDLER(Sspr_v2){
     float * AP = in->GetFromMarshal<float*>();
     
     cublasStatus_t cs = cublasSspr_v2(handle,uplo,n,alpha,x,incx,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -1247,7 +1251,7 @@ CUBLAS_ROUTINE_HANDLER(Dspr_v2){
     double * AP = in->GetFromMarshal<double*>();
     
     cublasStatus_t cs = cublasDspr_v2(handle,uplo,n,alpha,x,incx,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Chpr_v2){
@@ -1263,7 +1267,7 @@ CUBLAS_ROUTINE_HANDLER(Chpr_v2){
     cuComplex * AP = in->GetFromMarshal<cuComplex*>();
     
     cublasStatus_t cs = cublasChpr_v2(handle,uplo,n,alpha,x,incx,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zhpr_v2){
@@ -1279,7 +1283,7 @@ CUBLAS_ROUTINE_HANDLER(Zhpr_v2){
     cuDoubleComplex * AP = in->GetFromMarshal<cuDoubleComplex*>();
     
     cublasStatus_t cs = cublasZhpr_v2(handle,uplo,n,alpha,x,incx,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Ssyr2_v2){
@@ -1298,7 +1302,7 @@ CUBLAS_ROUTINE_HANDLER(Ssyr2_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasSsyr2_v2(handle,uplo,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dsyr2_v2){
@@ -1317,7 +1321,7 @@ CUBLAS_ROUTINE_HANDLER(Dsyr2_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasDsyr2_v2(handle,uplo,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Csyr2_v2){
@@ -1336,7 +1340,7 @@ CUBLAS_ROUTINE_HANDLER(Csyr2_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasCsyr2_v2(handle,uplo,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zsyr2_v2){
@@ -1355,7 +1359,7 @@ CUBLAS_ROUTINE_HANDLER(Zsyr2_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasZsyr2_v2(handle,uplo,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Cher2_v2){
@@ -1374,7 +1378,7 @@ CUBLAS_ROUTINE_HANDLER(Cher2_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasCher2_v2(handle,uplo,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zher2_v2){
@@ -1393,7 +1397,7 @@ CUBLAS_ROUTINE_HANDLER(Zher2_v2){
     int lda = in->Get<int>();
     
     cublasStatus_t cs = cublasZher2_v2(handle,uplo,n,alpha,x,incx,y,incy,A,lda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -1412,7 +1416,7 @@ CUBLAS_ROUTINE_HANDLER(Sspr2_v2){
     float * AP = in->GetFromMarshal<float*>();
     
     cublasStatus_t cs = cublasSspr2_v2(handle,uplo,n,alpha,x,incx,y,incy,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Dspr2_v2){
@@ -1430,7 +1434,7 @@ CUBLAS_ROUTINE_HANDLER(Dspr2_v2){
     double * AP = in->GetFromMarshal<double*>();
     
     cublasStatus_t cs = cublasDspr2_v2(handle,uplo,n,alpha,x,incx,y,incy,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Chpr2_v2){
@@ -1448,7 +1452,7 @@ CUBLAS_ROUTINE_HANDLER(Chpr2_v2){
     cuComplex * AP = in->GetFromMarshal<cuComplex*>();
     
     cublasStatus_t cs = cublasChpr2_v2(handle,uplo,n,alpha,x,incx,y,incy,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(Zhpr2_v2){
@@ -1466,5 +1470,5 @@ CUBLAS_ROUTINE_HANDLER(Zhpr2_v2){
     cuDoubleComplex * AP = in->GetFromMarshal<cuDoubleComplex*>();
     
     cublasStatus_t cs = cublasZhpr2_v2(handle,uplo,n,alpha,x,incx,y,incy,AP);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }

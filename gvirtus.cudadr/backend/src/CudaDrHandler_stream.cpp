@@ -34,28 +34,28 @@ CUDA_DRIVER_HANDLER(StreamCreate) {
     CUstream phStream = NULL;
     unsigned int Flags = input_buffer->Get<unsigned int>();
     CUresult exit_code = cuStreamCreate(&phStream, Flags);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(phStream);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Destroys a stream.*/
 CUDA_DRIVER_HANDLER(StreamDestroy) {
     CUstream phStream = input_buffer->Get<CUstream > ();
     CUresult exit_code = cuStreamDestroy(phStream);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Determine status of a compute stream.*/
 CUDA_DRIVER_HANDLER(StreamQuery) {
     CUstream phStream = input_buffer->Get<CUstream > ();
     CUresult exit_code = cuStreamQuery(phStream);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Wait until a stream's tasks are completed.*/
 CUDA_DRIVER_HANDLER(StreamSynchronize) {
     CUstream phStream = input_buffer->Get<CUstream > ();
     CUresult exit_code = cuStreamSynchronize(phStream);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }

@@ -48,12 +48,8 @@ using namespace log4cplus;
 
 map<string, CudaRtHandler::CudaRoutineHandler> *CudaRtHandler::mspHandlers = NULL;
 
-extern "C" int HandlerInit() {
-    return 0;
-}
-
-extern "C" Handler *GetHandler() {
-    return new CudaRtHandler(); 
+extern "C" std::shared_ptr<CudaRtHandler> create_t() {
+    return std::make_shared<CudaRtHandler>();
 }
 
 CudaRtHandler::CudaRtHandler() {
@@ -78,7 +74,7 @@ bool CudaRtHandler::CanExecute(std::string routine) {
     return true;
 }
 
-Result * CudaRtHandler::Execute(std::string routine, Buffer * input_buffer) {
+std::shared_ptr<Result> CudaRtHandler::Execute(std::string routine, std::shared_ptr<Buffer> input_buffer) {
     map<string, CudaRtHandler::CudaRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
 //#ifdef DEBUG
@@ -183,7 +179,7 @@ void CudaRtHandler::RegisterVar(const char* handler, const char* symbol) {
 
 const char *CudaRtHandler::GetVar(string & handler) {
     map<string, string>::iterator it = mpVar->find(handler);
-    if (it == mpVar->end()) 
+    if (it == mpVar->end())
         return NULL;
     return it->second.c_str();
 }
@@ -261,7 +257,7 @@ const char *CudaRtHandler::GetSurfaceHandler(surfaceReference* surfref) {
     return NULL;
 }
 
-const char *CudaRtHandler::GetSymbol(Buffer* in) {
+const char *CudaRtHandler::GetSymbol(std::shared_ptr<Buffer> in) {
     char *symbol_handler = in->AssignString();
     char *symbol = in->AssignString();
     char *our_symbol = const_cast<char *> (GetVar(symbol_handler));
@@ -298,7 +294,7 @@ void CudaRtHandler::Initialize() {
 #endif
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceGetAttribute));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(DeviceGetStreamPriorityRange));
-    
+
 
 
 
@@ -381,7 +377,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(MemcpyPeerAsync));
 
 
-    
+
     /* CudaRtHandler_opengl */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GLSetGLDevice));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsGLRegisterBuffer));
@@ -390,7 +386,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsUnmapResources));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsUnregisterResource));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GraphicsResourceSetMapFlags));
-    
+
     /* CudaRtHandler_stream */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamCreate));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(StreamDestroy));
@@ -403,7 +399,7 @@ void CudaRtHandler::Initialize() {
 
     /* CudaRtHandler_surface */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindSurfaceToArray));
-    
+
     /* CudaRtHandler_texture */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(BindTexture2D));
@@ -416,7 +412,7 @@ void CudaRtHandler::Initialize() {
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureAlignmentOffset));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(GetTextureReference));
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnbindTexture));
-    
+
 
     /* CudaRtHandler_thread */
     mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(ThreadExit));

@@ -35,16 +35,16 @@ CUDA_DRIVER_HANDLER(EventCreate) {
     CUevent phEvent = NULL;
     unsigned int Flags = input_buffer->Get<unsigned int>();
     CUresult exit_code = cuEventCreate(&phEvent, Flags);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(phEvent);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Destroys an event.*/
 CUDA_DRIVER_HANDLER(EventDestroy) {
     CUevent phEvent = input_buffer->Get<CUevent > ();
     CUresult exit_code = cuEventDestroy(phEvent);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Computes the elapsed time between two events.*/
@@ -53,16 +53,16 @@ CUDA_DRIVER_HANDLER(EventElapsedTime) {
     CUevent hStart = input_buffer->Get<CUevent > ();
     CUevent hEnd = input_buffer->Get<CUevent > ();
     CUresult exit_code = cuEventElapsedTime(pMilliseconds, hStart, hEnd);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(pMilliseconds);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Queries an event's status.*/
 CUDA_DRIVER_HANDLER(EventQuery) {
     CUevent hEvent = input_buffer->Get<CUevent > ();
     CUresult exit_code = cuEventQuery(hEvent);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Records an event. */
@@ -70,12 +70,12 @@ CUDA_DRIVER_HANDLER(EventRecord) {
     CUevent hEvent = input_buffer->Get<CUevent > ();
     CUstream hStream = input_buffer->Get<CUstream > ();
     CUresult exit_code = cuEventRecord(hEvent, hStream);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Waits for an event to complete.*/
 CUDA_DRIVER_HANDLER(EventSynchronize) {
     CUevent hEvent = input_buffer->Get<CUevent > ();
     CUresult exit_code = cuEventSynchronize(hEvent);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }

@@ -44,7 +44,7 @@ CUDA_ROUTINE_HANDLER(BindSurfaceToArray) {
         
     cudaError_t exit_code = cudaBindSurfaceToArray(surfref, array, desc);
     
-    return new Result(exit_code);
+    return std::make_shared<Result>(exit_code);
 }
 
 
@@ -66,7 +66,7 @@ CUDA_ROUTINE_HANDLER(BindSurfaceToArray) {
 //    else
 //        out->AddString("0x0");
 //
-//    return new Result(exit_code, out);
+//    return std::make_shared<Result>(exit_code, out);
 //}
 
 

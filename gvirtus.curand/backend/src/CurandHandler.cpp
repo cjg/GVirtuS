@@ -33,11 +33,8 @@ using namespace log4cplus;
 
 std::map<string, CurandHandler::CurandRoutineHandler> * CurandHandler::mspHandlers = NULL;
 
-extern "C" int HandlerInit() {
-    return 0;
-}
-extern "C" Handler *GetHandler() {
-    return new CurandHandler();
+extern "C" std::shared_ptr<CurandHandler> create_t() {
+    return std::make_shared<CurandHandler>();
 }
 
 CurandHandler::CurandHandler() {
@@ -52,7 +49,7 @@ bool CurandHandler::CanExecute(std::string routine) {
     return mspHandlers->find(routine) != mspHandlers->end();
 }
 
-Result * CurandHandler::Execute(std::string routine, Buffer * in) {
+std::shared_ptr<Result> CurandHandler::Execute(std::string routine, std::shared_ptr<Buffer> in) {
     LOG4CPLUS_DEBUG(logger,"Called " << routine);
     map<string, CurandHandler::CurandRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);

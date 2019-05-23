@@ -38,12 +38,9 @@ using namespace log4cplus;
 
 map<string, CudaDrHandler::CudaDriverHandler> *CudaDrHandler::mspHandlers = NULL;
 
-extern "C" int HandlerInit() {
-    return 0;
-}
 
-extern "C" Handler *GetHandler() {
-    return new CudaDrHandler();
+extern "C" std::shared_ptr<CudaDrHandler> create_t() {
+    return std::make_shared<CudaDrHandler>();
 }
 
 CudaDrHandler::CudaDrHandler() {
@@ -67,7 +64,7 @@ bool CudaDrHandler::CanExecute(std::string routine) {
     return true;
 }
 
-Result * CudaDrHandler::Execute(std::string routine, Buffer * input_buffer) {
+std::shared_ptr<Result> CudaDrHandler::Execute(std::string routine, std::shared_ptr<Buffer> input_buffer) {
     map<string, CudaDrHandler::CudaDriverHandler>::iterator it;
 //#ifdef DEBUG
 //    std::cout<<"Called "<<routine<<std::endl;

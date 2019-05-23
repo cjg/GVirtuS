@@ -38,15 +38,16 @@ CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessor) {
 
     cudaError_t exit_code = cudaOccupancyMaxActiveBlocksPerMultiprocessor(numBlocks, func, blockSize, dynamicSMemSize);
 
-    Buffer *out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try {
         out->Add(numBlocks);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
-    return new Result(exit_code, out);
+    return std::make_shared<Result>(exit_code, out);
 }
 
 /*OccupancyMaxActiveBlocksPerMultiprocessorWithFlags.*/
@@ -60,14 +61,15 @@ CUDA_ROUTINE_HANDLER(OccupancyMaxActiveBlocksPerMultiprocessorWithFlags) {
     
     cudaError_t exit_code = cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(numBlocks, func, blockSize, dynamicSMemSize,flags);
     
-    Buffer *out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try {
         out->Add(numBlocks);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
-    return new Result(exit_code, out);
+    return std::make_shared<Result>(exit_code, out);
 }
 #endif

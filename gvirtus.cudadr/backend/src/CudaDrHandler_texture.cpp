@@ -34,7 +34,7 @@ CUDA_DRIVER_HANDLER(TexRefSetArray) {
     unsigned int Flags = input_buffer->Get<unsigned int>();
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefSetArray(hTexRef, hArray, Flags);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Sets the addressing mode for a texture reference.*/
@@ -43,7 +43,7 @@ CUDA_DRIVER_HANDLER(TexRefSetAddressMode) {
     CUaddress_mode am = input_buffer->Get<CUaddress_mode > ();
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefSetAddressMode(hTexRef, dim, am);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Gets the filter-mode used by a texture reference.*/
@@ -51,7 +51,7 @@ CUDA_DRIVER_HANDLER(TexRefSetFilterMode) {
     CUfilter_mode fm = input_buffer->Get<CUfilter_mode > ();
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefSetFilterMode(hTexRef, fm);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Sets the flags for a texture reference.*/
@@ -59,7 +59,7 @@ CUDA_DRIVER_HANDLER(TexRefSetFlags) {
     unsigned int Flags = input_buffer->Get<unsigned int>();
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefSetFlags(hTexRef, Flags);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Sets the format for a texture reference. */
@@ -68,7 +68,7 @@ CUDA_DRIVER_HANDLER(TexRefSetFormat) {
     CUarray_format fmt = input_buffer->Get<CUarray_format > ();
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefSetFormat(hTexRef, fmt, NumPackedComponents);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Gets the address associated with a texture reference. */
@@ -76,9 +76,9 @@ CUDA_DRIVER_HANDLER(TexRefGetAddress) {
     CUdeviceptr pdptr;
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefGetAddress(&pdptr, hTexRef);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(pdptr);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Gets the array bound to a texture reference.*/
@@ -86,9 +86,9 @@ CUDA_DRIVER_HANDLER(TexRefGetArray) {
     CUarray hArray;
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefGetArray(&hArray, hTexRef);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(hArray);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Gets the flags used by a texture reference. */
@@ -96,9 +96,9 @@ CUDA_DRIVER_HANDLER(TexRefGetFlags) {
     unsigned int pFlags;
     CUtexref hTexRef = input_buffer->Get<CUtexref > ();
     CUresult exit_code = cuTexRefGetFlags(&pFlags, hTexRef);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(pFlags);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Binds an address as a texture reference.*/
@@ -108,8 +108,8 @@ CUDA_DRIVER_HANDLER(TexRefSetAddress) {
     CUdeviceptr dptr = input_buffer->Get<CUdeviceptr > ();
     size_t bytes = input_buffer->Get<size_t > ();
     CUresult exit_code = cuTexRefSetAddress(&ByteOffset, hTexRef, dptr, bytes);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(ByteOffset);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 

@@ -38,13 +38,13 @@ CURAND_ROUTINE_HANDLER(CreateGenerator){
     curandGenerator_t generator;
     curandRngType_t gnrType = (curandRngType_t) in->Get<int>();
     curandStatus_t cs = curandCreateGenerator(&generator,gnrType);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<long long int>((long long int)generator);
     } catch (string e){
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CURAND_ROUTINE_HANDLER(CreateGeneratorHost){
@@ -53,13 +53,13 @@ CURAND_ROUTINE_HANDLER(CreateGeneratorHost){
     curandGenerator_t generator;
     curandRngType_t gnrType = (curandRngType_t) in->Get<int>();
     curandStatus_t cs = curandCreateGeneratorHost(&generator,gnrType);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<long long int>((long long int)generator);
     } catch (string e){
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 
@@ -72,7 +72,7 @@ CURAND_ROUTINE_HANDLER(Generate){
     
     curandStatus_t cs = curandGenerate(generator,outputPtr,num);
     
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(GenerateLongLong){
@@ -83,7 +83,7 @@ CURAND_ROUTINE_HANDLER(GenerateLongLong){
     size_t num = in->Get<size_t>();
     
     curandStatus_t cs = curandGenerateLongLong(generator,outputPtr,num);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(GenerateUniform){
@@ -94,7 +94,7 @@ CURAND_ROUTINE_HANDLER(GenerateUniform){
     size_t num = in->Get<size_t>();
     
     curandStatus_t cs = curandGenerateUniform(generator,outputPtr,num);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(GenerateNormal){
@@ -107,7 +107,7 @@ CURAND_ROUTINE_HANDLER(GenerateNormal){
     float stddev = in->Get<float>();
     
     curandStatus_t cs = curandGenerateNormal(generator,outputPtr,n,mean,stddev);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -121,7 +121,7 @@ CURAND_ROUTINE_HANDLER(GenerateLogNormal){
     float stddev = in->Get<float>();
     
     curandStatus_t cs = curandGenerateLogNormal(generator,outputPtr,n,mean,stddev);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(GeneratePoisson){
@@ -133,7 +133,7 @@ CURAND_ROUTINE_HANDLER(GeneratePoisson){
     double lambda = in->Get<double>();
     
     curandStatus_t cs = curandGeneratePoisson(generator,outputPtr,n,lambda);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(GenerateUniformDouble){
@@ -144,7 +144,7 @@ CURAND_ROUTINE_HANDLER(GenerateUniformDouble){
     size_t num = in->Get<size_t>();
     
     curandStatus_t cs = curandGenerateUniformDouble(generator,outputPtr,num);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(GenerateNormalDouble){
@@ -158,7 +158,7 @@ CURAND_ROUTINE_HANDLER(GenerateNormalDouble){
     
     
     curandStatus_t cs = curandGenerateNormalDouble(generator,outputPtr,n,mean,stddev);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(GenerateLogNormalDouble){
@@ -172,7 +172,7 @@ CURAND_ROUTINE_HANDLER(GenerateLogNormalDouble){
     
     
     curandStatus_t cs = curandGenerateLogNormalDouble(generator,outputPtr,n,mean,stddev);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CURAND_ROUTINE_HANDLER(SetPseudoRandomGeneratorSeed){
@@ -182,5 +182,5 @@ CURAND_ROUTINE_HANDLER(SetPseudoRandomGeneratorSeed){
     unsigned long long seed = in->Get<unsigned long long>();
     cout<<"generator: "<< generator << " seed: "<< seed<<endl;
     curandStatus_t cs = curandSetPseudoRandomGeneratorSeed(generator,seed);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }

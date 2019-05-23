@@ -37,10 +37,10 @@ CUDA_DRIVER_HANDLER(DeviceComputeCapability) {
     int *minor = input_buffer->Assign<int>();
     CUdevice dev = input_buffer->Get<CUdevice > ();
     CUresult exit_code = cuDeviceComputeCapability(major, minor, dev);
-    Buffer * output_buffer = new Buffer();
+    std::shared_ptr<Buffer> output_buffer = std::make_shared<Buffer>();
     output_buffer->Add(major);
     output_buffer->Add(minor);
-    return new Result((cudaError_t) exit_code, output_buffer);
+    return std::make_shared<Result>((cudaError_t) exit_code, output_buffer);
 }
 
 /*Returns a handle to a compute device*/
@@ -48,9 +48,9 @@ CUDA_DRIVER_HANDLER(DeviceGet) {
     CUdevice *device = input_buffer->Assign<CUdevice > ();
     int ordinal = input_buffer->Get<int>();
     CUresult exit_code = cuDeviceGet(device, ordinal);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(device);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns information about the device*/
@@ -59,18 +59,18 @@ CUDA_DRIVER_HANDLER(DeviceGetAttribute) {
     CUdevice_attribute attrib = input_buffer->Get<CUdevice_attribute > ();
     CUdevice dev = input_buffer->Get<CUdevice > ();
     CUresult exit_code = cuDeviceGetAttribute(pi, attrib, dev);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(pi);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns the number of compute-capable devices. */
 CUDA_DRIVER_HANDLER(DeviceGetCount) {
     int *count = input_buffer->Assign<int>();
     CUresult exit_code = cuDeviceGetCount(count);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(count);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns an identifer string for the device.*/
@@ -79,9 +79,9 @@ CUDA_DRIVER_HANDLER(DeviceGetName) {
     int len = input_buffer->Get<int>();
     CUdevice dev = input_buffer->Get<CUdevice > ();
     CUresult exit_code = cuDeviceGetName(name, len, dev);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddString(name);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns properties for a selected device. */
@@ -89,9 +89,9 @@ CUDA_DRIVER_HANDLER(DeviceGetProperties) {
     CUdevprop *prop = input_buffer->Assign<CUdevprop > ();
     CUdevice dev = input_buffer->Get<CUdevice > ();
     CUresult exit_code = cuDeviceGetProperties(prop, dev);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(prop);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Returns the total amount of memory on the device. */
@@ -99,7 +99,7 @@ CUDA_DRIVER_HANDLER(DeviceTotalMem) {
     size_t *bytes = input_buffer->Assign<size_t > ();
     CUdevice dev = input_buffer->Get<CUdevice > ();
     CUresult exit_code = cuDeviceTotalMem(bytes, dev);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(bytes);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }

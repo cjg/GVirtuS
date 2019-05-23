@@ -37,9 +37,9 @@ CUDA_DRIVER_HANDLER(CtxCreate) {
     unsigned int flags = input_buffer->Get<unsigned int>();
     CUdevice dev = input_buffer->Get<CUdevice > ();
     CUresult exit_code = cuCtxCreate(&pctx, flags, dev);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(pctx);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Increment a context's usage-count*/
@@ -47,16 +47,16 @@ CUDA_DRIVER_HANDLER(CtxAttach) {
     unsigned int flags = input_buffer->Get<unsigned int>();
     CUcontext *pctx = input_buffer->Assign<CUcontext > ();
     CUresult exit_code = cuCtxAttach(pctx, flags);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(pctx);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Destroy the current context or a floating CUDA context*/
 CUDA_DRIVER_HANDLER(CtxDestroy) {
     CUcontext ctx = input_buffer->Get<CUcontext > ();
     CUresult exit_code = cuCtxDestroy(ctx);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Decrement a context's usage-count.*/
@@ -64,37 +64,37 @@ CUDA_DRIVER_HANDLER(CtxDetach) {
     CUcontext tmp = input_buffer->Get<CUcontext > ();
     CUcontext ctx = tmp;
     CUresult exit_code = cuCtxDetach(ctx);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Returns the device ID for the current context.*/
 CUDA_DRIVER_HANDLER(CtxGetDevice) {
     CUdevice *device = input_buffer->Assign<CUdevice > ();
     CUresult exit_code = cuCtxGetDevice(device);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(device);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Pops the current CUDA context from the current CPU thread.*/
 CUDA_DRIVER_HANDLER(CtxPopCurrent) {
     CUcontext pctx;
     CUresult exit_code = cuCtxPopCurrent(&pctx);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->AddMarshal(pctx);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /*Pushes a floating context on the current CPU thread.*/
 CUDA_DRIVER_HANDLER(CtxPushCurrent) {
     CUcontext ctx = input_buffer->Get<CUcontext > ();
     CUresult exit_code = cuCtxPushCurrent(ctx);
-    return new Result((cudaError_t) exit_code);
+    return std::make_shared<Result>((cudaError_t) exit_code);
 }
 
 /*Block for a context's tasks to complete.*/
 CUDA_DRIVER_HANDLER(CtxSynchronize) {
-    return new Result((cudaError_t) cuCtxSynchronize());
+    return std::make_shared<Result>((cudaError_t) cuCtxSynchronize());
 }
 
 /* Disable peer access */
@@ -102,16 +102,16 @@ CUDA_DRIVER_HANDLER(CtxEnablePeerAccess) {
     CUcontext peerContext=input_buffer->Get<CUcontext> ();
     unsigned int flags=input_buffer->Get<unsigned int> ();
     CUresult exit_code = cuCtxEnablePeerAccess(peerContext,flags);
-    Buffer *out = new Buffer();
-    return new Result((cudaError_t) exit_code, out);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /* Enable peer access */
 CUDA_DRIVER_HANDLER(CtxDisablePeerAccess) {
     CUcontext peerContext=input_buffer->Get<CUcontext> ();
     CUresult exit_code = cuCtxDisablePeerAccess(peerContext);
-    Buffer *out = new Buffer();
-    return new Result((cudaError_t) exit_code, out);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 
 /* Check if two devices could be connected using peer to peer */
@@ -120,8 +120,8 @@ CUDA_DRIVER_HANDLER(DeviceCanAccessPeer) {
     CUdevice dev = input_buffer->Get<CUdevice > ();
     CUdevice devPeer = input_buffer->Get<CUdevice > ();
     CUresult exit_code = cuDeviceCanAccessPeer(canAccessPeer, dev,devPeer);
-    Buffer *out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     out->Add(canAccessPeer);
-    return new Result((cudaError_t) exit_code, out);
+    return std::make_shared<Result>((cudaError_t) exit_code, out);
 }
 

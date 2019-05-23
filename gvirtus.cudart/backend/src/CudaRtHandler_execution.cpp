@@ -35,10 +35,10 @@ CUDA_ROUTINE_HANDLER(ConfigureCall) {
         size_t sharedMem = input_buffer->Get<size_t>();
         cudaStream_t stream = input_buffer->Get<cudaStream_t>();
         cudaError_t exit_code = cudaConfigureCall(gridDim, blockDim, sharedMem,stream);
-        return new Result(exit_code);
+        return std::make_shared<Result>(exit_code);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
     //std::cerr << "gridDim: " << gridDim.x << " " << gridDim.y << " " << gridDim.z << " " << std::endl;
@@ -54,14 +54,15 @@ CUDA_ROUTINE_HANDLER(FuncGetAttributes) {
     try {
         cudaFuncAttributes *guestAttr = input_buffer->Assign<cudaFuncAttributes>();
         const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
-        Buffer * out = new Buffer();
+            std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
         cudaFuncAttributes *attr = out->Delegate<cudaFuncAttributes>();
         memmove(attr, guestAttr, sizeof(cudaFuncAttributes));
         cudaError_t exit_code = cudaFuncGetAttributes(attr, handler);
-        return new Result(exit_code, out);
+        return std::make_shared<Result>(exit_code, out);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     
 
@@ -74,12 +75,13 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
         const char *handler = (const char*)(input_buffer->Get<pointer_t> ());
         //const char *entry = pThis->GetDeviceFunction(handler);
         cudaFuncCache cacheConfig = input_buffer->Get<cudaFuncCache>();
-        Buffer * out = new Buffer();
+            std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
         cudaError_t exit_code = cudaFuncSetCacheConfig(handler, cacheConfig);
-        return new Result(exit_code, out);
+        return std::make_shared<Result>(exit_code, out);
 } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     
   
@@ -102,7 +104,7 @@ CUDA_ROUTINE_HANDLER(Launch) {
             stream);
 
     if(exit_code != cudaSuccess)
-        return new Result(exit_code);
+        return std::make_shared<Result>(exit_code);
 
     // cudaSetupArgument
     
@@ -113,7 +115,7 @@ CUDA_ROUTINE_HANDLER(Launch) {
         //fprintf(stderr,"cudaSetupArgument:\n");
         exit_code = cudaSetupArgument(arg, size, offset);
         if(exit_code != cudaSuccess)
-            return new Result(exit_code);
+            return std::make_shared<Result>(exit_code);
     }
    
 
@@ -142,20 +144,21 @@ CUDA_ROUTINE_HANDLER(Launch) {
     //fprintf(stderr,"Before cuda launch entry_addr:%p\n",entry);
     exit_code = cudaLaunch(entry);
     //fprintf(stderr,"After cuda launch exit code:%d\n", exit_code);
-    return new Result(exit_code);
+    return std::make_shared<Result>(exit_code);
 }
 
 CUDA_ROUTINE_HANDLER(SetDoubleForDevice) {
     try {
         double *guestD = input_buffer->Assign<double>();
-        Buffer *out = new Buffer();
+            std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
         double *d = out->Delegate<double>();
         memmove(d, guestD, sizeof(double));
         cudaError_t exit_code = cudaSetDoubleForDevice(d);
-        return new Result(exit_code, out);
+        return std::make_shared<Result>(exit_code, out);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
 }
@@ -163,14 +166,15 @@ CUDA_ROUTINE_HANDLER(SetDoubleForDevice) {
 CUDA_ROUTINE_HANDLER(SetDoubleForHost) {
     try {
         double *guestD = input_buffer->Assign<double>();
-        Buffer *out = new Buffer();
+            std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
         double *d = out->Delegate<double>();
         memmove(d, guestD, sizeof(double));
         cudaError_t exit_code = cudaSetDoubleForHost(d);
-        return new Result(exit_code, out);
+        return std::make_shared<Result>(exit_code, out);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
 }
@@ -182,10 +186,10 @@ CUDA_ROUTINE_HANDLER(SetupArgument) {
         size_t size = input_buffer->BackGet<size_t>();
         void *arg = input_buffer->Assign<char>(size);
         cudaError_t exit_code = cudaSetupArgument(arg, size, offset);
-        return new Result(exit_code);
+        return std::make_shared<Result>(exit_code);
     } catch (string e) {
         cerr << e << endl;
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
 
 

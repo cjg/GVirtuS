@@ -26,9 +26,9 @@
 #include "CudaRtHandler.h"
 
 CUDA_ROUTINE_HANDLER(ThreadExit) {
-    return new Result(cudaThreadExit());
+    return std::make_shared<Result>(cudaThreadExit());
 }
 
 CUDA_ROUTINE_HANDLER(ThreadSynchronize) {
-    return new Result(cudaThreadSynchronize());
+    return std::make_shared<Result>(cudaThreadSynchronize());
 }

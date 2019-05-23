@@ -37,35 +37,35 @@ CUDNN_ROUTINE_HANDLER(Create){
     
     cudnnHandle_t handle;
     cudnnStatus_t cs = cudnnCreate(&handle);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<cudnnHandle_t>(handle);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return new Result(CUDNN_STATUS_EXECUTION_FAILED);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUDNN_ROUTINE_HANDLER(GetVersion){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetVersion"));
     
     size_t version = cudnnGetVersion();
-    return new Result(version);
+    return std::make_shared<Result>(version);
 }
 
 CUDNN_ROUTINE_HANDLER(GetErrorString){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetErrorString"));
     cudnnStatus_t cs = in->Get<cudnnStatus_t>();
     const char * s = cudnnGetErrorString(cs);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add((char *)s);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(CUDNN_STATUS_EXECUTION_FAILED);
+        return std::make_shared<Result>(CUDNN_STATUS_EXECUTION_FAILED);
     }
-    return new Result(CUDNN_STATUS_SUCCESS,out);
+    return std::make_shared<Result>(CUDNN_STATUS_SUCCESS,out);
 }
 
 CUDNN_ROUTINE_HANDLER(Destroy){
@@ -73,7 +73,7 @@ CUDNN_ROUTINE_HANDLER(Destroy){
     
     cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
     cudnnStatus_t cs = cudnnDestroy(handle);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(SetStream){
@@ -82,7 +82,7 @@ CUDNN_ROUTINE_HANDLER(SetStream){
     cudaStream_t streamId = (cudaStream_t) in->Get<long long int>();
     
     cudnnStatus_t cs = cudnnSetStream(handle,streamId);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(GetStream){
@@ -97,9 +97,9 @@ CUDNN_ROUTINE_HANDLER(GetStream){
         out->Add<long long int>((long long int)*streamId);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 
@@ -108,14 +108,14 @@ CUDNN_ROUTINE_HANDLER(CreateTensorDescriptor){
     
     cudnnTensorDescriptor_t tensorDesc;
     cudnnStatus_t cs = cudnnCreateTensorDescriptor(&tensorDesc);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try {
         out->Add<cudnnTensorDescriptor_t>(tensorDesc);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptor){
@@ -131,7 +131,7 @@ CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptor){
     int w = in->Get<int>();
     
     cudnnStatus_t cs = cudnnSetTensor4dDescriptor(tensorDesc,format,dataType,n,c,h,w);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptorEx){
@@ -151,7 +151,7 @@ CUDNN_ROUTINE_HANDLER(SetTensor4dDescriptorEx){
     int wStride = in->Get<int>();
     
     cudnnStatus_t cs = cudnnSetTensor4dDescriptorEx(tensorDesc,dataType,n,c,h,w,nStride,cStride,hStride,wStride);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(GetTensor4dDescriptor){
@@ -163,7 +163,7 @@ CUDNN_ROUTINE_HANDLER(GetTensor4dDescriptor){
     int nStride,cStride,hStride,wStride;
     
     cudnnStatus_t cs = cudnnGetTensor4dDescriptor(tensorDesc,&dataType,&n,&c,&h,&w,&nStride,&cStride,&hStride,&wStride);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<cudnnDataType_t>(dataType);
         out->Add<int>(n);
@@ -176,9 +176,9 @@ CUDNN_ROUTINE_HANDLER(GetTensor4dDescriptor){
         out->Add<int>(wStride);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUDNN_ROUTINE_HANDLER(SetTensorNdDescriptor){
@@ -191,7 +191,7 @@ CUDNN_ROUTINE_HANDLER(SetTensorNdDescriptor){
     int *strideA = in->Assign<int>();
     
     cudnnStatus_t cs = cudnnSetTensorNdDescriptor(tensorDesc,dataType,nbDims,dimA,strideA);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(GetTensorNdDescriptor){
@@ -205,7 +205,7 @@ CUDNN_ROUTINE_HANDLER(GetTensorNdDescriptor){
     int *strideA;
     
     cudnnStatus_t cs = cudnnGetTensorNdDescriptor(tensorDesc,nbDimsRequested,&dataType,nbDims,dimA,strideA);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<cudnnDataType_t>(dataType);
         out->Add<int>(nbDims);
@@ -213,9 +213,9 @@ CUDNN_ROUTINE_HANDLER(GetTensorNdDescriptor){
         out->Add<int>(strideA);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUDNN_ROUTINE_HANDLER(DestroyTensorDescriptor){
@@ -223,7 +223,7 @@ CUDNN_ROUTINE_HANDLER(DestroyTensorDescriptor){
     
     cudnnTensorDescriptor_t tensorDesc = (cudnnTensorDescriptor_t)in->Get<long long int>();
     cudnnStatus_t cs = cudnnDestroyTensorDescriptor(tensorDesc);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(TransformTensor){
@@ -238,7 +238,7 @@ CUDNN_ROUTINE_HANDLER(TransformTensor){
     void * y = in->Assign<void>();
     
     cudnnStatus_t cs = cudnnTransformTensor(handle,alpha,xDesc,x,beta,yDesc,y);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(AddTensor){
@@ -253,7 +253,7 @@ CUDNN_ROUTINE_HANDLER(AddTensor){
     void * C = in->Assign<void>();
     
     cudnnStatus_t cs = cudnnAddTensor(handle,alpha,aDesc,A,beta,cDesc,C);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(OpTensor){
@@ -272,7 +272,7 @@ CUDNN_ROUTINE_HANDLER(OpTensor){
     void * C = in->Assign<void>();
     
     cudnnStatus_t cs = cudnnOpTensor(handle,opTensorDesc,alpha1,aDesc,A,alpha2,bDesc,B,beta,cDesc,C);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(SetTensor){
@@ -284,7 +284,7 @@ CUDNN_ROUTINE_HANDLER(SetTensor){
     void * valuePtr = in->Assign<void>();
     
     cudnnStatus_t cs = cudnnSetTensor(handle,yDesc,y,valuePtr);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(ScaleTensor){
@@ -296,7 +296,7 @@ CUDNN_ROUTINE_HANDLER(ScaleTensor){
     void * alpha = in->Assign<void>();
     
     cudnnStatus_t cs = cudnnScaleTensor(handle,yDesc,y,alpha);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(CreateFilterDescriptor){
@@ -304,7 +304,7 @@ CUDNN_ROUTINE_HANDLER(CreateFilterDescriptor){
     
     cudnnFilterDescriptor_t * filterDesc = in->Assign<cudnnFilterDescriptor_t>();
     cudnnStatus_t cs = cudnnCreateFilterDescriptor(filterDesc);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor){
@@ -320,7 +320,7 @@ CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor){
     int w = in->Get<int>();
     
     cudnnStatus_t cs = cudnnSetFilter4dDescriptor(filterDesc,dataType,format,k,c,h,w);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -334,7 +334,7 @@ CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor){
     int k,c,h,w;
     
     cudnnStatus_t cs = cudnnGetFilter4dDescriptor(filterDesc,&dataType,&format,&k,&c,&h,&w);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     
     try{
         out->Add<long long int>((long long int)dataType);
@@ -345,9 +345,9 @@ CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor){
         out->Add<int>(w);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor_v3){
@@ -362,7 +362,7 @@ CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor_v3){
     int w = in->Get<int>();
     
     cudnnStatus_t cs = cudnnSetFilter4dDescriptor_v3(filterDesc,dataType,k,c,h,w);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -375,7 +375,7 @@ CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v3){
     int k,c,h,w;
     
     cudnnStatus_t cs = cudnnGetFilter4dDescriptor_v3(filterDesc,&dataType,&k,&c,&h,&w);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     
     try{
         out->Add<long long int>((long long int)dataType);
@@ -385,9 +385,9 @@ CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v3){
         out->Add<int>(w);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 
@@ -404,7 +404,7 @@ CUDNN_ROUTINE_HANDLER(SetFilter4dDescriptor_v4){
     int w = in->Get<int>();
     
     cudnnStatus_t cs = cudnnSetFilter4dDescriptor_v4(filterDesc,dataType,format,k,c,h,w);
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -418,7 +418,7 @@ CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v4){
     int k,c,h,w;
     
     cudnnStatus_t cs = cudnnGetFilter4dDescriptor_v4(filterDesc,&dataType,&format,&k,&c,&h,&w);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     
     try{
         out->Add<long long int>((long long int)dataType);
@@ -429,9 +429,9 @@ CUDNN_ROUTINE_HANDLER(GetFilter4dDescriptor_v4){
         out->Add<int>(w);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor){
@@ -445,7 +445,7 @@ CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor){
     int * filterDimA = in->Assign<int>();
     
     cudnnStatus_t cs = cudnnSetFilterNdDescriptor(filterDesc,dataType,format,nbDims,filterDimA);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try {
         out->Add<long long int>((long long int)filterDesc);
     } catch (string e){
@@ -467,7 +467,7 @@ CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor){
     cudnnTensorFormat_t  format;
     
     cudnnStatus_t cs = cudnnGetFilterNdDescriptor(wDesc,nbDimsRequested,dataType,&format,nbDims,filterDimA);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<long long int>(format);
     } catch (string e){
@@ -487,7 +487,7 @@ CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor_v3){
     int * filterDimA = in->Assign<int>();
     
     cudnnStatus_t cs = cudnnSetFilterNdDescriptor_v3(filterDesc,dataType,nbDims,filterDimA);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try {
         out->Add<long long int>((long long int)filterDesc);
     } catch (string e){
@@ -522,7 +522,7 @@ CUDNN_ROUTINE_HANDLER(SetFilterNdDescriptor_v4){
     int * filterDimA = in->Assign<int>();
     
     cudnnStatus_t cs = cudnnSetFilterNdDescriptor_v4(filterDesc,dataType,format,nbDims,filterDimA);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try {
         out->Add<long long int>((long long int)filterDesc);
     } catch (string e){
@@ -545,7 +545,7 @@ CUDNN_ROUTINE_HANDLER(GetFilterNdDescriptor_v4){
     cudnnTensorFormat_t  format;
     
     cudnnStatus_t cs = cudnnGetFilterNdDescriptor_v4(wDesc,nbDimsRequested,dataType,&format,nbDims,filterDimA);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<long long int>(format);
     } catch (string e){
@@ -569,7 +569,7 @@ CUDNN_ROUTINE_HANDLER(CreateConvolutionDescriptor){
 
     cudnnConvolutionDescriptor_t convDesc;
     cudnnStatus_t cs = cudnnCreateConvolutionDescriptor(&convDesc);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try {
         out->Add<cudnnConvolutionDescriptor_t>(convDesc);
     } catch (string e){
@@ -593,7 +593,7 @@ CUDNN_ROUTINE_HANDLER(SetConvolution2dDescriptor){
     
     cudnnStatus_t cs = cudnnSetConvolution2dDescriptor(convDesc,padh,padw,u,v,upscalex,upscaley,mode);
     
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add<cudnnConvolutionDescriptor_t>(convDesc);
     } catch (string e){
@@ -611,7 +611,7 @@ CUDNN_ROUTINE_HANDLER(GetConvolution2dDescriptor){
     cudnnConvolutionMode_t mode;
     
     cudnnStatus_t cs = cudnnGetConvolution2dDescriptor(convDesc,&padh,&padw,&u,&v,&upscalex,&upscaley,&mode);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         out->Add(padh);
         out->Add(padw);
@@ -636,7 +636,7 @@ CUDNN_ROUTINE_HANDLER(GetConvolution2dForwardOutputDim){
     int n,c,h,w;
     
     cudnnStatus_t cs = cudnnGetConvolution2dForwardOutputDim(convDesc,tensorDesc,filterDesc,&n,&c,&h,&w);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try {
         out->Add(n);
         out->Add(c);

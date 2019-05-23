@@ -35,10 +35,10 @@ CUBLAS_ROUTINE_HANDLER(Create) {
     cublasHandle_t handle=in->Get<cublasHandle_t>();
     cublasStatus_t cublas_status=cublasCreate(&handle);
 
-    Buffer *out=new Buffer();
-    cout<<"Handler create: "<<handle<<endl;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    cout << "Handler create: " << handle << endl;
     out->Add<cublasHandle_t>(handle);
-    return new Result(cublas_status, out);
+    return std::make_shared<Result>(cublas_status, out);
 }
 
 CUBLAS_ROUTINE_HANDLER(GetVersion_v2){
@@ -47,33 +47,35 @@ CUBLAS_ROUTINE_HANDLER(GetVersion_v2){
     cublasHandle_t handle=(cublasHandle_t)in->Get<long long int>();
     int version;
     cublasStatus_t cs = cublasGetVersion(handle,&version);
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         out->Add<int>(version);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
     cout << "DEBUG - cublasGetVersion Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUBLAS_ROUTINE_HANDLER(Create_v2){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Create_v2"));
     cublasHandle_t handle ;//= in->Assign<cublasHandle_t>();
     cublasStatus_t cs = cublasCreate_v2(&handle);
-    
-    Buffer *out = new Buffer();
+
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         out->Add<cublasHandle_t>(handle);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     if(cs != CUBLAS_STATUS_SUCCESS)
         cout<<"----Error---"<<endl;
     cout << "DEBUG - cublasCreate_v2 Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUBLAS_ROUTINE_HANDLER(Destroy_v2) {
@@ -82,7 +84,7 @@ CUBLAS_ROUTINE_HANDLER(Destroy_v2) {
     cublasStatus_t cs=cublasDestroy(handle);
     cout << "DEBUG - cublasDestroy_v2 Executed"<<endl;
     //Buffer *out=new Buffer();
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -105,7 +107,7 @@ CUBLAS_ROUTINE_HANDLER(SetVector){
     if(cs == CUBLAS_STATUS_MAPPING_ERROR)
         cout<<"3"<<endl;
     cout << "DEBUG - cublasSetVector Executed"<<endl;
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(SetMatrix){
@@ -127,7 +129,7 @@ CUBLAS_ROUTINE_HANDLER(SetMatrix){
     if(cs == CUBLAS_STATUS_MAPPING_ERROR)
         cout<<"3"<<endl;
     cout << "DEBUG - cublasSetVector Executed"<<endl;
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 
@@ -143,17 +145,18 @@ CUBLAS_ROUTINE_HANDLER(GetVector){
     void * y = in->Assign<void>();
     
     cublasStatus_t cs;
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         cs = cublasGetVector(n,elemSize,x,incx,y,incy);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     
     out->Add<char>((char*)y,n*elemSize);
     cout << "DEBUG - cublasGetVector Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUBLAS_ROUTINE_HANDLER(GetMatrix) {
@@ -168,16 +171,17 @@ CUBLAS_ROUTINE_HANDLER(GetMatrix) {
     int ldb = (int)in->Get<int>();
     
     cublasStatus_t cs;
-    Buffer * out = new Buffer();
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         cs = cublasGetMatrix(rows,cols,elemSize,A,lda,B,ldb);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cudaErrorMemoryAllocation);
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
     out->Add<char>((char*)B,rows*cols*elemSize);
     cout << "DEBUG - cublasGetMatrix Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 CUBLAS_ROUTINE_HANDLER(SetStream_v2){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetStream"));
@@ -187,7 +191,7 @@ CUBLAS_ROUTINE_HANDLER(SetStream_v2){
     
     cublasStatus_t cs = cublasSetStream_v2(handle,streamId);
     cout << "DEBUG - cublasSetStream Executed"<<endl;
-    return new Result(cs);
+    return std::make_shared<Result>(cs);
 }
 
 CUBLAS_ROUTINE_HANDLER(GetStream_v2){
@@ -196,15 +200,16 @@ CUBLAS_ROUTINE_HANDLER(GetStream_v2){
     cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
     cudaStream_t *streamId;
     cublasStatus_t cs = cublasGetStream_v2(handle,streamId);
-    Buffer * out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try {
         out->Add<long long int>((long long int)*streamId);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
     cout << "DEBUG - cublasGetStream Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 CUBLAS_ROUTINE_HANDLER(GetPointerMode_v2){
@@ -213,15 +218,16 @@ CUBLAS_ROUTINE_HANDLER(GetPointerMode_v2){
     cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
     cublasPointerMode_t mode;
     cublasStatus_t cs = cublasGetPointerMode_v2(handle,&mode);
-    Buffer * out = new Buffer();
+       std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         out->Add<cublasPointerMode_t>(mode);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
     cout << "DEBUG - cublasGetPointerMode_v2 Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 
@@ -231,15 +237,16 @@ CUBLAS_ROUTINE_HANDLER(SetPointerMode_v2){
     cublasHandle_t handle = (cublasHandle_t)in->Get<long long int>();
     cublasPointerMode_t mode = in->Get<cublasPointerMode_t>();
     cublasStatus_t cs = cublasSetPointerMode_v2(handle,mode);
-    Buffer * out = new Buffer();
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
     try{
         out->Add<cublasPointerMode_t>(mode);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
-        return new Result(cs);
+        return std::make_shared<Result>(cs);
     }
     cout << "DEBUG - cublasSetPointerMode_v2 Executed"<<endl;
-    return new Result(cs,out);
+    return std::make_shared<Result>(cs,out);
 }
 
 
@@ -253,7 +260,7 @@ CUBLAS_ROUTINE_HANDLER(SetPointerMode_v2){
     int ldb=in->Assign<int>();
     cublasStatus_t cublas_status=cublasSetMatrix(rows,cols,elemSize,A,lda,B,ldb);
     Buffer *out=new Buffer();
-    return new Result(cublas_status, out);
+    return std::make_shared<Result>(cublas_status, out);
 }
 
 CUBLAS_ROUTINE_HANDLER(GetMatrix) {
@@ -266,7 +273,7 @@ CUBLAS_ROUTINE_HANDLER(GetMatrix) {
     int ldb=in->Assign<int>();
     cublasStatus_t cublas_status=cublasGetMatrix(rows,cols,elemSize,A,lda,B,ldb);
     Buffer *out=new Buffer();
-    return new Result(cublas_status, out);   
+    return std::make_shared<Result>(cublas_status, out);   
 }
 
 CUBLAS_ROUTINE_HANDLER(Destroy) {
@@ -274,5 +281,5 @@ CUBLAS_ROUTINE_HANDLER(Destroy) {
     cublasStatus_t cublas_status=cublasDestroy(handle);
 
     Buffer *out=new Buffer();
-    return new Result(cublas_status, out);
+    return std::make_shared<Result>(cublas_status, out);
 }*/ 
