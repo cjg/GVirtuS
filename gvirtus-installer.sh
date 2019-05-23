@@ -25,7 +25,7 @@ read flag
 if [[ $flag == "y" || $flag == "yes" ]]; then
   echo
   echo "-- Build files will be removed!"
-  /bin/echo -e " \e[2;94m$(bash ./gvirtus-cleaner.sh)\e[0m"
+  echo "$(bash ./gvirtus-cleaner.sh)"
 else
   echo
   echo "-- Build files will not be removed!"
