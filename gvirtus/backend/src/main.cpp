@@ -16,30 +16,38 @@
  */
 
 #include "Backend.h"
+#include "Property.h"
 #include "communicator/Communicator.h"
 #include "communicator/CommunicatorFactory.h"
 #include "communicator/EndpointFactory.h"
+#include "communicator/uWSAdapter.h"
 #include "util/JSON.h"
-#include "Property.h"
 #include <algorithm>
 #include <iostream>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <unistd.h>
 #include <stdlib.h> /* getenv */
 #include <string>
+#include "uWebSockets/App.h"
 
 #include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 
+// test
+#include "util/LD_Lib.h"
+
 log4cplus::Logger logger;
 
 int
 main(int argc, char **argv) {
+  //Logger configuration
   log4cplus::BasicConfigurator config;
   config.configure();
   logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS"));
   LOG4CPLUS_INFO(logger, "🛈  - GVirtuS backend version");
+
 
   std::string config_path;
 #ifdef _CONFIG_FILE_JSON
@@ -51,7 +59,7 @@ main(int argc, char **argv) {
 
   LOG4CPLUS_INFO(logger, "🛈  - Configuration: " << config_path);
 
-  // FIXME: Try - Catch? No.
+  //FIXME: Try - Catch? No.
   try {
     gvirtus::Backend b(config_path);
 
@@ -64,6 +72,6 @@ main(int argc, char **argv) {
     LOG4CPLUS_ERROR(logger, "✖ - Exception:" << e);
   }
 
-  LOG4CPLUS_INFO(logger, "🛈  - Shutdown");
+  LOG4CPLUS_INFO(logger, "🛈  - [Process " << getpid() << "] Shutdown");
   return 0;
 }
