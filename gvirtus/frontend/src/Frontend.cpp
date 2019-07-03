@@ -55,7 +55,7 @@ static bool initialized = false;
  *
  */
 void
-Frontend::Init(gvirtus::comm::Communicator *c) {
+Frontend::Init(gvirtus::Communicator *c) {
 #if 1
   const char *config_file;
   pid_t tid = syscall(SYS_gettid);
@@ -74,13 +74,14 @@ Frontend::Init(gvirtus::comm::Communicator *c) {
     mpFrontends->insert(make_pair(tid, f));
   }
 
-  auto end = gvirtus::comm::EndpointFactory::get_endpoint(config_path);
-  mpFrontends->find(tid)->second->mpCommunicator = gvirtus::comm::CommunicatorFactory::get_communicator(end).release();
+  auto end = gvirtus::EndpointFactory::get_endpoint(config_path);
+  mpFrontends->find(tid)->second->_communicator = gvirtus::CommunicatorFactory::get_communicator(end);
 #else
   mpCommunicator = c;
 #endif
 
-  mpFrontends->find(tid)->second->mpCommunicator->Connect();
+  mpFrontends->find(tid)->second->_communicator->obj_ptr()->Connect();
+
   mpFrontends->find(tid)->second->mpInputBuffer = new Buffer();
   mpFrontends->find(tid)->second->mpOutputBuffer = new Buffer();
   mpFrontends->find(tid)->second->mpLaunchBuffer = new Buffer();
@@ -113,7 +114,7 @@ Frontend::~Frontend() {
 }
 
 Frontend *
-Frontend::GetFrontend(gvirtus::comm::Communicator *c) {
+Frontend::GetFrontend(gvirtus::Communicator *c) {
   if (mpFrontends == NULL)
     mpFrontends = new map<pthread_t, Frontend *>();
 
@@ -153,18 +154,18 @@ Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     /* sending job */
     Frontend *frontend = new Frontend();
     frontend = mpFrontends->find(tid)->second;
-    frontend->mpCommunicator->Write(routine, strlen(routine) + 1);
-    input_buffer->Dump(frontend->mpCommunicator);
-    frontend->mpCommunicator->Sync();
+    frontend->_communicator->obj_ptr()->Write(routine, strlen(routine) + 1);
+    input_buffer->Dump(frontend->_communicator->obj_ptr().get());
+    frontend->_communicator->obj_ptr()->Sync();
 
     // std::istream &in = frontend->mpCommunicator->GetInputStream();
 
     frontend->mpOutputBuffer->Reset();
-    frontend->mpCommunicator->Read((char *)&frontend->mExitCode, sizeof(int));
+    frontend->_communicator->obj_ptr()->Read((char *)&frontend->mExitCode, sizeof(int));
     size_t out_buffer_size;
-    frontend->mpCommunicator->Read((char *)&out_buffer_size, sizeof(size_t));
+    frontend->_communicator->obj_ptr()->Read((char *)&out_buffer_size, sizeof(size_t));
     if (out_buffer_size > 0)
-      frontend->mpOutputBuffer->Read<char>(frontend->mpCommunicator, out_buffer_size);
+      frontend->mpOutputBuffer->Read<char>(frontend->_communicator->obj_ptr().get(), out_buffer_size);
   } else {
     /* error */
     cerr << " ERROR - can't send any job request " << endl;
