@@ -10,6 +10,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <tuple>
+#include "util/LD_Lib.h"
 
 namespace gvirtus {
 
@@ -19,15 +21,16 @@ namespace gvirtus {
    */
   class Process : public Observable {
   public:
-    Process(const std::unique_ptr<comm::Communicator> communicator, std::vector<std::string> &plugins);
-    ~Process() = default;
-    void Execute(std::unique_ptr<comm::Communicator> client_comm);
+    Process(std::shared_ptr<LD_Lib<Communicator, std::string>> communicator, std::vector<std::string> &plugins);
+    ~Process();
+    void Execute(std::shared_ptr<Communicator> client_comm);
     void Start();
 
   private:
-    std::unique_ptr<comm::Communicator> _server_communicator;
+    std::shared_ptr<LD_Lib<Communicator, std::string>> _communicator;
+    std::vector<std::shared_ptr<LD_Lib<Handler>>> _handlers;
+
     std::vector<std::string> mPlugins;
-    std::vector<Handler *> mHandlers;
     log4cplus::Logger logger;
   };
 

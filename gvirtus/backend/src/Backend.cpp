@@ -21,15 +21,15 @@ namespace gvirtus {
         LOG4CPLUS_INFO(logger, "🛈  - Application serves on " << _properties.endpoints() << " several endpoint");
       }
 
-      for (int i = 0; i < _properties.endpoints(); i++)
-        _children.push_back(std::make_unique<Process>(comm::CommunicatorFactory::get_communicator(comm::EndpointFactory::get_endpoint(path)), _properties.plugins().at(i)));
+      for (int i = 0; i < _properties.endpoints(); i++) {
+        _children.push_back(std::make_unique<Process>(CommunicatorFactory::get_communicator(EndpointFactory::get_endpoint(path), _properties.secure()), _properties.plugins().at(i)));
+      }
 
     } else {
       LOG4CPLUS_ERROR(logger, "✖ - " << std::filesystem::path(__FILE__).filename() << ":" << __LINE__ << ":"
                                      << " json path error: no such file.");
       exit(EXIT_FAILURE);
     }
-    LOG4CPLUS_DEBUG(logger, "✓ - [Process " << getpid() << "]: Finished.");
   }
 
   void
@@ -43,21 +43,17 @@ namespace gvirtus {
     int pid = 0;
     for (int i = 0; i < _children.size(); i++) {
       if ((pid = fork()) == 0) {
+        //stampa "tcp process pid avviato qui o in process.cpp"
         _children[i]->Start();
+
         break;
       }
     }
-    if (pid != 0) {
-      int child_pid = 0;
-      while ((child_pid = wait(nullptr)) > 0) {
-        std::clog << __FILE__ << ":" << __LINE__ << ":"
-                  << " Child process with this process id: " << child_pid << " has been terminated"
-                  << ". ✓" << std::endl;
-      }
-    }
 
-    if (pid == 0) {
-      // CHILD
+    if (pid != 0) {
+      signal(SIGINT, SIG_IGN);
+      signal(SIGHUP, SIG_IGN);
+      while(wait(nullptr) > 0);
     }
   }
 

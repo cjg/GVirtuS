@@ -37,23 +37,22 @@
 #define	HANDLER_H
 
 #include "communicator/Result.h"
-
+#include <memory>
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 #include "log4cplus/configurator.h"
 
 class Handler {
+protected:
+    using create_t = std::shared_ptr<Handler>();
 public:
     virtual bool CanExecute(std::string routine) = 0;
-    virtual Result * Execute(std::string routine, Buffer * input_buffer) = 0;
+    virtual std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer) = 0;
 
 private:
     log4cplus::Logger logger;
 };
 
-
-typedef int (*HandlerInit_t)(void);
-typedef Handler *(*GetHandler_t)(void);
 
 #endif	/* HANDLER_H */
 

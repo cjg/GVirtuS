@@ -3,7 +3,7 @@
     {
       "endpoint": {
         "suite": "tcp/ip",
-        "protocol": "https",
+        "protocol": "http",
         "address": "127.0.0.1",
         "port": "9999"
       },
@@ -16,5 +16,5 @@
       ]
     }
   ],
-  "secure_application": true
+  "secure_application": false
 }
