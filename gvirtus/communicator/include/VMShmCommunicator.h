@@ -42,7 +42,7 @@
 
 #include "Communicator.h"
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   typedef struct {
     pthread_spinlock_t *mLock;
@@ -87,5 +87,5 @@ namespace gvirtus::comm {
     size_t mLocalOutSize;
     size_t mLocalOutOffset;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif /* VMSHMCOMMUNICATOR_H */

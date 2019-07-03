@@ -45,7 +45,7 @@
 
 using namespace std;
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   VmciCommunicator::VmciCommunicator(short port, short cid) {
     mPort = port;
@@ -129,7 +129,7 @@ namespace gvirtus::comm {
     mpInput = new istream(mpInputBuf);
     mpOutput = new ostream(mpOutputBuf);
   }
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif /* HAVE_VMCI */
 
 #endif

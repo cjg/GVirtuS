@@ -43,7 +43,7 @@
 
 using namespace std;
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   VirtioCommunicator::VirtioCommunicator(const std::string &communicator) {
     const char *deviceptr = strstr(communicator.c_str(), "://") + 3;
@@ -99,4 +99,4 @@ namespace gvirtus::comm {
   VirtioCommunicator::Close() {
     close(mFd);
   }
-} // namespace gvirtus::comm
+} // namespace gvirtus

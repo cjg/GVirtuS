@@ -38,7 +38,7 @@
 #include "Communicator.h"
 #include <string>
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   class VirtioCommunicator : public Communicator {
   public:
@@ -55,5 +55,5 @@ namespace gvirtus::comm {
     int mFd;
     std::string mDevice;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif /* VIRTIOCOMMUNICATOR_H */

@@ -101,10 +101,8 @@ Buffer::Reset() {
 }
 
 void
-Buffer::Reset(gvirtus::comm::Communicator *c) {
+Buffer::Reset(gvirtus::Communicator *c) {
   c->Read((char *)&mLength, sizeof(size_t));
-  std::cout << "FTERCREAD\n\n";
-
 #ifdef DEBUG
   std::cout << "readed size of buffer " << mLength << std::endl;
 #endif
@@ -129,7 +127,7 @@ Buffer::GetBufferSize() const {
 }
 
 void
-Buffer::Dump(gvirtus::comm::Communicator *c) const {
+Buffer::Dump(gvirtus::Communicator *c) const {
   /**
    *  TO-DO scrivi al message dispatcher che stai per scrivere
    *  acquisisci il lock
@@ -139,6 +137,7 @@ Buffer::Dump(gvirtus::comm::Communicator *c) const {
   c->Write((char *)&mLength, sizeof(size_t));
   c->Write(mpBuffer, mLength);
   c->Sync();
+
   /**
    * TO-DO rilascia il lock
    * notifica

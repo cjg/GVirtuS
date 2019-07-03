@@ -46,17 +46,16 @@
 class Result {
 public:
   Result(int exit_code);
-  Result(int exit_code, const Buffer *output_buffer);
-  Result(const Result &orig);
-  Result(std::istream &in);
-  virtual ~Result();
+  Result(int exit_code, const std::shared_ptr<Buffer> output_buffer);
+
+  virtual ~Result() = default;
   int GetExitCode();
-  const Buffer *GetOutputBufffer() const;
-  void Dump(gvirtus::comm::Communicator *c);
+
+  void Dump(gvirtus::Communicator *c);
 
 private:
   int mExitCode;
-  Buffer *mpOutputBuffer;
+  std::shared_ptr<Buffer> mpOutputBuffer;
 };
 
 #endif /* _RESULT_H */

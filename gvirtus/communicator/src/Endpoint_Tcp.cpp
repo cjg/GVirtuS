@@ -2,7 +2,7 @@
 #include "EndpointFactory.h"
 #include <regex>
 
-namespace gvirtus::comm {
+namespace gvirtus {
   Endpoint_Tcp::Endpoint_Tcp(const std::string &endp_suite, const std::string &endp_protocol, const std::string &endp_address, const std::string &endp_port) {
     suite(endp_suite);
     protocol(endp_protocol);
@@ -69,7 +69,7 @@ namespace gvirtus::comm {
 
   void
   from_json(const nlohmann::json &j, Endpoint_Tcp &end) {
-    auto el = j[EndpointFactory::index()]["endpoint"];
+    auto el = j["communicator"][EndpointFactory::index()]["endpoint"];
 
     end.suite(el.at("suite"));
     end.protocol(el.at("protocol"));
@@ -77,4 +77,4 @@ namespace gvirtus::comm {
     end.port(el.at("port"));
   }
 
-} // namespace gvirtus::comm
+} // namespace gvirtus

@@ -50,7 +50,7 @@
 
 using namespace std;
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   AfUnixCommunicator::AfUnixCommunicator(const std::string &communicator) {
     const char *valueptr = strstr(communicator.c_str(), "://") + 3;
@@ -167,5 +167,5 @@ namespace gvirtus::comm {
     /* FIXME: handle SIGPIPE instead of just ignoring it */
     signal(SIGPIPE, SIG_IGN);
   }
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif

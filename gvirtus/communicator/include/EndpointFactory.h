@@ -8,7 +8,7 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   class EndpointFactory {
   public:
@@ -19,8 +19,7 @@ namespace gvirtus::comm {
       nlohmann::json j;
       ifs >> j;
 
-      if ("tcp/ip" == j[ind_endpoint]["endpoint"].at("suite")) {
-        //TODO: LOAD DYNAMIC LIBRARY COMM
+      if ("tcp/ip" == j["communicator"][ind_endpoint]["endpoint"].at("suite")) {
         auto end = gvirtus::util::JSON<Endpoint_Tcp>(json_path).parser();
         ptr = std::make_shared<Endpoint_Tcp>(end);
       }
@@ -41,6 +40,6 @@ namespace gvirtus::comm {
   private:
     static int ind_endpoint;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 
 #endif // GVIRTUS_ENDPOINTFACTORY_H

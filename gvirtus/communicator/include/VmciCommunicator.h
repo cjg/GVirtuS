@@ -48,7 +48,7 @@
 
 #define AF_VMCI VMCISock_GetAFValue()
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   class VmciCommunicator : public Communicator {
   public:
@@ -106,7 +106,7 @@ namespace gvirtus::comm {
     __gnu_cxx::stdio_filebuf<char> *mpInputBuf;
     __gnu_cxx::stdio_filebuf<char> *mpOutputBuf;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif /* HAVE_VMCI_VMCI_SOCKETS_H */
 
 #endif /* _VMCICOMMUNICATOR_H */

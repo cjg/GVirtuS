@@ -5,7 +5,7 @@
 #include <memory>
 #include <uvw.hpp>
 
-namespace gvirtus::comm {
+namespace gvirtus {
   class UvwAdapter : public Communicator {
   public:
     explicit UvwAdapter(const std::string &communicator){};
@@ -30,5 +30,5 @@ namespace gvirtus::comm {
     std::shared_ptr<uvw::Loop> _loop;
     std::shared_ptr<uvw::TCPHandle> _tcp;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif // GVIRTUS_UVWADAPTER_H

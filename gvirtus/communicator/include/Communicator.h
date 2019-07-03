@@ -2,8 +2,9 @@
 #define GVIRTUS_COMMUNICATOR_H
 
 #include <cstddef>
+#include <memory>
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   /**
    * Communicator is an abstract class that implements a simple stream oriented
@@ -58,8 +59,18 @@ namespace gvirtus::comm {
      */
     virtual void Close() = 0;
 
+
+    virtual std::string to_string()
+    {
+      return "communicator";
+    }
+
+    virtual void run() {};
+
   private:
   };
-} // namespace gvirtus::comm
+
+  using create_t = std::shared_ptr<Communicator>(std::string&);
+} // namespace gvirtus
 
 #endif /* _COMMUNICATOR_H */

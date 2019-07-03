@@ -49,10 +49,11 @@ static bool initialized = false;
 
 #include <cstdlib>
 #include <cstring>
+#include <iostream>
 
 using namespace std;
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   TcpCommunicator::TcpCommunicator(const std::string &communicator) {
 #ifdef _WIN32
@@ -139,8 +140,9 @@ namespace gvirtus::comm {
     int client_socket_addr_size;
 #endif
     client_socket_addr_size = sizeof(struct sockaddr_in);
-    if ((client_socket_fd = accept(mSocketFd, (sockaddr *)&client_socket_addr, &client_socket_addr_size)) == 0)
-      throw "TcpCommunicator: Error while accepting connection.";
+    if ((client_socket_fd = accept(mSocketFd, (sockaddr *)&client_socket_addr, &client_socket_addr_size)) == 0 || errno == EINTR) {
+      return nullptr;
+    }
 
     return new TcpCommunicator(client_socket_fd, inet_ntoa(client_socket_addr.sin_addr));
   }
@@ -205,4 +207,10 @@ namespace gvirtus::comm {
     mpInput = new istream(mpInputBuf);
     mpOutput = new ostream(mpOutputBuf);
   }
-} // namespace gvirtus::comm
+
+  extern "C" std::shared_ptr<TcpCommunicator>
+  create_communicator(std::string &arg) {
+    arg = "tcp://" + arg;
+    return std::make_shared<TcpCommunicator>(arg);
+  }
+} // namespace gvirtus

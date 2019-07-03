@@ -4,7 +4,7 @@
 #include "Endpoint.h"
 #include <nlohmann/json.hpp>
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   class Endpoint_Tcp : public Endpoint {
   public:
@@ -73,6 +73,6 @@ namespace gvirtus::comm {
    */
   void from_json(const nlohmann::json &j, Endpoint_Tcp &end);
 
-} // namespace gvirtus::comm
+} // namespace gvirtus
 
 #endif // GVIRTUS_ENDPOINT_TCP_H

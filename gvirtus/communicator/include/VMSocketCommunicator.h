@@ -11,7 +11,7 @@
 #include "Communicator.h"
 #include <string>
 
-namespace gvirtus::comm {
+namespace gvirtus {
   class VMSocketCommunicator : public Communicator {
   public:
     VMSocketCommunicator(const std::string &communicator);
@@ -28,5 +28,5 @@ namespace gvirtus::comm {
     std::string mPath;
     std::string mDevice;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif /* VMSOCKETCOMMUNICATOR_H */

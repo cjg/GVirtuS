@@ -1,5 +1,5 @@
 #include "EndpointFactory.h"
 
-namespace gvirtus::comm {
+namespace gvirtus {
   int EndpointFactory::ind_endpoint = 0;
 }

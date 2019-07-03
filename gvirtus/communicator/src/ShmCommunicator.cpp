@@ -56,7 +56,7 @@
 
 using namespace std;
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   ShmCommunicator::ShmCommunicator(const std::string &communicator) {}
 
@@ -304,5 +304,5 @@ namespace gvirtus::comm {
     sem_post(mpOutFull);
   }
 
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif

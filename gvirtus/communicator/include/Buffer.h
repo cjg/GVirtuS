@@ -73,7 +73,7 @@ public:
         mLength += sizeof (T);
         mBackOffset = mLength;
     }
-            
+
     template <class T> void Add(T *item, size_t n = 1) {
         if(item == NULL) {
             Add((size_t) 0);
@@ -90,7 +90,7 @@ public:
         mLength += size;
         mBackOffset = mLength;
     }
-    
+
     template <class T> void AddConst(const T item) {
         if ((mLength + (sizeof (T))) >= mSize) {
             mSize = ((mLength + (sizeof (T))) / mBlockSize + 1) * mBlockSize;
@@ -101,7 +101,7 @@ public:
         mLength += sizeof (T);
         mBackOffset = mLength;
     }
-            
+
     template <class T> void AddConst(const T *item, size_t n = 1) {
         if(item == NULL) {
             Add((size_t) 0);
@@ -130,7 +130,7 @@ public:
     }
 
 
-    template <class T> void Read(gvirtus::comm::Communicator * c) {
+    template <class T> void Read(gvirtus::Communicator * c) {
         while ((mLength + sizeof (T)) >= mSize) {
             mSize += mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
@@ -141,7 +141,7 @@ public:
         mBackOffset = mLength;
     }
 
-    template <class T> void Read(gvirtus::comm::Communicator *c, size_t n = 1) {
+    template <class T> void Read(gvirtus::Communicator *c, size_t n = 1) {
         while ((mLength + (sizeof (T) * n)) >= mSize) {
             mSize += mBlockSize;
             if ((mpBuffer = (char *) realloc(mpBuffer, mSize)) == NULL)
@@ -194,9 +194,9 @@ public:
     }
 
     template <class T>T * Assign(size_t n = 1) {
-        if(Get<size_t>() == 0) 
+        if(Get<size_t>() == 0)
             return NULL;
-        
+
         if (mOffset + sizeof (T) * n > mLength) {
             throw "Can't read  " + std::string(typeid (T).name()) + ".";
         }
@@ -239,10 +239,10 @@ public:
     }
 
     void Reset();
-    void Reset(gvirtus::comm::Communicator *c);
+    void Reset(gvirtus::Communicator *c);
     const char * const GetBuffer() const;
     size_t GetBufferSize() const;
-    void Dump(gvirtus::comm::Communicator *c) const;
+    void Dump(gvirtus::Communicator *c) const;
 
   private:
     size_t mBlockSize;

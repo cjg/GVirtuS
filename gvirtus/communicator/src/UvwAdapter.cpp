@@ -3,7 +3,7 @@
 // for sleep()
 //#include <unistd.h>
 
-namespace gvirtus::comm {
+namespace gvirtus {
   //    UvwAdapter::UvwAdapter() : Communicator() {
   //        _loop = uvw::Loop::getDefault();
   //        _tcp = _loop->resource<uvw::TCPHandle>();
@@ -35,4 +35,4 @@ namespace gvirtus::comm {
     //        _loop->run<uvw::Loop::Mode::ONCE>();
     //      _loop->run<uvw::Loop::Mode::NOWAIT>();
   }
-} // namespace gvirtus::comm
+} // namespace gvirtus

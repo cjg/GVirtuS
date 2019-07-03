@@ -46,7 +46,7 @@
 
 #include "Communicator.h"
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   /**
    * ZmqCommunicator implements a Communicator for the ZMQ.
@@ -84,5 +84,5 @@ namespace gvirtus::comm {
     zmq::context_t *zmq_context;
     zmq::socket_t *zmq_socket;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif /* _ZMQCOMMUNICATOR_H */

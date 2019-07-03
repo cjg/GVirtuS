@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace gvirtus::comm {
+namespace gvirtus {
   /**
    * Endpoint class.
    * This class is a model to represent the endpoint property.
@@ -73,6 +73,6 @@ namespace gvirtus::comm {
     std::string _suite;
     std::string _protocol;
   };
-} // namespace gvirtus::comm
+} // namespace gvirtus
 
 #endif // GVIRTUS_ENDPOINT_H

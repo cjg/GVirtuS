@@ -56,7 +56,7 @@
 
 using namespace std;
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   void
   vmshm_sem_init(vmshm_sem_t *self, void *shm, size_t *offset, int value) {
@@ -345,5 +345,5 @@ namespace gvirtus::comm {
     *mpOutSize = 0;
     vmshm_sem_post(mpOutFull);
   }
-} // namespace gvirtus::comm
+} // namespace gvirtus
 #endif

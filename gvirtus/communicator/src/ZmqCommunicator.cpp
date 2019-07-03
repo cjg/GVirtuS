@@ -63,7 +63,7 @@ static bool initialized = false;
 
 using namespace std;
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   ZmqCommunicator::ZmqCommunicator(const std::string &communicator) {
 #ifdef _WIN32
@@ -221,4 +221,4 @@ namespace gvirtus::comm {
     mpOutput = new ostream(mpOutputBuf);
   }
 
-} // namespace gvirtus::comm
+} // namespace gvirtus

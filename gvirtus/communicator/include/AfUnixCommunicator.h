@@ -46,7 +46,7 @@
 
 #include "Communicator.h"
 
-namespace gvirtus::comm {
+namespace gvirtus {
 
   /**
    * AfUnixCommunicator implements a Communicator for the AF_UNIX socket in the unix domain.
@@ -105,7 +105,7 @@ namespace gvirtus::comm {
     mode_t mMode;
   };
 
-} // namespace gvirtus::comm
+} // namespace gvirtus
 
 #endif
 
