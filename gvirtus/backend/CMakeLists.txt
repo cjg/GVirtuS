@@ -29,6 +29,6 @@ file(COPY ${BACKEND_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gvirtus
 
 add_executable(${PROJECT_NAME} ${backend_SOURCE})
 add_dependencies(${PROJECT_NAME} nlohmann)
-target_link_libraries(${PROJECT_NAME} "-Wl,--export-dynamic -Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libutil.a -Wl,--no-whole-archive" rt log4cplus zmq ${CMAKE_DL_LIBS} stdc++fs communicator) # http-communicator ${LIBUS} ${ZLIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} "-Wl,--export-dynamic -Wl,--whole-archive ${CMAKE_SOURCE_DIR}/util/libutil.a -Wl,--no-whole-archive" rt log4cplus zmq ${CMAKE_DL_LIBS} stdc++fs communicator)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

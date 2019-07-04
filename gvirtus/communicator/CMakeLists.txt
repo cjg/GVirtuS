@@ -26,22 +26,14 @@ file(COPY ${COMMUNICATOR_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gv
 add_library(communicator SHARED ${communicator_SOURCE})
 target_link_libraries(communicator log4cplus)
 
-include(FindLibUV)
-if (LibUV_FOUND)
-    message("LIBUV include dir: ${LibUV_INCLUDE_DIRS}")
-    message("LIBUV libraries: ${LibUV_LIBRARIES}")
-    include_directories(${LibUV_INCLUDE_DIRS})
-    link_directories(${LibUV_LIBRARIES})
-    list(APPEND LIB_LIST ${LibUV_LIBRARIES})
-else ()
-    message("LibUV not found")
-endif ()
-
-
-
 ## UVW
+
+set(LIBUV ${CMAKE_INSTALL_PREFIX}/external/lib/libuv.so)
 add_library(tcp-communicator SHARED src/UvwAdapter.cpp)
-target_link_libraries(tcp-communicator ${LibUV_LIBRARIES})
+add_dependencies(tcp-communicator libuv)
+add_dependencies(uvw libuv)
+add_dependencies(tcp-communicator uvw)
+target_link_libraries(tcp-communicator ${LIBUV})
 
 
 
@@ -54,8 +46,8 @@ include_directories(${ZLIB_INCLUDE_DIR})
 link_directories(${ZLIB_LIBRARIES})
 list(APPEND LIB_LIST ${ZLIB_LIBRARIES})
 
-add_library(http-communicator SHARED src/HTTPAdapter.cpp)
-target_link_libraries(http-communicator ${LIBUS} ${ZLIB_LIBRARIES})
+#add_library(http-communicator SHARED src/HTTPAdapter.cpp)
+#target_link_libraries(http-communicator ${LIBUS} ${ZLIB_LIBRARIES})
 
 ## TSL UWS
 #add_library(http-communicator SHARED "" "")
