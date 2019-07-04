@@ -20,16 +20,13 @@
 #include "communicator/Communicator.h"
 #include "communicator/CommunicatorFactory.h"
 #include "communicator/EndpointFactory.h"
-#include "communicator/uWSAdapter.h"
 #include "util/JSON.h"
 #include <algorithm>
 #include <iostream>
 #include <memory>
-#include <nlohmann/json.hpp>
 #include <unistd.h>
 #include <stdlib.h> /* getenv */
 #include <string>
-#include "uWebSockets/App.h"
 
 #include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
