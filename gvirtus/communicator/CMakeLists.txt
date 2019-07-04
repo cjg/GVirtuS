@@ -46,8 +46,8 @@ include_directories(${ZLIB_INCLUDE_DIR})
 link_directories(${ZLIB_LIBRARIES})
 list(APPEND LIB_LIST ${ZLIB_LIBRARIES})
 
-#add_library(http-communicator SHARED src/HTTPAdapter.cpp)
-#target_link_libraries(http-communicator ${LIBUS} ${ZLIB_LIBRARIES})
+add_library(http-communicator SHARED src/HTTPAdapter.cpp)
+target_link_libraries(http-communicator ${LIBUS} ${ZLIB_LIBRARIES})
 
 ## TSL UWS
 #add_library(http-communicator SHARED "" "")

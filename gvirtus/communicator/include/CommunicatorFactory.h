@@ -3,25 +3,41 @@
 
 #include "Communicator.h"
 #include "Endpoint.h"
-// FIXME: Endpoint_Tcp.h -> non deve essere qui, castare altrove.
 #include "Endpoint_Tcp.h"
-#include "TcpCommunicator.h"
+#include "util/LD_Lib.h"
 #include <memory>
+#include <utility>
+#include <vector>
 
-namespace gvirtus::comm {
-  class CommunicatorFactory {
-  public:
-    static std::unique_ptr<Communicator>
-    get_communicator(const std::shared_ptr<Endpoint> &end) {
+#include <iostream>
+namespace gvirtus {
 
+class CommunicatorFactory {
+ public:
+  static std::shared_ptr<LD_Lib<Communicator, std::string>>
+  get_communicator(const std::shared_ptr<Endpoint> &end, bool secure = false) {
+    if (!secure) {
       if (end->protocol() == "tcp") {
         std::shared_ptr<Endpoint_Tcp> end_tcp = std::dynamic_pointer_cast<Endpoint_Tcp>(end);
-        return std::make_unique<TcpCommunicator>(end_tcp->address().c_str(), end_tcp->port());
+        auto dl = std::make_shared<LD_Lib<Communicator, std::string>>(_COMMS_DIR "/libtcp-communicator.so", "create_communicator");
+        dl->build_obj(end_tcp->address() + ":" + std::to_string(end_tcp->port()));
+        return dl;
+      } else if (end->protocol() == "http") {
+        std::shared_ptr<Endpoint_Tcp> end_tcp = std::dynamic_pointer_cast<Endpoint_Tcp>(end);
+        auto dl = std::make_shared<LD_Lib<Communicator, std::string>>(_COMMS_DIR "/libhttp-communicator.so", "create_communicator");
+        dl->build_obj(end_tcp->address() + ":" + std::to_string(end_tcp->port()));
+        return dl;
       }
-
-      return nullptr;
+    } else {
+      if (end->protocol() == "https") {
+        std::shared_ptr<Endpoint_Tcp> end_tcp = std::dynamic_pointer_cast<Endpoint_Tcp>(end);
+        std::cout << "todo HTTPS" << std::endl;
+      }
     }
-  };
-} // namespace gvirtus::comm
+
+    throw std::string("Communicator not supported");
+  }
+};
+} // namespace gvirtus
 
 #endif // GVIRTUS_COMMUNICATORFACTORY_H
