@@ -4,6 +4,10 @@ project(cudart-frontend)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fPIC")
 set(CMAKE_CXX_STANDARD 17)
 
+include(FindCUDA)
+message("CUDA include dir: ${CUDA_INCLUDE_DIRS}")
+include_directories(SYSTEM ${CUDA_INCLUDE_DIRS})
+
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 include_directories(SYSTEM ${PARENT_DIR})
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)

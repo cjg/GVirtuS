@@ -14,7 +14,13 @@ include(ExternalProject)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/external/include)
 link_directories(${CMAKE_INSTALL_PREFIX}/external/lib)
 
-##
+### Fix uvw error
+include(FindThreads)
+find_package(Doxygen 1.8)
+if(DOXYGEN_FOUND)
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/uvw-prefix/src/uvw-build/docs/html)
+endif()
+
 # uvw
 ExternalProject_Add(uvw
         GIT_REPOSITORY https://github.com/skypjack/uvw.git
