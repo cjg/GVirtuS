@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(CUDA)
 if(CUDA_FOUND)
     include_directories(SYSTEM ${CUDA_INCLUDE_DIRS})
+    link_directories(${CUDA_LIBRARIES})
+    link_directories(${CUDA_curand_LIBRARY})	
 endif()
 
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
@@ -19,4 +21,4 @@ set(backend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CurandHandler.h
 
 add_library(${PROJECT_NAME} SHARED ${backend_SOURCE})
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/backend)
-target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} rt curand log4cplus)
+target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} rt ${CUDA_curand_LIBRARY} log4cplus)

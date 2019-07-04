@@ -7,6 +7,10 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 
+include(FindCUDA)
+message("CUDA include dir: ${CUDA_INCLUDE_DIRS}")
+include_directories(SYSTEM ${CUDA_INCLUDE_DIRS})
+
 set(frontend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CublasFrontend.h
                       ${CMAKE_CURRENT_SOURCE_DIR}/src/CublasFrontend.cpp
                       ${CMAKE_CURRENT_SOURCE_DIR}/src/Cublas_helper.cpp
