@@ -238,7 +238,7 @@ private:
      * setted at compile time.
      */
     void Init(gvirtus::Communicator *c);
-    std::shared_ptr<LD_Lib<gvirtus::Communicator, std::string>> _communicator;
+    std::shared_ptr<LD_Lib<gvirtus::Communicator, std::shared_ptr<gvirtus::Endpoint>>> _communicator;
     Buffer * mpInputBuffer;
     Buffer * mpOutputBuffer;
     Buffer * mpLaunchBuffer;

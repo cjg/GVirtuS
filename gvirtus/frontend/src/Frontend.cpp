@@ -51,13 +51,12 @@ static Frontend msFrontend;
 map<pthread_t, Frontend *> *Frontend::mpFrontends = NULL;
 static bool initialized = false;
 
-/**
- *
- */
 void
 Frontend::Init(gvirtus::Communicator *c) {
-#if 1
-  const char *config_file;
+//  log4cplus::BasicConfigurator config;
+//  config.configure();
+//  logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS Frontend"));
+
   pid_t tid = syscall(SYS_gettid);
 
   std::string config_path;
@@ -76,10 +75,6 @@ Frontend::Init(gvirtus::Communicator *c) {
 
   auto end = gvirtus::EndpointFactory::get_endpoint(config_path);
   mpFrontends->find(tid)->second->_communicator = gvirtus::CommunicatorFactory::get_communicator(end);
-#else
-  mpCommunicator = c;
-#endif
-
   mpFrontends->find(tid)->second->_communicator->obj_ptr()->Connect();
 
   mpFrontends->find(tid)->second->mpInputBuffer = new Buffer();
@@ -90,8 +85,6 @@ Frontend::Init(gvirtus::Communicator *c) {
 }
 
 Frontend::~Frontend() {
-
-  // cout<< "distruttore "<<endl;
   if (mpFrontends != NULL) {
 
     pid_t tid = syscall(SYS_gettid); // getting frontend's tid
@@ -100,17 +93,9 @@ Frontend::~Frontend() {
     for (it = mpFrontends->begin(); it != mpFrontends->end(); it++) {
       cout << "~Frontend: " << it->second << endl;
       mpFrontends->erase(it);
-      // delete it->second;
     }
-
-    // delete mpFrontends->find(tid);
-  } else {
-    //        mpCommunicator->Close();
-    //        delete mpCommunicator;
+  } else
     delete mpFrontends;
-  }
-  //    mpCommunicator->Close();
-  //    delete mpCommunicator;
 }
 
 Frontend *
@@ -119,29 +104,19 @@ Frontend::GetFrontend(gvirtus::Communicator *c) {
     mpFrontends = new map<pthread_t, Frontend *>();
 
   pid_t tid = syscall(SYS_gettid); // getting frontend's tid
-  // cout << "tid Get Frontend: "<< tid<< endl;
   if (mpFrontends->find(tid) != mpFrontends->end())
     return mpFrontends->find(tid)->second;
   else {
     Frontend *f = new Frontend();
-    // if (!f->initialized()) {
     try {
       f->Init(c);
       mpFrontends->insert(make_pair(tid, f));
     } catch (const char *e) {
       cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
     }
-    //}
+
     return f;
   }
-  /*if (!initialized) {
-      try {
-          msFrontend.Init(c);
-      } catch (const char *e) {
-          cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
-      }
-  }
-  return &msFrontend;*/
 }
 
 void
@@ -151,46 +126,28 @@ Frontend::Execute(const char *routine, const Buffer *input_buffer) {
 
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
+
     /* sending job */
     Frontend *frontend = new Frontend();
     frontend = mpFrontends->find(tid)->second;
     frontend->_communicator->obj_ptr()->Write(routine, strlen(routine) + 1);
     input_buffer->Dump(frontend->_communicator->obj_ptr().get());
     frontend->_communicator->obj_ptr()->Sync();
-
-    // std::istream &in = frontend->mpCommunicator->GetInputStream();
-
     frontend->mpOutputBuffer->Reset();
-    frontend->_communicator->obj_ptr()->Read((char *)&frontend->mExitCode, sizeof(int));
+
+    frontend->_communicator->obj_ptr()->Read((char *) &frontend->mExitCode, sizeof(int));
     size_t out_buffer_size;
-    frontend->_communicator->obj_ptr()->Read((char *)&out_buffer_size, sizeof(size_t));
+    frontend->_communicator->obj_ptr()->Read((char *) &out_buffer_size, sizeof(size_t));
     if (out_buffer_size > 0)
       frontend->mpOutputBuffer->Read<char>(frontend->_communicator->obj_ptr().get(), out_buffer_size);
   } else {
     /* error */
     cerr << " ERROR - can't send any job request " << endl;
   }
-
-  /* sending job */
-  /*mpCommunicator->Write(routine, strlen(routine) + 1);
-  input_buffer->Dump(mpCommunicator);
-  mpCommunicator->Sync();
-
-  // receiving output
-  //std::istream &in = mpCommunicator->GetInputStream();
-
-  mpOutputBuffer->Reset();
-
-  mpCommunicator->Read((char *) & mExitCode, sizeof (int));
-  size_t out_buffer_size;
-  mpCommunicator->Read((char *) & out_buffer_size, sizeof (size_t));
-  if (out_buffer_size > 0)
-      mpOutputBuffer->Read<char>(mpCommunicator, out_buffer_size);*/
 }
 
 void
 Frontend::Prepare() {
-  // mpInputBuffer->Reset();
   pid_t tid = syscall(SYS_gettid);
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
