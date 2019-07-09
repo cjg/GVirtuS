@@ -54,7 +54,7 @@ public:
         if (string(routine) != "cudaLaunch")
             cerr << "Requesting " << routine << endl;
 #endif
-        Frontend::GetFrontend()->Execute(routine, input_buffer);
+      Frontend::GetFrontend()->Execute(routine, input_buffer);
     }
 
     /**
