@@ -21,13 +21,12 @@ namespace gvirtus {
    */
   class Process : public Observable {
   public:
-    Process(std::shared_ptr<LD_Lib<Communicator, std::string>> communicator, std::vector<std::string> &plugins);
-    ~Process();
-    void Execute(std::shared_ptr<Communicator> client_comm);
+    Process(std::shared_ptr<LD_Lib<Communicator, std::shared_ptr<gvirtus::Endpoint>>> communicator, std::vector<std::string> &plugins);
+    ~Process() override;
     void Start();
 
   private:
-    std::shared_ptr<LD_Lib<Communicator, std::string>> _communicator;
+    std::shared_ptr<LD_Lib<Communicator, std::shared_ptr<gvirtus::Endpoint>>> _communicator;
     std::vector<std::shared_ptr<LD_Lib<Handler>>> _handlers;
 
     std::vector<std::string> mPlugins;

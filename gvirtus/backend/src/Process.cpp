@@ -7,12 +7,14 @@
 #include <signal.h>
 #include <unistd.h>
 #include <Process.h>
+#include <thread>
 
 namespace gvirtus {
 
 using namespace std;
 
-Process::Process(std::shared_ptr<LD_Lib<Communicator, std::string>> communicator, vector<string> &plugins)
+Process::Process(std::shared_ptr<LD_Lib<Communicator, std::shared_ptr<gvirtus::Endpoint>>> communicator,
+                 vector<string> &plugins)
     : Observable() {
   logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("Process"));
   signal(SIGCHLD, SIG_IGN);
@@ -87,7 +89,6 @@ Process::Start() {
     Notify("process-ended");
   };
 
-
   util::SignalState sig_hand;
   sig_hand.setup_signal_state(SIGINT);
 
@@ -98,12 +99,14 @@ Process::Start() {
     Communicator *client = const_cast<Communicator *>(_communicator->obj_ptr()->Accept());
 
     if (client != nullptr) {
-      if ((pid = fork()) == 0) {
-        execute(client);
+//      if ((pid = fork()) == 0) {
+        std::thread(execute, client).detach();
+//        exit(0);
+//      }
 
-        exit(0);
-      }
-    }
+
+    } else
+      _communicator->obj_ptr()->run();
 
     if (util::SignalState::get_signal_state(SIGINT)) {
       LOG4CPLUS_DEBUG(logger, "✓ - SIGINT received, killing server...");

@@ -43,9 +43,7 @@ namespace gvirtus {
     int pid = 0;
     for (int i = 0; i < _children.size(); i++) {
       if ((pid = fork()) == 0) {
-        //stampa "tcp process pid avviato qui o in process.cpp"
         _children[i]->Start();
-
         break;
       }
     }
