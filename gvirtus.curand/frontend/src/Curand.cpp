@@ -34,9 +34,7 @@ using namespace std;
 /* HOST API */
 
 extern "C" curandStatus_t CURANDAPI curandCreateGenerator ( curandGenerator_t* generator, curandRngType_t rng_type ){
-    cout<<"ciao ciao ciao"<<endl;
     CurandFrontend::Prepare();
-    cout<<"ciao ciao ciao"<<endl;
     CurandFrontend::AddVariableForArguments<int>(rng_type);
     CurandFrontend::Execute("curandCreateGenerator");
     if(CurandFrontend::Success())
