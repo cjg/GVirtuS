@@ -73,7 +73,7 @@ namespace gvirtus {
 
     end.suite(el.at("suite"));
     end.protocol(el.at("protocol"));
-    end.address(el.at("address"));
+    end.address(el.at("server_address"));
     end.port(el.at("port"));
   }
 

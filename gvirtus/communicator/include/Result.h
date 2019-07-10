@@ -37,7 +37,7 @@
 #define _RESULT_H
 
 #include <iostream>
-
+#include <memory>
 #include "Buffer.h"
 
 /**

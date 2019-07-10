@@ -1,9 +1,6 @@
 #ifndef GVIRTUS_LD_LIB_H
 #define GVIRTUS_LD_LIB_H
-
-#include "log4cplus/configurator.h"
-#include "log4cplus/logger.h"
-#include "log4cplus/loggingmacros.h"
+]
 #include <dlfcn.h>
 #include <memory>
 #include <string>
@@ -34,11 +31,9 @@ private:
 
 public:
   LD_Lib(const std::string path, std::string fcreate_name = "create_t") {
-    logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("LD_Lib"));
     _obj_ptr = nullptr;
     dlopen(path);
     set_create_symbol(fcreate_name);
-    LOG4CPLUS_DEBUG(logger, "✓ - Loaded module " << std::filesystem::path(path).filename() << ".");
   }
 
   ~LD_Lib() {
@@ -61,7 +56,6 @@ protected:
   create_t *sym;
   void *m_module;
   std::shared_ptr<T> _obj_ptr;
-  log4cplus::Logger logger;
 };
 
 #endif // GVIRTUS_LD_LIB_H

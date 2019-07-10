@@ -26,28 +26,31 @@ file(COPY ${COMMUNICATOR_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gv
 add_library(communicator SHARED ${communicator_SOURCE})
 target_link_libraries(communicator log4cplus)
 
-## UVW
+add_library(oldtcp-communicator SHARED src/TcpCommunicator.cpp)
 
-set(LIBUV ${CMAKE_INSTALL_PREFIX}/external/lib/libuv.so)
-add_library(tcp-communicator SHARED src/UvwAdapter.cpp)
-add_dependencies(tcp-communicator libuv)
-add_dependencies(uvw libuv)
-add_dependencies(tcp-communicator uvw)
-target_link_libraries(tcp-communicator ${LIBUV})
+## UVW
+# Uncomment it if you'll want implement libuv
+#set(LIBUV ${CMAKE_INSTALL_PREFIX}/external/lib/libuv.so)
+#add_library(tcp-communicator SHARED src/UvwAdapter.cpp)
+#add_dependencies(tcp-communicator libuv)
+#add_dependencies(uvw libuv)
+#add_dependencies(tcp-communicator uvw)
+#target_link_libraries(tcp-communicator ${LIBUV})
 
 
 
 ## uWS
-set(LIBUS ${CMAKE_INSTALL_PREFIX}/external/lib/libuS.so)
-include(FindZLIB)
-message("ZLIB include dir: ${ZLIB_INCLUDE_DIR}")
-message("ZLIB libraries: ${ZLIB_LIBRARIES}")
-include_directories(${ZLIB_INCLUDE_DIR})
-link_directories(${ZLIB_LIBRARIES})
-list(APPEND LIB_LIST ${ZLIB_LIBRARIES})
-
-add_library(http-communicator SHARED src/HTTPAdapter.cpp)
-target_link_libraries(http-communicator ${LIBUS} ${ZLIB_LIBRARIES})
+# Uncomment it if you want use websocket
+#set(LIBUS ${CMAKE_INSTALL_PREFIX}/external/lib/libuS.so)
+#include(FindZLIB)
+#message("ZLIB include dir: ${ZLIB_INCLUDE_DIR}")
+#message("ZLIB libraries: ${ZLIB_LIBRARIES}")
+#include_directories(${ZLIB_INCLUDE_DIR})
+#link_directories(${ZLIB_LIBRARIES})
+#list(APPEND LIB_LIST ${ZLIB_LIBRARIES})
+#
+#add_library(http-communicator SHARED src/HTTPAdapter.cpp)
+#target_link_libraries(http-communicator ${LIBUS} ${ZLIB_LIBRARIES})
 
 ## TSL UWS
 #add_library(http-communicator SHARED "" "")

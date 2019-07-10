@@ -104,7 +104,6 @@ Process::Start() {
 //        exit(0);
 //      }
 
-
     } else
       _communicator->obj_ptr()->run();
 
