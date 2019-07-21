@@ -1,6 +1,6 @@
 #ifndef GVIRTUS_LD_LIB_H
 #define GVIRTUS_LD_LIB_H
-]
+
 #include <dlfcn.h>
 #include <memory>
 #include <string>

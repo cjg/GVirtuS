@@ -123,7 +123,7 @@ public:
         AddStringForArguments(CudaUtil::MarshalHostPointer((void *) symbol));
         AddStringForArguments(symbol);
     }
-    
+
     static inline cudaError_t GetExitCode() {
         return (cudaError_t) Frontend::GetFrontend()->GetExitCode();
     }
@@ -169,12 +169,12 @@ public:
     static inline char * GetOutputString() {
         return Frontend::GetFrontend()->GetOutputBuffer()->AssignString();
     }
-    
+
     static inline void addMappedPointer(void* device, mappedPointer host) {
-        mappedPointers->insert(make_pair(device, host)); 
-        
+        mappedPointers->insert(make_pair(device, host));
+
     };
-    
+
     static void addtoManage(void* manage) {
         pid_t tid = syscall(SYS_gettid);
         stack<void*> * toHandle;
@@ -207,7 +207,7 @@ public:
             }
         }
     }
-    
+
     static void configure() {
         pid_t tid = syscall(SYS_gettid);
         stack<void*> * toHandle;
@@ -225,7 +225,7 @@ public:
             }
         }
     }
-    
+
     static inline bool isMappedMemory(const void* p) {
         return (mappedPointers->find(p) == mappedPointers->end() ? false : true);
     }
@@ -236,8 +236,8 @@ public:
 #endif
         devicePointers->insert(device);
     };
-    
-    static inline void removeDevicePointer(void* device) {        
+
+    static inline void removeDevicePointer(void* device) {
         devicePointers->erase(device);
     };
 
@@ -251,17 +251,17 @@ public:
     static inline mappedPointer getMappedPointer(void* device) {
         return mappedPointers->find(device)->second;
     };
-    
+
     static inline void removeMappedPointer(void* device) {
         mappedPointers->erase(device);
     };
-    
+
     static inline void addConfigureElement() {
-        
+
     }
-    
-    
-    
+
+
+
     CudaRtFrontend();
 private :
     static map <const void*, mappedPointer>* mappedPointers;
@@ -270,7 +270,7 @@ private :
     static list <configureFunction>* setup;
     Buffer * mpInputBuffer;
     bool configured;
-    
+
 };
 
 #endif	/* CUDARTFRONTEND_H */

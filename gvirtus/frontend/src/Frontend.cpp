@@ -77,9 +77,9 @@ Frontend::Init(gvirtus::Communicator *c) {
   mpFrontends->find(tid)->second->_communicator = gvirtus::CommunicatorFactory::get_communicator(end);
   mpFrontends->find(tid)->second->_communicator->obj_ptr()->Connect();
 
-  mpFrontends->find(tid)->second->mpInputBuffer = new Buffer();
-  mpFrontends->find(tid)->second->mpOutputBuffer = new Buffer();
-  mpFrontends->find(tid)->second->mpLaunchBuffer = new Buffer();
+  mpFrontends->find(tid)->second->mpInputBuffer = std::make_shared<Buffer>();
+  mpFrontends->find(tid)->second->mpOutputBuffer = std::make_shared<Buffer>();
+  mpFrontends->find(tid)->second->mpLaunchBuffer = std::make_shared<Buffer>();
   mpFrontends->find(tid)->second->mExitCode = -1;
   mpFrontends->find(tid)->second->mpInitialized = true;
 }
@@ -121,8 +121,8 @@ Frontend::GetFrontend(gvirtus::Communicator *c) {
 
 void
 Frontend::Execute(const char *routine, const Buffer *input_buffer) {
-  if (input_buffer == NULL)
-    input_buffer = mpInputBuffer;
+  if (input_buffer == nullptr)
+    input_buffer = mpInputBuffer.get();
 
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {

@@ -35,7 +35,7 @@
 class CudaDrFrontend {
 public:
 
-    static inline void Execute(const char *routine, const Buffer *input_buffer = NULL) {
+    static inline void Execute(const char *routine, const Buffer * input_buffer = nullptr) {
 #ifdef DEBUG
         std::cout<<"Called "<<routine<<std::endl;
 #endif
