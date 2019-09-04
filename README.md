@@ -20,14 +20,14 @@ This package are required:
     libzmq-dev
 
 Ubuntu:
-sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-dev git liblog4cplus-dev libzmq-dev
+    sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-dev git liblog4cplus-dev libzmq-dev
 
 CentOS:
-    yum install ...
+    sudo yum install ...
 
-    yum install centos-release-scl
+    sudo yum install centos-release-scl
 
-    yum install devtoolset-8-gcc
+    sudo yum install devtoolset-8-gcc
 
     scl enable devtoolset-8 bash
 
@@ -46,13 +46,19 @@ In the directory “GVirtuS” there are three directories named “gvirtus”, 
 2) Launch the installer script indicating the destination folder of the installation (es. "$HOME/opt/gvirtus"):
 
     export CUDA_HOME=/usr/local/cuda-9.0 
+
     export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+
     export PATH=$CUDA_HOME/bin:$PATH
+
     export EXTRA_NVCCFLAGS="--cudart=shared"
+
     export LDFLAGS="-L$CUDA_HOME/lib64"
+
     export CPPFLAGS="-I$CUDA_HOME/include"
 
     export GVIRTUS_HOME=$HOME/opt/gvirtus-2019
+
     mkdir -p $GVIRTUS_HOME
 
     ./gvirtus-installer $VIRTUS_HOME
@@ -99,33 +105,36 @@ Modify the GVirtuS configuration file backend if the default port 9999 is occupe
 
 $GVIRTUS\_HOME/etc/properties.json
 
-{
-  "communicator": [
     {
-      "endpoint": {
-        "suite": "tcp/ip",
-        "protocol": "oldtcp",
-        "server_address": "127.0.0.1",
-        "port": "9999"
-      },
-      "plugins": [
-        "cudart",
-        "cudadr",
-        "cufft",
-        "cublas",
-        "curand"
-      ]
+        "communicator": [
+        {
+             "endpoint": {
+                 "suite": "tcp/ip",
+                 "protocol": "oldtcp",
+                 "server_address": "127.0.0.1",
+                 "port": "9999"
+        },
+        "plugins": [
+            "cudart",
+            "cudadr",
+            "cufft",
+            "cublas",
+            "curand"
+            ]
+        }
+        ],
+        "secure\_application": false
     }
-  ],
-  "secure\_application": false
-}
 
 Export the dynamic CUDA library:(typically /usr/local/cuda/lib64)
 
 
     export GVIRTUS_HOME=$HOME/opt/gvirtus-2019
+
     export CUDA_HOME=/usr/local/cuda-9.0
+
     export LD_LIBRARY_PATH=$CUDA/lib64:$GVIRTUS_HOME/lib:$GVIRTUS_HOME/lib/communicator:$GVIRTUS_HOME/lib/backend:$GVIRTUS_HOME/external/lib:$LD_LIBRARY_PATH
+
     export PATH=$CUDA_HOME/bin:$PATH
 
 Execute application server gvirtus-backend with follow command:
