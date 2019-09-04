@@ -23,11 +23,13 @@ Ubuntu:
 sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-dev git liblog4cplus-dev libzmq-dev
 
 CentOS:
-yum install ...
+    yum install ...
 
-yum install centos-release-scl
-yum install devtoolset-8-gcc
-scl enable devtoolset-8 bash
+    yum install centos-release-scl
+
+    yum install devtoolset-8-gcc
+
+    scl enable devtoolset-8 bash
 
 ## Installation: ##
 1) Clone the GVirtuS main repository
