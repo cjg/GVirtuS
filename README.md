@@ -147,26 +147,26 @@ Modify the Gvirtus configuration file frontend:
 
 $GVIRTUS\_HOME/etc/properties.json
 
-{
-  "communicator": [
     {
-      "endpoint": {
-        "suite": "tcp/ip",
-        "protocol": "oldtcp",
-        "server_address": "127.0.0.1",
-        "port": "9999"
-      },
-      "plugins": [
-        "cudart",
-        "cudadr",
-        "cufft",
-        "cublas",
-        "curand"
-      ]
+        "communicator": [
+        {
+             "endpoint": {
+                 "suite": "tcp/ip",
+                 "protocol": "oldtcp",
+                 "server_address": "127.0.0.1",
+                 "port": "9999"
+        },
+        "plugins": [
+            "cudart",
+            "cudadr",
+            "cufft",
+            "cublas",
+            "curand"
+            ]
+        }
+        ],
+        "secure\_application": false
     }
-  ],
-  "secure\_application": false
-}
 
 
 **NOTE: In the local configuration GVirtuS Backend and Frontend share the same configuration files.**
