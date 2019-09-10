@@ -8,7 +8,17 @@
 namespace gvirtus {
 
   Backend::Backend(const std::filesystem::path &path) {
+    this->logger = logger;
     logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("Backend"));
+
+    // Set the logging level 
+    log4cplus::LogLevel logLevel=log4cplus::INFO_LOG_LEVEL;
+    char * val = getenv("GVIRTUS_LOGLEVEL" );
+    std::string logLevelString=(val == NULL ? std::string("") : std::string(val));
+    if (logLevelString!="") {
+        logLevel=std::stoi(logLevelString);
+    }
+    logger.setLogLevel(logLevel);
 
     if (std::filesystem::exists(path) && std::filesystem::is_regular_file(path) && path.extension() == ".json") {
       LOG4CPLUS_DEBUG(logger, "✓ - " << std::filesystem::path(__FILE__).filename() << ":" << __LINE__ << ":"

@@ -26,9 +26,21 @@
 #include "CudaRtHandler.h"
 
 using namespace log4cplus;
-
+/*
+void setLogLevel(Logger *logger) {
+  log4cplus::LogLevel logLevel=log4cplus::INFO_LOG_LEVEL;
+  char * val = getenv("GVIRTUS_LOGLEVEL" );
+  std::string logLevelString=(val == NULL ? std::string("") : std::string(val));
+  if (logLevelString!="") {
+      logLevel=std::stoi(logLevelString);
+  }
+  logger->setLogLevel(logLevel);
+}
+*/
 CUDA_ROUTINE_HANDLER(DeviceSetCacheConfig) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceSetCacheConfig"));
+    CudaRtHandler::setLogLevel(&logger);
+
     try {
         cudaFuncCache cacheConfig = input_buffer->Get<cudaFuncCache>();
         cudaError_t exit_code = cudaDeviceSetCacheConfig(cacheConfig);
@@ -42,6 +54,7 @@ CUDA_ROUTINE_HANDLER(DeviceSetCacheConfig) {
 
 CUDA_ROUTINE_HANDLER(DeviceSetLimit) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceSetLimit"));
+    CudaRtHandler::setLogLevel(&logger);
     try {
         cudaLimit limit = input_buffer->Get<cudaLimit>();
         size_t value = input_buffer->Get<size_t>();
@@ -56,6 +69,7 @@ CUDA_ROUTINE_HANDLER(DeviceSetLimit) {
 
 CUDA_ROUTINE_HANDLER(IpcOpenMemHandle) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcOpenMemHandle"));
+    CudaRtHandler::setLogLevel(&logger);
     void *devPtr = NULL;
     try {
         cudaIpcMemHandle_t handle = input_buffer->Get<cudaIpcMemHandle_t>();
@@ -75,6 +89,7 @@ CUDA_ROUTINE_HANDLER(IpcOpenMemHandle) {
 
 CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceEnablePeerAccess"));
+    CudaRtHandler::setLogLevel(&logger);
     int peerDevice = input_buffer->Get<int>();
     unsigned int flags = input_buffer->Get<unsigned int>();
     cudaError_t exit_code = cudaDeviceEnablePeerAccess(peerDevice, flags);
@@ -83,6 +98,7 @@ CUDA_ROUTINE_HANDLER(DeviceEnablePeerAccess) {
 
 CUDA_ROUTINE_HANDLER(DeviceDisablePeerAccess) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceDisablePeerAccess"));
+    CudaRtHandler::setLogLevel(&logger);
     int peerDevice = input_buffer->Get<int>();
     cudaError_t exit_code = cudaDeviceDisablePeerAccess(peerDevice);
     return std::make_shared<Result>(exit_code);
@@ -90,6 +106,7 @@ CUDA_ROUTINE_HANDLER(DeviceDisablePeerAccess) {
 
 CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceCanAccessPeer"));
+    CudaRtHandler::setLogLevel(&logger);
     int *canAccessPeer = input_buffer->Assign<int>();
     int device = input_buffer->Get<int>();
     int peerDevice = input_buffer->Get<int>();
@@ -111,6 +128,8 @@ CUDA_ROUTINE_HANDLER(DeviceCanAccessPeer) {
 
 CUDA_ROUTINE_HANDLER(DeviceGetStreamPriorityRange) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceGetStreamPriorityRange"));
+    CudaRtHandler::setLogLevel(&logger);
+
     int *leastPriority = input_buffer->Assign<int>();
     int *greatestPriority = input_buffer->Assign<int>();
 
@@ -132,6 +151,8 @@ CUDA_ROUTINE_HANDLER(DeviceGetStreamPriorityRange) {
 
 CUDA_ROUTINE_HANDLER(DeviceGetAttribute) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceGetAttribute"));
+    CudaRtHandler::setLogLevel(&logger);
+
     int *value = input_buffer->Assign<int>();
     cudaDeviceAttr attr = input_buffer->Get<cudaDeviceAttr>();
     int device = input_buffer->Get<int>();
@@ -151,6 +172,8 @@ CUDA_ROUTINE_HANDLER(DeviceGetAttribute) {
 
 CUDA_ROUTINE_HANDLER(IpcGetMemHandle) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcGetMemHanlde"));
+    CudaRtHandler::setLogLevel(&logger);
+
     cudaIpcMemHandle_t *handle = input_buffer->Assign<cudaIpcMemHandle_t>();
     void *devPtr = input_buffer->GetFromMarshal<void *>();
 
@@ -171,6 +194,8 @@ CUDA_ROUTINE_HANDLER(IpcGetMemHandle) {
 
 CUDA_ROUTINE_HANDLER(IpcGetEventHandle) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcGetEventHandle"));
+    CudaRtHandler::setLogLevel(&logger);
+
     cudaIpcEventHandle_t *handle = input_buffer->Assign<cudaIpcEventHandle_t>();
     cudaEvent_t event = input_buffer->Get<cudaEvent_t>();
 
@@ -191,6 +216,8 @@ CUDA_ROUTINE_HANDLER(IpcGetEventHandle) {
 
 CUDA_ROUTINE_HANDLER(ChooseDevice) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("ChooseDevice"));
+    CudaRtHandler::setLogLevel(&logger);
+
     int *device = input_buffer->Assign<int>();
     const cudaDeviceProp *prop = input_buffer->Assign<cudaDeviceProp>();
     cudaError_t exit_code = cudaChooseDevice(device, prop);
@@ -209,6 +236,8 @@ CUDA_ROUTINE_HANDLER(ChooseDevice) {
 
 CUDA_ROUTINE_HANDLER(GetDevice) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetDevice"));
+    CudaRtHandler::setLogLevel(&logger);
+
     try {
         int *device = input_buffer->Assign<int>();
         cudaError_t exit_code = cudaGetDevice(device);
@@ -225,6 +254,8 @@ CUDA_ROUTINE_HANDLER(GetDevice) {
 
 CUDA_ROUTINE_HANDLER(DeviceReset) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceReset"));
+    CudaRtHandler::setLogLevel(&logger);
+
     cudaError_t exit_code = cudaDeviceReset();
         std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
 
@@ -233,6 +264,8 @@ CUDA_ROUTINE_HANDLER(DeviceReset) {
 
 CUDA_ROUTINE_HANDLER(DeviceSynchronize) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("DeviceSynchronize"));
+    CudaRtHandler::setLogLevel(&logger);
+
     cudaError_t exit_code = cudaDeviceSynchronize();
 
     try {
@@ -249,6 +282,8 @@ CUDA_ROUTINE_HANDLER(DeviceSynchronize) {
 
 CUDA_ROUTINE_HANDLER(GetDeviceCount) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetDeviceCount"));
+    CudaRtHandler::setLogLevel(&logger);
+
     try {
         int *count = input_buffer->Assign<int>();
         cudaError_t exit_code = cudaGetDeviceCount(count);
@@ -266,6 +301,8 @@ CUDA_ROUTINE_HANDLER(GetDeviceCount) {
 
 CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("GetDeviceProperties"));
+    CudaRtHandler::setLogLevel(&logger);
+
     try {
         struct cudaDeviceProp *prop = input_buffer->Assign<struct cudaDeviceProp>();
         int device = input_buffer->Get<int>();
@@ -290,6 +327,8 @@ CUDA_ROUTINE_HANDLER(GetDeviceProperties) {
 
 CUDA_ROUTINE_HANDLER(SetDevice) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetDevice"));
+    CudaRtHandler::setLogLevel(&logger);
+
     try {
         int device = input_buffer->Get<int>();
         cudaError_t exit_code = cudaSetDevice(device);
@@ -308,6 +347,8 @@ CUDA_ROUTINE_HANDLER(SetDevice) {
 
 CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetDeviceFlags"));
+    CudaRtHandler::setLogLevel(&logger);
+
     try {
         int flags = input_buffer->Get<int>();
         cudaError_t exit_code = cudaSetDeviceFlags(flags);
@@ -321,7 +362,9 @@ CUDA_ROUTINE_HANDLER(SetDeviceFlags) {
 
 CUDA_ROUTINE_HANDLER(IpcOpenEventHandle) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("IpcOpenEventHandler"));
-        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    CudaRtHandler::setLogLevel(&logger);
+
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
 
     try {
         cudaEvent_t *event = input_buffer->Assign<cudaEvent_t>();
@@ -337,6 +380,8 @@ CUDA_ROUTINE_HANDLER(IpcOpenEventHandle) {
 
 CUDA_ROUTINE_HANDLER(SetValidDevices) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetValidDevice"));
+    CudaRtHandler::setLogLevel(&logger);
+
     try {
         int len = input_buffer->BackGet<int>();
         int *device_arr = input_buffer->Assign<int>(len);
