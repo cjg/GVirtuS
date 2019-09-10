@@ -67,6 +67,7 @@
  * provided Buffer.
  */
 using namespace std;
+using namespace log4cplus;
 
 class CudaRtHandler : public Handler {
 public:
@@ -106,6 +107,8 @@ public:
     const char *GetSurfaceHandler(surfaceReference *texref);
 
     const char *GetSymbol(std::shared_ptr<Buffer> in);
+
+    static void setLogLevel(Logger *logger);
 
 private:
     log4cplus::Logger logger;
