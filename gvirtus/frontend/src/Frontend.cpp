@@ -91,7 +91,6 @@ Frontend::~Frontend() {
 
     map<pthread_t, Frontend *>::iterator it;
     for (it = mpFrontends->begin(); it != mpFrontends->end(); it++) {
-      cout << "~Frontend: " << it->second << endl;
       mpFrontends->erase(it);
     }
   } else
