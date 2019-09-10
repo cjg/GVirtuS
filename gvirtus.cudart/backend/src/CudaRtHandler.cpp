@@ -54,6 +54,7 @@ extern "C" std::shared_ptr<CudaRtHandler> create_t() {
 
 CudaRtHandler::CudaRtHandler() {
     logger=Logger::getInstance(LOG4CPLUS_TEXT("CudaRtHandler"));
+    setLogLevel(&logger);
     mpFatBinary = new map<string, void **>();
     mpDeviceFunction = new map<string, string > ();
     mpVar = new map<string, string > ();
@@ -64,6 +65,16 @@ CudaRtHandler::CudaRtHandler() {
 
 CudaRtHandler::~CudaRtHandler() {
 
+}
+
+void CudaRtHandler::setLogLevel(Logger *logger) {
+  log4cplus::LogLevel logLevel=log4cplus::INFO_LOG_LEVEL;
+  char * val = getenv("GVIRTUS_LOGLEVEL" );
+  std::string logLevelString=(val == NULL ? std::string("") : std::string(val));
+  if (logLevelString!="") {
+      logLevel=std::stoi(logLevelString);
+  }
+  logger->setLogLevel(logLevel);
 }
 
 bool CudaRtHandler::CanExecute(std::string routine) {
