@@ -2,6 +2,8 @@
 
 The GPU Virtualization Service (gVirtuS) presented in this work tries to fill the gap between in-house hosted computing clusters, equipped with GPGPUs devices, and pay-for-use high performance virtual clusters deployed via public or private computing clouds. gVirtuS allows an instanced virtual machine to access GPGPUs in a transparent and hypervisor independent way, with an overhead slightly greater than a real machine/GPGPU setup. The performance of the components of gVirtuS is assessed through a suite of tests in different deployment scenarios, such as providing GPGPU power to cloud computing based HPC clusters and sharing remotely hosted GPGPUs among HPC nodes.
 
+    https://link.springer.com/chapter/10.1007/978-3-642-15277-1_37
+
 ## How to cite GVirtuS in your scientific papers ##
 
 * Montella, R., Coviello, G., Giunta, G., Laccetti, G., Isaila, F., & Blas, J. G. (2011, September). A general-purpose virtualization service for HPC on cloud computing: an application to GPUs. In International Conference on Parallel Processing and Applied Mathematics (pp. 740-749). Springer, Berlin, Heidelberg.
