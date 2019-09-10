@@ -1,3 +1,17 @@
+# A GPGPU Transparent Virtualization Component for High Performance Computing Clouds #
+
+The GPU Virtualization Service (gVirtuS) presented in this work tries to fill the gap between in-house hosted computing clusters, equipped with GPGPUs devices, and pay-for-use high performance virtual clusters deployed via public or private computing clouds. gVirtuS allows an instanced virtual machine to access GPGPUs in a transparent and hypervisor independent way, with an overhead slightly greater than a real machine/GPGPU setup. The performance of the components of gVirtuS is assessed through a suite of tests in different deployment scenarios, such as providing GPGPU power to cloud computing based HPC clusters and sharing remotely hosted GPGPUs among HPC nodes.
+
+## How to cite GVirtuS in your scientific papers ##
+
+* Montella, R., Coviello, G., Giunta, G., Laccetti, G., Isaila, F., & Blas, J. G. (2011, September). A general-purpose virtualization service for HPC on cloud computing: an application to GPUs. In International Conference on Parallel Processing and Applied Mathematics (pp. 740-749). Springer, Berlin, Heidelberg.
+
+* Montella, R., Kosta, S., Oro, D., Vera, J., Fernández, C., Palmieri, C., ... & Laccetti, G. (2017). Accelerating Linux and Android applications on low‐power devices through remote GPGPU offloading. Concurrency and Computation: Practice and Experience, 29(24), e4286.
+
+* Montella, R., Ferraro, C., Kosta, S., Pelliccia, V., & Giunta, G. (2016, December). Enabling android-based devices to high-end gpgpus. In International Conference on Algorithms and Architectures for Parallel Processing (pp. 118-125). Springer, Cham.
+
+* Montella, R., Giunta, G., & Laccetti, G. (2014). Virtualizing high-end GPGPUs on ARM clusters for the next generation of high performance cloud computing. Cluster computing, 17(1), 139-152.
+
 # How To install GVirtuS framework and plugins#
 ## Prerequisites: ##
 GCC, G++ with C++17 extension (minmum version: 8)
@@ -188,3 +202,24 @@ If you are using nvcc be sure you are compiling using shared libraries:
     export EXTRA_NVCCFLAGS="--cudart=shared"
 
 
+## Logging ##
+
+In order to change the loging level, define the GVIRTUS\_LOGLEVEL environment variable:
+
+    export GVIRTUS_LOGLEVEL=<loglevel>
+
+The <loglevel> value is defined as follows:
+
+    OFF_LOG_LEVEL     = 60000
+
+    FATAL_LOG_LEVEL   = 50000
+
+    ERROR_LOG_LEVEL   = 40000
+
+    WARN_LOG_LEVEL    = 30000
+
+    INFO_LOG_LEVEL    = 20000
+
+    DEBUG_LOG_LEVEL   = 10000
+
+    TRACE_LOG_LEVEL   = 0
