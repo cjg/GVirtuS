@@ -37,12 +37,28 @@
 
 log4cplus::Logger logger;
 
+std::string getEnvVar( std::string const & key ) 
+{
+    char * val = getenv( key.c_str() );
+    return val == NULL ? std::string("") : std::string(val);
+}
+
+
 int
 main(int argc, char **argv) {
   //Logger configuration
   log4cplus::BasicConfigurator config;
   config.configure();
   logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS"));
+
+  // Set the logging level 
+  log4cplus::LogLevel logLevel=log4cplus::INFO_LOG_LEVEL;
+  std::string logLevelString=getEnvVar("GVIRTUS_LOGLEVEL");
+  if (logLevelString!="") {
+      logLevel=std::stoi(logLevelString);
+  }
+  logger.setLogLevel(logLevel);
+
   LOG4CPLUS_INFO(logger, "🛈  - GVirtuS backend version");
 
 
