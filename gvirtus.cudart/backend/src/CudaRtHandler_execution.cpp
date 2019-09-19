@@ -25,6 +25,10 @@
 
 #include "CudaRtHandler.h"
 
+#if (CUDART_VERSION >= 10010)
+#include "cuda_runtime_compat.h"
+#endif
+
 CUDA_ROUTINE_HANDLER(ConfigureCall) {
     /* cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
      * size_t sharedMem, cudaStream_t stream) */
