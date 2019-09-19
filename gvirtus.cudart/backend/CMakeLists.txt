@@ -18,6 +18,7 @@ include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus.cudautil)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/external/include)
 
 set(backend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/include/CudaRtHandler.h
+                              ${CMAKE_CURRENT_SOURCE_DIR}/include/cuda_runtime_compat.h
                               ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler.cpp
                               ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_device.cpp
                               ${CMAKE_CURRENT_SOURCE_DIR}/src/CudaRtHandler_error.cpp
