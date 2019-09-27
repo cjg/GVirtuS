@@ -1,5 +1,7 @@
 #! /bin/bash
 
+sdk_version=`cat $CUDA_HOME/version.txt|awk '{ print $3 }'|tr '.' ' '|awk '{ print $1 "." $2 }'`
+
 if [ $# -ne 1 ]; then
   /bin/echo -e "\e[1;91mUsage: $0 \"path-of-installation-folder\"\e[0m"
   exit 1
@@ -15,7 +17,7 @@ done
 
 lpath=${INSTALL_FOLDER}/lib/frontend
 for lib in $(find $lpath -name "*.so" | sed 's|^./||'); do
-  ln -sf $lib $lib.9.0
+  ln -sf $lib $lib.$sdk_version
 done
 /bin/echo -e "\e[1;30;102mSYMBOLIC LINKS TO LIBRARY CREATED!\e[0m"
 echo
