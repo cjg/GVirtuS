@@ -15,52 +15,41 @@
  * nodes.
  */
 
-#include "Backend.h"
-#include "Property.h"
-#include "communicator/Communicator.h"
-#include "communicator/CommunicatorFactory.h"
-#include "communicator/EndpointFactory.h"
-#include "util/JSON.h"
+#include <stdlib.h> /* getenv */
+#include <unistd.h>
 #include <algorithm>
 #include <iostream>
 #include <memory>
-#include <unistd.h>
-#include <stdlib.h> /* getenv */
 #include <string>
+#include "gvirtus/backend/Backend.h"
+#include "gvirtus/backend/Property.h"
 
 #include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 
-// test
-#include "util/LD_Lib.h"
-
 log4cplus::Logger logger;
 
-std::string getEnvVar( std::string const & key ) 
-{
-    char * val = getenv( key.c_str() );
-    return val == NULL ? std::string("") : std::string(val);
+std::string getEnvVar(std::string const &key) {
+  char *val = getenv(key.c_str());
+  return val == NULL ? std::string("") : std::string(val);
 }
 
-
-int
-main(int argc, char **argv) {
-  //Logger configuration
+int main(int argc, char **argv) {
+  // Logger configuration
   log4cplus::BasicConfigurator config;
   config.configure();
   logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS"));
 
-  // Set the logging level 
-  log4cplus::LogLevel logLevel=log4cplus::INFO_LOG_LEVEL;
-  std::string logLevelString=getEnvVar("GVIRTUS_LOGLEVEL");
-  if (logLevelString!="") {
-      logLevel=std::stoi(logLevelString);
+  // Set the logging level
+  log4cplus::LogLevel logLevel = log4cplus::INFO_LOG_LEVEL;
+  std::string logLevelString = getEnvVar("GVIRTUS_LOGLEVEL");
+  if (logLevelString != "") {
+    logLevel = std::stoi(logLevelString);
   }
   logger.setLogLevel(logLevel);
 
   LOG4CPLUS_INFO(logger, "🛈  - GVirtuS backend version");
-
 
   std::string config_path;
 #ifdef _CONFIG_FILE_JSON
@@ -72,9 +61,9 @@ main(int argc, char **argv) {
 
   LOG4CPLUS_INFO(logger, "🛈  - Configuration: " << config_path);
 
-  //FIXME: Try - Catch? No.
+  // FIXME: Try - Catch? No.
   try {
-    gvirtus::Backend b(config_path);
+    gvirtus::backend::Backend b(config_path);
 
     LOG4CPLUS_INFO(logger, "🛈  - Up and running");
     b.Start();

@@ -1,13 +1,12 @@
-#ifndef GVIRTUS_PROPERTY_H
-#define GVIRTUS_PROPERTY_H
+#pragma once
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include <nlohmann/json.hpp>
+#include <gvirtus/common/JSON.h>
 
-namespace gvirtus {
+namespace gvirtus::backend {
 /**
  * Property class.
  * This class is a model to represent the properties of the backend.
@@ -30,10 +29,7 @@ class Property {
    * This method is a getter for the class member _endpoints
    * @return the reference to vector where Endpoint are saved
    */
-  inline const int &
-  endpoints() const {
-    return _endpoints;
-  }
+  inline const int &endpoints() const { return _endpoints; }
 
   /**
    * This method is a setter for the class member _plugins
@@ -46,17 +42,11 @@ class Property {
    * This method is a getter for the class member _plugins
    * @return the reference to vector where plugins string are saved
    */
-  inline std::vector<std::vector<std::string>> &
-  plugins() {
-    return _plugins;
-  }
+  inline std::vector<std::vector<std::string>> &plugins() { return _plugins; }
 
   Property &secure(bool secure);
 
-  inline bool &
-  secure() {
-    return _secure;
-  }
+  inline bool &secure() { return _secure; }
 
  private:
   std::vector<std::vector<std::string>> _plugins;
@@ -71,8 +61,7 @@ class Property {
  * @param j: reference to json object which contains the data
  * @param p: reference to property object to be created
  */
-inline void
-from_json(const nlohmann::json &j, Property &p) {
+inline void from_json(const nlohmann::json &j, Property &p) {
   int ends = 0;
   for (auto &el : j["communicator"]) {
     ends++;
@@ -82,5 +71,4 @@ from_json(const nlohmann::json &j, Property &p) {
   p.endpoints(ends);
   p.secure(j["secure_application"].get<bool>());
 }
-} // namespace gvirtus
-#endif // GVIRTUS_PROPERTY_H
+}  // namespace gvirtus::backend

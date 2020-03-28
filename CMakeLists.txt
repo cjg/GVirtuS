@@ -43,6 +43,13 @@ gvirtus_install_target(gvirtus-communicators)
 
 add_library(gvirtus-frontend SHARED
         src/frontend/Frontend.cpp)
-target_link_libraries(gvirtus-frontend gvirtus-common Threads::Threads)
+target_link_libraries(gvirtus-frontend gvirtus-communicators Threads::Threads)
 gvirtus_install_target(gvirtus-frontend)
 
+add_executable(gvirtus-backend
+        src/backend/Backend.cpp
+        src/backend/main.cpp
+        src/backend/Process.cpp
+        src/backend/Property.cpp)
+target_link_libraries(gvirtus-backend gvirtus-communicators Threads::Threads)
+gvirtus_install_target(gvirtus-frontend)

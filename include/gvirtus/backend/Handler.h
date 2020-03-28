@@ -27,32 +27,32 @@
  * @file   Handler.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
  * @date   Wed Jan 12 10:01:58 2011
- * 
- * @brief  
- * 
- * 
+ *
+ * @brief
+ *
+ *
  */
 
-#ifndef HANDLER_H
-#define	HANDLER_H
+#pragma once
 
-#include "communicator/Result.h"
+#include <gvirtus/communicators/Result.h>
 #include <memory>
+#include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
-#include "log4cplus/configurator.h"
 
+namespace gvirtus::backend {
 class Handler {
-protected:
-    using create_t = std::shared_ptr<Handler>();
-public:
-    virtual bool CanExecute(std::string routine) = 0;
-    virtual std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer) = 0;
+ protected:
+  using create_t = std::shared_ptr<Handler>();
 
-private:
-    log4cplus::Logger logger;
+ public:
+  virtual bool CanExecute(std::string routine) = 0;
+  virtual std::shared_ptr<communicators::Result> Execute(
+      std::string routine,
+      std::shared_ptr<communicators::Buffer> input_buffer) = 0;
+
+ private:
+  log4cplus::Logger logger;
 };
-
-
-#endif	/* HANDLER_H */
-
+}  // namespace gvirtus::backend
