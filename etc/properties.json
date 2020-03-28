@@ -9,8 +9,6 @@
       },
       "plugins": [
         "cudart",
-        "cudadr",
-        "cufft",
         "cublas",
         "curand"
       ]
