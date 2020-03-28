@@ -53,3 +53,5 @@ add_executable(gvirtus-backend
         src/backend/Property.cpp)
 target_link_libraries(gvirtus-backend gvirtus-communicators Threads::Threads)
 gvirtus_install_target(gvirtus-frontend)
+
+add_subdirectory(plugins/cudart)
