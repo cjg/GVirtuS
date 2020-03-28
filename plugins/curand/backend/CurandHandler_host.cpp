@@ -32,6 +32,9 @@
 using namespace std;
 using namespace log4cplus;
 
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
+
 CURAND_ROUTINE_HANDLER(CreateGenerator){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateGenerator"));
     cout<<"ciao ciao ciao"<<endl;

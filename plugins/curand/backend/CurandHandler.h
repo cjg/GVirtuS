@@ -26,21 +26,22 @@
 #ifndef _CURANDHANDLER_H
 #define _CURANDHANDLER_H
 
-#include "Handler.h"
+#include <gvirtus/backend/Handler.h>
 
-#include "communicator/Result.h"
+#include <gvirtus/communicators/Result.h>
 #include <curand.h>
 
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 #include "log4cplus/configurator.h"
 
-class CurandHandler : public Handler {
+class CurandHandler : public gvirtus::backend::Handler {
 public:
     CurandHandler();
     virtual ~CurandHandler();
     bool CanExecute(std::string routine);
-    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
+    std::shared_ptr<gvirtus::communicators::Result> Execute(std::string routine,
+        std::shared_ptr<gvirtus::communicators::Buffer> input_buffer);
 
     /*void * RegisterPointer(void *,size_t);
 
@@ -50,7 +51,8 @@ public:
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef std::shared_ptr<Result> (*CurandRoutineHandler)(CurandHandler *, std::shared_ptr<Buffer>);
+    typedef std::shared_ptr<gvirtus::communicators::Result> (*CurandRoutineHandler)(CurandHandler *,
+        std::shared_ptr<gvirtus::communicators::Buffer>);
     static std::map<std::string, CurandRoutineHandler> * mspHandlers;
     //void **pointers;
     //int nPointers;
@@ -61,7 +63,7 @@ private:
     //int mShmFd;
 };
 
-#define CURAND_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CurandHandler * pThis, std::shared_ptr<Buffer> in)
+#define CURAND_ROUTINE_HANDLER(name) std::shared_ptr<gvirtus::communicators::Result> handle##name(CurandHandler * pThis, std::shared_ptr<gvirtus::communicators::Buffer> in)
 #define CURAND_ROUTINE_HANDLER_PAIR(name) make_pair("curand" #name, handle##name)
 
 /* CudnnHandler_Platform */
