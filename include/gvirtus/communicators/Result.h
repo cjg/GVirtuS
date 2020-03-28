@@ -53,8 +53,12 @@ class Result {
 
   void Dump(Communicator *c);
 
+  void TimeTaken(double time_taken);
+  double TimeTaken() const;
+
  private:
   int mExitCode;
   std::shared_ptr<Buffer> mpOutputBuffer;
+  double mTimeTaken = 0;
 };
 }  // namespace gvirtus::communicators

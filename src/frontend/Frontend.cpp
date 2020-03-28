@@ -43,6 +43,8 @@
 #include <unistd.h>
 #include <iostream>
 
+#include <chrono>
+
 using namespace std;
 
 using gvirtus::communicators::Buffer;
@@ -50,6 +52,8 @@ using gvirtus::communicators::Communicator;
 using gvirtus::communicators::CommunicatorFactory;
 using gvirtus::communicators::EndpointFactory;
 using gvirtus::frontend::Frontend;
+
+using std::chrono::steady_clock;
 
 static Frontend msFrontend;
 map<pthread_t, Frontend *> *Frontend::mpFrontends = NULL;
@@ -67,7 +71,7 @@ void Frontend::Init(Communicator *c) {
 #ifdef _CONFIG_FILE_JSON
   config_path = _CONFIG_FILE_JSON;
 #else
-  config_path = std::string {GVIRTUS_HOME} + "/etc/properties.json";
+  config_path = std::string{GVIRTUS_HOME} + "/etc/properties.json";
 #endif
 
   std::unique_ptr<char> default_endpoint;
@@ -92,9 +96,20 @@ void Frontend::Init(Communicator *c) {
 Frontend::~Frontend() {
   if (mpFrontends != NULL) {
     pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
-
+    auto env = getenv("GVIRTUS_DUMP_STATS");
+    auto dump_stats = env != nullptr && (strcasecmp(env, "on") == 0 || strcasecmp(env, "true") == 0 ||
+        strcmp(env, "1") == 0);
     map<pthread_t, Frontend *>::iterator it;
     for (it = mpFrontends->begin(); it != mpFrontends->end(); it++) {
+      if (dump_stats) {
+        std::cerr << "[GVIRTUS_STATS] Executed " << it->second->mRoutinesExecuted << " routine(s) in "
+                  << it->second->mRoutineExecutionTime << " second(s)\n"
+                  << "[GVIRTUS_STATS] Sent " << it->second->mDataSent / (1024 * 1024.0) << " Mb(s) in " << it->second->mSendingTime
+                  << " second(s)\n"
+                  << "[GVIRTUS_STATS] Received " << it->second->mDataReceived / (1024 * 1024.0) << " Mb(s) in "
+                  << it->second->mReceivingTime
+                  << " second(s)\n";
+      }
       mpFrontends->erase(it);
     }
   } else
@@ -126,21 +141,33 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
     /* sending job */
-    Frontend *frontend = new Frontend();
-    frontend = mpFrontends->find(tid)->second;
+    auto frontend = mpFrontends->find(tid)->second;
+    frontend->mRoutinesExecuted++;
+    auto start = steady_clock::now();
     frontend->_communicator->obj_ptr()->Write(routine, strlen(routine) + 1);
+    frontend->mDataSent += input_buffer->GetBufferSize();
     input_buffer->Dump(frontend->_communicator->obj_ptr().get());
     frontend->_communicator->obj_ptr()->Sync();
+    frontend->mSendingTime += std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
+        .count() / 1000.0;
     frontend->mpOutputBuffer->Reset();
 
-    frontend->_communicator->obj_ptr()->Read((char *)&frontend->mExitCode,
+    frontend->_communicator->obj_ptr()->Read((char *) &frontend->mExitCode,
                                              sizeof(int));
+    double time_taken;
+    frontend->_communicator->obj_ptr()->Read(reinterpret_cast<char *>(&time_taken), sizeof(time_taken));
+    frontend->mRoutineExecutionTime += time_taken;
+
+    start = steady_clock::now();
     size_t out_buffer_size;
-    frontend->_communicator->obj_ptr()->Read((char *)&out_buffer_size,
+    frontend->_communicator->obj_ptr()->Read((char *) &out_buffer_size,
                                              sizeof(size_t));
+    frontend->mDataReceived += out_buffer_size;
     if (out_buffer_size > 0)
       frontend->mpOutputBuffer->Read<char>(
           frontend->_communicator->obj_ptr().get(), out_buffer_size);
+    frontend->mReceivingTime += std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
+        .count() / 1000.0;
   } else {
     /* error */
     cerr << " ERROR - can't send any job request " << endl;

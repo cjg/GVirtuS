@@ -16,6 +16,7 @@ int Result::GetExitCode() { return mExitCode; }
 
 void Result::Dump(Communicator *c) {
   c->Write((char *)&mExitCode, sizeof(int));
+  c->Write(reinterpret_cast<const char *>(&mTimeTaken), sizeof(mTimeTaken));
   if (mpOutputBuffer != NULL)
     mpOutputBuffer->Dump(c);
   else {
@@ -23,4 +24,12 @@ void Result::Dump(Communicator *c) {
     c->Write((char *)&size, sizeof(size_t));
     c->Sync();
   }
+}
+
+void Result::TimeTaken(double time_taken) {
+  mTimeTaken = time_taken;
+}
+
+double Result::TimeTaken() const {
+  return mTimeTaken;
 }

@@ -17,6 +17,8 @@ using gvirtus::communicators::Buffer;
 using gvirtus::communicators::Communicator;
 using gvirtus::communicators::Endpoint;
 
+using std::chrono::steady_clock;
+
 using namespace std;
 
 Process::Process(
@@ -95,7 +97,10 @@ void Process::Start() {
         result = std::make_shared<communicators::Result>(
             -1, std::make_shared<Buffer>());
       } else {
+        auto start = steady_clock::now();
         result = h->Execute(routine, input_buffer);
+        result->TimeTaken(std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now() - start)
+            .count() / 1000.0);
         // esegue la routine e salva il risultato in result
       }
 

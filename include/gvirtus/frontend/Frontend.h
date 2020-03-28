@@ -241,5 +241,12 @@ class Frontend {
   int mExitCode;
   static std::map<pthread_t, Frontend *> *mpFrontends;
   bool mpInitialized;
+
+  uint64_t mRoutinesExecuted = 0;
+  uint64_t mDataSent = 0;
+  uint64_t mDataReceived = 0;
+  double mSendingTime = 0.0;
+  double mReceivingTime = 0.0;
+  double mRoutineExecutionTime = 0.0;
 };
 }  // namespace gvirtus::frontend
