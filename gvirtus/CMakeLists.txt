@@ -16,24 +16,6 @@ link_directories(${CMAKE_INSTALL_PREFIX}/external/lib)
 
 ### Fix uvw error
 include(FindThreads)
-find_package(Doxygen 1.8)
-if(DOXYGEN_FOUND)
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/uvw-prefix/src/uvw-build/docs/html)
-endif()
-
-ExternalProject_Add(libuv
-        GIT_REPOSITORY https://github.com/libuv/libuv.git
-        GIT_TAG v1.x
-        CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/external"
-        TIMEOUT 360
-        )
-
-# uvw
-ExternalProject_Add(uvw
-        GIT_REPOSITORY https://github.com/skypjack/uvw.git
-        CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/external"
-        TIMEOUT 360
-        )
 
 ##
 # nlohmann/json
@@ -44,13 +26,6 @@ ExternalProject_Add(nlohmann
         )
 
 
-##
-# uWebSockets
-ExternalProject_Add(uWebSockets
-        GIT_REPOSITORY https://github.com/xMentos5091/uWebSockets.git
-        CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/external"
-        TIMEOUT 360
-)
 
 ###################################
 
