@@ -3,7 +3,7 @@
     {
       "endpoint": {
         "suite": "tcp/ip",
-        "protocol": "oldtcp",
+        "protocol": "tcp",
         "server_address": "127.0.0.1",
         "port": "9999"
       },
