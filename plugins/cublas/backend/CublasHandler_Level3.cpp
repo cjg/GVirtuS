@@ -5,6 +5,8 @@
 
 using namespace std;
 using namespace log4cplus;
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
 
 CUBLAS_ROUTINE_HANDLER(Sgemm_v2) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Sgemm"));

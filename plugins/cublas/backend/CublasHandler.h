@@ -43,19 +43,20 @@
 #include <cublas.h>
 #include "cublas_v2.h"
 
-#include "Handler.h"
-#include "communicator/Result.h"
+#include <gvirtus/backend/Handler.h>
+#include <gvirtus/communicators/Result.h>
 
 #include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 
-class CublasHandler : public Handler {
+class CublasHandler : public gvirtus::backend::Handler {
 public:
   CublasHandler();
   virtual ~CublasHandler();
   bool CanExecute(std::string routine);
-  std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
+  std::shared_ptr<gvirtus::communicators::Result> Execute(std::string routine,
+      std::shared_ptr<gvirtus::communicators::Buffer> input_buffer);
 
   /*void * RegisterPointer(void *,size_t);
 
@@ -65,7 +66,8 @@ public:
 private:
   log4cplus::Logger logger;
   void Initialize();
-  typedef std::shared_ptr<Result>(*CublasRoutineHandler)(CublasHandler *, std::shared_ptr<Buffer>);
+  typedef std::shared_ptr<gvirtus::communicators::Result>(*CublasRoutineHandler)(CublasHandler *,
+      std::shared_ptr<gvirtus::communicators::Buffer>);
   static std::map<std::string, CublasRoutineHandler> *mspHandlers;
   // void **pointers;
   // int nPointers;
@@ -76,7 +78,7 @@ private:
   // int mShmFd;
 };
 
-#define CUBLAS_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CublasHandler *pThis, std::shared_ptr<Buffer> in)
+#define CUBLAS_ROUTINE_HANDLER(name) std::shared_ptr<gvirtus::communicators::Result> handle##name(CublasHandler *pThis, std::shared_ptr<gvirtus::communicators::Buffer> in)
 #define CUBLAS_ROUTINE_HANDLER_PAIR(name) make_pair("cublas" #name, handle##name)
 
 /* CublasHandler_Helper */

@@ -31,5 +31,5 @@ CublasFrontend msInstance __attribute_used__;
 void * CublasFrontend::handler = NULL;
 
 CublasFrontend::CublasFrontend() {
-    Frontend::GetFrontend();
+  gvirtus::frontend::Frontend::GetFrontend();
 }

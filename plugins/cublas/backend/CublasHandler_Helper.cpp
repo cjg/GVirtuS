@@ -31,6 +31,9 @@
 using namespace std;
 using namespace log4cplus;
 
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
+
 CUBLAS_ROUTINE_HANDLER(Create) {
     cublasHandle_t handle=in->Get<cublasHandle_t>();
     cublasStatus_t cublas_status=cublasCreate(&handle);

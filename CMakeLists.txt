@@ -55,3 +55,4 @@ target_link_libraries(gvirtus-backend gvirtus-communicators Threads::Threads)
 gvirtus_install_target(gvirtus-frontend)
 
 add_subdirectory(plugins/cudart)
+add_subdirectory(plugins/cublas)

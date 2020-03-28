@@ -27,7 +27,7 @@
 #include <cstdio>
 #include <string>
 
-#include "Frontend.h"
+#include <gvirtus/frontend/Frontend.h>
 #include "CublasFrontend.h"
 
 using namespace std;
