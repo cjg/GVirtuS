@@ -27,29 +27,27 @@
  * @file   Frontend.h
  * @author Giuseppe Coviello <giuseppe.coviello@uniparthenope.it>
  * @date   Wed Sep 30 12:57:11 2009
- * 
- * @brief  
- * 
- * 
+ *
+ * @brief
+ *
+ *
  */
 
-#ifndef _FRONTEND_H
-#define    _FRONTEND_H
+#pragma once
 
-#include <vector>
+#include <pthread.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <map>
 #include <string>
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/syscall.h>
+#include <vector>
 
-#include "communicator/Communicator.h"
-#include "communicator/Buffer.h"
-#include "util/LD_Lib.h"
+#include <gvirtus/common/LD_Lib.h>
+#include <gvirtus/communicators/Buffer.h>
+#include <gvirtus/communicators/Communicator.h>
 
-using namespace std;
-
+namespace gvirtus::frontend {
 /**
  * Frontend is the object used by every cuda routine wrapper for requesting the
  * execution to the backend.
@@ -81,7 +79,7 @@ class Frontend {
    *
    * @return The instance of the Frontend class.
    */
-  static Frontend *GetFrontend(gvirtus::Communicator *c = NULL);
+  static Frontend *GetFrontend(communicators::Communicator *c = NULL);
 
   /**
    * Requests the execution of the CUDA RunTime routine with the arguments
@@ -92,7 +90,8 @@ class Frontend {
    * @param routine the name of the routine to execute.
    * @param input_buffer the buffer containing the parameters of the routine.
    */
-  void Execute(const char *routine, const Buffer *input_buffer = NULL);
+  void Execute(const char *routine,
+               const communicators::Buffer *input_buffer = NULL);
 
   /**
    * Prepares the Frontend for the execution. This method _must_ be called
@@ -101,15 +100,13 @@ class Frontend {
    */
   void Prepare();
 
-  inline Buffer *GetInputBuffer() {
-    return mpInputBuffer.get();
-  }
+  inline communicators::Buffer *GetInputBuffer() { return mpInputBuffer.get(); }
 
-  inline Buffer *GetOutputBuffer() {
+  inline communicators::Buffer *GetOutputBuffer() {
     return mpOutputBuffer.get();
   }
 
-  inline Buffer *GetLaunchBuffer() {
+  inline communicators::Buffer *GetLaunchBuffer() {
     return mpLaunchBuffer.get();
   }
 
@@ -118,20 +115,16 @@ class Frontend {
    *
    * @return the exit code of the last execution request.
    */
-  int GetExitCode() {
-    return mExitCode;
-  }
+  int GetExitCode() { return mExitCode; }
 
-  inline bool initialized() { return mpInitialized; }//should be commented
+  inline bool initialized() { return mpInitialized; }  // should be commented
 
   /**
    * Checks if the latest execution had been completed successfully.
    *
    * @return True if the last execution had been completed successfully.
    */
-  bool Success(int success_value = 0) {
-    return mExitCode == success_value;
-  }
+  bool Success(int success_value = 0) { return mExitCode == success_value; }
 
 #if 0
   /**
@@ -237,16 +230,16 @@ class Frontend {
    * use obtaining the information from the configuration file which path is
    * setted at compile time.
    */
-  void Init(gvirtus::Communicator *c);
-  std::shared_ptr<LD_Lib<gvirtus::Communicator, std::shared_ptr<gvirtus::Endpoint>>> _communicator;
-  std::shared_ptr<Buffer> mpInputBuffer;
-  std::shared_ptr<Buffer> mpOutputBuffer;
-  std::shared_ptr<Buffer> mpLaunchBuffer;
+  void Init(communicators::Communicator *c);
+  std::shared_ptr<common::LD_Lib<communicators::Communicator,
+                                 std::shared_ptr<communicators::Endpoint>>>
+      _communicator;
+  std::shared_ptr<communicators::Buffer> mpInputBuffer;
+  std::shared_ptr<communicators::Buffer> mpOutputBuffer;
+  std::shared_ptr<communicators::Buffer> mpLaunchBuffer;
 
   int mExitCode;
-  static map<pthread_t, Frontend *> *mpFrontends;
+  static std::map<pthread_t, Frontend *> *mpFrontends;
   bool mpInitialized;
 };
-
-#endif    /* _FRONTEND_H */
-
+}  // namespace gvirtus::frontend

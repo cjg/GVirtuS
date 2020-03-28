@@ -13,8 +13,8 @@ get_filename_component(PARENT_DIR ../ ABSOLUTE)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(SYSTEM ${CMAKE_INSTALL_PREFIX}/include/gvirtus)
 
-set(frontend_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/Frontend.cpp
-                            ${CMAKE_CURRENT_SOURCE_DIR}/include/Frontend.h
+set(frontend_SOURCE ../../src/frontend/Frontend.cpp
+        ../../include/gvirtus/frontend/Frontend.h
 )
 
 file(GLOB FRONTEND_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h*")

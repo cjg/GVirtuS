@@ -41,5 +41,8 @@ add_library(gvirtus-communicators SHARED
 target_link_libraries(gvirtus-communicators gvirtus-common)
 gvirtus_install_target(gvirtus-communicators)
 
-
+add_library(gvirtus-frontend SHARED
+        src/frontend/Frontend.cpp)
+target_link_libraries(gvirtus-frontend gvirtus-common Threads::Threads)
+gvirtus_install_target(gvirtus-frontend)
 
