@@ -11,6 +11,9 @@
 
 using namespace std;
 
+using gvirtus::frontend::Frontend;
+using gvirtus::common::mappedPointer;
+
 CufftFrontend msInstance __attribute_used__;
 
 map<const void*, mappedPointer>* CufftFrontend::mappedPointers = NULL;

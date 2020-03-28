@@ -18,6 +18,7 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann/json.hpp
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 add_library(gvirtus-common SHARED
+        ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann/json.hpp
         src/common/Decoder.cpp
         src/common/Encoder.cpp
         src/common/JSON.cpp
@@ -31,6 +32,9 @@ add_library(gvirtus-common SHARED
         src/common/Util.cpp)
 target_link_libraries(gvirtus-common stdc++fs ${CMAKE_DL_LIBS} ${LOG4CPLUS_LIBRARY})
 gvirtus_install_target(gvirtus-common)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann DESTINATION ${GVIRTUS_HOME}/include)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc DESTINATION ${GVIRTUS_HOME})
+install(FILES cmake/GVirtuS.cmake DESTINATION ${GVIRTUS_HOME}/cmake/)
 
 add_library(gvirtus-communicators SHARED
         src/communicators/Buffer.cpp
@@ -40,6 +44,11 @@ add_library(gvirtus-communicators SHARED
         src/communicators/Result.cpp)
 target_link_libraries(gvirtus-communicators gvirtus-common)
 gvirtus_install_target(gvirtus-communicators)
+
+add_library(gvirtus-communicators-tcp SHARED
+        src/communicators/tcp/TcpCommunicator.cpp)
+target_link_libraries(gvirtus-communicators-tcp gvirtus-communicators)
+gvirtus_install_target(gvirtus-communicators-tcp)
 
 add_library(gvirtus-frontend SHARED
         src/frontend/Frontend.cpp)
@@ -52,7 +61,8 @@ add_executable(gvirtus-backend
         src/backend/Process.cpp
         src/backend/Property.cpp)
 target_link_libraries(gvirtus-backend gvirtus-communicators Threads::Threads)
-gvirtus_install_target(gvirtus-frontend)
+gvirtus_install_target(gvirtus-backend)
 
-add_subdirectory(plugins/cudart)
 add_subdirectory(plugins/cublas)
+add_subdirectory(plugins/cudart)
+add_subdirectory(plugins/cufft)

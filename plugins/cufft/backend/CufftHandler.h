@@ -37,8 +37,8 @@
 #ifndef _CUFFTHANDLER_H
 #define	_CUFFTHANDLER_H
 
-#include "Handler.h"
-#include "communicator/Result.h"
+#include <gvirtus/backend/Handler.h>
+#include <gvirtus/communicators/Result.h>
 
 #include <cufft.h>
 #include <cufftXt.h>
@@ -59,20 +59,22 @@
  * named CUDA Runtime routine unmarshalling the input parameters from the
  * provided Buffer.
  */
-class CufftHandler : public Handler {
+class CufftHandler : public gvirtus::backend::Handler {
 public:
     CufftHandler();
     virtual ~CufftHandler();
     bool CanExecute(std::string routine);
-    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
+    std::shared_ptr<gvirtus::communicators::Result> Execute(std::string routine,
+        std::shared_ptr<gvirtus::communicators::Buffer> input_buffer);
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef std::shared_ptr<Result> (*CufftRoutineHandler)(CufftHandler *, std::shared_ptr<Buffer>);
+    typedef std::shared_ptr<gvirtus::communicators::Result> (*CufftRoutineHandler)(CufftHandler *,
+        std::shared_ptr<gvirtus::communicators::Buffer>);
     static std::map<std::string, CufftRoutineHandler> * mspHandlers;
 };
 
-#define CUFFT_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CufftHandler * pThis, std::shared_ptr<Buffer> in)
+#define CUFFT_ROUTINE_HANDLER(name) std::shared_ptr<gvirtus::communicators::Result> handle##name(CufftHandler * pThis, std::shared_ptr<gvirtus::communicators::Buffer> in)
 #define CUFFT_ROUTINE_HANDLER_PAIR(name) make_pair("cufft" #name, handle##name)
 
 /* CufftHandler.cpp */

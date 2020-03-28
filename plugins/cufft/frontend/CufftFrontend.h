@@ -19,24 +19,24 @@
 #include <cufft.h>
 #include <cuda_runtime_api.h>
 
-#include "Frontend.h"
+#include <gvirtus/frontend/Frontend.h>
 #include "Cufft.h"
 
 using namespace std;
 
 typedef struct __configureFunction{
-      funcs __f;
-      Buffer* buffer;
+      gvirtus::common::funcs __f;
+      gvirtus::communicators::Buffer* buffer;
   } configureFunction;
 
 class CufftFrontend {
 public:
-    static inline void Execute(const char *routine, const Buffer *input_buffer = NULL) {
+    static inline void Execute(const char *routine, const gvirtus::communicators::Buffer *input_buffer = NULL) {
         #ifdef DEBUG
                 if (string(routine) != "cudaLaunch")
                     cerr << "Requesting " << routine << endl;
         #endif
-                Frontend::GetFrontend()->Execute(routine,input_buffer);
+                gvirtus::frontend::Frontend::GetFrontend()->Execute(routine,input_buffer);
     }
     /**
      * Prepares the Frontend for the execution. This method _must_ be called
@@ -45,11 +45,11 @@ public:
      */
 
     static inline void Prepare() {
-        Frontend::GetFrontend()->Prepare();
+        gvirtus::frontend::Frontend::GetFrontend()->Prepare();
     }
 
-    static inline Buffer *GetLaunchBuffer() {
-        return Frontend::GetFrontend()->GetLaunchBuffer();
+    static inline gvirtus::communicators::Buffer *GetLaunchBuffer() {
+        return gvirtus::frontend::Frontend::GetFrontend()->GetLaunchBuffer();
     }
 
     /**
@@ -59,7 +59,7 @@ public:
      * @param var the variable to add as a parameter.
      */
     template <class T> static inline void AddVariableForArguments(T var) {
-        Frontend::GetFrontend()->GetInputBuffer()->Add(var);
+        gvirtus::frontend::Frontend::GetFrontend()->GetInputBuffer()->Add(var);
     }
 
     /**
@@ -69,7 +69,7 @@ public:
      * @param s the string to add as a parameter.
      */
     static inline void AddStringForArguments(const char *s) {
-        Frontend::GetFrontend()->GetInputBuffer()->AddString(s);
+        gvirtus::frontend::Frontend::GetFrontend()->GetInputBuffer()->AddString(s);
     }
 
     /**
@@ -82,7 +82,7 @@ public:
      * @param n the length of the array, if ptr is an array.
      */
     template <class T>static inline void AddHostPointerForArguments(T *ptr, size_t n = 1) {
-        Frontend::GetFrontend()->GetInputBuffer()->Add(ptr, n);
+        gvirtus::frontend::Frontend::GetFrontend()->GetInputBuffer()->Add(ptr, n);
     }
 
     /**
@@ -92,7 +92,7 @@ public:
      * @param ptr the pointer to add as a parameter.
      */
     static inline void AddDevicePointerForArguments(const void *ptr) {
-        Frontend::GetFrontend()->GetInputBuffer()->Add((pointer_t) ptr);
+        gvirtus::frontend::Frontend::GetFrontend()->GetInputBuffer()->Add((gvirtus::common::pointer_t) ptr);
     }
 
     /**
@@ -109,15 +109,15 @@ public:
     }
 
     static inline cudaError_t GetExitCode() {
-        return (cudaError_t) Frontend::GetFrontend()->GetExitCode();
+        return (cudaError_t) gvirtus::frontend::Frontend::GetFrontend()->GetExitCode();
     }
 
     static inline bool Success() {
-        return Frontend::GetFrontend()->Success(cudaSuccess);
+        return gvirtus::frontend::Frontend::GetFrontend()->Success(cudaSuccess);
     }
 
     template <class T> static inline T GetOutputVariable() {
-        return Frontend::GetFrontend()->GetOutputBuffer()->Get<T> ();
+        return gvirtus::frontend::Frontend::GetFrontend()->GetOutputBuffer()->Get<T> ();
     }
 
     /**
@@ -131,7 +131,7 @@ public:
      * @return the pointer from the output parameters.
      */
     template <class T>static inline T * GetOutputHostPointer(size_t n = 1) {
-        return Frontend::GetFrontend()->GetOutputBuffer()->Assign<T> (n);
+        return gvirtus::frontend::Frontend::GetFrontend()->GetOutputBuffer()->Assign<T> (n);
     }
 
     /**
@@ -141,7 +141,7 @@ public:
      * @return the pointer to the device memory.
      */
     static inline void * GetOutputDevicePointer() {
-        return (void *) Frontend::GetFrontend()->GetOutputBuffer()->Get<pointer_t>();
+        return (void *) gvirtus::frontend::Frontend::GetFrontend()->GetOutputBuffer()->Get<gvirtus::common::pointer_t>();
     }
 
     /**
@@ -151,12 +151,11 @@ public:
      * @return the string from the output parameters.
      */
     static inline char * GetOutputString() {
-        return Frontend::GetFrontend()->GetOutputBuffer()->AssignString();
+        return gvirtus::frontend::Frontend::GetFrontend()->GetOutputBuffer()->AssignString();
     }
 
-    static inline void addMappedPointer(void* device, mappedPointer host) {
+    static inline void addMappedPointer(void* device, gvirtus::common::mappedPointer host) {
         mappedPointers->insert(make_pair(device, host));
-
     };
 
     static void addtoManage(void* manage) {
@@ -182,7 +181,7 @@ public:
             while (!toHandle->empty()) {
                 void* p = toHandle->top();
                 toHandle->pop();
-                mappedPointer mP = getMappedPointer(p);
+                auto mP = getMappedPointer(p);
 #ifdef DEBUG
                 cerr << "copying " << mP.size << ": " << std::hex << mP.pointer << " to "
                         << std::hex << p << endl;
@@ -200,7 +199,7 @@ public:
             while (!toHandle->empty()) {
                 void* p = toHandle->top();
                 toHandle->pop();
-                mappedPointer mP = getMappedPointer(p);
+                auto mP = getMappedPointer(p);
 #ifdef DEBUG
                 cerr << "copying " << mP.size << ": " << std::hex << mP.pointer << " to "
                         << std::hex << p << endl;
@@ -232,7 +231,7 @@ public:
         return (devicePointers->find(p) == devicePointers->end() ? false : true);
     }
 
-    static inline mappedPointer getMappedPointer(void* device) {
+    static inline gvirtus::common::mappedPointer getMappedPointer(void* device) {
         return mappedPointers->find(device)->second;
     };
 
@@ -249,11 +248,11 @@ public:
 
 private:
 
-    static map <const void*, mappedPointer>* mappedPointers;
+    static map <const void*, gvirtus::common::mappedPointer>* mappedPointers;
     static set <const void*>* devicePointers;
     static map <pthread_t, stack<void*> *>* toManage;
     static list <configureFunction>* setup;
-    Buffer * mpInputBuffer;
+    gvirtus::communicators::Buffer * mpInputBuffer;
     bool configured;
 };
 
