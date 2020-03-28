@@ -135,8 +135,9 @@ class Buffer {
 
   template <class T>
   void Read(Communicator *c) {
-    while ((mLength + sizeof(T)) >= mSize) {
-      mSize += mBlockSize;
+    auto required_size = mLength + sizeof(T);
+    if (required_size >= mSize) {
+      mSize = (required_size / mBlockSize + 1) * mBlockSize;
       if ((mpBuffer = (char *)realloc(mpBuffer, mSize)) == NULL)
         throw "Can't reallocate memory.";
     }
@@ -147,8 +148,9 @@ class Buffer {
 
   template <class T>
   void Read(Communicator *c, size_t n = 1) {
-    while ((mLength + (sizeof(T) * n)) >= mSize) {
-      mSize += mBlockSize;
+    auto required_size = mLength + sizeof(T) * n;
+    if (required_size >= mSize) {
+      mSize = (required_size / mBlockSize + 1) * mBlockSize;
       if ((mpBuffer = (char *)realloc(mpBuffer, mSize)) == NULL)
         throw "Can't reallocate memory.";
     }
