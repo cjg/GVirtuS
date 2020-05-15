@@ -26,6 +26,7 @@
 #include <map>
 #include <errno.h>
 #include <cuda_runtime_api.h>
+#include <cudnn.h>
 #include "CudnnHandler.h"
 
 using namespace std;

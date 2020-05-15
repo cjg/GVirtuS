@@ -31,14 +31,16 @@
 #include <list>
 #include <iostream>
 
-#include <cuda_runtime_api.h>
 #include <cudnn.h>
 
-#include "Frontend.h"
+#include <gvirtus/frontend/Frontend.h>
+
+using gvirtus::communicators::Buffer;
+using gvirtus::frontend::Frontend;
 
 typedef struct __configureFunction{
-      funcs __f;
-      Buffer* buffer;
+      gvirtus::common::funcs __f;
+      gvirtus::communicators::Buffer* buffer;
 } configureFunction;
 
 class CudnnFrontend {

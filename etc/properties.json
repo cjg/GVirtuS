@@ -10,7 +10,8 @@
       "plugins": [
         "cudart",
         "cublas",
-        "curand"
+        "curand",
+        "cudnn"
       ]
     }
   ],

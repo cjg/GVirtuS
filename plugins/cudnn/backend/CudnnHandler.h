@@ -127,14 +127,14 @@ CUDNN_ROUTINE_HANDLER(GetConvolution2dForwardOutputDim);
 #ifndef CUDNNHANDLER_H
 #define CUDNNHANDLER_H
 
-#include "Handler.h"
-#include "communicator/Result.h"
+#include <gvirtus/backend/Handler.h>
+#include <gvirtus/communicators/Result.h>
 
 #include <cudnn.h>
 
-#include "log4cplus/logger.h"
-#include "log4cplus/loggingmacros.h"
-#include "log4cplus/configurator.h"
+#include <log4cplus/logger.h>
+#include <log4cplus/loggingmacros.h>
+#include <log4cplus/configurator.h>
 
 #include <limits.h>
 #if ( __WORDSIZE == 64 )
@@ -150,8 +150,10 @@ CUDNN_ROUTINE_HANDLER(GetConvolution2dForwardOutputDim);
  */
 using namespace std;
 using namespace log4cplus;
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
 
-class CudnnHandler : public Handler {
+class CudnnHandler : public gvirtus::backend::Handler {
 public:
     CudnnHandler();
     virtual ~CudnnHandler();
