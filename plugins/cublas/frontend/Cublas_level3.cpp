@@ -73,9 +73,9 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgemm_v2 (cublasHandle_t 
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgemmBatched(cublasHandle_t handle,
                                                                 cublasOperation_t transa, cublasOperation_t transb,
                                                                 int m, int n, int k,
-                                                                const float *alpha, const float *Aarray[], int lda,
-                                                                const float *Barray[], int ldb,
-                                                                const float *beta, float *Carray[], int ldc,
+                                                                const float *alpha, const float * const Aarray[], int lda,
+                                                                const float * const Barray[], int ldb,
+                                                                const float *beta, float *const Carray[], int ldc,
                                                                 int batchCount){
     CublasFrontend::Prepare();
     CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
@@ -147,9 +147,9 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDgemm_v2 (cublasHandle_t 
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDgemmBatched(cublasHandle_t handle,
                                                                 cublasOperation_t transa, cublasOperation_t transb,
                                                                 int m, int n, int k,
-                                                                const double *alpha, const double *Aarray[], int lda,
-                                                                const double *Barray[], int ldb,
-                                                                const double *beta, double *Carray[], int ldc,
+                                                                const double *alpha, const double *const Aarray[], int lda,
+                                                                const double *const Barray[], int ldb,
+                                                                const double *beta, double *const Carray[], int ldc,
                                                                 int batchCount){
     CublasFrontend::Prepare();
     CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
@@ -221,9 +221,9 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgemm_v2 (cublasHandle_t 
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgemmBatched(cublasHandle_t handle,
                                                                 cublasOperation_t transa, cublasOperation_t transb,
                                                                 int m, int n, int k,
-                                                                const cuComplex *alpha, const cuComplex *Aarray[], int lda,
-                                                                const cuComplex *Barray[], int ldb,
-                                                                const cuComplex *beta, cuComplex *Carray[], int ldc,
+                                                                const cuComplex *alpha, const cuComplex *const Aarray[], int lda,
+                                                                const cuComplex *const Barray[], int ldb,
+                                                                const cuComplex *beta, cuComplex *const Carray[], int ldc,
                                                                 int batchCount){
     CublasFrontend::Prepare();
     CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
@@ -295,9 +295,9 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgemm_v2 (cublasHandle_t 
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgemmBatched(cublasHandle_t handle,
                                                                 cublasOperation_t transa, cublasOperation_t transb,
                                                                 int m, int n, int k,
-                                                                const cuDoubleComplex *alpha, const cuDoubleComplex *Aarray[], int lda,
-                                                                const cuDoubleComplex *Barray[], int ldb,
-                                                                const cuDoubleComplex *beta, cuDoubleComplex *Carray[], int ldc,
+                                                                const cuDoubleComplex *alpha, const cuDoubleComplex *const Aarray[], int lda,
+                                                                const cuDoubleComplex *const Barray[], int ldb,
+                                                                const cuDoubleComplex *beta, cuDoubleComplex *const Carray[], int ldc,
                                                                 int batchCount){
     CublasFrontend::Prepare();
     CublasFrontend::AddVariableForArguments<long long int>((long long int)handle);
