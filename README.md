@@ -1,10 +1,12 @@
 # A GPGPU Transparent Virtualization Component for High Performance Computing Clouds #
 
-The GPU Virtualization Service (gVirtuS) presented in this work tries to fill the gap between in-house hosted computing clusters, equipped with GPGPUs devices, and pay-for-use high performance virtual clusters deployed via public or private computing clouds. gVirtuS allows an instanced virtual machine to access GPGPUs in a transparent and hypervisor independent way, with an overhead slightly greater than a real machine/GPGPU setup. The performance of the components of gVirtuS is assessed through a suite of tests in different deployment scenarios, such as providing GPGPU power to cloud computing based HPC clusters and sharing remotely hosted GPGPUs among HPC nodes.
+The GPU Virtualization Service (GVirtuS) presented in this work tries to fill the gap between in-house hosted computing clusters, equipped with GPGPUs devices, and pay-for-use high performance virtual clusters deployed via public or private computing clouds. gVirtuS allows an instanced virtual machine to access GPGPUs in a transparent and hypervisor independent way, with an overhead slightly greater than a real machine/GPGPU setup. The performance of the components of gVirtuS is assessed through a suite of tests in different deployment scenarios, such as providing GPGPU power to cloud computing based HPC clusters and sharing remotely hosted GPGPUs among HPC nodes.
 
     https://link.springer.com/chapter/10.1007/978-3-642-15277-1_37
 
 ## How to cite GVirtuS in your scientific papers ##
+
+* Giunta, G., Montella, R., Agrillo, G., Coviello, G. (2010) A GPGPU Transparent Virtualization Component for High Performance Computing Clouds. In: Euro-Par 2010 - Parallel Processing. Euro-Par 2010. Lecture Notes in Computer Science, vol 6271. Springer, Berlin, Heidelberg
 
 * Montella, R., Coviello, G., Giunta, G., Laccetti, G., Isaila, F., & Blas, J. G. (2011, September). A general-purpose virtualization service for HPC on cloud computing: an application to GPUs. In International Conference on Parallel Processing and Applied Mathematics (pp. 740-749). Springer, Berlin, Heidelberg.
 
@@ -16,11 +18,11 @@ The GPU Virtualization Service (gVirtuS) presented in this work tries to fill th
 
 # How To install GVirtuS framework and plugins#
 ## Prerequisites: ##
-GCC, G++ with C++17 extension (minmum version: 8)
+GCC, G++ with C++17 extension (minmum version: 7)
 
-OS: CentOS 7.3 (tested)
+OS: CentOS 7.3, Ubuntu 18.04 (tested)
 
-CUDA Toolkit: up to Version 9.0
+CUDA Toolkit: version 10.2
 
 This package are required:
     build-essential
@@ -33,13 +35,11 @@ This package are required:
     libgl-dev
     libosmesa-dev
     liblog4cplus-dev
-    libzmq-dev
 
 Ubuntu:
-    sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-dev git liblog4cplus-dev libzmq-dev
+    sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev libosmesa-dev git liblog4cplus-dev
 
 CentOS:
-    sudo yum install ...
 
     sudo yum install centos-release-scl
 
@@ -52,66 +52,26 @@ CentOS:
 
    git clone https://github.com/gvirtus/GVirtuS.git 
 
-In the directory “GVirtuS” there are three directories named “gvirtus”, “gvirtus.cudart” and "gvirtus.cudadr".
-
-“gvirtus” contains the framework.
-
-“gvirtus.cudart” and "gvirtus.cudadr" contains the cuda runtime plugin and the cuda driver plugin.
+2) Compile and install GVirtuS using CMake:
 
 
-2) Launch the installer script indicating the destination folder of the installation (es. "$HOME/opt/gvirtus"):
+    cd GVirutS
+    mkdir build
+    cd build
+    cmake ..
+    make
+    make install    
+    
 
-    export CUDA_HOME=/usr/local/cuda-9.0 
+By default GVirtuS will be installed in ${HOME}/GVirtuS; to override 
+this behavior export the GVIRTUS_HOME variable before running cmake, i.e.:
 
-    export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
-    export PATH=$CUDA_HOME/bin:$PATH
+    export GVIRTUS_HOME=/opt/GVirtuS 
 
-    export EXTRA_NVCCFLAGS="--cudart=shared"
 
-    export LDFLAGS="-L$CUDA_HOME/lib64"
 
-    export CPPFLAGS="-I$CUDA_HOME/include"
-
-    export GVIRTUS_HOME=$HOME/opt/gvirtus-2019
-
-    mkdir -p $GVIRTUS_HOME
-
-    ./gvirtus-installer $VIRTUS_HOME
-
-To check your installation please check the following directories:
-
-Check $GVIRTUS\_HOME/lib for frontend and backend directories
-
-**NOTE: Be sure to use a toolchain enabled with C++17 features.**
-
-## Testing ##
-
-How GVirtuS works? Could my application work with GVirtuS?
-
-The only way to answer is tring and testing.
-
-A good starting poin is testing GVirtuS aganist the NVIDIA CUDA SAMPLES using the gvirtus-test script.
-
-    ./gvitus-test NVIDA_CUDA_SAMPLES_PATH output_file [avoid_file]
-
-Where:
-
-    NVIDA_CUDA_SAMPLES_PATH is the absolute path of the sample files shipped with the NVIDIA CUDA SdK
-
-    output_file is the CSV file where the results will be saved
-
-    avoid_file is a text file containing the samples that have to be skipped in order to avoid the script stucks.
-
-The script produces a CSV files with reluts.
-
-On the standard output the script prints the error message generated by the sample. This could be used for debugging or in order to improve features.
-
-Example:
-
-    ./gvirtus-test $HOME/dev/cuda-samples/NVIDIA_CUDA-9.0_Samples/ $HOME/dev/GVirtuS-9.0/saturn.saturn.9.0.csv $HOME/dev/GVirtuS-9.0/avoid_file.txt 2>&1 | tee result.txt
-
-## EXAMPLE cuda application ##
+## Running GVirtuS ##
 
 ### Backend machine (physical GPU and Cuda required) ###
 
@@ -142,20 +102,9 @@ $GVIRTUS\_HOME/etc/properties.json
         "secure\_application": false
     }
 
-Export the dynamic CUDA library:(typically /usr/local/cuda/lib64)
-
-
-    export GVIRTUS_HOME=$HOME/opt/gvirtus-2019
-
-    export CUDA_HOME=/usr/local/cuda-9.0
-
-    export LD_LIBRARY_PATH=$CUDA/lib64:$GVIRTUS_HOME/lib:$GVIRTUS_HOME/lib/communicator:$GVIRTUS_HOME/lib/backend:$GVIRTUS_HOME/external/lib:$LD_LIBRARY_PATH
-
-    export PATH=$CUDA_HOME/bin:$PATH
-
 Execute application server gvirtus-backend with follow command:
 
-    $GVIRTUS_HOME/bin/gvirtus-backend
+    LD_LIBRARY_PATH=${GVIRTUS_HOME}/lib:${LD_LIBRARY_PATH} $GVIRTUS_HOME/bin/gvirtus-backend ${GVIRTUS_HOME}/etc/properties.json
 
 ### Frontend machine (No GPU or Cuda required) ###
 
@@ -189,7 +138,7 @@ $GVIRTUS\_HOME/etc/properties.json
 
 Export the dynamic GVirtuS library:
 
-    export  LD_LIBRARY_PATH=GVIRTUS_PATH/gvirtus/lib/frontend
+    export LD_LIBRARY_PATH=${GVIRTUS_HOME}/lib/frontend:${GVIRTUS_HOME}/lib/frontend:${LD_LIBRARY_PATH}
 
 Optionally set a different configuration file
 
