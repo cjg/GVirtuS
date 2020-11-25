@@ -152,6 +152,7 @@ const gvirtus::communicators::Communicator *const TcpCommunicator::Accept()
 void TcpCommunicator::Connect() {
   struct sockaddr_in remote;
 
+
   if ((mSocketFd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
     throw "TcpCommunicator: Can't create socket.";
 
