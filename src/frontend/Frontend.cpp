@@ -45,6 +45,11 @@
 
 #include <chrono>
 
+#include <stdlib.h> /* getenv */
+#include "log4cplus/configurator.h"
+#include "log4cplus/logger.h"
+#include "log4cplus/loggingmacros.h"
+
 using namespace std;
 
 using gvirtus::communicators::Buffer;
@@ -59,20 +64,43 @@ static Frontend msFrontend;
 map<pthread_t, Frontend *> *Frontend::mpFrontends = NULL;
 static bool initialized = false;
 
-void Frontend::Init(Communicator *c) {
-  //  log4cplus::BasicConfigurator config;
-  //  config.configure();
-  //  logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS
-  //  Frontend"));
+log4cplus::Logger logger;
 
+std::string getEnvVar(std::string const &key) {
+  char *val = getenv(key.c_str());
+  return val == NULL ? std::string("") : std::string(val);
+}
+
+void Frontend::Init(Communicator *c) {
+  log4cplus::BasicConfigurator config;
+  config.configure();
+  logger = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("GVirtuS Frontend"));
+
+  // Set the logging level
+  log4cplus::LogLevel logLevel = log4cplus::INFO_LOG_LEVEL;
+  std::string logLevelString = getEnvVar("GVIRTUS_LOGLEVEL");
+  if (logLevelString != "") {
+    logLevel = std::stoi(logLevelString);
+  }
+
+  logger.setLogLevel(logLevel);
+  
   pid_t tid = syscall(SYS_gettid);
 
-  std::string config_path;
-#ifdef _CONFIG_FILE_JSON
-  config_path = _CONFIG_FILE_JSON;
-#else
-  config_path = std::string{GVIRTUS_HOME} + "/etc/properties.json";
-#endif
+  // Get the GVIRTUS_CONFIG environment varibale
+  std::string config_path = getEnvVar("GVIRTUS_CONFIG");
+
+  // Check if the configuration file is defined
+  if (config_path == "" ) {
+
+    // Check if the configuration file is in the GVIRTUS_HOME directory
+    config_path = getEnvVar("GVIRTUS_HOME")+"/etc/properties.json";
+    if (config_path == "") {
+
+      // Finally consider the current directory
+      config_path = "./properties.json";
+    }
+  }
 
   std::unique_ptr<char> default_endpoint;
 
@@ -81,10 +109,14 @@ void Frontend::Init(Communicator *c) {
     mpFrontends->insert(make_pair(tid, f));
   }
 
+  LOG4CPLUS_INFO(logger, "🛈  - GVirtuS frontend version "+config_path);
+
   auto end = EndpointFactory::get_endpoint(config_path);
+
   mpFrontends->find(tid)->second->_communicator =
       CommunicatorFactory::get_communicator(end);
   mpFrontends->find(tid)->second->_communicator->obj_ptr()->Connect();
+
 
   mpFrontends->find(tid)->second->mpInputBuffer = std::make_shared<Buffer>();
   mpFrontends->find(tid)->second->mpOutputBuffer = std::make_shared<Buffer>();
