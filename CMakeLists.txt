@@ -63,8 +63,8 @@ add_executable(gvirtus-backend
 target_link_libraries(gvirtus-backend gvirtus-communicators Threads::Threads)
 gvirtus_install_target(gvirtus-backend)
 
-add_subdirectory(plugins/cublas)
+#add_subdirectory(plugins/cublas)
 add_subdirectory(plugins/cudart)
-# add_subdirectory(plugins/cufft)
+add_subdirectory(plugins/cufft)
 add_subdirectory(plugins/curand)
 add_subdirectory(plugins/cudnn)
