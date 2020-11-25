@@ -55,9 +55,17 @@ bool getstring(Communicator *c, string &s) {
   return false;
 }
 
+extern std::string getEnvVar(std::string const &key);
+
+std::string getGVirtuSHome() {
+     std::string gvirtus_home = getEnvVar("GVIRTUS_HOME");
+     return gvirtus_home;
+   }
+
 void Process::Start() {
   for_each(mPlugins.begin(), mPlugins.end(), [this](const std::string &plug) {
-    auto ld_path = fs::path(std::string{GVIRTUS_HOME} + "/lib")
+    std::string gvirtus_home = getGVirtuSHome();
+    auto ld_path = fs::path(gvirtus_home + "/lib")
                        .append("libgvirtus-plugin-" + plug + ".so");
     try {
       auto dl = std::make_shared<LD_Lib<Handler>>(ld_path, "create_t");
