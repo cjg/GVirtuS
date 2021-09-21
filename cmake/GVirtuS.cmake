@@ -10,9 +10,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGVIRTUS_HOME=\\\"${GVIRTUS_HOME}\\\"")
 set(CMAKE_SKIP_RPATH ON)
 
-find_library(LOG4CPLUS_LIBRARY log4cplus)
-if(NOT LOG4CPLUS_LIBRARY)
-    message(FATAL_ERROR "log4cplus library not found")
+#find_library(LOG4CPLUS_LIBRARY log4cplus)
+#if(NOT LOG4CPLUS_LIBRARY)
+#    message(FATAL_ERROR "log4cplus library not found")
+#endif()
+
+# Include the support to external projects
+include(ExternalProject)
+
+ExternalProject_Add(log4cplus
+        URL https://kumisystems.dl.sourceforge.net/project/log4cplus/log4cplus-stable/2.0.5/log4cplus-2.0.5.tar.gz
+        TIMEOUT 360
+        BUILD_IN_SOURCE 1
+        CONFIGURE_COMMAND ./configure --prefix=${EXTERNAL_INSTALL_LOCATION} CFLAGS=-fPIC CPPFLAGS=-I${EXTERNAL_INSTALL_LOCATION}/include/ LDFLAGS=-L${EXTERNAL_INSTALL_LOCATION}/lib/
+        BUILD_COMMAND make
+        INSTALL_COMMAND make install
+        )
+set(LIBLOG4CPLUS ${EXTERNAL_INSTALL_LOCATION}/lib/liblog4cplus.so)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set(LIBLOG4CPLUS ${EXTERNAL_INSTALL_LOCATION}/lib/liblog4cplus.dylib)
 endif()
 
 find_package(Threads REQUIRED)
