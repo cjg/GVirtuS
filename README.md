@@ -6,13 +6,13 @@ The GPU Virtualization Service (GVirtuS) presented in this work tries to fill th
 
 ## How to cite GVirtuS in your scientific papers ##
 
+* Montella, R., Ferraro, C., Kosta, S., Pelliccia, V., & Giunta, G. (2016, December). Enabling android-based devices to high-end gpgpus. In International Conference on Algorithms and Architectures for Parallel Processing (pp. 118-125). Springer, Cham.
+
 * Mentone, A., Di Luccio, D., Landolfi, L., Kosta, S., & Montella, R. (2019, October). CUDA virtualization and remoting for GPGPU based acceleration offloading at the edge. In International Conference on Internet and Distributed Computing Systems (pp. 414-423). Springer, Cham.
 
 * Montella, R., Giunta, G., Laccetti, G., Lapegna, M., Palmieri, C., Ferraro, C., ... & Nikolopoulos, D. S. (2017). On the virtualization of CUDA based GPU remoting on ARM and X86 machines in the GVirtuS framework. International Journal of Parallel Programming, 45(5), 1142-1163.
 
 * Montella, R., Kosta, S., Oro, D., Vera, J., Fernández, C., Palmieri, C., ... & Laccetti, G. (2017). Accelerating Linux and Android applications on low‐power devices through remote GPGPU offloading. Concurrency and Computation: Practice and Experience, 29(24), e4286.
-
-* Montella, R., Ferraro, C., Kosta, S., Pelliccia, V., & Giunta, G. (2016, December). Enabling android-based devices to high-end gpgpus. In International Conference on Algorithms and Architectures for Parallel Processing (pp. 118-125). Springer, Cham.
 
 * Montella, R., Giunta, G., & Laccetti, G. (2014). Virtualizing high-end GPGPUs on ARM clusters for the next generation of high performance cloud computing. Cluster computing, 17(1), 139-152.
 
