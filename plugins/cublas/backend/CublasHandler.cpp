@@ -34,6 +34,8 @@
 using namespace std;
 using namespace log4cplus;
 
+using namespace gvirtus::communicators;
+
 std::map<string, CublasHandler::CublasRoutineHandler> *CublasHandler::mspHandlers = NULL;
 
 extern "C" std::shared_ptr<CublasHandler> create_t() {
@@ -47,6 +49,16 @@ CublasHandler::CublasHandler() {
 
 CublasHandler::~CublasHandler() {}
 
+void CublasHandler::setLogLevel(Logger *logger) {
+	log4cplus::LogLevel logLevel=log4cplus::INFO_LOG_LEVEL;
+        char * val = getenv("GVIRTUS_LOGLEVEL");
+	std::string logLevelString =(val == NULL ? std::string("") : std::string(val));
+	if(logLevelString != "") {
+		logLevel = std::stoi(logLevelString);
+	}
+	logger->setLogLevel(logLevel);
+}
+
 bool
 CublasHandler::CanExecute(std::string routine) {
   return mspHandlers->find(routine) != mspHandlers->end();
@@ -54,7 +66,7 @@ CublasHandler::CanExecute(std::string routine) {
 
 std::shared_ptr<Result>
 CublasHandler::Execute(std::string routine, std::shared_ptr<Buffer> input_buffer) {
-  LOG4CPLUS_DEBUG(logger, "Called " << routine);
+//  LOG4CPLUS_DEBUG(logger, "Called " << routine);
   map<string, CublasHandler::CublasRoutineHandler>::iterator it;
   it = mspHandlers->find(routine);
   if (it == mspHandlers->end())
