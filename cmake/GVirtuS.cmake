@@ -10,13 +10,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGVIRTUS_HOME=\\\"${GVIRTUS_HOME}\\\"")
 set(CMAKE_SKIP_RPATH ON)
 
-#find_library(LOG4CPLUS_LIBRARY log4cplus)
-#if(NOT LOG4CPLUS_LIBRARY)
-#    message(FATAL_ERROR "log4cplus library not found")
-#endif()
-
 # Include the support to external projects
 include(ExternalProject)
+
+# Set the external install location
+set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external)
 
 ExternalProject_Add(log4cplus
         URL https://kumisystems.dl.sourceforge.net/project/log4cplus/log4cplus-stable/2.0.5/log4cplus-2.0.5.tar.gz
@@ -59,7 +57,7 @@ function(gvirtus_add_backend)
     endif()
     add_library(${PROJECT_NAME} SHARED
             ${ARGV})
-    target_link_libraries(${PROJECT_NAME} log4cplus gvirtus-common gvirtus-communicators)
+    target_link_libraries(${PROJECT_NAME} ${LIBLOG4CPLUS} gvirtus-common gvirtus-communicators)
     install(TARGETS ${PROJECT_NAME}
             LIBRARY DESTINATION ${GVIRTUS_HOME}/lib)
 endfunction()
@@ -74,7 +72,7 @@ function(gvirtus_add_frontend)
     list(REMOVE_AT ARGV 0)
     add_library(${wrapped_library} SHARED
             ${ARGV})
-    target_link_libraries(${wrapped_library} log4cplus gvirtus-common gvirtus-communicators gvirtus-frontend)
+    target_link_libraries(${wrapped_library} ${LIBLOG4CPLUS} gvirtus-common gvirtus-communicators gvirtus-frontend)
     set_target_properties(${wrapped_library} PROPERTIES VERSION ${version})
     string(REGEX REPLACE "\\..*" "" soversion ${version})
     set_target_properties(${wrapped_library} PROPERTIES SOVERSION ${soversion})
