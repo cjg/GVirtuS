@@ -30,6 +30,8 @@ using namespace std;
 CublasFrontend msInstance __attribute_used__;
 void * CublasFrontend::handler = NULL;
 
+using gvirtus::frontend::Frontend;
+
 CublasFrontend::CublasFrontend() {
-  gvirtus::frontend::Frontend::GetFrontend();
+    Frontend::GetFrontend();
 }
