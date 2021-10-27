@@ -30,11 +30,16 @@ add_library(gvirtus-common SHARED
         src/common/SignalException.cpp
         src/common/SignalState.cpp
         src/common/Util.cpp)
-target_link_libraries(gvirtus-common stdc++fs ${CMAKE_DL_LIBS} ${LOG4CPLUS_LIBRARY})
+
+add_dependencies(gvirtus-common log4cplus)
+
+target_link_libraries(gvirtus-common stdc++fs ${CMAKE_DL_LIBS} ${LIBLOG4CPLUS})
 gvirtus_install_target(gvirtus-common)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann DESTINATION ${GVIRTUS_HOME}/include)
+install(DIRECTORY ${EXTERNAL_INSTALL_LOCATION}/include/log4cplus DESTINATION ${GVIRTUS_HOME}/include)
+install(DIRECTORY ${EXTERNAL_INSTALL_LOCATION}/lib DESTINATION ${GVIRTUS_HOME})
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc DESTINATION ${GVIRTUS_HOME})
-install(FILES cmake/GVirtuS.cmake DESTINATION ${GVIRTUS_HOME}/cmake/)
+#install(FILES cmake/GVirtuS.cmake DESTINATION ${GVIRTUS_HOME}/cmake/)
 
 add_library(gvirtus-communicators SHARED
         src/communicators/Buffer.cpp
@@ -63,7 +68,7 @@ add_executable(gvirtus-backend
 target_link_libraries(gvirtus-backend gvirtus-communicators Threads::Threads)
 gvirtus_install_target(gvirtus-backend)
 
-#add_subdirectory(plugins/cublas)
+add_subdirectory(plugins/cublas)
 add_subdirectory(plugins/cudart)
 add_subdirectory(plugins/cufft)
 add_subdirectory(plugins/curand)
