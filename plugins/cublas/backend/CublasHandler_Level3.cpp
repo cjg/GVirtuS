@@ -5,8 +5,6 @@
 
 using namespace std;
 using namespace log4cplus;
-using gvirtus::communicators::Buffer;
-using gvirtus::communicators::Result;
 
 CUBLAS_ROUTINE_HANDLER(Sgemm_v2) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Sgemm"));
@@ -38,7 +36,7 @@ CUBLAS_ROUTINE_HANDLER(Sgemm_v2) {
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
-    cout << "DEBUG - cublasSgemm_v2 Executed"<<endl;
+   // cout << "DEBUG - cublasSgemm_v2 Executed"<<endl;
     return std::make_shared<Result>(cs,out);
 }
 
