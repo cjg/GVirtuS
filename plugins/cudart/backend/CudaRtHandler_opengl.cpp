@@ -25,7 +25,7 @@
 
 #include "CudaRtHandler.h"
 
-#if defined(__arm__)
+#if defined(__arm__) || defined(__aarch64__)
 #include <GL/gl.h>
 #endif
 
