@@ -31,8 +31,6 @@
 using namespace std;
 using namespace log4cplus;
 
-using gvirtus::communicators::Buffer;
-using gvirtus::communicators::Result;
 
 CUBLAS_ROUTINE_HANDLER(Sgemv_v2){
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Sgemv"));
@@ -43,7 +41,7 @@ CUBLAS_ROUTINE_HANDLER(Sgemv_v2){
     int m  = in->Get<int>();
     int n  = in->Get<int>();
     const float * alpha = in->Assign<float>();
-    cout << "alpha: "<<*alpha<<endl;
+    //cout << "alpha: "<<*alpha<<endl;
     float * A = in->GetFromMarshal<float*>();
     int lda = in->Get<int>();
     float * x = in->GetFromMarshal<float*>();
@@ -68,7 +66,7 @@ CUBLAS_ROUTINE_HANDLER(Sgemv_v2){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(cudaErrorMemoryAllocation);
     }
-    cout << "DEBUG - cublasSgemv_v2 Executed"<<endl;
+    //cout << "DEBUG - cublasSgemv_v2 Executed"<<endl;
     return std::make_shared<Result>(cs,out);
 }
 
