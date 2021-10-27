@@ -29,10 +29,6 @@
 #include <string>
 using namespace std;
 
-using log4cplus::Logger;
-using gvirtus::communicators::Buffer;
-using gvirtus::communicators::Result;
-
 /*CUBLAS_ROUTINE_HANDLER(GetMatrix) {
     int rows=input_buffer->Assign<int>();
     int cols=input_buffer->Assign<int>();
