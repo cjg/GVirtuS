@@ -50,13 +50,19 @@
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 
+using namespace std;
+using namespace log4cplus;
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
+
 class CublasHandler : public gvirtus::backend::Handler {
 public:
   CublasHandler();
   virtual ~CublasHandler();
   bool CanExecute(std::string routine);
-  std::shared_ptr<gvirtus::communicators::Result> Execute(std::string routine,
-      std::shared_ptr<gvirtus::communicators::Buffer> input_buffer);
+  std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
+  static void setLogLevel(Logger *logger);
+
 
   /*void * RegisterPointer(void *,size_t);
 
@@ -66,9 +72,9 @@ public:
 private:
   log4cplus::Logger logger;
   void Initialize();
-  typedef std::shared_ptr<gvirtus::communicators::Result>(*CublasRoutineHandler)(CublasHandler *,
-      std::shared_ptr<gvirtus::communicators::Buffer>);
+  typedef std::shared_ptr<Result>(*CublasRoutineHandler)(CublasHandler *, std::shared_ptr<Buffer>);
   static std::map<std::string, CublasRoutineHandler> *mspHandlers;
+
   // void **pointers;
   // int nPointers;
 
