@@ -28,12 +28,6 @@
 #include <cstdio>
 #include <string>
 
-using namespace std;
-using namespace log4cplus;
-
-using gvirtus::communicators::Buffer;
-using gvirtus::communicators::Result;
-
 CUBLAS_ROUTINE_HANDLER(Create) {
     cublasHandle_t handle=in->Get<cublasHandle_t>();
     cublasStatus_t cublas_status=cublasCreate(&handle);
@@ -77,7 +71,7 @@ CUBLAS_ROUTINE_HANDLER(Create_v2){
     }
     if(cs != CUBLAS_STATUS_SUCCESS)
         cout<<"----Error---"<<endl;
-    cout << "DEBUG - cublasCreate_v2 Executed"<<endl;
+//    cout << "DEBUG - cublasCreate_v2 Executed"<<endl;
     return std::make_shared<Result>(cs,out);
 }
 
@@ -85,7 +79,7 @@ CUBLAS_ROUTINE_HANDLER(Destroy_v2) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Destroy_v2"));
     cublasHandle_t handle=(cublasHandle_t)in->Get<long long int>();
     cublasStatus_t cs=cublasDestroy(handle);
-    cout << "DEBUG - cublasDestroy_v2 Executed"<<endl;
+ //   cout << "DEBUG - cublasDestroy_v2 Executed"<<endl;
     //Buffer *out=new Buffer();
     return std::make_shared<Result>(cs);
 }
