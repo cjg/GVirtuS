@@ -29,6 +29,32 @@
 #include "cuda_runtime_compat.h"
 #endif
 
+#if (CUDART_VERSION >= 9020)
+#include "crt/device_functions.h"
+
+/* This is temporary, must be fixed 
+ *
+ * Probably the solution is here: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/stream_executor/cuda
+ *
+ */
+
+
+CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
+  try {
+    dim3 gridDim = input_buffer->Get<dim3>();
+    dim3 blockDim = input_buffer->Get<dim3>();
+    size_t sharedMem = input_buffer->Get<size_t>();
+    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+    cudaError_t exit_code = cudaPushCallConfiguration(gridDim, blockDim, sharedMem, stream);
+    return std::make_shared<Result>(exit_code);
+  } catch (string e) {
+    cerr << e << endl;
+    return std::make_shared<Result>(cudaErrorMemoryAllocation);
+  }
+
+}
+#endif
+
 CUDA_ROUTINE_HANDLER(ConfigureCall) {
   /* cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
    * size_t sharedMem, cudaStream_t stream) */
@@ -187,42 +213,3 @@ CUDA_ROUTINE_HANDLER(SetupArgument) {
     return std::make_shared<Result>(cudaErrorMemoryAllocation);
   }
 }
-
-#if CUDART_VERSION >= 9020
-
-#include <dlfcn.h>
-#include <iostream>
-
-/** This is temporary, must be fixed 
- *
- *  Probably the solution is here: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/stream_executor/cuda
- * **/
-
-extern "C"  __host__ __device__  cudaError_t cudaPushCallConfiguration( dim3 gridDim, dim3 blockDim, size_t sharedMem = 0, void *stream = 0) {
-  /*
-  typedef func_t *func( dim3, dim3, size_t, void *);
-  void* handle = dlopen("/usr/local/cuda-10.0/lib64/libcudart.so",RTLD_LAZY);
-  func_t *pFunc = (func_t*) dlsym(handle, "cudaPushCallConfiguration");
-  return pFunc(gridDim,blockDim,sharedMem, stream);
-  */
-  return cudaErrorUnknown;
-}
-
-CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
-  fprintf(stderr, "cudaPushCallConfiguration\n\n");
-  try {
-    dim3 gridDim = input_buffer->Get<dim3>();
-    dim3 blockDim = input_buffer->Get<dim3>();
-    size_t sharedMem = input_buffer->Get<size_t>();
-    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-    cudaError_t exit_code = cudaPushCallConfiguration(gridDim, blockDim, sharedMem, stream);
-    return std::make_shared<Result>(exit_code);
-  } catch (string e) {
-    cerr << e << endl;
-    return std::make_shared<Result>(cudaErrorMemoryAllocation);
-  }
-
-  // std::cerr << "gridDim: " << gridDim.x << " " << gridDim.y << " " <<
-  //   // gridDim.z << " " << std::endl;
-}
-#endif
