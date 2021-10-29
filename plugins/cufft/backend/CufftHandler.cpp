@@ -218,6 +218,7 @@ CUFFT_ROUTINE_HANDLER(ExecC2R) {
     return std::make_shared<Result>(exit_code,out);
 }
 
+#if (CUDART_VERSION <= 9000)
 CUFFT_ROUTINE_HANDLER(SetCompatibilityMode) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("SetCompatibilityMode"));
     cufftHandle plan = in->Get<cufftHandle>();
@@ -226,6 +227,7 @@ CUFFT_ROUTINE_HANDLER(SetCompatibilityMode) {
     cout<<"DEBUG - cufftSetCompatibilityMode Executed\n";
     return std::make_shared<Result>(exit_code);
 }
+#endif
 
 CUFFT_ROUTINE_HANDLER(Create) {
     Logger logger=Logger::getInstance(LOG4CPLUS_TEXT("Create"));

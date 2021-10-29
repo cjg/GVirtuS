@@ -503,6 +503,7 @@ extern "C" cufftResult cufftSetStream(cufftHandle plan, cudaStream_t stream) {
   return (cufftResult) CufftFrontend::GetExitCode();
 }
 
+#if __CUDA_API_VERSION <= 9000
 extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
                                                  cufftCompatibility mode) {
   CufftFrontend::Prepare();
@@ -511,6 +512,7 @@ extern "C" cufftResult cufftSetCompatibilityMode(cufftHandle plan,
   CufftFrontend::Execute("cufftSetCompatibilityMode");
   return (cufftResult) CufftFrontend::GetExitCode();
 }
+#endif
 
 #if __CUDA_API_VERSION >= 7000
 extern "C" cufftResult cufftGetProperty(libraryPropertyType type, int* value){
