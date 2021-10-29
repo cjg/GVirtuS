@@ -182,6 +182,10 @@ CUDA_ROUTINE_HANDLER(SetDoubleForDevice);
 CUDA_ROUTINE_HANDLER(SetDoubleForHost);
 CUDA_ROUTINE_HANDLER(SetupArgument);
 
+#if CUDA_VERSION >= 9020
+CUDA_ROUTINE_HANDLER(PushCallConfiguration);
+#endif
+
 /* CudaRtHandler_internal */
 CUDA_ROUTINE_HANDLER(RegisterFatBinary);
 CUDA_ROUTINE_HANDLER(UnregisterFatBinary);

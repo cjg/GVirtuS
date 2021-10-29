@@ -351,6 +351,9 @@ void CudaRtHandler::Initialize() {
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForDevice));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForHost));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetupArgument));
+#if CUDART_VERSION >= 9020
+  mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(PushCallConfiguration));
+#endif
 
   /* CudaRtHandler_internal */
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFatBinary));
