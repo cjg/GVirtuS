@@ -14,7 +14,7 @@ set(CMAKE_SKIP_RPATH ON)
 include(ExternalProject)
 
 # Set the external install location
-set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external)
+set(EXTERNAL_INSTALL_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/external)
 
 ExternalProject_Add(log4cplus
         URL https://kumisystems.dl.sourceforge.net/project/log4cplus/log4cplus-stable/2.0.5/log4cplus-2.0.5.tar.gz
@@ -28,6 +28,7 @@ set(LIBLOG4CPLUS ${EXTERNAL_INSTALL_LOCATION}/lib/liblog4cplus.so)
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(LIBLOG4CPLUS ${EXTERNAL_INSTALL_LOCATION}/lib/liblog4cplus.dylib)
 endif()
+include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
 
 find_package(Threads REQUIRED)
 

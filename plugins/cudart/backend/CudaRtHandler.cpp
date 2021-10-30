@@ -352,7 +352,10 @@ void CudaRtHandler::Initialize() {
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForHost));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetupArgument));
 #if CUDART_VERSION >= 9020
+#if CUDART_VERSION >= 11000
+#else
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(PushCallConfiguration));
+#endif
 #endif
 
   /* CudaRtHandler_internal */

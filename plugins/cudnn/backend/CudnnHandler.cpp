@@ -993,6 +993,7 @@ CUDNN_ROUTINE_HANDLER(CreateConvolutionDescriptor){
     return std::make_shared<Result>(cs,out); 
 }
 
+#if CUDNN_VERSION < 8204
 CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardFilterAlgorithm){
    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetConvolutionBackwardFilterAlgorithm"));
 
@@ -1017,6 +1018,7 @@ CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardFilterAlgorithm){
     //LOG4CPLUS_DEBUG(logger,"cudnnGetConvolutionBackwardFilterAlgorithm  Executed");
     return std::make_shared<Result>(cs,out);   
 }
+#endif
  
 CUDNN_ROUTINE_HANDLER(SetConvolution2dDescriptor){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetConvolution2dDescriptor"));
@@ -1044,6 +1046,7 @@ CUDNN_ROUTINE_HANDLER(SetConvolution2dDescriptor){
     return std::make_shared<Result>(cs,out);
 }
 
+#if CUDNN_VERSION < 8204
 CUDNN_ROUTINE_HANDLER(GetConvolutionForwardAlgorithm){
    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetConvolutionForwardAlgorithm"));
 
@@ -1066,9 +1069,9 @@ CUDNN_ROUTINE_HANDLER(GetConvolutionForwardAlgorithm){
         return std::make_shared<Result>(cs);
     }
     //LOG4CPLUS_DEBUG(logger,"cudnnGetConvolutionForwardAlgorithm  Executed");
-    return std::make_shared<Result>(cs,out);  
-   
+    return std::make_shared<Result>(cs,out);
 }
+#endif
 
 CUDNN_ROUTINE_HANDLER(GetConvolutionForwardWorkspaceSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetConvolutionForwardWorkspaceSize"));
@@ -2409,6 +2412,7 @@ CUDNN_ROUTINE_HANDLER(FindConvolutionBackwardDataAlgorithmEx){
    return std::make_shared<Result>(cs, out);  
 }
 
+#if CUDNN_VERSION < 8204
 CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardDataAlgorithm){
    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetConvolutionBackwardDataAlgorithm"));
 
@@ -2433,6 +2437,7 @@ CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardDataAlgorithm){
    //LOG4CPLUS_DEBUG(logger, "cudnnGetConvolutionBackwardDataAlgorithm Executed");
    return std::make_shared<Result>(cs, out);  
 }
+#endif
 
 CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardDataAlgorithm_v7){
    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetConvolutionBackwardDataAlgorithm_v7"));
@@ -3910,6 +3915,7 @@ CUDNN_ROUTINE_HANDLER(DestroyRNNDescriptor){
     return std::make_shared<Result>(cs);
 }
 
+#if CUDNN_VERSION < 8204
 CUDNN_ROUTINE_HANDLER(SetRNNDescriptor){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetRNNDescriptor"));
 
@@ -3938,7 +3944,9 @@ CUDNN_ROUTINE_HANDLER(SetRNNDescriptor){
     //cout << " DEBUG - cudnnSetRNNDescriptor Executed"<<endl;
     return std::make_shared<Result>(cs, out);         
 }
+#endif
 
+#if CUDNN_VERSION < 8204
 CUDNN_ROUTINE_HANDLER(GetRNNDescriptor){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetRNNDescriptor"));
 
@@ -3974,6 +3982,7 @@ CUDNN_ROUTINE_HANDLER(GetRNNDescriptor){
     //cout << " DEBUG - cudnnGetRNNDescriptor Executed"<<endl;
     return std::make_shared<Result>(cs, out);   
 }
+#endif
 
 CUDNN_ROUTINE_HANDLER(SetRNNMatrixMathType){
    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetRNNMatrixMathType"));
@@ -6173,6 +6182,7 @@ CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v6){
     return std::make_shared<Result>(cs, out);
 }
 
+#if CUDNN_VERSION < 8204
 CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v5){
    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetRNNDescriptor_v5"));
 
@@ -6199,4 +6209,4 @@ CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v5){
     //cout << " DEBUG - cudnnSetRNNDescriptor_v5 Executed"<<endl;
     return std::make_shared<Result>(cs, out);
 }
-
+#endif

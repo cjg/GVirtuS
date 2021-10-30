@@ -39,9 +39,15 @@
 #include <cstdlib>
 #include <iostream>
 
+#include <cuda_runtime_api.h>
+
 #include <__cudaFatFormat.h>
+#if CUDART_VERSION >= 11000
+#include <fatbinary_section.h>
+#else
 #include <fatBinaryCtl.h>
 #include <fatbinary.h>
+#endif
 #include <texture_types.h>
 
 #include <gvirtus/communicators/Buffer.h>

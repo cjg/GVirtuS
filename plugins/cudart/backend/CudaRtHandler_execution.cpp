@@ -30,6 +30,10 @@
 #endif
 
 #if (CUDART_VERSION >= 9020)
+#if (CUDART_VERSION >= 11000)
+#define __CUDACC__
+#define cudaPushCallConfiguration __cudaPushCallConfiguration
+#endif
 #include "crt/device_functions.h"
 
 /* This is temporary, must be fixed 
@@ -38,14 +42,13 @@
  *
  */
 
-
 CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
   try {
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-    cudaError_t exit_code = cudaPushCallConfiguration(gridDim, blockDim, sharedMem, stream);
+    cudaError_t exit_code = static_cast<cudaError_t>(cudaPushCallConfiguration(gridDim, blockDim, sharedMem, stream));
     return std::make_shared<Result>(exit_code);
   } catch (string e) {
     cerr << e << endl;

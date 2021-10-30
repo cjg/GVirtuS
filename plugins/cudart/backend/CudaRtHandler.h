@@ -57,6 +57,14 @@
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 
+#if (CUDART_VERSION >= 9020)
+#if (CUDART_VERSION >= 11000)
+#define __CUDACC__
+#define cudaPushCallConfiguration __cudaPushCallConfiguration
+#endif
+#include "crt/device_functions.h"
+#endif
+
 //#define DEBUG
 
 /**
