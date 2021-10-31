@@ -355,6 +355,7 @@ void CudaRtHandler::Initialize() {
 #if CUDART_VERSION >= 11000
 #else
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(PushCallConfiguration));
+  mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(PopCallConfiguration));
 #endif
 #endif
 

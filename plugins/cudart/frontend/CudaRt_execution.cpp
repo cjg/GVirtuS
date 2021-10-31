@@ -153,14 +153,40 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg,
 }
 
 #if CUDA_VERSION >= 9000
-extern "C" __host__ cudaError_t CUDARTAPI cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,size_t sharedMem = 0,void *stream = 0) {
+extern "C" __host__ __device__  unsigned CUDARTAPI __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,size_t sharedMem = 0,void *stream = 0) {
   CudaRtFrontend::Prepare();
   #if 0
     CudaRtFrontend::AddVariableForArguments(gridDim);
     CudaRtFrontend::AddVariableForArguments(blockDim);
     CudaRtFrontend::AddVariableForArguments(sharedMem);
     CudaRtFrontend::AddVariableForArguments(stream);
-    CudaRtFrontend::Execute("cudaConfigureCall");
+    CudaRtFrontend::Execute("cudaPushCallConfiguration");
+    return CudaRtFrontend::GetExitCode();
+  #endif
+  Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
+  launch->Reset();
+  // CNCL
+  launch->Add<int>(0x434e34c);
+  launch->Add(gridDim);
+  launch->Add(blockDim);
+  launch->Add(sharedMem);
+
+  #if CUDART_VERSION >= 3010
+  launch->Add((gvirtus::common::pointer_t)stream);
+  #else
+  launch->Add(stream);
+  #endif
+  return cudaSuccess;
+}
+
+extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration( dim3 *gridDim, dim3 *blockDim, size_t *sharedMem, void *stream) {
+CudaRtFrontend::Prepare();
+  #if 0
+    CudaRtFrontend::AddVariableForArguments(gridDim);
+    CudaRtFrontend::AddVariableForArguments(blockDim);
+    CudaRtFrontend::AddVariableForArguments(sharedMem);
+    CudaRtFrontend::AddVariableForArguments(stream);
+    CudaRtFrontend::Execute("cudaPopCallConfiguration");
     return CudaRtFrontend::GetExitCode();
   #endif
   Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
