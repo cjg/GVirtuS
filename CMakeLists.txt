@@ -75,3 +75,5 @@ add_subdirectory(plugins/curand)
 add_subdirectory(plugins/cudnn)
 #add_subdirectory(plugins/cusolver)
 #add_subdirectory(plugins/cusparse)
+
+add_subdirectory(tools/protocol-generator)
