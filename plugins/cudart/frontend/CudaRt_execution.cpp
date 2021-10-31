@@ -210,7 +210,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
   CudaRtFrontend::Prepare();
   Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
   launch->Reset();
-  launch->Add((gvirtus::common::pointer_t)&func);
+  launch->Add((gvirtus::common::pointer_t)func);
   launch->Add(&gridDim);
   launch->Add(&blockDim);
   launch->Add((gvirtus::common::pointer_t)args);

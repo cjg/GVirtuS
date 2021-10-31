@@ -140,13 +140,13 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
 
 CUDA_ROUTINE_HANDLER(LaunchKernel) {
 
-  void *func = input_buffer->Get<void>();
+  void *func = (void *)input_buffer->Get<pointer_t>();
   dim3 gridDim = input_buffer->Get<dim3>();
   dim3 blockDim = input_buffer->Get<dim3>();
-  void **args = input_buffer->Get<void*>();
+  void **args = (void **)input_buffer->Get<pointer_t>();
   size_t sharedMem = input_buffer->Get<size_t>();
   cudaStream_t stream = input_buffer->Get<cudaStream_t>(); 
-  cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem)
+  cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem,stream);
   return std::make_shared<Result>(exit_code);
 }
 
