@@ -16,11 +16,11 @@ The GPU Virtualization Service (GVirtuS) presented in this work tries to fill th
 
 * Montella, R., Giunta, G., & Laccetti, G. (2014). [Virtualizing high-end GPGPUs on ARM clusters for the next generation of high performance cloud computing](https://link.springer.com/content/pdf/10.1007/s10586-013-0341-0.pdf). Cluster computing, 17(1), 139-152.
 
-* Laccetti, G., Montella, R., Palmieri, C., & Pelliccia, V. (2013, September). The high performance internet of things: using GVirtuS to share high-end GPUs with ARM based cluster computing nodes. In International Conference on Parallel Processing and Applied Mathematics (pp. 734-744). Springer, Berlin, Heidelberg.
+* Laccetti, G., Montella, R., Palmieri, C., & Pelliccia, V. (2013, September). [The high performance internet of things: using GVirtuS to share high-end GPUs with ARM based cluster computing nodes](https://link.springer.com/chapter/10.1007/978-3-642-55224-3_69). In International Conference on Parallel Processing and Applied Mathematics (pp. 734-744). Springer, Berlin, Heidelberg.
 
-* Montella, R., Coviello, G., Giunta, G., Laccetti, G., Isaila, F., & Blas, J. G. (2011, September). A general-purpose virtualization service for HPC on cloud computing: an application to GPUs. In International Conference on Parallel Processing and Applied Mathematics (pp. 740-749). Springer, Berlin, Heidelberg.
+* Montella, R., Coviello, G., Giunta, G., Laccetti, G., Isaila, F., & Blas, J. G. (2011, September). [A general-purpose virtualization service for HPC on cloud computing: an application to GPUs](https://link.springer.com/chapter/10.1007/978-3-642-31464-3_75). In International Conference on Parallel Processing and Applied Mathematics (pp. 740-749). Springer, Berlin, Heidelberg.
 
-* Giunta, G., Montella, R., Agrillo, G., Coviello, G. (2010) A GPGPU Transparent Virtualization Component for High Performance Computing Clouds. In: Euro-Par 2010 - Parallel Processing. Euro-Par 2010. Lecture Notes in Computer Science, vol 6271. Springer, Berlin, Heidelberg
+* Giunta, G., Montella, R., Agrillo, G., Coviello, G. (2010) [A GPGPU Transparent Virtualization Component for High Performance Computing Clouds](https://link.springer.com/chapter/10.1007/978-3-642-15277-1_37). In: Euro-Par 2010 - Parallel Processing. Euro-Par 2010. Lecture Notes in Computer Science, vol 6271. Springer, Berlin, Heidelberg
 
 ## GVirtuS applications ##
 
