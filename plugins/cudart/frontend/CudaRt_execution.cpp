@@ -180,7 +180,7 @@ extern "C" __host__ __device__  unsigned CUDARTAPI __cudaPushCallConfiguration(d
 }
 
 extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration( dim3 *gridDim, dim3 *blockDim, size_t *sharedMem, void *stream) {
-CudaRtFrontend::Prepare();
+  CudaRtFrontend::Prepare();
   #if 0
     CudaRtFrontend::AddVariableForArguments(gridDim);
     CudaRtFrontend::AddVariableForArguments(blockDim);
@@ -204,4 +204,19 @@ CudaRtFrontend::Prepare();
   #endif
   return cudaSuccess;
 }
+
+
+extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDim, dim3 blockDim, void** args, size_t sharedMem, cudaStream_t stream ) {
+  CudaRtFrontend::Prepare();
+  Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
+  launch->Reset();
+  launch->Add((gvirtus::common::pointer_t)&func);
+  launch->Add(&gridDim);
+  launch->Add(&blockDim);
+  launch->Add((gvirtus::common::pointer_t)args);
+  launch->Add(&sharedMem);
+  launch->Add((gvirtus::common::pointer_t)&stream);
+  return cudaSuccess;  
+}
+
 #endif
