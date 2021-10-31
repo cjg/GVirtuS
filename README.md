@@ -10,11 +10,11 @@ The GPU Virtualization Service (GVirtuS) presented in this work tries to fill th
 
 * Mentone, A., Di Luccio, D., Landolfi, L., Kosta, S., & Montella, R. (2019, October). [CUDA virtualization and remoting for GPGPU based acceleration offloading at the edge](https://link.springer.com/chapter/10.1007/978-3-030-34914-1_39). In International Conference on Internet and Distributed Computing Systems (pp. 414-423). Springer, Cham.
 
-* Montella, R., Giunta, G., Laccetti, G., Lapegna, M., Palmieri, C., Ferraro, C., ... & Nikolopoulos, D. S. (2017). On the virtualization of CUDA based GPU remoting on ARM and X86 machines in the GVirtuS framework. International Journal of Parallel Programming, 45(5), 1142-1163.
+* Montella, R., Giunta, G., Laccetti, G., Lapegna, M., Palmieri, C., Ferraro, C., ... & Nikolopoulos, D. S. (2017). [On the virtualization of CUDA based GPU remoting on ARM and X86 machines in the GVirtuS framework](https://link.springer.com/article/10.1007/s10766-016-0462-1). International Journal of Parallel Programming, 45(5), 1142-1163.
 
-* Montella, R., Kosta, S., Oro, D., Vera, J., Fernández, C., Palmieri, C., ... & Laccetti, G. (2017). Accelerating Linux and Android applications on low‐power devices through remote GPGPU offloading. Concurrency and Computation: Practice and Experience, 29(24), e4286.
+* Montella, R., Kosta, S., Oro, D., Vera, J., Fernández, C., Palmieri, C., ... & Laccetti, G. (2017). [Accelerating Linux and Android applications on low‐power devices through remote GPGPU offloading](https://onlinelibrary.wiley.com/doi/full/10.1002/cpe.4286?casa_token=VY2QbDZY7sMAAAAA%3Ah7KGKoE5jr36xowSzG05MeBFG673wawPA3-YIpeZgmjFFt6H7Rdig4e-dK7mkerI1Ov4r6Uxyk97tqE). Concurrency and Computation: Practice and Experience, 29(24), e4286.
 
-* Montella, R., Giunta, G., & Laccetti, G. (2014). Virtualizing high-end GPGPUs on ARM clusters for the next generation of high performance cloud computing. Cluster computing, 17(1), 139-152.
+* Montella, R., Giunta, G., & Laccetti, G. (2014). [Virtualizing high-end GPGPUs on ARM clusters for the next generation of high performance cloud computing](https://link.springer.com/content/pdf/10.1007/s10586-013-0341-0.pdf). Cluster computing, 17(1), 139-152.
 
 * Laccetti, G., Montella, R., Palmieri, C., & Pelliccia, V. (2013, September). The high performance internet of things: using GVirtuS to share high-end GPUs with ARM based cluster computing nodes. In International Conference on Parallel Processing and Applied Mathematics (pp. 734-744). Springer, Berlin, Heidelberg.
 
