@@ -47,6 +47,21 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
   return NULL;
 }
 
+extern "C" __host__ void **__cudaRegisterFatBinaryEnd(void *fatCubin) {
+  /* Fake host pointer */
+  __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
+  char *data = (char *)bin->data;
+
+  Buffer *input_buffer = new Buffer();
+  input_buffer->AddString(CudaUtil::MarshalHostPointer((void **)bin));
+  input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
+
+  CudaRtFrontend::Prepare();
+  CudaRtFrontend::Execute("cudaRegisterFatBinaryEnd", input_buffer);
+  if (CudaRtFrontend::Success()) return (void **)fatCubin;
+  return NULL;
+}
+
 extern "C" __host__ void __cudaUnregisterFatBinary(void **fatCubinHandle) {
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
