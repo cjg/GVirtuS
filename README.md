@@ -6,9 +6,9 @@ The GPU Virtualization Service (GVirtuS) presented in this work tries to fill th
 
 ## How to cite GVirtuS in your scientific papers ##
 
-* Montella, R., Ferraro, C., Kosta, S., Pelliccia, V., & Giunta, G. (2016, December). [Enabling android-based devices to high-end gpgpus](https://link.springer.com/chapter/10.1007/978-3-030-34914-1_39). In International Conference on Algorithms and Architectures for Parallel Processing (pp. 118-125). Springer, Cham.
+* Montella, R., Ferraro, C., Kosta, S., Pelliccia, V., & Giunta, G. (2016, December). [Enabling android-based devices to high-end gpgpus](https://link.springer.com/chapter/10.1007%2F978-3-319-49583-5_9). In International Conference on Algorithms and Architectures for Parallel Processing (pp. 118-125). Springer, Cham.
 
-* Mentone, A., Di Luccio, D., Landolfi, L., Kosta, S., & Montella, R. (2019, October). CUDA virtualization and remoting for GPGPU based acceleration offloading at the edge. In International Conference on Internet and Distributed Computing Systems (pp. 414-423). Springer, Cham.
+* Mentone, A., Di Luccio, D., Landolfi, L., Kosta, S., & Montella, R. (2019, October). [CUDA virtualization and remoting for GPGPU based acceleration offloading at the edge](https://link.springer.com/chapter/10.1007/978-3-030-34914-1_39). In International Conference on Internet and Distributed Computing Systems (pp. 414-423). Springer, Cham.
 
 * Montella, R., Giunta, G., Laccetti, G., Lapegna, M., Palmieri, C., Ferraro, C., ... & Nikolopoulos, D. S. (2017). On the virtualization of CUDA based GPU remoting on ARM and X86 machines in the GVirtuS framework. International Journal of Parallel Programming, 45(5), 1142-1163.
 
