@@ -360,6 +360,7 @@ void CudaRtHandler::Initialize() {
 
   /* CudaRtHandler_internal */
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFatBinary));
+  mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFatBinaryEnd));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(UnregisterFatBinary));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterFunction));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(RegisterVar));

@@ -91,6 +91,7 @@ class CudaRtHandler : public gvirtus::backend::Handler {
 
   void RegisterFatBinary(std::string &handler, void **fatCubinHandle);
   void RegisterFatBinary(const char *handler, void **fatCubinHandle);
+  void RegisterFatBinaryEnd(void **fatCubinHandle);
   void **GetFatBinary(std::string &handler);
   void **GetFatBinary(const char *handler);
   void UnregisterFatBinary(std::string &handler);
@@ -196,6 +197,7 @@ CUDA_ROUTINE_HANDLER(PushCallConfiguration);
 
 /* CudaRtHandler_internal */
 CUDA_ROUTINE_HANDLER(RegisterFatBinary);
+CUDA_ROUTINE_HANDLER(RegisterFatBinaryEnd);
 CUDA_ROUTINE_HANDLER(UnregisterFatBinary);
 CUDA_ROUTINE_HANDLER(RegisterFunction);
 CUDA_ROUTINE_HANDLER(RegisterVar);
