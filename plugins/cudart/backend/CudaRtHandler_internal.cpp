@@ -200,15 +200,9 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinaryEnd) {
   try {
     char *handler = input_buffer->AssignString();
     void **fatCubinHandle = pThis->GetFatBinary(handler);
-
     __cudaRegisterFatBinaryEnd(fatCubinHandle);
-#ifdef DEBUG
     cudaError_t error = cudaGetLastError();
-    if (error != 0) {
-      cerr << "error executing RegisterFatBinaryEnd: " << _cudaGetErrorEnum(error)
-           << endl;
-    }
-#endif
+    return std::make_shared<Result>(error);
   } catch (string e) {
     cerr << e << endl;
     return std::make_shared<Result>(cudaErrorMemoryAllocation);
