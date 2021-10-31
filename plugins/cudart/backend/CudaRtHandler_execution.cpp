@@ -33,7 +33,6 @@
 #if (CUDART_VERSION >= 11000)
 #define __CUDACC__
 #define cudaPushCallConfiguration __cudaPushCallConfiguration
-#define cudaPopCallConfiguration __cudaPopCallConfiguration
 #endif
 #include "crt/device_functions.h"
 
@@ -58,13 +57,20 @@ CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
 
 }
 
+extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration(
+        dim3         *gridDim,
+        dim3         *blockDim,
+        size_t       *sharedMem,
+        void         *stream
+);
+
 CUDA_ROUTINE_HANDLER(PopCallConfiguration) {
   try {
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-    cudaError_t exit_code = static_cast<cudaError_t>(cudaPopCallConfiguration(gridDim, blockDim, sharedMem, stream));
+    cudaError_t exit_code = static_cast<cudaError_t>(__cudaPopCallConfiguration(&gridDim, &blockDim, &sharedMem, stream));
     return std::make_shared<Result>(exit_code);
   } catch (string e) {
     cerr << e << endl;
