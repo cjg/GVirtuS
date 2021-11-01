@@ -36,12 +36,6 @@
 #endif
 #include "crt/device_functions.h"
 
-/* This is temporary, must be fixed 
- *
- * Probably the solution is here: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/stream_executor/cuda
- *
- */
-
 CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
   try {
     dim3 gridDim = input_buffer->Get<dim3>();
