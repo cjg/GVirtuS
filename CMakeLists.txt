@@ -77,3 +77,5 @@ add_subdirectory(plugins/cudnn)
 #add_subdirectory(plugins/cusparse)
 
 add_subdirectory(tools/protocol-generator)
+
+add_subdirectory(demos)
