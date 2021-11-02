@@ -27,33 +27,32 @@
 #include <cstdio>
 #include <string>
 
-#include "CusparseFronted.h"
+#include "CusparseFrontend.h"
 
 using namespace std;
 
-extern "C" cusparseStatus_t CUSPARSEWINAPI cusparseCreate        (cusparseHandle_t *handle) {
+extern "C" cusparseStatus_t cusparseCreate(cusparseHandle_t *handle) {
     CusparseFrontend::Prepare();
-    //CusparseFrontend::AddHostPointerForArguments<cusparseHandle_t>(handle);
     CusparseFrontend::Execute("cusparseCreate");
     if(CusparseFrontend::Success())
         *handle = *(CusparseFrontend::GetOutputHostPointer<cusparseHandle_t>());
     return CusparseFrontend::GetExitCode();
 }
 
-extern "C" cusparseStatus_t CUSPARSEWINAPI cusparseDestroy       (cusparseHandle_t handle) {
+extern "C" cusparseStatus_t cusparseDestroy(cusparseHandle_t handle) {
     CusparseFrontend::Prepare();
     CusparseFrontend::AddVariableForArguments(handle);
     CusparseFrontend::Execute("cusparseDestroy");
     return CusparseFrontend::GetExitCode();
 }
-extern "C" cusparseStatus_t CUSPARSEWINAPI cusparseSetStream     (cusparseHandle_t handle, cudaStream_t streamId) {
+extern "C" cusparseStatus_t cusparseSetStream(cusparseHandle_t handle, cudaStream_t streamId) {
     CusparseFrontend::Prepare();
     CusparseFrontend::AddVariableForArguments(handle);
     CusparseFrontend::AddVariableForArguments(streamId);
     CusparseFrontend::Execute("cusparseSetStream");
     return CusparseFrontend::GetExitCode();
 }
-extern "C" cusparseStatus_t CUSPARSEWINAPI cusparseGetStream     (cusparseHandle_t handle, cudaStream_t *streamId) {
+extern "C" cusparseStatus_t cusparseGetStream(cusparseHandle_t handle, cudaStream_t *streamId) {
     CusparseFrontend::Prepare();
     CusparseFrontend::AddVariableForArguments(handle);
     CusparseFrontend::Execute("cusparseGetStream");

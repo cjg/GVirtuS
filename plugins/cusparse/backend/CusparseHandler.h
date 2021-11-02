@@ -26,8 +26,8 @@
 #ifndef CUSPARSEHANDLER_H
 #define CUSPARSEHANDLER_H
 
-#include "Handler.h"
-#include "communicator/Result.h"
+#include <gvirtus/backend/Handler.h>
+#include <gvirtus/communicators/Result.h>
 
 #include <cusparse.h>
 

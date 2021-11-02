@@ -31,7 +31,7 @@
 
 using namespace std;
 
-extern "C" size_t CUSPARSEAPI cusparseGetVersion(cusparseHandle_t handle, int *version){
+extern "C" cusparseStatus_t cusparseGetVersion(cusparseHandle_t handle, int* version){
     CusparseFrontend::Prepare();
     CusparseFrontend::AddHostPointerForArguments<cusparseHandle_t>(handle);
     CusparseFrontend::AddHostPointerForArguments<int>(version);
@@ -39,7 +39,7 @@ extern "C" size_t CUSPARSEAPI cusparseGetVersion(cusparseHandle_t handle, int *v
     return CusparseFrontend::GetExitCode();
 }
 
-extern "C" const char * CUSPARSEAPI cusparseGetErrorString(cusparseStatus_t status){
+extern "C" const char *cusparseGetErrorString(cusparseStatus_t status){
     CusparseFrontend::Prepare();
 
     CusparseFrontend::AddVariableForArguments<cusparseStatus_t>(status);
@@ -47,6 +47,7 @@ extern "C" const char * CUSPARSEAPI cusparseGetErrorString(cusparseStatus_t stat
     return (const char *) CusparseFrontend::GetOutputHostPointer<char *>();
 }
 
+/*
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreate(cusparseHandle_t *handle){
     CusparseFrontend::Prepare();
     CusparseFrontend::AddHostPointerForArguments<cusparseHandle_t>(handle);
@@ -82,3 +83,4 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseGetStream(cusparseHandle_t handl
         *streamId = (cudaStream_t) CusparseFrontend::GetOutputVariable<long long int>();
     return CusparseFrontend::GetExitCode();
 }
+*/
