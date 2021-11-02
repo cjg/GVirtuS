@@ -50,7 +50,9 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaConfigureCall(
 #else
   launch->Add(stream);
 #endif
-  return cudaSuccess;
+  //return cudaSuccess;
+    CudaRtFrontend::Execute("cudaConfigureCall");
+    return CudaRtFrontend::GetExitCode();
 }
 
 #ifndef CUDA_VERSION
@@ -149,7 +151,9 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg,
                     size);
   launch->Add(size);
   launch->Add(offset);
-  return cudaSuccess;
+  //return cudaSuccess;
+    CudaRtFrontend::Execute("cudaSetupArgument");
+    return CudaRtFrontend::GetExitCode();
 }
 
 #if CUDA_VERSION >= 9000
@@ -176,7 +180,9 @@ extern "C" __host__ __device__  unsigned CUDARTAPI __cudaPushCallConfiguration(d
   #else
   launch->Add(stream);
   #endif
-  return cudaSuccess;
+  //return cudaSuccess;
+    CudaRtFrontend::Execute("cudaPushCallConfiguration");
+    return CudaRtFrontend::GetExitCode();
 }
 
 extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration( dim3 *gridDim, dim3 *blockDim, size_t *sharedMem, void *stream) {
@@ -186,7 +192,7 @@ extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration( dim3 *gridDim, dim3
     CudaRtFrontend::AddVariableForArguments(blockDim);
     CudaRtFrontend::AddVariableForArguments(sharedMem);
     CudaRtFrontend::AddVariableForArguments(stream);
-    CudaRtFrontend::Execute("cudaPopCallConfiguration");
+    CudaRtFrontend::Execute("__cudaPopCallConfiguration");
     return CudaRtFrontend::GetExitCode();
   #endif
   Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
@@ -202,9 +208,10 @@ extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration( dim3 *gridDim, dim3
   #else
   launch->Add(stream);
   #endif
-  return cudaSuccess;
+  //return cudaSuccess;
+    CudaRtFrontend::Execute("cudaPopCallConfiguration");
+    return CudaRtFrontend::GetExitCode();
 }
-
 
 extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDim, dim3 blockDim, void** args, size_t sharedMem, cudaStream_t stream ) {
   CudaRtFrontend::Prepare();
@@ -216,7 +223,8 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
   launch->Add((gvirtus::common::pointer_t)args);
   launch->Add(&sharedMem);
   launch->Add((gvirtus::common::pointer_t)&stream);
-  return cudaSuccess;  
+  CudaRtFrontend::Execute("cudaLaunchKernel");
+  return CudaRtFrontend::GetExitCode();
 }
 
 #endif
