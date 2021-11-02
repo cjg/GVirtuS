@@ -238,8 +238,14 @@ void CudnnHandler::Initialize(){
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(DropoutBackward));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(CreateRNNDescriptor));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(DestroyRNNDescriptor));
-    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetRNNDescriptor));
-    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetRNNDescriptor));
+
+#if CUDNN_VERSION < 8000
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetRNNDescriptor_v6));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetRNNDescriptor_v6));
+#else
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetRNNDescriptor_v8));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetRNNDescriptor_v8));
+#endif
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetRNNMatrixMathType));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetRNNMatrixMathType));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(SetRNNBiasMode));
@@ -3915,9 +3921,9 @@ CUDNN_ROUTINE_HANDLER(DestroyRNNDescriptor){
     return std::make_shared<Result>(cs);
 }
 
-#if CUDNN_VERSION < 8204
-CUDNN_ROUTINE_HANDLER(SetRNNDescriptor){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetRNNDescriptor"));
+#if CUDNN_VERSION < 8000
+CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v6){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetRNNDescriptor_v6"));
 
     cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
     cudnnRNNDescriptor_t rnnDesc = (cudnnRNNDescriptor_t)in->Get<long long int>();
@@ -3930,7 +3936,7 @@ CUDNN_ROUTINE_HANDLER(SetRNNDescriptor){
     cudnnRNNAlgo_t algo = in->Get<cudnnRNNAlgo_t>();
     cudnnDataType_t mathPrec = in->Get<cudnnDataType_t>();
 
-    cudnnStatus_t cs = cudnnSetRNNDescriptor(handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, algo, mathPrec);
+    cudnnStatus_t cs = cudnnSetRNNDescriptor_v6(handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, algo, mathPrec);
 
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
       try{
@@ -3940,15 +3946,63 @@ CUDNN_ROUTINE_HANDLER(SetRNNDescriptor){
          return std::make_shared<Result>(cs);
     }
     
-    LOG4CPLUS_DEBUG(logger, "cudnnSetRNNDescriptor Executed");
-    //cout << " DEBUG - cudnnSetRNNDescriptor Executed"<<endl;
+    LOG4CPLUS_DEBUG(logger, "cudnnSetRNNDescriptor_v6 Executed");
+    //cout << " DEBUG - cudnnSetRNNDescriptor_v6 Executed"<<endl;
     return std::make_shared<Result>(cs, out);         
+}
+#else
+CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v8){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetRNNDescriptor_v8"));
+
+    cudnnRNNDescriptor_t rnnDesc = (cudnnRNNDescriptor_t)in->Get<long long int>();
+
+    cudnnRNNAlgo_t algo = in->Get<cudnnRNNAlgo_t>();
+    cudnnRNNMode_t cellMode= in->Get<cudnnRNNMode_t>();
+    cudnnRNNBiasMode_t biasMode= in->Get<cudnnRNNBiasMode_t>();
+    cudnnDirectionMode_t dirMode= in->Get<cudnnDirectionMode_t>();
+    cudnnRNNInputMode_t inputMode= in->Get<cudnnRNNInputMode_t>();
+    cudnnDataType_t dataType= in->Get<cudnnDataType_t>();
+    cudnnDataType_t mathPrec= in->Get<cudnnDataType_t>();
+    cudnnMathType_t mathType= in->Get<cudnnMathType_t>();
+    int32_t inputSize= in->Get<int>();
+    int32_t hiddenSize= in->Get<int>();
+    int32_t projSize= in->Get<int>();
+    int32_t numLayers= in->Get<int>();
+    cudnnDropoutDescriptor_t dropoutDesc= (cudnnDropoutDescriptor_t)in->Get<long long int>();
+    uint32_t auxFlags= in->Get<int>();
+
+    cudnnStatus_t cs = cudnnSetRNNDescriptor_v8(rnnDesc, algo,
+             cellMode,
+             biasMode,
+             dirMode,
+             inputMode,
+             dataType,
+             mathPrec,
+             mathType,
+             inputSize,
+             hiddenSize,
+             projSize,
+             numLayers,
+             dropoutDesc,
+             auxFlags);
+
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        out->Add<cudnnRNNDescriptor_t>(rnnDesc);
+    } catch(string e){
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(cs);
+    }
+
+    LOG4CPLUS_DEBUG(logger, "cudnnSetRNNDescriptor_v8 Executed");
+    //cout << " DEBUG - cudnnSetRNNDescriptor_v8 Executed"<<endl;
+    return std::make_shared<Result>(cs, out);
 }
 #endif
 
-#if CUDNN_VERSION < 8204
-CUDNN_ROUTINE_HANDLER(GetRNNDescriptor){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetRNNDescriptor"));
+#if CUDNN_VERSION < 8000
+CUDNN_ROUTINE_HANDLER(GetRNNDescriptor_v6){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetRNNDescriptor_v6"));
 
     cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
     cudnnRNNDescriptor_t rnnDesc = (cudnnRNNDescriptor_t)in->Get<long long int>();
@@ -3961,7 +4015,7 @@ CUDNN_ROUTINE_HANDLER(GetRNNDescriptor){
     cudnnRNNAlgo_t algo;
     cudnnDataType_t mathPrec;
 
-    cudnnStatus_t cs = cudnnGetRNNDescriptor(handle, rnnDesc, &hiddenSize, &numLayers, &dropoutDesc, &inputMode, &direction, &mode, &algo, &mathPrec);
+    cudnnStatus_t cs = cudnnGetRNNDescriptor_v6(handle, rnnDesc, &hiddenSize, &numLayers, &dropoutDesc, &inputMode, &direction, &mode, &algo, &mathPrec);
 
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
       try{
@@ -3978,9 +4032,63 @@ CUDNN_ROUTINE_HANDLER(GetRNNDescriptor){
          return std::make_shared<Result>(cs);
     }
     
-    LOG4CPLUS_DEBUG(logger, "cudnnGetRNNDescriptor Executed");
-    //cout << " DEBUG - cudnnGetRNNDescriptor Executed"<<endl;
+    LOG4CPLUS_DEBUG(logger, "cudnnGetRNNDescriptor_v6 Executed");
+    //cout << " DEBUG - cudnnGetRNNDescriptor_v6 Executed"<<endl;
     return std::make_shared<Result>(cs, out);   
+}
+#else
+CUDNN_ROUTINE_HANDLER(GetRNNDescriptor_v8) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetRNNDescriptor_v8"));
+
+    cudnnRNNDescriptor_t rnnDesc = (cudnnRNNDescriptor_t) in->Get<long long int>();
+
+    cudnnRNNAlgo_t algo;
+    cudnnRNNMode_t cellMode;
+    cudnnRNNBiasMode_t biasMode;
+    cudnnDirectionMode_t dirMode;
+    cudnnRNNInputMode_t inputMode;
+    cudnnDataType_t dataType;
+    cudnnDataType_t mathPrec;
+    cudnnMathType_t mathType;
+    int32_t inputSize;
+    int32_t hiddenSize;
+    int32_t projSize;
+    int32_t numLayers;
+    cudnnDropoutDescriptor_t dropoutDesc;
+    uint32_t auxFlags;
+
+    cudnnStatus_t cs = cudnnGetRNNDescriptor_v8(rnnDesc,
+                                                &algo,
+                                                &cellMode, &biasMode, &dirMode, &inputMode,
+                                                &dataType, &mathPrec, &mathType,
+                                                &inputSize, &hiddenSize, &projSize, &numLayers,
+                                                &dropoutDesc, &auxFlags);
+
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        out->Add<cudnnRNNAlgo_t>(algo);
+        out->Add<cudnnRNNMode_t>(cellMode);
+        out->Add<cudnnRNNBiasMode_t>(biasMode);
+        out->Add<cudnnDirectionMode_t>(dirMode);
+        out->Add<cudnnRNNInputMode_t>(inputMode);
+        out->Add<cudnnDataType_t>(dataType);
+        out->Add<cudnnDataType_t>(mathPrec);
+        out->Add<cudnnMathType_t>(mathType);
+        out->Add<int>(inputSize);
+        out->Add<int>(hiddenSize);
+        out->Add<int>(projSize);
+        out->Add<int>(numLayers);
+        out->Add<cudnnDropoutDescriptor_t>(dropoutDesc);
+        out->Add<int>(auxFlags);
+
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(cs);
+    }
+
+    LOG4CPLUS_DEBUG(logger, "cudnnGetRNNDescriptor_v8 Executed");
+    //cout << " DEBUG - cudnnGetRNNDescriptor_v8 Executed"<<endl;
+    return std::make_shared<Result>(cs, out);
 }
 #endif
 

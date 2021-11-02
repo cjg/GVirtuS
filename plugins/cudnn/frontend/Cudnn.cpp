@@ -3296,7 +3296,10 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnDestroyRNNDescriptor(cudnnRNNDescripto
    return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor(cudnnHandle_t handle,
+
+#if CUDNN_VERSION < 8000
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v6(cudnnHandle_t handle,
 							  cudnnRNNDescriptor_t rnnDesc,
 							  const int hiddenSize,
 							  const int numLayers,
@@ -3311,7 +3314,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor(cudnnHandle_t handle,
 
    CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
    CudnnFrontend::AddVariableForArguments<long long int>((long long int)rnnDesc);
-   CudnnFrontend::AddVariableForArguments<int>(hiddenSize); 
+   CudnnFrontend::AddVariableForArguments<int>(hiddenSize);
    CudnnFrontend::AddVariableForArguments<int>(numLayers);
    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dropoutDesc);
    CudnnFrontend::AddVariableForArguments<cudnnRNNInputMode_t>(inputMode);
@@ -3320,14 +3323,14 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor(cudnnHandle_t handle,
    CudnnFrontend::AddVariableForArguments<cudnnRNNAlgo_t>(algo);
    CudnnFrontend::AddVariableForArguments<cudnnDataType_t>(mathPrec);
 
-   CudnnFrontend::Execute("cudnnSetRNNDescriptor");
+   CudnnFrontend::Execute("cudnnSetRNNDescriptor_v6");
    if(CudnnFrontend::Success()){
        rnnDesc = CudnnFrontend::GetOutputVariable<cudnnRNNDescriptor_t>();
    }
    return CudnnFrontend::GetExitCode();
 }
 
-extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetRNNDescriptor(cudnnHandle_t handle,
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetRNNDescriptor_v6(cudnnHandle_t handle,
 							   cudnnRNNDescriptor_t rnnDesc,
 							   int *hiddenSize,
 							   int *numLayers,
@@ -3342,7 +3345,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetRNNDescriptor(cudnnHandle_t handle,
    CudnnFrontend::AddVariableForArguments<long long int>((long long int)handle);
    CudnnFrontend::AddVariableForArguments<long long int>((long long int)rnnDesc);
 
-   CudnnFrontend::Execute("cudnnGetRNNDescriptor");
+   CudnnFrontend::Execute("cudnnGetRNNDescriptor_v6");
    if(CudnnFrontend::Success()){
        *hiddenSize = CudnnFrontend::GetOutputVariable<int>();
        *numLayers  = CudnnFrontend::GetOutputVariable<int>();
@@ -3355,7 +3358,95 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetRNNDescriptor(cudnnHandle_t handle,
     }
     return CudnnFrontend::GetExitCode();
 }
+#else
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v8(cudnnRNNDescriptor_t rnnDesc,
+                                                              cudnnRNNAlgo_t algo,
+                                                              cudnnRNNMode_t cellMode,
+                                                              cudnnRNNBiasMode_t biasMode,
+                                                              cudnnDirectionMode_t dirMode,
+                                                              cudnnRNNInputMode_t inputMode,
+                                                              cudnnDataType_t dataType,
+                                                              cudnnDataType_t mathPrec,
+                                                              cudnnMathType_t mathType,
+                                                              int32_t inputSize,
+                                                              int32_t hiddenSize,
+                                                              int32_t projSize,
+                                                              int32_t numLayers,
+                                                              cudnnDropoutDescriptor_t dropoutDesc,
+                                                              uint32_t auxFlags){
 
+    CudnnFrontend::Prepare();
+
+
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)rnnDesc);
+    CudnnFrontend::AddVariableForArguments<cudnnRNNAlgo_t>(algo);
+    CudnnFrontend::AddVariableForArguments<cudnnRNNMode_t>(cellMode);
+    CudnnFrontend::AddVariableForArguments<cudnnRNNBiasMode_t>(biasMode);
+    CudnnFrontend::AddVariableForArguments<cudnnDirectionMode_t>(dirMode);
+    CudnnFrontend::AddVariableForArguments<cudnnRNNInputMode_t>(inputMode);
+
+    CudnnFrontend::AddVariableForArguments<cudnnDataType_t>(dataType);
+    CudnnFrontend::AddVariableForArguments<cudnnDataType_t>(mathPrec);
+    CudnnFrontend::AddVariableForArguments<cudnnMathType_t>(mathType);
+
+    CudnnFrontend::AddVariableForArguments<int>(inputSize);
+    CudnnFrontend::AddVariableForArguments<int>(hiddenSize);
+    CudnnFrontend::AddVariableForArguments<int>(projSize);
+    CudnnFrontend::AddVariableForArguments<int>(numLayers);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dropoutDesc);
+    CudnnFrontend::AddVariableForArguments<int>(auxFlags);
+
+    CudnnFrontend::Execute("cudnnSetRNNDescriptor_v8");
+    if(CudnnFrontend::Success()){
+        rnnDesc = CudnnFrontend::GetOutputVariable<cudnnRNNDescriptor_t>();
+    }
+    return CudnnFrontend::GetExitCode();
+}
+
+
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetRNNDescriptor_v8(cudnnRNNDescriptor_t rnnDesc,
+                                                              cudnnRNNAlgo_t *algo,
+                                                              cudnnRNNMode_t *cellMode,
+                                                              cudnnRNNBiasMode_t *biasMode,
+                                                              cudnnDirectionMode_t *dirMode,
+                                                              cudnnRNNInputMode_t *inputMode,
+                                                              cudnnDataType_t *dataType,
+                                                              cudnnDataType_t *mathPrec,
+                                                              cudnnMathType_t *mathType,
+                                                              int32_t *inputSize,
+                                                              int32_t *hiddenSize,
+                                                              int32_t *projSize,
+                                                              int32_t *numLayers,
+                                                              cudnnDropoutDescriptor_t *dropoutDesc,
+                                                              uint32_t *auxFlags){
+    CudnnFrontend::Prepare();
+
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)rnnDesc);
+
+    CudnnFrontend::Execute("cudnnGetRNNDescriptor_v8");
+    if(CudnnFrontend::Success()){
+
+        *algo        = CudnnFrontend::GetOutputVariable<cudnnRNNAlgo_t>();
+        *cellMode    = CudnnFrontend::GetOutputVariable<cudnnRNNMode_t>();
+        *biasMode    = CudnnFrontend::GetOutputVariable<cudnnRNNBiasMode_t>();
+        *dirMode     = CudnnFrontend::GetOutputVariable<cudnnDirectionMode_t>();
+        *inputMode   = CudnnFrontend::GetOutputVariable<cudnnRNNInputMode_t>();
+
+        *dataType = CudnnFrontend::GetOutputVariable<cudnnDataType_t>();
+        *mathPrec = CudnnFrontend::GetOutputVariable<cudnnDataType_t>();
+        *mathType = CudnnFrontend::GetOutputVariable<cudnnMathType_t>();
+
+        *inputSize = CudnnFrontend::GetOutputVariable<int>();
+        *hiddenSize = CudnnFrontend::GetOutputVariable<int>();
+        *projSize = CudnnFrontend::GetOutputVariable<int>();
+        *numLayers  = CudnnFrontend::GetOutputVariable<int>();
+        *dropoutDesc = CudnnFrontend::GetOutputVariable<cudnnDropoutDescriptor_t>();
+        *auxFlags  = CudnnFrontend::GetOutputVariable<int>();
+
+    }
+    return CudnnFrontend::GetExitCode();
+}
+#endif
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNMatrixMathType(cudnnRNNDescriptor_t rnnDesc, cudnnMathType_t mType){
 
 
