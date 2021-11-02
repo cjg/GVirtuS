@@ -27,8 +27,8 @@
 #ifndef CUSOLVERHANDLER_H
 #define CUSOLVERHANDLER_H
 
-#include "Handler.h"
-#include "communicator/Result.h"
+#include <gvirtus/backend/Handler.h>
+#include <gvirtus/communicators/Result.h>
 
 #include <cusolverDn.h>
 
