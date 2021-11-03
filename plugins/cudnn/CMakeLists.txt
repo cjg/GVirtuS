@@ -37,4 +37,5 @@ target_link_libraries(${PROJECT_NAME} ${CUDNN_LIBRARY})
 
 gvirtus_add_frontend(cudnn ${CUDNN_VERSION}
         frontend/Cudnn.cpp
+        frontend/Cudnn_helper.cpp
         frontend/CudnnFrontend.cpp)
