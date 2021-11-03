@@ -226,5 +226,4 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
   CudaRtFrontend::Execute("cudaLaunchKernel");
   return CudaRtFrontend::GetExitCode();
 }
-
 #endif
