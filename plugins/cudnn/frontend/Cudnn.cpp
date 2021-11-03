@@ -45,7 +45,7 @@ extern "C" const char * CUDNNWINAPI cudnnGetErrorString(cudnnStatus_t status){
     CudnnFrontend::Execute("cudnnGetErrorString");
     return (const char *) CudnnFrontend::GetOutputHostPointer<char *>();
 }
-
+/*
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnCreate(cudnnHandle_t *handle){
     CudnnFrontend::Prepare();
     CudnnFrontend::AddHostPointerForArguments<cudnnHandle_t>(handle);
@@ -81,7 +81,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetStream(cudnnHandle_t handle, cudaSt
         *streamId = (cudaStream_t) CudnnFrontend::GetOutputVariable<long long int>();
     return CudnnFrontend::GetExitCode();
 }
-
+*/
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnCreateTensorDescriptor(cudnnTensorDescriptor_t *tensorDesc){
     CudnnFrontend::Prepare();
 
@@ -1383,7 +1383,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnFindConvolutionForwardAlgorithmEx(cudn
     return CudnnFrontend::GetExitCode();
 }
 
-#if CUDNN_VERSION < 8204
+#if CUDNN_VERSION < 8000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionForwardAlgorithm(cudnnHandle_t handle,
                                                                               const cudnnTensorDescriptor_t xDesc,
                                                                               const cudnnFilterDescriptor_t wDesc,
@@ -1411,6 +1411,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionForwardAlgorithm(cudnnHa
 }
 #endif
 
+#if CUDNN_VERSION >= 7000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionForwardAlgorithm_v7(cudnnHandle_t handle,
                                                                             const cudnnTensorDescriptor_t srcDesc,
                                                                             const cudnnFilterDescriptor_t filterDesc,
@@ -1437,6 +1438,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionForwardAlgorithm_v7(cudn
     }
     return CudnnFrontend::GetExitCode();
 }
+#endif
 
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionForwardWorkspaceSize(cudnnHandle_t handle,
                                                                                   const cudnnTensorDescriptor_t xDesc,
@@ -1657,7 +1659,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnFindConvolutionBackwardFilterAlgorithm
     return CudnnFrontend::GetExitCode();
 }
 
-#if CUDNN_VERSION < 8204
+#if CUDNN_VERSION < 8000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardFilterAlgorithm(cudnnHandle_t handle,
                                                                                 const cudnnTensorDescriptor_t xDesc,
                                                                                 const cudnnTensorDescriptor_t dyDesc,
@@ -1685,6 +1687,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardFilterAlgorithm(
 }
 #endif
 
+#if CUDNN_VERSION >= 7000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardFilterAlgorithm_v7(cudnnHandle_t handle,
                                                                                    const cudnnTensorDescriptor_t srcDesc,
                                                                                    const cudnnTensorDescriptor_t diffDesc,
@@ -1710,6 +1713,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardFilterAlgorithm_
       }
       return CudnnFrontend::GetExitCode();
 }
+#endif
 
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardFilterWorkspaceSize(cudnnHandle_t handle,
                                                                                     const cudnnTensorDescriptor_t xDesc,
@@ -1851,8 +1855,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnFindConvolutionBackwardDataAlgorithmEx
    }
    return CudnnFrontend::GetExitCode();
 }
-
-#if CUDNN_VERSION < 8204
+#if CUDNN_VERSION < 8000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardDataAlgorithm(cudnnHandle_t handle,
  									      const cudnnFilterDescriptor_t wDesc,
 									      const cudnnTensorDescriptor_t dyDesc,
@@ -1880,6 +1883,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardDataAlgorithm(cu
 }
 #endif
 
+#if CUDNN_VERSION >= 7000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardDataAlgorithm_v7(cudnnHandle_t handle,
 										 const cudnnFilterDescriptor_t filterDesc,
            								  	 const cudnnTensorDescriptor_t diffDesc,
@@ -1905,6 +1909,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardDataAlgorithm_v7
      }
      return CudnnFrontend::GetExitCode();
 }
+#endif
 
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetConvolutionBackwardDataWorkspaceSize(cudnnHandle_t handle,
 										  const cudnnFilterDescriptor_t wDesc,
@@ -3296,9 +3301,38 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnDestroyRNNDescriptor(cudnnRNNDescripto
    return CudnnFrontend::GetExitCode();
 }
 
-
 #if CUDNN_VERSION < 8000
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v5(cudnnRNNDescriptor_t rnnDesc,
+                                                              int hiddenSize,
+                                                              int numLayers,
+                                                              cudnnDropoutDescriptor_t dropoutDesc,
+                                                              cudnnRNNInputMode_t inputMode,
+                                                              cudnnDirectionMode_t direction,
+                                                              cudnnRNNMode_t mode,
+                                                              cudnnDataType_t mathPrec){
 
+
+
+    CudnnFrontend::Prepare();
+
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)rnnDesc);
+    CudnnFrontend::AddVariableForArguments<int>(hiddenSize);
+    CudnnFrontend::AddVariableForArguments<int>(numLayers);
+    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dropoutDesc);
+    CudnnFrontend::AddVariableForArguments<cudnnRNNInputMode_t>(inputMode);
+    CudnnFrontend::AddVariableForArguments<cudnnDirectionMode_t>(direction);
+    CudnnFrontend::AddVariableForArguments<cudnnRNNMode_t>(mode);
+    CudnnFrontend::AddVariableForArguments<cudnnDataType_t>(mathPrec);
+
+    CudnnFrontend::Execute("cudnnSetRNNDescriptor_v5");
+    if(CudnnFrontend::Success()){
+        rnnDesc = CudnnFrontend::GetOutputVariable<cudnnRNNDescriptor_t>();
+    }
+    return CudnnFrontend::GetExitCode();
+}
+#endif
+
+#if CUDNN_VERSION >= 6000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v6(cudnnHandle_t handle,
 							  cudnnRNNDescriptor_t rnnDesc,
 							  const int hiddenSize,
@@ -3358,7 +3392,9 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetRNNDescriptor_v6(cudnnHandle_t hand
     }
     return CudnnFrontend::GetExitCode();
 }
-#else
+#endif
+
+#if CUDNN_VERSION >= 8000
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v8(cudnnRNNDescriptor_t rnnDesc,
                                                               cudnnRNNAlgo_t algo,
                                                               cudnnRNNMode_t cellMode,
@@ -5570,7 +5606,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnFusedOpsExecute(cudnnHandle_t handle, 
   
   return CudnnFrontend::GetExitCode();
 }
-
+/*
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v6(cudnnHandle_t handle,
                          				      cudnnRNNDescriptor_t rnnDesc,
                          				      const int hiddenSize,
@@ -5602,32 +5638,6 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v6(cudnnHandle_t hand
    }
    return CudnnFrontend::GetExitCode();
 }
-
-extern "C" cudnnStatus_t CUDNNWINAPI cudnnSetRNNDescriptor_v5(cudnnRNNDescriptor_t rnnDesc,
-                         				      int hiddenSize,
-                         				      int numLayers,
-                         				      cudnnDropoutDescriptor_t dropoutDesc,
-                         				      cudnnRNNInputMode_t inputMode,
-                         				      cudnnDirectionMode_t direction,
-                         				      cudnnRNNMode_t mode,
-                        				       cudnnDataType_t mathPrec){
+*/
 
 
-
-    CudnnFrontend::Prepare();
-
-    CudnnFrontend::AddVariableForArguments<long long int>((long long int)rnnDesc);
-    CudnnFrontend::AddVariableForArguments<int>(hiddenSize);
-    CudnnFrontend::AddVariableForArguments<int>(numLayers);
-    CudnnFrontend::AddVariableForArguments<long long int>((long long int)dropoutDesc);
-    CudnnFrontend::AddVariableForArguments<cudnnRNNInputMode_t>(inputMode);
-    CudnnFrontend::AddVariableForArguments<cudnnDirectionMode_t>(direction);
-    CudnnFrontend::AddVariableForArguments<cudnnRNNMode_t>(mode);
-    CudnnFrontend::AddVariableForArguments<cudnnDataType_t>(mathPrec);
-
-    CudnnFrontend::Execute("cudnnSetRNNDescriptor_v5");
-    if(CudnnFrontend::Success()){
-          rnnDesc = CudnnFrontend::GetOutputVariable<cudnnRNNDescriptor_t>();
-     }
-     return CudnnFrontend::GetExitCode();
-}

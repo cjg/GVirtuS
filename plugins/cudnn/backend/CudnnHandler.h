@@ -247,8 +247,12 @@ CUDNN_ROUTINE_HANDLER(DestroyConvolutionDescriptor);
 CUDNN_ROUTINE_HANDLER(GetConvolutionForwardAlgorithmMaxCount);
 CUDNN_ROUTINE_HANDLER(FindConvolutionForwardAlgorithm);
 CUDNN_ROUTINE_HANDLER(FindConvolutionForwardAlgorithmEx);
+#if CUDNN_VERSION < 8000
 CUDNN_ROUTINE_HANDLER(GetConvolutionForwardAlgorithm);
+#endif
+#if CUDNN_VERSION >= 7000
 CUDNN_ROUTINE_HANDLER(GetConvolutionForwardAlgorithm_v7);
+#endif
 CUDNN_ROUTINE_HANDLER(GetConvolutionForwardWorkspaceSize);
 CUDNN_ROUTINE_HANDLER(ConvolutionForward);
 CUDNN_ROUTINE_HANDLER(ConvolutionBiasActivationForward);
@@ -263,8 +267,12 @@ CUDNN_ROUTINE_HANDLER(ConvolutionBackwardFilter);
 CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardDataAlgorithmMaxCount);
 CUDNN_ROUTINE_HANDLER(FindConvolutionBackwardDataAlgorithm);
 CUDNN_ROUTINE_HANDLER(FindConvolutionBackwardDataAlgorithmEx);
+#if CUDNN_VERSION < 8000
 CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardDataAlgorithm);
+#endif
+#if CUDNN_VERSION >= 7000
 CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardDataAlgorithm_v7);
+#endif
 CUDNN_ROUTINE_HANDLER(GetConvolutionBackwardDataWorkspaceSize);
 CUDNN_ROUTINE_HANDLER(ConvolutionBackwardData);
 CUDNN_ROUTINE_HANDLER(Im2Col);
@@ -321,11 +329,15 @@ CUDNN_ROUTINE_HANDLER(DropoutForward);
 CUDNN_ROUTINE_HANDLER(DropoutBackward);
 CUDNN_ROUTINE_HANDLER(CreateRNNDescriptor);
 CUDNN_ROUTINE_HANDLER(DestroyRNNDescriptor);
-
 #if CUDNN_VERSION < 8000
+CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v5);
+//CUDNN_ROUTINE_HANDLER(GetRNNDescriptor_v5);
+#endif
+#if CUDNN_VERSION >= 6000
 CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v6);
 CUDNN_ROUTINE_HANDLER(GetRNNDescriptor_v6);
-#else
+#endif
+#if CUDNN_VERSION >= 8000
 CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v8);
 CUDNN_ROUTINE_HANDLER(GetRNNDescriptor_v8);
 #endif
@@ -415,7 +427,6 @@ CUDNN_ROUTINE_HANDLER(CreateFusedOpsPlan);
 CUDNN_ROUTINE_HANDLER(DestroyFusedOpsPlan);
 CUDNN_ROUTINE_HANDLER(MakeFusedOpsPlan);
 CUDNN_ROUTINE_HANDLER(FusedOpsExecute);
-CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v6);
-CUDNN_ROUTINE_HANDLER(SetRNNDescriptor_v5);
+
 
 #endif  /* CUDNNHANDLER_H */
