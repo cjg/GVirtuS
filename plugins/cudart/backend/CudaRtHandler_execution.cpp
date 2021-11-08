@@ -30,11 +30,16 @@
 #endif
 
 #if (CUDART_VERSION >= 9020)
+
+/*
 #if (CUDART_VERSION >= 11000)
 #define __CUDACC__
 #define cudaPushCallConfiguration __cudaPushCallConfiguration
 #endif
+*/
+
 #include "crt/device_functions.h"
+#include "CudaRt_internal.h"
 
 CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
   try {
@@ -42,6 +47,11 @@ CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
     dim3 blockDim = input_buffer->Get<dim3>();
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+
+      printf("gridDim: %d,%d,%d\n",gridDim.x,gridDim.y,gridDim.z);
+      printf("blockDim: %d,%d,%d\n",blockDim.x,blockDim.y,blockDim.z);
+      printf("sharedMem: %d stream: %x\n",sharedMem,stream);
+
     cudaError_t exit_code = static_cast<cudaError_t>(cudaPushCallConfiguration(gridDim, blockDim, sharedMem, stream));
     return std::make_shared<Result>(exit_code);
   } catch (string e) {
@@ -133,15 +143,55 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
   }
 }
 
-CUDA_ROUTINE_HANDLER(LaunchKernel) {
-  void *func = (void *)input_buffer->Get<pointer_t>();
-  dim3 gridDim = input_buffer->Get<dim3>();
-  dim3 blockDim = input_buffer->Get<dim3>();
-  void **args = (void **)input_buffer->Get<pointer_t>();
-  size_t sharedMem = input_buffer->Get<size_t>();
-  cudaStream_t stream = input_buffer->Get<cudaStream_t>();
 
-  cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem,stream);
+
+CUDA_ROUTINE_HANDLER(LaunchKernel) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
+    LOG4CPLUS_DEBUG(logger, "Entering in LaunchKernel");
+
+    void *func = input_buffer->GetFromMarshal<void *>();
+
+    std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
+    NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
+
+    printf("cudaLaunchKernel - hostFunc:%x deviceFunc:%s parameters:%d\n",func, deviceFunc.c_str(),infoFunction.params.size());
+
+    size_t argsSize=0;
+    for (NvInfoKParam infoKParam:infoFunction.params) {
+        printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
+               infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+        argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
+    }
+
+    dim3 gridDim = input_buffer->Get<dim3>();
+    dim3 blockDim = input_buffer->Get<dim3>();
+
+    byte *pArgs = input_buffer->AssignAll<byte>();
+    CudaRtHandler::hexdump(pArgs,argsSize);
+
+    void *args[infoFunction.params.size()];
+
+    for (NvInfoKParam infoKParam:infoFunction.params) {
+        printf("index: %d ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.ordinal,
+               infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+
+        args[infoKParam.ordinal]=reinterpret_cast<void *>((byte *)pArgs+infoKParam.offset);
+    }
+
+    for (int i=0;i<infoFunction.params.size();i++) {
+        printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
+    }
+
+
+    size_t sharedMem = input_buffer->Get<size_t>();
+    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+
+    //void *args[]={};
+    //void *args[] = { &N, &ratio, &dx, &dy };
+
+    cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem,stream);
+
+    LOG4CPLUS_DEBUG(logger, "LaunchKernel: post");
 
   return std::make_shared<Result>(exit_code);
 }
