@@ -35,6 +35,7 @@
 
 #include <CudaUtil.h>
 #include <cuda_runtime_api.h>
+#include <CudaRt_internal.h>
 #include <gvirtus/frontend/Frontend.h>
 
 #include "CudaRt.h"
@@ -272,7 +273,41 @@ class CudaRtFrontend {
 
   static inline void addConfigureElement() {}
 
+    static inline void addDeviceFunc2InfoFunc(std::string deviceFunc, NvInfoFunction infoFunction) {
+        mapDeviceFunc2InfoFunc->insert(make_pair(deviceFunc, infoFunction));
+    }
+
+    static inline NvInfoFunction getInfoFunc(std::string deviceFunc) {
+        return mapDeviceFunc2InfoFunc->find(deviceFunc)->second;
+    };
+
+    static inline void addHost2DeviceFunc(void* hostFunc, std::string deviceFunc) {
+        mapHost2DeviceFunc->insert(make_pair(hostFunc, deviceFunc));
+    }
+
+    static inline std::string getDeviceFunc(void *hostFunc) {
+        return mapHost2DeviceFunc->find(hostFunc)->second;
+    };
+
   CudaRtFrontend();
+
+    static void hexdump(void *ptr, int buflen) {
+        unsigned char *buf = (unsigned char*)ptr;
+        int i, j;
+        for (i=0; i<buflen; i+=16) {
+            printf("%06x: ", i);
+            for (j=0; j<16; j++)
+                if (i+j < buflen)
+                    printf("%02x ", buf[i+j]);
+                else
+                    printf("   ");
+            printf(" ");
+            for (j=0; j<16; j++)
+                if (i+j < buflen)
+                    printf("%c", isprint(buf[i+j]) ? buf[i+j] : '.');
+            printf("\n");
+        }
+    }
 
  private:
   static map<const void*, gvirtus::common::mappedPointer>* mappedPointers;
@@ -281,6 +316,8 @@ class CudaRtFrontend {
   static list<configureFunction>* setup;
   Buffer* mpInputBuffer;
   bool configured;
+  static map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc;
+  static map<const void *,std::string>* mapHost2DeviceFunc;
 };
 
 #endif /* CUDARTFRONTEND_H */

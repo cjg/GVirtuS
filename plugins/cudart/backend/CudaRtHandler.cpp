@@ -61,6 +61,9 @@ CudaRtHandler::CudaRtHandler() {
   mpVar = new map<string, string>();
   mpTexture = new map<string, textureReference *>();
   mpSurface = new map<string, surfaceReference *>();
+
+  mapHost2DeviceFunc = new map<const void*, std::string>();
+  mapDeviceFunc2InfoFunc = new map<std::string, NvInfoFunction>();
   Initialize();
 }
 
@@ -352,11 +355,8 @@ void CudaRtHandler::Initialize() {
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetDoubleForHost));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(SetupArgument));
 #if CUDART_VERSION >= 9020
-#if CUDART_VERSION >= 11000
-#else
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(PushCallConfiguration));
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(PopCallConfiguration));
-#endif
 #endif
   mspHandlers->insert(CUDA_ROUTINE_HANDLER_PAIR(LaunchKernel));
 

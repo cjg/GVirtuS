@@ -57,6 +57,8 @@
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 
+#include "../3rdparty/include/CudaRt_internal.h"
+
 #if (CUDART_VERSION >= 9020)
 #if (CUDART_VERSION >= 11000)
 #define __CUDACC__
@@ -124,6 +126,39 @@ class CudaRtHandler : public gvirtus::backend::Handler {
 
   static void setLogLevel(Logger *logger);
 
+     inline void addDeviceFunc2InfoFunc(std::string deviceFunc, NvInfoFunction infoFunction) {
+        mapDeviceFunc2InfoFunc->insert(make_pair(deviceFunc, infoFunction));
+    }
+
+     inline NvInfoFunction getInfoFunc(std::string deviceFunc) {
+        return mapDeviceFunc2InfoFunc->find(deviceFunc)->second;
+    };
+
+     inline void addHost2DeviceFunc(void* hostFunc, std::string deviceFunc) {
+        mapHost2DeviceFunc->insert(make_pair(hostFunc, deviceFunc));
+    }
+
+     inline std::string getDeviceFunc(void *hostFunc) {
+        return mapHost2DeviceFunc->find(hostFunc)->second;
+    };
+
+    static void hexdump(void *ptr, int buflen) {
+        unsigned char *buf = (unsigned char*)ptr;
+        int i, j;
+        for (i=0; i<buflen; i+=16) {
+            printf("%06x: ", i);
+            for (j=0; j<16; j++)
+                if (i+j < buflen)
+                    printf("%02x ", buf[i+j]);
+                else
+                    printf("   ");
+            printf(" ");
+            for (j=0; j<16; j++)
+                if (i+j < buflen)
+                    printf("%c", isprint(buf[i+j]) ? buf[i+j] : '.');
+            printf("\n");
+        }
+    }
  private:
   log4cplus::Logger logger;
   void Initialize();
@@ -135,6 +170,8 @@ class CudaRtHandler : public gvirtus::backend::Handler {
   std::map<std::string, std::string> *mpVar;
   std::map<std::string, textureReference *> *mpTexture;
   std::map<std::string, surfaceReference *> *mpSurface;
+  map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc;
+  map<const void *,std::string>* mapHost2DeviceFunc;
   void *mpShm;
   int mShmFd;
 };
@@ -192,8 +229,9 @@ CUDA_ROUTINE_HANDLER(SetDoubleForDevice);
 CUDA_ROUTINE_HANDLER(SetDoubleForHost);
 CUDA_ROUTINE_HANDLER(SetupArgument);
 
-#if CUDA_VERSION >= 9020
+#if CUDART_VERSION >= 9020
 CUDA_ROUTINE_HANDLER(PushCallConfiguration);
+CUDA_ROUTINE_HANDLER(PopCallConfiguration);
 #endif
 
 /* CudaRtHandler_internal */
