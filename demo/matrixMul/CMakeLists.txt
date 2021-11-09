@@ -1,0 +1,1 @@
+cuda_add_executable(matrixMul.e matrixMul.cu)
