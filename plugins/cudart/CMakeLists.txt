@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.17)
 project(gvirtus-plugin-cudart)
 find_package(CUDA REQUIRED)
 
@@ -65,3 +65,5 @@ gvirtus_add_frontend(cudart ${CUDA_VERSION}
         frontend/CudaRt_thread.cpp
         frontend/CudaRt_version.cpp
         util/CudaUtil.cpp)
+
+add_subdirectory(demo)
