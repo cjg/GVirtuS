@@ -1,5 +1,5 @@
 find_package(CUDA REQUIRED)
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart=shared)
+set(CUDA_RUNTIME_LIBRARY shared)
 
 
 add_subdirectory(dummy0)
