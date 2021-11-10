@@ -1,5 +1,6 @@
 find_package(CUDA REQUIRED)
-set(CMAKE_CUDA_RUNTIME_LIBRARY "Shared")
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart=shared)
+
 
 add_subdirectory(dummy0)
 add_subdirectory(launchKernel)

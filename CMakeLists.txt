@@ -39,9 +39,9 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann DESTINATION ${GVI
 install(DIRECTORY ${EXTERNAL_INSTALL_LOCATION}/include/log4cplus DESTINATION ${GVIRTUS_HOME}/include)
 install(DIRECTORY ${EXTERNAL_INSTALL_LOCATION}/lib DESTINATION ${GVIRTUS_HOME})
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc DESTINATION ${GVIRTUS_HOME})
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/demo/dummy0/dummy0.e DESTINATION ${GVIRTUS_HOME}/demo/)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/demo/launchKernel/launchKernel.e DESTINATION ${GVIRTUS_HOME}/demo/)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/demo/matrixMul/matrixMul.e DESTINATION ${GVIRTUS_HOME}/demo/)
+#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/demo/dummy0/dummy0.e DESTINATION ${GVIRTUS_HOME}/demo/)
+#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/demo/launchKernel/launchKernel.e DESTINATION ${GVIRTUS_HOME}/demo/)
+#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/demo/matrixMul/matrixMul.e DESTINATION ${GVIRTUS_HOME}/demo/)
 
 add_library(gvirtus-communicators SHARED
         src/communicators/Buffer.cpp
@@ -80,4 +80,4 @@ add_subdirectory(plugins/cudnn)
 
 add_subdirectory(tools/protocol-generator)
 
-add_subdirectory(demo)
+#add_subdirectory(demo)
