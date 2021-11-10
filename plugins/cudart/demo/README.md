@@ -1,0 +1,1 @@
+nvcc matrixMul.cu -o matrixMul.e --cudart=shared
