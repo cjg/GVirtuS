@@ -1,5 +1,17 @@
+#include <stdio.h>
 #include <iostream>
 #include <math.h>
+
+#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
+
+inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+{
+    if (code != cudaSuccess)
+    {
+        fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+        if (abort) exit(code);
+    }
+}
 
 // CUDA kernel to add elements of two arrays
 __global__
@@ -16,33 +28,33 @@ int main(void)
     int N = 1<<20;
     float *x, *y;
 
-    // Allocate Unified Memory -- accessible from CPU or GPU
-    cudaMallocManaged(&x, N*sizeof(float));
-    cudaMallocManaged(&y, N*sizeof(float));
+    printf("Allocate Unified Memory -- accessible from CPU or GPU\n");
+    gpuErrchk(cudaMallocManaged(&x, N*sizeof(float)));
+    gpuErrchk(cudaMallocManaged(&y, N*sizeof(float)));
 
-    // initialize x and y arrays on the host
+    printf("Initialize x and y arrays on the host\n");
     for (int i = 0; i < N; i++) {
         x[i] = 1.0f;
         y[i] = 2.0f;
     }
 
-    // Launch kernel on 1M elements on the GPU
+    printf("Launch kernel on 1M elements on the GPU\n");
     int blockSize = 256;
     int numBlocks = (N + blockSize - 1) / blockSize;
     add<<<numBlocks, blockSize>>>(N, x, y);
 
-    // Wait for GPU to finish before accessing on host
-    cudaDeviceSynchronize();
+    printf("Wait for GPU to finish before accessing on host\n");
+    gpuErrchk(cudaDeviceSynchronize());
 
-    // Check for errors (all values should be 3.0f)
+    printf("Check for errors (all values should be 3.0f)\n");
     float maxError = 0.0f;
     for (int i = 0; i < N; i++)
         maxError = fmax(maxError, fabs(y[i]-3.0f));
     std::cout << "Max error: " << maxError << std::endl;
 
-    // Free memory
-    cudaFree(x);
-    cudaFree(y);
+    printf("Free memory\n");
+    gpuErrchk(cudaFree(x));
+    gpuErrchk(cudaFree(y));
 
     return 0;
 }
