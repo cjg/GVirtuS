@@ -102,6 +102,7 @@ CUDA_ROUTINE_HANDLER(MemcpyPeerAsync) {
 CUDA_ROUTINE_HANDLER(MallocManaged) {
   void *devPtr = NULL;
   try {
+      printf("-cudaMallocManaged:\n");
     devPtr = input_buffer->Get<void *>();
     size_t size = input_buffer->Get<size_t>();
     unsigned flags = input_buffer->Get<unsigned>();
@@ -113,6 +114,7 @@ CUDA_ROUTINE_HANDLER(MallocManaged) {
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
 
     out->AddMarshal(devPtr);
+      printf("cudaMallocManaged-\n");
     return std::make_shared<Result>(exit_code, out);
   } catch (string e) {
     cerr << e << endl;

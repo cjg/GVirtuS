@@ -280,26 +280,30 @@ cudaMemcpyPeerAsync(void *dst, int dstDevice, const void *src, int srcDevice,
 extern "C" __host__ CUDARTAPI cudaError_t cudaMallocManaged(void **devPtr,
                                                             size_t size,
                                                             unsigned flags) {
-  void *hp = NULL;
-  *devPtr = malloc(size);
+    printf("-cudaMallocManaged:\n");
   CudaRtFrontend::Prepare();
-
   CudaRtFrontend::AddVariableForArguments(size);
   CudaRtFrontend::Execute("cudaMalloc");
 
   if (CudaRtFrontend::Success()) {
-    hp = CudaRtFrontend::GetOutputDevicePointer();
-  }
+      printf("cudaMallocManaged-\n");
 
-  mappedPointer host;
-  host.pointer = hp;
-  host.size = size;
+      void *hp = CudaRtFrontend::GetOutputDevicePointer();
+
+      *devPtr = malloc(size);
+
+      mappedPointer host;
+      host.pointer = hp;
+      host.size = size;
 
 #ifdef DEBUG
-  cerr << "device: " << std::hex << hp << " host: " << *devPtr << endl;
+      cerr << "device: " << std::hex << hp << " host: " << *devPtr << endl;
 #endif
 
-  CudaRtFrontend::addMappedPointer(*devPtr, host);
+      CudaRtFrontend::addMappedPointer(*devPtr, host);
+  }
+
+
   return CudaRtFrontend::GetExitCode();
 }
 
