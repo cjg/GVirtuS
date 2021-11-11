@@ -1,2 +1,2 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.17)
 project(gvirtus-plugin-cudadr)
