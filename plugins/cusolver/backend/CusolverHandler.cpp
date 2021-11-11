@@ -68,7 +68,7 @@ bool CusolverHandler::CanExecute(std::string routine) {
 
 }
 
-std::shared_ptr<Result> CusolverHandler::Execute(std::string routine, std::shared_ptr<Buffer> input_buffer) {
+std::shared_ptr<gvirtus::communicators::Result> CusolverHandler::Execute(std::string routine, std::shared_ptr<gvirtus::communicators::Buffer> input_buffer) {
     LOG4CPLUS_DEBUG(logger,"Called " << routine);
     map<string, CusolverHandler::CusolverRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
@@ -95,6 +95,7 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSetStream));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetStream));
 }
+
 CUSOLVER_ROUTINE_HANDLER(DnGetVersion){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnGetVersion"));
 

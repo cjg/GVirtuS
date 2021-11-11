@@ -32,6 +32,10 @@
 
 #include <cusolverDn.h>
 
+using gvirtus::common::pointer_t;
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
+
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
 #include "log4cplus/configurator.h"
@@ -44,17 +48,17 @@
 using namespace std;
 using namespace log4cplus;
 
-class CusolverHandler : public Handler {
+class CusolverHandler : public gvirtus::backend::Handler {
 public:
     CusolverHandler();
     virtual ~CusolverHandler();
     bool CanExecute(std::string routine);
-    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
+    std::shared_ptr<gvirtus::communicators::Result> Execute(std::string routine, std::shared_ptr<gvirtus::communicators::Buffer> input_buffer);
     static void setLogLevel(Logger *logger);
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef std::shared_ptr<Result> (*CusolverRoutineHandler)(CusolverHandler *, std::shared_ptr<Buffer>);
+    typedef std::shared_ptr<gvirtus::communicators::Result> (*CusolverRoutineHandler)(CusolverHandler *, std::shared_ptr<gvirtus::communicators::Result>);
     static std::map<std::string, CusolverRoutineHandler> * mspHandlers;
 };
 
