@@ -212,7 +212,7 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
                   char *szSectionName = (sh_str + sh_table[i].sh_name);
                   if (strncmp(".nv.info.", szSectionName, strlen(".nv.info.")) == 0) {
                       char *szFuncName = szSectionName + strlen(".nv.info.");
-                      printf("%s:\n", szFuncName);
+                      //printf("%s:\n", szFuncName);
                       byte *p = (byte *) eh + sh_table[i].sh_offset;
 
                       NvInfoFunction infoFunction;
@@ -235,8 +235,8 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
                           if (pAttr->attr == EIATTR_KPARAM_INFO) {
                               NvInfoKParam *nvInfoKParam = (NvInfoKParam *) pAttr;
 
-                              printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
-                                     nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
+                              //printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
+                              //       nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
 
                               NvInfoKParam nvInfoKParam1;
                               nvInfoKParam1.index = nvInfoKParam->index;
@@ -503,3 +503,73 @@ CUDA_ROUTINE_HANDLER(RegisterSurface) {
   }
   return std::make_shared<Result>(cudaSuccess);
 }
+
+#if (CUDART_VERSION >= 9020)
+
+
+#if (CUDART_VERSION >= 11000)
+#define __CUDACC__
+#define cudaPushCallConfiguration __cudaPushCallConfiguration
+#endif
+
+
+#include "crt/device_functions.h"
+#include "CudaRt_internal.h"
+
+CUDA_ROUTINE_HANDLER(PushCallConfiguration) {
+    try {
+        dim3 gridDim = input_buffer->Get<dim3>();
+        dim3 blockDim = input_buffer->Get<dim3>();
+        size_t sharedMem = input_buffer->Get<size_t>();
+        cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+/*
+        printf("PushCallConfiguration\n");
+        printf("gridDim: %d,%d,%d\n",gridDim.x,gridDim.y,gridDim.z);
+        printf("blockDim: %d,%d,%d\n",blockDim.x,blockDim.y,blockDim.z);
+        printf("sharedMem: %d stream: %x\n",sharedMem,stream);
+*/
+        cudaError_t exit_code = static_cast<cudaError_t>(cudaPushCallConfiguration(gridDim, blockDim, sharedMem, stream));
+//        printf("PushCallConfiguration: %d\n",exit_code);
+        return std::make_shared<Result>(exit_code);
+    } catch (string e) {
+        cerr << e << endl;
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
+    }
+
+}
+
+extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration(dim3 *gridDim,
+                                                        dim3 *blockDim,
+                                                        size_t *sharedMem,
+                                                        void *stream);
+
+
+CUDA_ROUTINE_HANDLER(PopCallConfiguration) {
+
+    try {
+
+        dim3 gridDim,blockDim;
+        size_t sharedMem;
+        cudaStream_t stream;
+        cudaError_t exit_code = static_cast<cudaError_t>(__cudaPopCallConfiguration(&gridDim, &blockDim, &sharedMem, &stream));
+        /*
+        printf("__cudaPopCallConfiguration: %d\n",exit_code);
+        printf("gridDim: %d,%d,%d\n",gridDim.x,gridDim.y,gridDim.z);
+        printf("blockDim: %d,%d,%d\n",blockDim.x,blockDim.y,blockDim.z);
+        printf("sharedMem: %ld stream: %x\n",sharedMem,stream);
+        */
+        std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+
+        out->Add(gridDim);
+        out->Add(blockDim);
+        out->AddMarshal(sharedMem);
+        out->AddMarshal(stream);
+
+        return std::make_shared<Result>(exit_code, out);
+    } catch (string e) {
+        cerr << e << endl;
+        return std::make_shared<Result>(cudaErrorMemoryAllocation);
+    }
+
+}
+#endif

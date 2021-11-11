@@ -67,7 +67,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
                 char *szSectionName = (sh_str + sh_table[i].sh_name);
                 if (strncmp(".nv.info.", szSectionName, strlen(".nv.info.")) == 0) {
                     char *szFuncName = szSectionName + strlen(".nv.info.");
-                    printf("%s:\n", szFuncName);
+                    //printf("%s:\n", szFuncName);
                     byte *p = (byte *) eh + sh_table[i].sh_offset;
 
                     NvInfoFunction infoFunction;
@@ -90,8 +90,8 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
                         if (pAttr->attr == EIATTR_KPARAM_INFO) {
                             NvInfoKParam *nvInfoKParam = (NvInfoKParam *) pAttr;
 
-                            printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
-                                   nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
+                            //printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
+                            //       nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
 
                             NvInfoKParam nvInfoKParam1;
                             nvInfoKParam1.index = nvInfoKParam->index;
@@ -271,3 +271,62 @@ extern "C" __host__ void __cudaTextureFetch(const void *tex, void *index,
   std::cerr << "*** Error: __cudaTextureFetch() not yet implemented!"
             << std::endl;
 }
+
+#if CUDA_VERSION >= 9000
+extern "C" __host__ __device__  unsigned CUDARTAPI __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim, size_t sharedMem = 0, void *stream = 0) {
+    CudaRtFrontend::Prepare();
+    CudaRtFrontend::AddVariableForArguments(gridDim);
+    CudaRtFrontend::AddVariableForArguments(blockDim);
+    CudaRtFrontend::AddVariableForArguments(sharedMem);
+
+#if CUDART_VERSION >= 3010
+    CudaRtFrontend::AddDevicePointerForArguments(stream);
+#else
+    CudaRtFrontend::AddVariableForArguments(stream);
+#endif
+    /*
+    printf("cudaPushCallConfiguration:\n");
+    printf("gridDim: %d,%d,%d\n",gridDim.x,gridDim.y,gridDim.z);
+    printf("blockDim: %d,%d,%d\n",blockDim.x,blockDim.y,blockDim.z);
+    printf("sharedMem: %d stream: %x\n",sharedMem,stream);
+     */
+
+
+    CudaRtFrontend::Execute("cudaPushCallConfiguration");
+    cudaError_t cudaError=CudaRtFrontend::GetExitCode();
+    //printf("cudaPushCallConfiguration:%d\n",cudaError);
+    return cudaError;
+}
+
+
+extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration( dim3 *gridDim,
+                                                             dim3 *blockDim,
+                                                             size_t *sharedMem,
+                                                             void *stream) {
+    /*
+    printf("__cudaPopCallConfiguration:\n");
+    printf("gridDim: %d,%d,%d\n",gridDim->x,gridDim->y,gridDim->z);
+    printf("blockDim: %d,%d,%d\n",blockDim->x,blockDim->y,blockDim->z);
+    printf("sharedMem: %ld stream: %x\n",*sharedMem, *(cudaStream_t*)stream);
+    */
+    CudaRtFrontend::Prepare();
+
+    CudaRtFrontend::Execute("cudaPopCallConfiguration");
+    cudaError_t cudaError=CudaRtFrontend::GetExitCode();
+    //printf("__cudaPopCallConfiguration:%d\n",cudaError);
+
+    *gridDim = CudaRtFrontend::GetOutputVariable<dim3>();
+    *blockDim = CudaRtFrontend::GetOutputVariable<dim3>();
+    *sharedMem = CudaRtFrontend::GetOutputVariable<size_t>();
+    cudaStream_t stream1=CudaRtFrontend::GetOutputVariable<cudaStream_t>();
+    //cudaStream_t stream1=0;
+    memcpy(stream,&stream1,sizeof(cudaStream_t));
+
+    /*
+    printf("gridDim: %d,%d,%d\n",gridDim->x,gridDim->y,gridDim->z);
+    printf("blockDim: %d,%d,%d\n",blockDim->x,blockDim->y,blockDim->z);
+    printf("sharedMem: %ld stream: %x stream1: %x\n",*sharedMem,*(cudaStream_t*)stream,stream1);
+    */
+    return cudaError;
+}
+#endif

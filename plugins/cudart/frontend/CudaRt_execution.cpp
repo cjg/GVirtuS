@@ -31,29 +31,19 @@ using namespace std;
 extern "C" __host__ cudaError_t CUDARTAPI cudaConfigureCall(
     dim3 gridDim, dim3 blockDim, size_t sharedMem, cudaStream_t stream) {
   CudaRtFrontend::Prepare();
-#if 0
+
     CudaRtFrontend::AddVariableForArguments(gridDim);
     CudaRtFrontend::AddVariableForArguments(blockDim);
     CudaRtFrontend::AddVariableForArguments(sharedMem);
-    CudaRtFrontend::AddVariableForArguments(stream);
-    CudaRtFrontend::Execute("cudaConfigureCall");
-    return CudaRtFrontend::GetExitCode();
-#endif
-  Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
-  launch->Reset();
-  // CNCL
-  launch->Add<int>(0x434e34c);
-  launch->Add(gridDim);
-  launch->Add(blockDim);
-  launch->Add(sharedMem);
+
 #if CUDART_VERSION >= 3010
-  launch->Add((gvirtus::common::pointer_t)stream);
+    CudaRtFrontend::AddDevicePointerForArguments(stream);
 #else
-  launch->Add(stream);
+    CudaRtFrontend::AddVariableForArguments(stream);
 #endif
-  //return cudaSuccess;
     CudaRtFrontend::Execute("cudaConfigureCall");
-    return CudaRtFrontend::GetExitCode();
+    cudaError_t cudaError = CudaRtFrontend::GetExitCode();
+    return cudaError;
 }
 
 #ifndef CUDA_VERSION
@@ -158,93 +148,6 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg,
 }
 
 #if CUDA_VERSION >= 9000
-extern "C" __host__ __device__  unsigned CUDARTAPI __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim,size_t sharedMem = 0,void *stream = 0) {
-  CudaRtFrontend::Prepare();
-    CudaRtFrontend::AddVariableForArguments(gridDim);
-    CudaRtFrontend::AddVariableForArguments(blockDim);
-    CudaRtFrontend::AddVariableForArguments(sharedMem);
-
-#if CUDART_VERSION >= 3010
-    CudaRtFrontend::AddDevicePointerForArguments(stream);
-#else
-    CudaRtFrontend::AddVariableForArguments(stream);
-#endif
-
-    printf("gridDim: %d,%d,%d\n",gridDim.x,gridDim.y,gridDim.z);
-    printf("blockDim: %d,%d,%d\n",blockDim.x,blockDim.y,blockDim.z);
-    printf("sharedMem: %d stream: %x\n",sharedMem,stream);
-    CudaRtFrontend::Execute("cudaPushCallConfiguration");
-    return CudaRtFrontend::GetExitCode();
-  /*
-  #if 0
-    CudaRtFrontend::AddVariableForArguments(gridDim);
-    CudaRtFrontend::AddVariableForArguments(blockDim);
-    CudaRtFrontend::AddVariableForArguments(sharedMem);
-    CudaRtFrontend::AddVariableForArguments(stream);
-    CudaRtFrontend::Execute("cudaPushCallConfiguration");
-    return CudaRtFrontend::GetExitCode();
-  #endif
-  Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
-  launch->Reset();
-  // CNCL
-  launch->Add<int>(0x434e34c);
-  launch->Add(gridDim);
-  launch->Add(blockDim);
-  launch->Add(sharedMem);
-
-  #if CUDART_VERSION >= 3010
-  launch->Add((gvirtus::common::pointer_t)stream);
-  #else
-  launch->Add(stream);
-  #endif
-  //return cudaSuccess;
-
-    CudaRtFrontend::Execute("cudaPushCallConfiguration");
-    return CudaRtFrontend::GetExitCode();
-    */
-}
-
-extern "C" cudaError_t CUDARTAPI __cudaPopCallConfiguration( dim3 *gridDim, dim3 *blockDim, size_t *sharedMem, void *stream) {
-  CudaRtFrontend::Prepare();
-    CudaRtFrontend::AddVariableForArguments(gridDim);
-    CudaRtFrontend::AddVariableForArguments(blockDim);
-    CudaRtFrontend::AddVariableForArguments(sharedMem);
-
-#if CUDART_VERSION >= 3010
-    CudaRtFrontend::AddDevicePointerForArguments(stream);
-#else
-    CudaRtFrontend::AddVariableForArguments(stream);
-#endif
-
-    CudaRtFrontend::Execute("__cudaPopCallConfiguration");
-    return CudaRtFrontend::GetExitCode();
-    /*
-  #if 0
-    CudaRtFrontend::AddVariableForArguments(gridDim);
-    CudaRtFrontend::AddVariableForArguments(blockDim);
-    CudaRtFrontend::AddVariableForArguments(sharedMem);
-    CudaRtFrontend::AddVariableForArguments(stream);
-    CudaRtFrontend::Execute("__cudaPopCallConfiguration");
-    return CudaRtFrontend::GetExitCode();
-  #endif
-  Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
-  launch->Reset();
-  // CNCL
-  launch->Add<int>(0x434e34c);
-  launch->Add(gridDim);
-  launch->Add(blockDim);
-  launch->Add(sharedMem);
-
-  #if CUDART_VERSION >= 3010
-  launch->Add((gvirtus::common::pointer_t)stream);
-  #else
-  launch->Add(stream);
-  #endif
-  //return cudaSuccess;
-    CudaRtFrontend::Execute("cudaPopCallConfiguration");
-    return CudaRtFrontend::GetExitCode();
-     */
-}
 
 extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDim, dim3 blockDim, void** args, size_t sharedMem, cudaStream_t stream ) {
 
@@ -256,7 +159,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     std::string deviceFunc=CudaRtFrontend::getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = CudaRtFrontend::getInfoFunc(deviceFunc);
 
-    printf("cudaLaunchKernel - hostFunc:%x deviceFunc:%s parameters:%d\n",func, deviceFunc.c_str(),infoFunction.params.size());
+    //printf("cudaLaunchKernel - hostFunc:%x deviceFunc:%s parameters:%d\n",func, deviceFunc.c_str(),infoFunction.params.size());
 
 
     size_t argsSize=0;
@@ -266,14 +169,14 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
         argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
     }
 
-    printf("argsSize:%d\n",argsSize);
+    //printf("argsSize:%d\n",argsSize);
     byte *pArgs = static_cast<byte *>(malloc(argsSize));
 
     void *args1[infoFunction.params.size()];
 
     for (NvInfoKParam infoKParam:infoFunction.params) {
         byte *p=pArgs+infoKParam.offset;
-        printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
+        //printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
 
 
         memcpy(p,args[infoKParam.ordinal],((infoKParam.size & 0xf8) >> 2));
@@ -284,10 +187,12 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
 
     }
 
+    /*
     for(int i=0;i<infoFunction.params.size();i++) {
         printf("%d: %x -> %x\n",i,args1[i],*(reinterpret_cast<unsigned int *>(args1[i])));
     }
-    CudaRtFrontend::hexdump(pArgs,argsSize);
+     */
+    //CudaRtFrontend::hexdump(pArgs,argsSize);
     CudaRtFrontend::AddHostPointerForArguments<byte>(pArgs, argsSize);
 
     CudaRtFrontend::AddVariableForArguments(sharedMem);
