@@ -270,7 +270,8 @@ CUDA_ROUTINE_HANDLER(DeviceSynchronize) {
   CudaRtHandler::setLogLevel(&logger);
 
   cudaError_t exit_code = cudaDeviceSynchronize();
-
+    return std::make_shared<Result>(exit_code);
+    /*
   try {
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
 
@@ -279,7 +280,7 @@ CUDA_ROUTINE_HANDLER(DeviceSynchronize) {
     // cerr << e << endl;
     LOG4CPLUS_DEBUG(logger, e);
     return std::make_shared<Result>(cudaErrorMemoryAllocation);
-  }
+  }*/
 }
 
 CUDA_ROUTINE_HANDLER(GetDeviceCount) {
