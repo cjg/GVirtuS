@@ -1,3 +1,0 @@
-add_subdirectory(dummy0)
-add_subdirectory(launchKernel)
-add_subdirectory(matrixMul)
