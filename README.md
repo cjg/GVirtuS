@@ -166,7 +166,7 @@ Export the dynamic GVirtuS library:
 
 Optionally set a different configuration file
 
-    export CONFIG_FILE=$HOME/dev/properties.json
+    export GVIRTUS_CONFIG=$HOME/dev/properties.json
 
 execute the cuda application compiled with cuda dynamic library (with -lcuda -lcudart)
 
